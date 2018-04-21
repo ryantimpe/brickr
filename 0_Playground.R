@@ -1,6 +1,9 @@
 library(tidyverse); library(jpeg)
 
-img.raw <- readJPEG("Images/anthonyryan.jpg")
+img.raw <- readJPEG("Images/goldengirls.jpg")
+
+#Lego colors
+lego_colors <- read_csv("Colors/Lego_Colors.csv")
 
 img <- bind_rows(
   list(
@@ -21,29 +24,39 @@ img <- bind_rows(
   # mutate(value = value * 255) %>% 
   spread(channel, value)
 
-#Goal is 48 px tall
+#Goal is 48 x 48
 
-max(img$x)
-max(img$y)
+img_size <- 48
 
-img_height <- 48
+if(max(img$x) > max(img$y)){
+  img_scale_x <-  max(img$x) / max(img$y)
+  img_scale_y <- 1
+} else {
+  img_scale_x <- 1
+  img_scale_y <-  max(img$y) / max(img$x)
+}
+
 
 img2 <- img %>% 
-  mutate(y_scaled = (y - min(y))/(max(y)-min(y))*img_height + 1,
-         x_scaled = (x - min(x))/(max(x)-min(x))*img_height + 1) %>% 
+  mutate(y_scaled = (y - min(y))/(max(y)-min(y))*img_size*img_scale_y + 1,
+         x_scaled = (x - min(x))/(max(x)-min(x))*img_size*img_scale_x + 1) %>% 
   group_by(y2 = ceiling(y_scaled), x2 = ceiling(x_scaled)) %>% 
   summarize_at(vars(R, G, B), funs(mean(.))) %>% 
   rowwise() %>% 
   mutate(color = rgb(R, G, B)) %>% 
-  ungroup()
+  ungroup() %>% 
+  #Center the image
+  filter(x2 <= median(x2) + img_size/2, x2 >= median(x2) - img_size/2, 
+         y2 <= median(y2) + img_size/2, y2 >= median(y2) - img_size/2) %>% 
+  #Flip y
+  mutate(y2 = max(y2) - y2 + 1)
 
-ggplot(img2 %>% filter(x2 <= 100), aes(x=x2, y=-y2, fill = color)) +
+ggplot(img2, aes(x=x2, y=y2, fill = color)) +
   geom_raster()+
   scale_fill_identity() +
   coord_fixed(expand = FALSE)
 
-#Lego colors
-lego_colors <- read_csv("Colors/Lego_Colors.csv")
+
 
 lego_colors2 <- lego_colors %>% 
   filter(c_Palette2016, !c_Transparent, !c_Glow, !c_Metallic) %>% 
@@ -51,9 +64,6 @@ lego_colors2 <- lego_colors %>%
   rename(R_lego = R, G_lego = G, B_lego = B)%>% 
   mutate_at(vars(starts_with("w_")), funs(ifelse(is.na(.), 0, .)))
 
-lego_colors3 <- lego_colors2 %>% 
-  filter(t_Classic) 
-  
 convert_to_lego <- function(R, G, B){
   
   dat <- lego_colors2 %>% 
@@ -69,11 +79,10 @@ convert_to_lego <- function(R, G, B){
 }
 
 l_img2 <- img2 %>% 
-  # filter(x2 <= 100) %>% 
   mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego)) %>% 
   unnest(lego)
 
-ggplot(l_img2, aes(x=x2, y=-y2, fill = Lego_color)) +
+ggplot(l_img2, aes(x=x2, y=y2, fill = Lego_color)) +
   geom_tile(width = 0.9, height = 0.9)+
   scale_fill_identity() +
   geom_point(color = "#333333", alpha = 0.2, shape = 1, size = 2.5) +
@@ -101,26 +110,11 @@ l_img3 <- l_img2 %>%
   mutate(g_2_x2y4_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
                              paste0("x2y4_", "x", min(x), "_y", min(y)), NA)) %>% 
   ungroup() %>% 
-  # #4x2 bricks - horizontal offset
-  # group_by(xg = (x+2) %/% 4, yg = (y+1) %/% 2) %>% 
-  # mutate(g_3_x4y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
-  #                            paste0("x4y2_", "x", min(x), "_y", min(y)), NA)) %>% 
-  # ungroup() %>% 
-  # #4x2 bricks - vertical offset
-  # group_by(xg = (x+1) %/% 2, yg = (y+2) %/% 4) %>% 
-  # mutate(g_4_x2y4_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
-  #                            paste0("x2y4_", "x", min(x), "_y", min(y)), NA)) %>% 
-  # ungroup() %>% 
   #2x2 bricks
   group_by(xg = x %/% 2, yg = y %/% 2) %>% 
   mutate(g_5_x2y2_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
                              paste0("x2y2_", "x", min(x), "_y", min(y)), NA)) %>% 
   ungroup() %>% 
-  # #2x2 bricks -  offset
-  # group_by(xg = (x+1) %/% 2, yg = (y+1) %/% 2) %>% 
-  # mutate(g_6_x2y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
-  #                            paste0("x2y2_", "x", min(x), "_y", min(y)), NA)) %>% 
-  # ungroup() %>% 
   #4x1 bricks - horizontal
   group_by(xg = x %/% 4, yg = y ) %>% 
   mutate(g_7_x4y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
@@ -173,10 +167,10 @@ l_img5 <- l_img4 %>%
   select(Brick, brick_id, xmin, xmax, ymin, ymax, Lego_color, Lego_name)
 
 ggplot(l_img5) +
-  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=-ymin, ymax=-ymax,
+  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
                 fill = Lego_color), color = "#333333")+
   scale_fill_identity() +
-  geom_point(data = l_img2, aes(x=x2, y=-y2),
+  geom_point(data = l_img2, aes(x=x2, y=y2),
              color = "#666666", alpha = 0.2, shape = 1, size = 3) +
   coord_fixed(expand = FALSE) +
   theme_minimal()+
@@ -198,4 +192,41 @@ pieces <- l_img5 %>%
   count(Brick_size, Lego_name) %>% 
   arrange(desc(Brick_size), desc(n))
 
+pieces %>% 
+  spread(Brick_size, n, fill = "")
+
 sum(pieces$n)
+
+#Instructions
+num_steps <- 12
+rows_per_step <- ceiling(img_size / num_steps)
+
+create_steps <- function(a) {
+  l_img5 %>% 
+    group_by(brick_id) %>% 
+    filter(min(ymin) <= a*rows_per_step+(min(l_img4$y))) %>% 
+    ungroup() %>%
+    mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
+}
+
+plot_instructions <- 1:num_steps %>% 
+  map(create_steps) %>% 
+  bind_rows()
+
+
+ggplot(plot_instructions) +
+  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
+                fill = Lego_color), color = "#333333")+
+  scale_fill_identity() +
+  coord_fixed(expand = FALSE) +
+  facet_wrap(~Step) +
+  theme_minimal()+
+  theme(panel.background = element_rect(fill = "#cccccc"),
+        strip.background = element_rect(fill = "#00436b"),
+        strip.text = element_text(color = "#ffffff", face = "bold"),
+        axis.line = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank())
+
