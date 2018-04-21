@@ -12,8 +12,7 @@ theme_lego <- theme(panel.background = element_rect(fill = "#cccccc"),
         axis.title.y = element_blank(),
         axis.text.y = element_blank())
 
-#Lego colors
-lego_colors <- read_csv("Colors/Lego_Colors.csv")
+#SCALE IMAGE ----
 
 scale_image <- function(image, img_size){
   #Convert image to a data frame with RGB values
@@ -70,33 +69,35 @@ ggplot(img2, aes(x=x, y=y, fill = color)) +
   theme_minimal() +
   theme_lego
 
+#Lego colors -----
+lego_colors <- read_csv("Colors/Lego_Colors.csv")
 
-
-lego_colors2 <- lego_colors %>% 
+lego_colors <- lego_colors %>% 
   filter(c_Palette2016, !c_Transparent, !c_Glow, !c_Metallic) %>% 
   mutate_at(vars(R, G, B), funs(./255)) %>% 
   rename(R_lego = R, G_lego = G, B_lego = B)%>% 
   mutate_at(vars(starts_with("w_")), funs(ifelse(is.na(.), 0, .)))
 
-convert_to_lego <- function(R, G, B){
-  
-  dat <- lego_colors2 %>% 
+convert_to_lego_colors <- function(R, G, B){
+  dat <- lego_colors %>% 
     mutate(dist = ((R_lego - R)^2 + (G_lego - G)^2 + (B_lego - B)^2)^(1/2)) %>% 
-    # mutate(dist = dist^w_weight) %>% 
-    filter(dist == min(dist)) %>% 
-    top_n(1, dist)
+    top_n(-1, dist) %>% 
+    rename(Lego_name = Color) %>% 
+    mutate(Lego_color = rgb(R_lego, G_lego, B_lego))
   
-  return(data.frame(Lego_name = dat$Color, 
-              Lego_color = rgb(dat$R_lego, dat$G_lego, dat$B_lego),
-              stringsAsFactors = F))
-  
+  return(dat %>% select(Lego_name, Lego_color))
 }
 
-l_img2 <- img2 %>% 
-  mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego)) %>% 
-  unnest(lego)
+legoize <- function(image){
+  image %>% 
+    mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors)) %>% 
+    unnest(lego)
+}
+  
+l_img2 <- legoize(img2)
 
-ggplot(l_img2, aes(x=x2, y=y2, fill = Lego_color)) +
+
+ggplot(l_img2, aes(x=x, y=y, fill = Lego_color)) +
   geom_tile(width = 0.9, height = 0.9)+
   scale_fill_identity() +
   geom_point(color = "#333333", alpha = 0.2, shape = 1, size = 2.5) +
