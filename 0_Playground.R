@@ -2,59 +2,73 @@ library(tidyverse); library(jpeg)
 
 img.raw <- readJPEG("Images/goldengirls.jpg")
 
+#Theme
+theme_lego <- theme(panel.background = element_rect(fill = "#cccccc"),
+        strip.background = element_rect(fill = "#00436b"),
+        strip.text = element_text(color = "#ffffff", face = "bold"),
+        axis.line = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank())
+
 #Lego colors
 lego_colors <- read_csv("Colors/Lego_Colors.csv")
 
-img <- bind_rows(
-  list(
-    (as.data.frame(img.raw[, , 1]) %>% 
-       mutate(y=row_number(), channel = "R") %>% 
-       gather(x, value, -y, -channel) %>% 
-       mutate(x = as.numeric(gsub("V", "", x)))),
-    (as.data.frame(img.raw[, , 2]) %>% 
-       mutate(y=row_number(), channel = "G") %>% 
-       gather(x, value, -y, -channel) %>% 
-       mutate(x = as.numeric(gsub("V", "", x)))),
-    (as.data.frame(img.raw[, , 3]) %>% 
-       mutate(y=row_number(), channel = "B") %>% 
-       gather(x, value, -y, -channel) %>% 
-       mutate(x = as.numeric(gsub("V", "", x))))
-  )
-) %>% 
-  # mutate(value = value * 255) %>% 
-  spread(channel, value)
+scale_image <- function(image, img_size){
+  #Convert image to a data frame with RGB values
+  img <- bind_rows(
+    list(
+      (as.data.frame(image[, , 1]) %>% 
+         mutate(y=row_number(), channel = "R")),
+      (as.data.frame(image[, , 2]) %>% 
+         mutate(y=row_number(), channel = "G")),
+      (as.data.frame(image[, , 3]) %>% 
+         mutate(y=row_number(), channel = "B"))
+    )
+  ) %>% 
+    gather(x, value, -y, -channel) %>% 
+    mutate(x = as.numeric(gsub("V", "", x))) %>% 
+    spread(channel, value)
+  
+  #Wide or tall image? Shortest side should be `img_size` pixels
+  if(max(img$x) > max(img$y)){
+    img_scale_x <-  max(img$x) / max(img$y)
+    img_scale_y <- 1
+  } else {
+    img_scale_x <- 1
+    img_scale_y <-  max(img$y) / max(img$x)
+  }
+  
+  #Rescale the image
+  img2 <- img %>% 
+    mutate(y_scaled = (y - min(y))/(max(y)-min(y))*img_size*img_scale_y + 1,
+           x_scaled = (x - min(x))/(max(x)-min(x))*img_size*img_scale_x + 1) %>% 
+    select(-x, -y) %>% 
+    group_by(y = ceiling(y_scaled), x = ceiling(x_scaled)) %>% 
+    #Get average R, G, B and convert it to hexcolor
+    summarize_at(vars(R, G, B), funs(mean(.))) %>% 
+    rowwise() %>% 
+    mutate(color = rgb(R, G, B)) %>% 
+    ungroup() %>% 
+    #Center the image
+    filter(x <= median(x) + img_size/2, x >= median(x) - img_size/2,
+           y <= median(y) + img_size/2, y >= median(y) - img_size/2) %>%
+    #Flip y
+    mutate(y = max(y) - y + 1)
+  
+  return(img2)
 
-#Goal is 48 x 48
-
-img_size <- 48
-
-if(max(img$x) > max(img$y)){
-  img_scale_x <-  max(img$x) / max(img$y)
-  img_scale_y <- 1
-} else {
-  img_scale_x <- 1
-  img_scale_y <-  max(img$y) / max(img$x)
 }
 
+img2 <- readJPEG("Images/goldengirls.jpg") %>% scale_image(48)
 
-img2 <- img %>% 
-  mutate(y_scaled = (y - min(y))/(max(y)-min(y))*img_size*img_scale_y + 1,
-         x_scaled = (x - min(x))/(max(x)-min(x))*img_size*img_scale_x + 1) %>% 
-  group_by(y2 = ceiling(y_scaled), x2 = ceiling(x_scaled)) %>% 
-  summarize_at(vars(R, G, B), funs(mean(.))) %>% 
-  rowwise() %>% 
-  mutate(color = rgb(R, G, B)) %>% 
-  ungroup() %>% 
-  #Center the image
-  filter(x2 <= median(x2) + img_size/2, x2 >= median(x2) - img_size/2, 
-         y2 <= median(y2) + img_size/2, y2 >= median(y2) - img_size/2) %>% 
-  #Flip y
-  mutate(y2 = max(y2) - y2 + 1)
-
-ggplot(img2, aes(x=x2, y=y2, fill = color)) +
+ggplot(img2, aes(x=x, y=y, fill = color)) +
   geom_raster()+
   scale_fill_identity() +
-  coord_fixed(expand = FALSE)
+  coord_fixed(expand = FALSE) +
+  theme_minimal() +
+  theme_lego
 
 
 
@@ -68,7 +82,7 @@ convert_to_lego <- function(R, G, B){
   
   dat <- lego_colors2 %>% 
     mutate(dist = ((R_lego - R)^2 + (G_lego - G)^2 + (B_lego - B)^2)^(1/2)) %>% 
-    # mutate(dist = dist^w_Classic) %>% 
+    # mutate(dist = dist^w_weight) %>% 
     filter(dist == min(dist)) %>% 
     top_n(1, dist)
   
@@ -198,7 +212,7 @@ pieces %>%
 sum(pieces$n)
 
 #Instructions
-num_steps <- 12
+num_steps <- 6
 rows_per_step <- ceiling(img_size / num_steps)
 
 create_steps <- function(a) {
@@ -224,6 +238,22 @@ ggplot(plot_instructions) +
   theme(panel.background = element_rect(fill = "#cccccc"),
         strip.background = element_rect(fill = "#00436b"),
         strip.text = element_text(color = "#ffffff", face = "bold"),
+        axis.line = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank())
+
+ggplot(plot_instructions) +
+  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
+                fill = Lego_color), color = "#333333")+
+  scale_fill_identity() +
+  coord_fixed(expand = FALSE) +
+  facet_wrap(~Step, ncol = 6) +
+  theme_minimal()+
+  theme(panel.background = element_rect(fill = "#7EC0EE"),
+        strip.background = element_blank(),
+        strip.text = element_blank(),
         axis.line = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
