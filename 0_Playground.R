@@ -172,19 +172,23 @@ collect_bricks <- function(image){
 
 l_img5 <- collect_bricks(l_img2)
 
-ggplot(l_img5) +
-  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
-                fill = Lego_color), color = "#333333")+
-  scale_fill_identity() +
-  geom_point(data = l_img2, aes(x=x, y=y),
-             color = "#333333", alpha = 0.2, shape = 1, size = 3) +
-  coord_fixed(expand = FALSE) +
-  theme_minimal()+
-  theme(panel.background = element_rect(fill = "#999999"),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank())
+display_set <- function(image, title=NULL){
+  coord_x <- c(min(image$xmin)+0.5, max(image$xmax)-0.5)
+  coord_y <- c(min(image$ymin)+0.5, max(image$ymax)-0.5)
+  
+  ggplot(image) +
+    geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
+                  fill = Lego_color), color = "#333333")+
+    scale_fill_identity() +
+    geom_point(data = expand.grid(x=coord_x[1]:coord_x[2], y=coord_y[1]:coord_y[2]),
+               aes(x=x, y=y), color = "#333333", alpha = 0.2, shape = 1, size = 2) +
+    coord_fixed(expand = FALSE) +
+    labs(title = title) +
+    theme_minimal() +
+    theme_lego
+} 
+
+l_img5 %>% display_set()
 
 #Piece counts!
 pieces <- l_img5 %>% 
@@ -234,4 +238,10 @@ l_img5 %>% generate_instructions(6) %>%
         axis.title.y = element_blank(),
         axis.text.y = element_blank())
 
+
+readJPEG("Images/madonnatrueblue.jpg") %>% 
+  scale_image(48) %>% 
+  legoize() %>% 
+  collect_bricks() %>% 
+  display_set("Bobcat")
 
