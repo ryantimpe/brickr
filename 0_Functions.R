@@ -1,19 +1,23 @@
 library(tidyverse); library(jpeg)
 
-img.raw <- readJPEG("Images/goldengirls.jpg")
+# LEGO colors ----
+lego_colors <- read_csv("Colors/Lego_Colors.csv") %>% 
+  filter(c_Palette2016, !c_Transparent, !c_Glow, !c_Metallic) %>% 
+  mutate_at(vars(R, G, B), funs(./255)) %>% 
+  rename(R_lego = R, G_lego = G, B_lego = B)%>% 
+  mutate_at(vars(starts_with("w_")), funs(ifelse(is.na(.), 0, .)))
 
-#Theme
-theme_lego <- theme(panel.background = element_rect(fill = "#cccccc"),
-        strip.background = element_rect(fill = "#00436b"),
-        strip.text = element_text(color = "#ffffff", face = "bold"),
+#GGplot theme to remove axes, etc ----
+theme_lego <- theme(panel.background = element_rect(fill = "#7EC0EE"),
+        strip.background = element_rect(fill = "#F7F18D"),
+        strip.text = element_text(color = "#333333", face = "bold"),
         axis.line = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.y = element_blank())
 
-#SCALE IMAGE ----
-
+#1 SCALE IMAGE ----
 scale_image <- function(image, img_size){
   #Convert image to a data frame with RGB values
   img <- bind_rows(
@@ -60,24 +64,7 @@ scale_image <- function(image, img_size){
 
 }
 
-img2 <- readJPEG("Images/goldengirls.jpg") %>% scale_image(48)
-
-ggplot(img2, aes(x=x, y=y, fill = color)) +
-  geom_raster()+
-  scale_fill_identity() +
-  coord_fixed(expand = FALSE) +
-  theme_minimal() +
-  theme_lego
-
-#Lego colors -----
-lego_colors <- read_csv("Colors/Lego_Colors.csv")
-
-lego_colors <- lego_colors %>% 
-  filter(c_Palette2016, !c_Transparent, !c_Glow, !c_Metallic) %>% 
-  mutate_at(vars(R, G, B), funs(./255)) %>% 
-  rename(R_lego = R, G_lego = G, B_lego = B)%>% 
-  mutate_at(vars(starts_with("w_")), funs(ifelse(is.na(.), 0, .)))
-
+#2 Legoize - Convert imagre Lego colors -----
 convert_to_lego_colors <- function(R, G, B){
   lego_colors %>% 
     mutate(dist = ((R_lego - R)^2 + (G_lego - G)^2 + (B_lego - B)^2)^(1/2)) %>% 
@@ -91,26 +78,8 @@ legoize <- function(image){
     mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors)) %>% 
     unnest(lego)
 }
-  
-l_img2 <- legoize(img2)
 
-
-ggplot(l_img2, aes(x=x, y=y, fill = Lego_color)) +
-  geom_tile(width = 0.9, height = 0.9)+
-  scale_fill_identity() +
-  geom_point(color = "#333333", alpha = 0.2, shape = 1, size = 2.5) +
-  coord_fixed(expand = FALSE) +
-  theme_minimal()+
-  theme(panel.background = element_rect(fill = "#999999"),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank())
-
-
-#Combine bricks into larger ones
-#Give each theoretical brick a unique ID
-
+#3 collect_bricks - Combine bricks into larger ones ----
 collect_bricks <- function(image){
   img <- image %>% 
     select(x, y, Lego_name, Lego_color) %>% 
@@ -170,8 +139,7 @@ collect_bricks <- function(image){
   return(img2)
 }
 
-l_img5 <- collect_bricks(l_img2)
-
+#3a display_set  - plot output of collect_bricks()
 display_set <- function(image, title=NULL){
   coord_x <- c(min(image$xmin)+0.5, max(image$xmax)-0.5)
   coord_y <- c(min(image$ymin)+0.5, max(image$ymax)-0.5)
@@ -188,22 +156,7 @@ display_set <- function(image, title=NULL){
     theme_lego
 } 
 
-l_img5 %>% display_set()
-
-#Piece counts!
-pieces <- l_img5 %>% 
-  select(Brick, brick_id, Lego_name, Lego_color) %>% 
-  distinct() %>% 
-  separate(Brick, c("g", "gn", "size", "gi")) %>% 
-  select(-g, -gn, -gi) %>% 
-  mutate(size1 = as.numeric(substr(size, 2, 2)), 
-         size2 = as.numeric(substr(size, 4, 4))) %>% 
-  mutate(Brick_size = ifelse(size1>size1, paste(size1, "x", size2), paste(size2, "x" , size1))) %>% 
-  count(Brick_size, Lego_name) %>% 
-  arrange(desc(Brick_size), desc(n))
-
-
-#Instructions ----
+#4 Instructions ----
 generate_instructions <- function(image, num_steps) {
   
   rows_per_step <- ceiling((max(image$ymax)-0.5) / num_steps)
@@ -221,27 +174,6 @@ generate_instructions <- function(image, num_steps) {
     bind_rows()
 }
 
-l_img5 %>% generate_instructions(6) %>%
-  ggplot() +
-  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
-                fill = Lego_color), color = "#333333")+
-  scale_fill_identity() +
-  coord_fixed(expand = FALSE) +
-  facet_wrap(~Step) +
-  theme_minimal()+
-  theme(panel.background = element_rect(fill = "#7EC0EE"),
-        strip.background = element_rect(fill = "#333333"),
-        strip.text = element_text(color = "#ffffff", face = "bold"),
-        axis.line = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank())
 
 
-readJPEG("Images/madonnatrueblue.jpg") %>% 
-  scale_image(48) %>% 
-  legoize() %>% 
-  collect_bricks() %>% 
-  display_set("Bobcat")
 
