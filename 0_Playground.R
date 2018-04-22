@@ -51,10 +51,10 @@ scale_image <- function(image, img_size){
     mutate(color = rgb(R, G, B)) %>% 
     ungroup() %>% 
     #Center the image
-    filter(x <= median(x) + img_size/2, x >= median(x) - img_size/2,
-           y <= median(y) + img_size/2, y >= median(y) - img_size/2) %>%
+    filter(x <= median(x) + img_size/2, x > median(x) - img_size/2,
+           y <= median(y) + img_size/2, y > median(y) - img_size/2) %>%
     #Flip y
-    mutate(y = max(y) - y + 1)
+    mutate(y = (max(y) - y) + 1)
   
   return(img2)
 
@@ -204,10 +204,18 @@ pieces %>%
 sum(pieces$n)
 
 #Instructions
-num_steps <- 6
-rows_per_step <- ceiling(img_size / num_steps)
-
-generate_instructions <- function(image, )
+generate_instructions <- function(image, num_steps) {
+  
+  rows_per_step <- ceiling((max(image$ymax)-0.5) / num_steps)
+  
+  create_steps <- function(a) {
+    image %>% 
+      group_by(brick_id) %>% 
+      filter(min(ymin) <= a*rows_per_step+(min(l_img4$y))) %>% 
+      ungroup() %>%
+      mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
+  }
+}
 
 create_steps <- function(a) {
   l_img5 %>% 
