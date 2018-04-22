@@ -162,11 +162,10 @@ collect_bricks <- function(image){
     filter(Brick == Brick[min(which(!is.na(brick_id)))]) %>% 
     ungroup() %>% 
     # min/max coord for geom_rect()
-    group_by(brick_id) %>% 
-    mutate(xmin = min(x)-0.5, xmax = max(x)+0.5,
+    group_by(Brick, brick_id, Lego_color, Lego_name) %>% 
+    summarise(xmin = min(x)-0.5, xmax = max(x)+0.5,
            ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
-    ungroup() %>% 
-    select(Brick, brick_id, xmin, xmax, ymin, ymax, Lego_color, Lego_name)
+    ungroup()
   
   return(img2)
 }
@@ -207,6 +206,8 @@ sum(pieces$n)
 #Instructions
 num_steps <- 6
 rows_per_step <- ceiling(img_size / num_steps)
+
+generate_instructions <- function(image, )
 
 create_steps <- function(a) {
   l_img5 %>% 
