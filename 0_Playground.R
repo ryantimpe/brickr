@@ -198,12 +198,8 @@ pieces <- l_img5 %>%
   count(Brick_size, Lego_name) %>% 
   arrange(desc(Brick_size), desc(n))
 
-pieces %>% 
-  spread(Brick_size, n, fill = "")
 
-sum(pieces$n)
-
-#Instructions
+#Instructions ----
 generate_instructions <- function(image, num_steps) {
   
   rows_per_step <- ceiling((max(image$ymax)-0.5) / num_steps)
@@ -211,34 +207,26 @@ generate_instructions <- function(image, num_steps) {
   create_steps <- function(a) {
     image %>% 
       group_by(brick_id) %>% 
-      filter(min(ymin) <= a*rows_per_step+(min(l_img4$y))) %>% 
+      filter(min(ymin) <= a*rows_per_step+(min(image$ymin)+0.5)) %>% 
       ungroup() %>%
       mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
   }
+  
+  1:num_steps %>% 
+    map(create_steps) %>% 
+    bind_rows()
 }
 
-create_steps <- function(a) {
-  l_img5 %>% 
-    group_by(brick_id) %>% 
-    filter(min(ymin) <= a*rows_per_step+(min(l_img4$y))) %>% 
-    ungroup() %>%
-    mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
-}
-
-plot_instructions <- 1:num_steps %>% 
-  map(create_steps) %>% 
-  bind_rows()
-
-
-ggplot(plot_instructions) +
+l_img5 %>% generate_instructions(6) %>%
+  ggplot() +
   geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
                 fill = Lego_color), color = "#333333")+
   scale_fill_identity() +
   coord_fixed(expand = FALSE) +
   facet_wrap(~Step) +
   theme_minimal()+
-  theme(panel.background = element_rect(fill = "#cccccc"),
-        strip.background = element_rect(fill = "#00436b"),
+  theme(panel.background = element_rect(fill = "#7EC0EE"),
+        strip.background = element_rect(fill = "#333333"),
         strip.text = element_text(color = "#ffffff", face = "bold"),
         axis.line = element_blank(),
         axis.title.x = element_blank(),
@@ -246,19 +234,4 @@ ggplot(plot_instructions) +
         axis.title.y = element_blank(),
         axis.text.y = element_blank())
 
-ggplot(plot_instructions) +
-  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
-                fill = Lego_color), color = "#333333")+
-  scale_fill_identity() +
-  coord_fixed(expand = FALSE) +
-  facet_wrap(~Step, ncol = 6) +
-  theme_minimal()+
-  theme(panel.background = element_rect(fill = "#7EC0EE"),
-        strip.background = element_blank(),
-        strip.text = element_blank(),
-        axis.line = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank())
 
