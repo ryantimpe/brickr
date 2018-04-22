@@ -4,6 +4,7 @@
 
 source("0_Functions.R")
 
+#This will take a few minutes to run
 lego_mosaic <- readJPEG("Images/goldengirls.jpg") %>% 
   scale_image(48) %>% 
   legoize() %>% 
@@ -23,6 +24,7 @@ pieces <- lego_mosaic %>%
   count(Brick_size, Lego_name) %>% 
   arrange(desc(Brick_size), desc(n))
 
+#Instruction manual
 lego_mosaic %>% generate_instructions(6) %>%
   ggplot() +
   geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
