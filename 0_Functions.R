@@ -211,13 +211,19 @@ generate_instructions <- function(image_list, num_steps) {
       mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
   }
   
-  img <- 1:num_steps %>% 
+  1:num_steps %>% 
     map(create_steps) %>% 
-    bind_rows()
-  
-  in_list[["Img_instructions"]] <- img
-  return(in_list)
+    bind_rows() %>% 
+    ggplot() +
+    geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
+                  fill = Lego_color), color = "#333333")+
+    scale_fill_identity() +
+    coord_fixed(expand = FALSE) +
+    facet_wrap(~Step) +
+    theme_minimal()+
+    theme_lego
 }
+
 
 
 

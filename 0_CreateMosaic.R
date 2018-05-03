@@ -24,13 +24,7 @@ pieces <- lego_mosaic$Img_bricks %>%
   count(Brick_size, Lego_name) %>% 
   arrange(desc(Brick_size), desc(n))
 
-#Instruction manual
-lego_mosaic %>% generate_instructions(6) %>%
-  ggplot() +
-  geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
-                fill = Lego_color), color = "#333333")+
-  scale_fill_identity() +
-  coord_fixed(expand = FALSE) +
-  facet_wrap(~Step) +
-  theme_minimal()+
-  theme_lego
+#Instruction manual - calculate and graph
+lego_mosaic %>% 
+  generate_instructions(6) 
+  
