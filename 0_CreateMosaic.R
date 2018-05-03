@@ -12,10 +12,10 @@ lego_mosaic <- readJPEG("Images/goldengirls.jpg") %>%
 
 lego_mosaic %>% display_set("Golden Girls!")
 
-#Get summary of pieces
-pieces <- lego_mosaic %>% generate_pieces()
-
 #Instruction manual - calculate and graph
 lego_mosaic %>% 
   generate_instructions(6) 
   
+
+#Get summary of pieces
+pieces <- lego_mosaic %>% table_pieces()

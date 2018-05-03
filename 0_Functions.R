@@ -171,7 +171,19 @@ collect_bricks <- function(image_list){
            ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
     ungroup()
   
+  # This is very brute-force. Probably a much cleaner way to do this
+  pcs <- img2 %>% 
+    select(Brick, brick_id, Lego_name, Lego_color) %>% 
+    distinct() %>% 
+    separate(Brick, c("g", "gn", "size", "gi")) %>% 
+    select(-dplyr::starts_with("g")) %>% 
+    mutate(size1 = as.numeric(substr(size, 2, 2)), 
+           size2 = as.numeric(substr(size, 4, 4))) %>% 
+    mutate(Brick_size = ifelse(size1>size2, paste(size1, "x", size2), paste(size2, "x" , size1))) %>% 
+    count(Brick_size, Lego_name, Lego_color) 
+  
   in_list[["Img_bricks"]] <- img2
+  in_list[["pieces"]] <- pcs
   
   return(in_list)
 }
@@ -224,30 +236,22 @@ generate_instructions <- function(image_list, num_steps) {
     theme_lego
 }
 
-
-
-
-
-
-
 #5 Piece count ----
-# This is very brute-force. Probably a much cleaner way to do this
-generate_pieces <- function(image_list){
+
+#Print as data frame
+table_pieces <- function(image_list){
+  pcs <- image_list$pieces
+  
+  pcs %>% 
+    select(-Lego_color) %>% 
+    spread(Brick_size, n, fill = 0) %>% 
+    rename(`LEGO Brick Color` = Lego_name)
+}
+
+#Print as image
+display_pieces <- function(image_list){
   in_list <- image_list
-  image <- in_list$Img_bricks
-  
-  pcs <- image %>% 
-    select(Brick, brick_id, Lego_name, Lego_color) %>% 
-    distinct() %>% 
-    separate(Brick, c("g", "gn", "size", "gi")) %>% 
-    select(-dplyr::starts_with("g")) %>% 
-    mutate(size1 = as.numeric(substr(size, 2, 2)), 
-           size2 = as.numeric(substr(size, 4, 4))) %>% 
-    mutate(Brick_size = ifelse(size1>size2, paste(size1, "x", size2), paste(size2, "x" , size1))) %>% 
-    count(Brick_size, Lego_name) %>% 
-    spread(Brick_size, n, fill = 0)
-  
-  in_list[["pieces"]] <- pcs
+  pcs <- in_list$pieces
   
 }
   
