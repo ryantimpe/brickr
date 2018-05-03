@@ -228,3 +228,26 @@ generate_instructions <- function(image_list, num_steps) {
 
 
 
+
+
+#5 Piece count ----
+# This is very brute-force. Probably a much cleaner way to do this
+generate_pieces <- function(image_list){
+  in_list <- image_list
+  image <- in_list$Img_bricks
+  
+  pcs <- image %>% 
+    select(Brick, brick_id, Lego_name, Lego_color) %>% 
+    distinct() %>% 
+    separate(Brick, c("g", "gn", "size", "gi")) %>% 
+    select(-dplyr::starts_with("g")) %>% 
+    mutate(size1 = as.numeric(substr(size, 2, 2)), 
+           size2 = as.numeric(substr(size, 4, 4))) %>% 
+    mutate(Brick_size = ifelse(size1>size2, paste(size1, "x", size2), paste(size2, "x" , size1))) %>% 
+    count(Brick_size, Lego_name) %>% 
+    spread(Brick_size, n, fill = 0)
+  
+  in_list[["pieces"]] <- pcs
+  
+}
+  
