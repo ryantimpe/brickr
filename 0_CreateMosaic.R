@@ -13,7 +13,7 @@ lego_mosaic <- readJPEG("Images/goldengirls.jpg") %>%
 lego_mosaic %>% display_set("Golden Girls!")
 
 #Get summary of pieces... could probably clean this up
-pieces <- lego_mosaic %>% 
+pieces <- lego_mosaic$Img_bricks %>% 
   select(Brick, brick_id, Lego_name, Lego_color) %>% 
   distinct() %>% 
   separate(Brick, c("g", "gn", "size", "gi")) %>% 

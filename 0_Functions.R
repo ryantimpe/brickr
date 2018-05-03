@@ -18,7 +18,7 @@ theme_lego <- theme(panel.background = element_rect(fill = "#7EC0EE"),
         axis.text.y = element_blank())
 
 #1 SCALE IMAGE ----
-scale_image <- function(image, img_size){
+scale_image <- function(image, img_size, mosaic_type = "flat"){
   #Convert image to a data frame with RGB values
   img <- bind_rows(
     list(
@@ -60,11 +60,15 @@ scale_image <- function(image, img_size){
     #Flip y
     mutate(y = (max(y) - y) + 1)
   
-  return(img2)
+  out_list <- list()
+  out_list[["Img_scaled"]] <- img2
+  out_list[["mosaic_type"]] <- mosaic_type
+  
+  return(out_list)
 
 }
 
-#2 Legoize - Convert imagre Lego colors -----
+#2 Legoize - Convert image Lego colors -----
 convert_to_lego_colors <- function(R, G, B){
   lego_colors %>% 
     mutate(dist = ((R_lego - R)^2 + (G_lego - G)^2 + (B_lego - B)^2)^(1/2)) %>% 
@@ -73,56 +77,87 @@ convert_to_lego_colors <- function(R, G, B){
     select(Lego_name = Color, Lego_color)
 }
 
-legoize <- function(image){
-  image %>% 
+legoize <- function(image_list){
+  in_list <- image_list
+  
+  img <- in_list$Img_scaled %>% 
     mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors)) %>% 
     unnest(lego)
+  
+  in_list[["Img_lego"]] <- img
+  
+  return(in_list)
+  
 }
 
 #3 collect_bricks - Combine bricks into larger ones ----
-collect_bricks <- function(image){
-  img <- image %>% 
-    select(x, y, Lego_name, Lego_color) %>% 
-    #4x2 bricks - horizontal
-    group_by(xg = x %/% 4, yg = y %/% 2) %>% 
-    mutate(g_1_x4y2_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
-                               paste0("x4y2_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #4x2 bricks - vertical
-    ungroup() %>% group_by(xg = x %/% 2, yg = y %/% 4) %>% 
-    mutate(g_2_x2y4_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
-                               paste0("x2y4_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #2x2 bricks
-    ungroup() %>% group_by(xg = x %/% 2, yg = y %/% 2) %>% 
-    mutate(g_5_x2y2_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
-                               paste0("x2y2_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #4x1 bricks - horizontal
-    ungroup() %>% group_by(xg = x %/% 4, yg = y ) %>% 
-    mutate(g_7_x4y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
-                               paste0("x4y1_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #4x1 bricks -  vertical
-    ungroup() %>% group_by(xg = x, yg = y %/% 4) %>% 
-    mutate(g_8_x1y4_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
-                               paste0("x1y4_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #3x1 bricks - horizontal
-    ungroup() %>% group_by(xg = x %/% 3, yg = y ) %>% 
-    mutate(g_7_x3y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
-                               paste0("x3y1_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #3x1 bricks -  vertical
-    ungroup() %>% group_by(xg = x, yg = y %/% 3) %>% 
-    mutate(g_8_x1y3_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
-                               paste0("x1y3_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #2x1 bricks - horizontal
-    ungroup() %>% group_by(xg = x %/% 2, yg = y ) %>% 
-    mutate(g_9_x2y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
-                               paste0("x2y1_", "x", min(x), "_y", min(y)), NA)) %>% 
-    #2x1 bricks -  vertical
-    ungroup() %>% group_by(xg = x, yg = y %/% 2) %>% 
-    mutate(g_10_x1y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
-                                paste0("x1y2_", "x", min(x), "_y", min(y)), NA)) %>% 
-    ungroup() %>% 
-    #1x1
-    mutate(g_11_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
-    select(-xg, -yg)
+collect_bricks <- function(image_list){
+  in_list <- image_list
+  
+  if(in_list$mosaic_type == "flat"){
+    img <- in_list$Img_lego %>% 
+      select(x, y, Lego_name, Lego_color) %>% 
+      #4x2 bricks - horizontal
+      group_by(xg = x %/% 4, yg = y %/% 2) %>% 
+      mutate(g_1_x4y2_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
+                                 paste0("x4y2_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #4x2 bricks - vertical
+      ungroup() %>% group_by(xg = x %/% 2, yg = y %/% 4) %>% 
+      mutate(g_2_x2y4_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
+                                 paste0("x2y4_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #2x2 bricks
+      ungroup() %>% group_by(xg = x %/% 2, yg = y %/% 2) %>% 
+      mutate(g_5_x2y2_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                 paste0("x2y2_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #4x1 bricks - horizontal
+      ungroup() %>% group_by(xg = x %/% 4, yg = y ) %>% 
+      mutate(g_7_x4y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                 paste0("x4y1_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #4x1 bricks -  vertical
+      ungroup() %>% group_by(xg = x, yg = y %/% 4) %>% 
+      mutate(g_8_x1y4_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                 paste0("x1y4_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #3x1 bricks - horizontal
+      ungroup() %>% group_by(xg = x %/% 3, yg = y ) %>% 
+      mutate(g_7_x3y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
+                                 paste0("x3y1_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #3x1 bricks -  vertical
+      ungroup() %>% group_by(xg = x, yg = y %/% 3) %>% 
+      mutate(g_8_x1y3_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
+                                 paste0("x1y3_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #2x1 bricks - horizontal
+      ungroup() %>% group_by(xg = x %/% 2, yg = y ) %>% 
+      mutate(g_9_x2y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
+                                 paste0("x2y1_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #2x1 bricks -  vertical
+      ungroup() %>% group_by(xg = x, yg = y %/% 2) %>% 
+      mutate(g_10_x1y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
+                                  paste0("x1y2_", "x", min(x), "_y", min(y)), NA)) %>% 
+      ungroup() %>% 
+      #1x1
+      mutate(g_11_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
+      select(-xg, -yg)
+  }
+  else if(in_list$mosaic_type == "stacked"){
+    img <- in_list$Img_lego %>% 
+      select(x, y, Lego_name, Lego_color) %>% 
+      #4x1 bricks - horizontal
+      ungroup() %>% group_by(xg = x %/% 4 + y %% 4, yg = y ) %>% 
+      mutate(g_7_x4y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                 paste0("x4y1_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #3x1 bricks - horizontal
+      ungroup() %>% group_by(xg = x %/% 3 + y %% 3, yg = y ) %>% 
+      mutate(g_7_x3y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
+                                 paste0("x3y1_", "x", min(x), "_y", min(y)), NA)) %>% 
+      #2x1 bricks - horizontal
+      ungroup() %>% group_by(xg = x %/% 2 + y %% 2, yg = y ) %>% 
+      mutate(g_9_x2y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
+                                 paste0("x2y1_", "x", min(x), "_y", min(y)), NA)) %>% 
+      ungroup() %>% 
+      #1x1
+      mutate(g_11_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
+      select(-xg, -yg)
+  }
   
   img2 <- img %>% 
     gather(Brick, brick_id, dplyr::starts_with("g_")) %>% 
@@ -136,11 +171,16 @@ collect_bricks <- function(image){
            ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
     ungroup()
   
-  return(img2)
+  in_list[["Img_bricks"]] <- img2
+  
+  return(in_list)
 }
 
 #3a display_set  - plot output of collect_bricks()
-display_set <- function(image, title=NULL){
+display_set <- function(image_list, title=NULL){
+  in_list <- image_list
+  image <- in_list$Img_bricks
+  
   coord_x <- c(min(image$xmin)+0.5, max(image$xmax)-0.5)
   coord_y <- c(min(image$ymin)+0.5, max(image$ymax)-0.5)
   
@@ -157,7 +197,9 @@ display_set <- function(image, title=NULL){
 } 
 
 #4 Instructions ----
-generate_instructions <- function(image, num_steps) {
+generate_instructions <- function(image_list, num_steps) {
+  in_list <- image_list
+  image <- in_list$Img_bricks
   
   rows_per_step <- ceiling((max(image$ymax)-0.5) / num_steps)
   
@@ -169,9 +211,12 @@ generate_instructions <- function(image, num_steps) {
       mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
   }
   
-  1:num_steps %>% 
+  img <- 1:num_steps %>% 
     map(create_steps) %>% 
     bind_rows()
+  
+  in_list[["Img_instructions"]] <- img
+  return(in_list)
 }
 
 
