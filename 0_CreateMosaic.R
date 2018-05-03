@@ -20,7 +20,7 @@ pieces <- lego_mosaic %>%
   select(-g, -gn, -gi) %>% 
   mutate(size1 = as.numeric(substr(size, 2, 2)), 
          size2 = as.numeric(substr(size, 4, 4))) %>% 
-  mutate(Brick_size = ifelse(size1>size1, paste(size1, "x", size2), paste(size2, "x" , size1))) %>% 
+  mutate(Brick_size = ifelse(size1>size2, paste(size1, "x", size2), paste(size2, "x" , size1))) %>% 
   count(Brick_size, Lego_name) %>% 
   arrange(desc(Brick_size), desc(n))
 
