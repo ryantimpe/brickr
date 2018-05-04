@@ -189,6 +189,12 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
     mutate(Brick_size = ifelse(size1>size2, paste(size1, "x", size2), paste(size2, "x" , size1))) %>% 
     count(Brick_size, Lego_name, Lego_color) 
   
+  #Replace "x 1" bricks with "x 2". More likely to be used for a stacked mosaic
+  if(mosaic_type == "stacked"){
+    pcs <- pcs %>% 
+      mutate(Brick_size = gsub("x 1", "x 2", Brick_size, fixed = TRUE))
+  }
+  
   in_list[["Img_bricks"]] <- img2
   in_list[["mosaic_type"]] <- mosaic_type
   in_list[["pieces"]] <- pcs
@@ -289,7 +295,7 @@ display_pieces <- function(image_list){
     ) 
   } else {
     pcs_coords <- tibble(
-      Brick_size = c("1 x 1", "2 x 1", "3 x 1", "4 x 1"),
+      Brick_size = c("1 x 2", "2 x 2", "3 x 2", "4 x 2"),
       xmin = c(0, 5, 5, 0),
       xmax = c(2, 7, 7, 2),
       ymin = c(0, 0, 3, 2),
