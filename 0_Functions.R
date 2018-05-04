@@ -234,7 +234,7 @@ display_set <- function(image_list, title=NULL){
 } 
 
 #4 Instructions ----
-generate_instructions <- function(image_list, num_steps) {
+generate_instructions <- function(image_list, num_steps=6) {
   in_list <- image_list
   image <- in_list$Img_bricks
   type <- in_list$mosaic_type
