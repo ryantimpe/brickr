@@ -164,6 +164,7 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
       mutate(g_11_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
       select(-xg, -yg)
   }
+  else(stop("Use mosaic_type = 'flat' or 'stacked'"))
   
   img2 <- img %>% 
     gather(Brick, brick_id, dplyr::starts_with("g_")) %>% 
@@ -199,20 +200,31 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
 display_set <- function(image_list, title=NULL){
   in_list <- image_list
   image <- in_list$Img_bricks
+  type <- in_list$mosaic_type
   
   coord_x <- c(min(image$xmin)+0.5, max(image$xmax)-0.5)
   coord_y <- c(min(image$ymin)+0.5, max(image$ymax)-0.5)
   
-  ggplot(image) +
+  img <- ggplot(image) +
     geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
                   fill = Lego_color), color = "#333333")+
-    scale_fill_identity() +
-    geom_point(data = expand.grid(x=coord_x[1]:coord_x[2], y=coord_y[1]:coord_y[2]),
-               aes(x=x, y=y), color = "#333333", alpha = 0.2, shape = 1, size = 2) +
-    coord_fixed(expand = FALSE) +
+    scale_fill_identity()
+  
+  if(type == "flat"){
+    img <- img + geom_point(data = expand.grid(x=coord_x[1]:coord_x[2], y=coord_y[1]:coord_y[2]),
+                            aes(x=x, y=y), color = "#333333", alpha = 0.2, shape = 1, size = 2)   +
+      coord_fixed(expand = FALSE) 
+  } else {
+    img <- img +
+      coord_fixed(ratio = 6/5, expand = FALSE)
+  }
+  
+  img <- img+
     labs(title = title) +
     theme_minimal() +
     theme_lego
+  
+  return(img)
 } 
 
 #4 Instructions ----
