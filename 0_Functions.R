@@ -231,6 +231,7 @@ display_set <- function(image_list, title=NULL){
 generate_instructions <- function(image_list, num_steps) {
   in_list <- image_list
   image <- in_list$Img_bricks
+  type <- in_list$mosaic_type
   
   rows_per_step <- ceiling((max(image$ymax)-0.5) / num_steps)
   
@@ -242,6 +243,13 @@ generate_instructions <- function(image_list, num_steps) {
       mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
   }
   
+  #Ratio of the "pixels" is different for flat or stacked bricks
+  if(type == "flat"){
+    coord_ratio <- 1
+  } else {
+    coord_ratio <- 6/5
+  }
+  
   1:num_steps %>% 
     map(create_steps) %>% 
     bind_rows() %>% 
@@ -249,7 +257,7 @@ generate_instructions <- function(image_list, num_steps) {
     geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
                   fill = Lego_color), color = "#333333")+
     scale_fill_identity() +
-    coord_fixed(expand = FALSE) +
+    coord_fixed(ratio = coord_ratio, expand = FALSE) +
     facet_wrap(~Step) +
     theme_minimal()+
     theme_lego
@@ -292,18 +300,27 @@ display_pieces <- function(image_list){
                                          "White"))) %>% 
     left_join(pcs_coords, by = "Brick_size")
   
+  if(in_list$mosaic_type == "flat"){
+    coord_xlim <- c(-0.5, 10)
+    facet_cols <- 5
+  } else {
+    coord_xlim <- c(-0.5, 6)
+    facet_cols <- 8
+  }
+  
   pcs2 %>% 
     ggplot() +
     geom_rect(aes(xmin=xmin, xmax=xmax, ymin=-ymin, ymax=-ymax,
                   fill = Lego_color), color = "#333333")+
     scale_fill_identity() +
     geom_point(data = pcs2 %>% unnest(studs),
-               aes(x=x, y=-y), color = "#333333", alpha = 0.2, 
+               aes(x=x, y=-y), color = "#cccccc", alpha = 0.25, 
                shape = 1, size = 2) +
     geom_text(aes(x = xmax + 0.25, y = -(ymin+ymax)/2, label = paste0("x", n)), 
               hjust = 0, vjust = 0.5, size = 3.5) +
-    coord_fixed(xlim = c(-0.5, 10)) +
-    facet_wrap(~Lego_name, ncol=5) +
+    coord_fixed(xlim = coord_xlim) +
+    labs(title = "Required pieces") +
+    facet_wrap(~Lego_name, ncol=facet_cols) +
     theme_minimal()+
     theme_lego +
     theme(
