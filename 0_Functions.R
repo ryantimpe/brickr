@@ -148,15 +148,15 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
     img <- in_list$Img_lego %>% 
       select(x, y, Lego_name, Lego_color) %>% 
       #4x1 bricks - horizontal
-      ungroup() %>% group_by(xg = x %/% 4 + y %% 4, yg = y ) %>% 
+      ungroup() %>% group_by(xg = (x + y %% 4) %/% 4, yg = y ) %>% 
       mutate(g_7_x4y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
                                  paste0("x4y1_", "x", min(x), "_y", min(y)), NA)) %>% 
       #3x1 bricks - horizontal
-      ungroup() %>% group_by(xg = x %/% 3 + y %% 3, yg = y ) %>% 
+      ungroup() %>% group_by(xg = (x + y %% 3) %/% 3, yg = y ) %>% 
       mutate(g_7_x3y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
                                  paste0("x3y1_", "x", min(x), "_y", min(y)), NA)) %>% 
       #2x1 bricks - horizontal
-      ungroup() %>% group_by(xg = x %/% 2 + y %% 2, yg = y ) %>% 
+      ungroup() %>% group_by(xg = (x + y %% 2) %/% 2, yg = y ) %>% 
       mutate(g_9_x2y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
                                  paste0("x2y1_", "x", min(x), "_y", min(y)), NA)) %>% 
       ungroup() %>% 
