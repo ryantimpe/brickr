@@ -334,7 +334,7 @@ display_pieces <- function(image_list){
                     "Suggested LEGO Bricks"
                   }else{"Suggested LEGO Plates"}),
          caption = (if(in_list$mosaic_type == "stacked"){
-           "Mosaic is 2-bricks deep. Can substitute 2-stud bricks for 1-stud altenratives for a thinner mosaic."}else{""})) +
+           "Mosaic is 2-bricks deep. Can substitute 2-stud bricks for 1-stud alternatives for a thinner mosaic."}else{""})) +
     facet_wrap(~Lego_name, ncol=facet_cols) +
     theme_minimal()+
     theme_lego +
