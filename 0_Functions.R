@@ -278,15 +278,26 @@ table_pieces <- function(image_list){
 display_pieces <- function(image_list){
   in_list <- image_list
   pcs <- in_list$pieces
-  
-  pcs_coords <- tibble(
-    Brick_size = c("1 x 1", "2 x 1", "3 x 1", "4 x 1", "2 x 2", "4 x 2"),
-    xmin = c(0, 0, 0, 0, 6, 6),
-    xmax = c(1, 2, 3, 4, 8, 8),
-    ymin = c(0, 2, 4, 6, 0, 3),
-    ymax = c(1, 3, 5, 7, 2, 7)
-  ) %>% 
-    #This function creates nodes in each brick for stud placement
+
+  if(in_list$mosaic_type == "flat"){
+    pcs_coords <- tibble(
+      Brick_size = c("1 x 1", "2 x 1", "3 x 1", "4 x 1", "2 x 2", "4 x 2"),
+      xmin = c(0, 0, 0, 0, 6, 6),
+      xmax = c(1, 2, 3, 4, 8, 8),
+      ymin = c(0, 2, 4, 6, 0, 3),
+      ymax = c(1, 3, 5, 7, 2, 7)
+    ) 
+  } else {
+    pcs_coords <- tibble(
+      Brick_size = c("1 x 1", "2 x 1", "3 x 1", "4 x 1"),
+      xmin = c(0, 5, 5, 0),
+      xmax = c(2, 7, 7, 2),
+      ymin = c(0, 0, 3, 2),
+      ymax = c(1, 2, 6, 6)
+    ) 
+  }
+  #This function creates nodes in each brick for stud placement
+  pcs_coords <- pcs_coords %>% 
     mutate(studs = purrr::pmap(list(xmin, xmax, ymin, ymax), function(a, b, c, d){
       expand.grid(x=seq(a+0.5, b-0.5, by=1), 
                   y=seq(c+0.5, d-0.5, by=1))
@@ -304,8 +315,8 @@ display_pieces <- function(image_list){
     coord_xlim <- c(-0.5, 10)
     facet_cols <- 5
   } else {
-    coord_xlim <- c(-0.5, 6)
-    facet_cols <- 8
+    coord_xlim <- c(-0.5, 9)
+    facet_cols <- 6
   }
   
   pcs2 %>% 
@@ -319,7 +330,11 @@ display_pieces <- function(image_list){
     geom_text(aes(x = xmax + 0.25, y = -(ymin+ymax)/2, label = paste0("x", n)), 
               hjust = 0, vjust = 0.5, size = 3.5) +
     coord_fixed(xlim = coord_xlim) +
-    labs(title = "Required pieces") +
+    labs(title = (if(in_list$mosaic_type == "stacked"){
+                    "Suggested LEGO Bricks"
+                  }else{"Suggested LEGO Plates"}),
+         caption = (if(in_list$mosaic_type == "stacked"){
+           "Mosaic is 2-bricks deep. Can substitute 2-stud bricks for 1-stud altenratives for a thinner mosaic."}else{""})) +
     facet_wrap(~Lego_name, ncol=facet_cols) +
     theme_minimal()+
     theme_lego +
