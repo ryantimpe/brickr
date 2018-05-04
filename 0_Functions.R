@@ -239,6 +239,8 @@ generate_instructions <- function(image_list, num_steps=6) {
   image <- in_list$Img_bricks
   type <- in_list$mosaic_type
   
+  num_steps <- min(round(num_steps), 40)
+  
   rows_per_step <- ceiling((max(image$ymax)-0.5) / num_steps)
   
   create_steps <- function(a) {
