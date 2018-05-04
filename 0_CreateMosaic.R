@@ -6,7 +6,8 @@ source("0_Functions.R")
 
 #This will take a few minutes to run
 lego_mosaic <- readJPEG("Images/goldengirls2.jpg") %>% 
-  scale_image(c(56, 48)) %>% #Single value for square, c(W, H) for rectangle
+  scale_image(48) %>% #Single value for square, c(W, H) for rectangle
+  # scale_image(c(56, 48)) %>% #Single value for square, c(W, H) for rectangle
   legoize() %>% 
   collect_bricks() 
 

@@ -18,7 +18,7 @@ theme_lego <- theme(panel.background = element_rect(fill = "#7EC0EE"),
         axis.text.y = element_blank())
 
 #1 SCALE IMAGE ----
-scale_image <- function(image, img_size, mosaic_type = "flat"){
+scale_image <- function(image, img_size){
   #Convert image to a data frame with RGB values
   img <- bind_rows(
     list(
@@ -69,7 +69,6 @@ scale_image <- function(image, img_size, mosaic_type = "flat"){
   
   out_list <- list()
   out_list[["Img_scaled"]] <- img2
-  out_list[["mosaic_type"]] <- mosaic_type
   
   return(out_list)
 
@@ -98,10 +97,10 @@ legoize <- function(image_list){
 }
 
 #3 collect_bricks - Combine bricks into larger ones ----
-collect_bricks <- function(image_list){
+collect_bricks <- function(image_list, mosaic_type = "flat"){
   in_list <- image_list
   
-  if(in_list$mosaic_type == "flat"){
+  if(mosaic_type == "flat"){
     img <- in_list$Img_lego %>% 
       select(x, y, Lego_name, Lego_color) %>% 
       #4x2 bricks - horizontal
@@ -145,7 +144,7 @@ collect_bricks <- function(image_list){
       mutate(g_11_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
       select(-xg, -yg)
   }
-  else if(in_list$mosaic_type == "stacked"){
+  else if(mosaic_type == "stacked"){
     img <- in_list$Img_lego %>% 
       select(x, y, Lego_name, Lego_color) %>% 
       #4x1 bricks - horizontal
@@ -190,6 +189,7 @@ collect_bricks <- function(image_list){
     count(Brick_size, Lego_name, Lego_color) 
   
   in_list[["Img_bricks"]] <- img2
+  in_list[["mosaic_type"]] <- mosaic_type
   in_list[["pieces"]] <- pcs
   
   return(in_list)
