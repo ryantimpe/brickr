@@ -35,18 +35,25 @@ scale_image <- function(image, img_size, mosaic_type = "flat"){
     spread(channel, value)
   
   #Wide or tall image? Shortest side should be `img_size` pixels
-  if(max(img$x) > max(img$y)){
-    img_scale_x <-  max(img$x) / max(img$y)
-    img_scale_y <- 1
-  } else {
-    img_scale_x <- 1
-    img_scale_y <-  max(img$y) / max(img$x)
-  }
+    if(max(img$x) > max(img$y)){
+      img_scale_x <-  max(img$x) / max(img$y)
+      img_scale_y <- 1
+    } else {
+      img_scale_x <- 1
+      img_scale_y <-  max(img$y) / max(img$x)
+    }
   
+  #If only 1 img_size value, create a square image
+    if(length(img_size) == 1){
+      img_size2 <- c(img_size, img_size)
+    } else {
+      img_size2 <- img_size[1:2]
+    }
+
   #Rescale the image
   img2 <- img %>% 
-    mutate(y_scaled = (y - min(y))/(max(y)-min(y))*img_size*img_scale_y + 1,
-           x_scaled = (x - min(x))/(max(x)-min(x))*img_size*img_scale_x + 1) %>% 
+    mutate(y_scaled = (y - min(y))/(max(y)-min(y))*img_size2[2]*img_scale_y + 1,
+           x_scaled = (x - min(x))/(max(x)-min(x))*img_size2[1]*img_scale_x + 1) %>% 
     select(-x, -y) %>% 
     group_by(y = ceiling(y_scaled), x = ceiling(x_scaled)) %>% 
     #Get average R, G, B and convert it to hexcolor
@@ -55,8 +62,8 @@ scale_image <- function(image, img_size, mosaic_type = "flat"){
     mutate(color = rgb(R, G, B)) %>% 
     ungroup() %>% 
     #Center the image
-    filter(x <= median(x) + img_size/2, x > median(x) - img_size/2,
-           y <= median(y) + img_size/2, y > median(y) - img_size/2) %>%
+    filter(x <= median(x) + img_size2[1]/2, x > median(x) - img_size2[1]/2,
+           y <= median(y) + img_size2[2]/2, y > median(y) - img_size2[2]/2) %>%
     #Flip y
     mutate(y = (max(y) - y) + 1)
   
