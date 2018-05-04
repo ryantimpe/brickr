@@ -19,3 +19,5 @@ lego_mosaic %>%
 
 #Get summary of pieces
 pieces <- lego_mosaic %>% table_pieces()
+
+lego_mosaic %>% display_pieces()

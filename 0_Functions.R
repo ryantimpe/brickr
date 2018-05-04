@@ -237,7 +237,6 @@ generate_instructions <- function(image_list, num_steps) {
 }
 
 #5 Piece count ----
-
 #Print as data frame
 table_pieces <- function(image_list){
   pcs <- image_list$pieces
@@ -253,5 +252,43 @@ display_pieces <- function(image_list){
   in_list <- image_list
   pcs <- in_list$pieces
   
+  pcs_coords <- tibble(
+    Brick_size = c("1 x 1", "2 x 1", "3 x 1", "4 x 1", "2 x 2", "4 x 2"),
+    xmin = c(0, 0, 0, 0, 6, 6),
+    xmax = c(1, 2, 3, 4, 8, 8),
+    ymin = c(0, 2, 4, 6, 0, 3),
+    ymax = c(1, 3, 5, 7, 2, 7)
+  ) %>% 
+    #This function creates nodes in each brick for stud placement
+    mutate(studs = purrr::pmap(list(xmin, xmax, ymin, ymax), function(a, b, c, d){
+      expand.grid(x=seq(a+0.5, b-0.5, by=1), 
+                  y=seq(c+0.5, d-0.5, by=1))
+    }))
+  
+  pcs2 <- pcs %>% 
+    arrange(Lego_color) %>% 
+    mutate(Lego_name = factor(Lego_name, 
+                              levels = c("Black", 
+                                         unique(Lego_name)[!(unique(Lego_name) %in% c("Black", "White"))],
+                                         "White"))) %>% 
+    left_join(pcs_coords, by = "Brick_size")
+  
+  pcs2 %>% 
+    ggplot() +
+    geom_rect(aes(xmin=xmin, xmax=xmax, ymin=-ymin, ymax=-ymax,
+                  fill = Lego_color), color = "#333333")+
+    scale_fill_identity() +
+    geom_point(data = pcs2 %>% unnest(studs),
+               aes(x=x, y=-y), color = "#333333", alpha = 0.2, 
+               shape = 1, size = 2) +
+    geom_text(aes(x = xmax + 0.25, y = -(ymin+ymax)/2, label = paste0("x", n)), 
+              hjust = 0, vjust = 0.5, size = 3.5) +
+    coord_fixed(xlim = c(-0.5, 10)) +
+    facet_wrap(~Lego_name, ncol=5) +
+    theme_minimal()+
+    theme_lego +
+    theme(
+      panel.grid = element_blank()
+    )
 }
   
