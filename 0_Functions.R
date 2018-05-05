@@ -48,6 +48,8 @@ scale_image <- function(image, img_size){
       img_size2 <- c(img_size, img_size)
     } else {
       img_size2 <- img_size[1:2]
+      img_scale_x <- 1
+      img_scale_y <- 1
     }
 
   #Rescale the image
