@@ -34,6 +34,8 @@ scale_image <- function(image, img_size){
     mutate(x = as.numeric(gsub("V", "", x))) %>% 
     spread(channel, value)
   
+  img_size <- round(img_size, 0)
+  
   #Wide or tall image? Shortest side should be `img_size` pixels
     if(max(img$x) > max(img$y)){
       img_scale_x <-  max(img$x) / max(img$y)
