@@ -14,7 +14,7 @@ source("0_Functions.R")
 
 The functions in the file `0_functions.R` convert a jpg or png image into a mosaic of available LEGO colors and bricks using the R [tidyverse](https://www.tidyverse.org/) and the `jpeg` or `png` packages.
 
-A full explanation can be found on [this blog post](http://www.ryantimpe.com/2018/04/23/lego-mosaic1/).
+A full explanation can be found on [this blog post](http://www.ryantimpe.com/2018/04/23/lego-mosaic1/) and this [follow-up post](http://www.ryantimpe.com/2018/05/07/lego-mosaic2/).
 
 ```{r m1_orig, fig.width = 3, fig.height=3, echo = FALSE, message = FALSE, warning = FALSE}
 mosaic1_orig <- readRDS("README_cache/m1_orig.RDS")
@@ -61,7 +61,7 @@ Additional functions assist in the translation from the LEGO mosaic image into a
 
 Use `generate_instructions()` to break the LEGO mosaic image into easier-to-read steps for building the set. This defaults to 6 steps, but passing any integer value will generate that many steps.
 
-```{r m1_instructions, fig.width = 8, fig.height=4, message = FALSE, warning = FALSE}
+```{r m1_instructions, fig.width = 8, fig.height=7, message = FALSE, warning = FALSE}
 mosaic1 %>% generate_instructions(9)
 ```
 

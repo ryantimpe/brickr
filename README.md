@@ -6,7 +6,7 @@ Introduction
 
 The functions in the file `0_functions.R` convert a jpg or png image into a mosaic of available LEGO colors and bricks using the R [tidyverse](https://www.tidyverse.org/) and the `jpeg` or `png` packages.
 
-A full explanation can be found on [this blog post](http://www.ryantimpe.com/2018/04/23/lego-mosaic1/).
+A full explanation can be found on [this blog post](http://www.ryantimpe.com/2018/04/23/lego-mosaic1/) and this [follow-up post](http://www.ryantimpe.com/2018/05/07/lego-mosaic2/).
 
 ![](README_files/figure-markdown_github/m1_orig-1.png) ![](README_files/figure-markdown_github/m1_set-1.png)
 
