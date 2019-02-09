@@ -90,9 +90,17 @@ convert_to_lego_colors <- function(R, G, B){
 legoize <- function(image_list){
   in_list <- image_list
   
-  img <- in_list$Img_scaled %>% 
+  #Speed up calc by round pixel to nearest 1/20 & only calculating unique
+  mosaic_colors <- in_list$Img_scaled %>% 
+    mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>% 
+    select(R, G, B) %>% 
+    distinct() %>% 
     mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors)) %>% 
     unnest(lego)
+  
+  img <- in_list$Img_scaled %>% 
+    mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>%
+    left_join(mosaic_colors, by = c("R", "G", "B"))
   
   in_list[["Img_lego"]] <- img
   
