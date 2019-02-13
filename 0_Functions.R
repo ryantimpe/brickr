@@ -190,6 +190,13 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
            ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
     ungroup()
   
+  brick_ids <- img %>% 
+    gather(Brick, brick_id, dplyr::starts_with("g_")) %>% 
+    #Only keep first Brick group has a name
+    group_by(x, y) %>% 
+    filter(Brick == Brick[min(which(!is.na(brick_id)))]) %>% 
+    ungroup() 
+  
   # This is very brute-force. Probably a much cleaner way to do this
   pcs <- img2 %>% 
     select(Brick, brick_id, Lego_name, Lego_color) %>% 
@@ -208,6 +215,7 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
   }
   
   in_list[["Img_bricks"]] <- img2
+  in_list[["ID_bricks"]] <- brick_ids
   in_list[["mosaic_type"]] <- mosaic_type
   in_list[["pieces"]] <- pcs
   
