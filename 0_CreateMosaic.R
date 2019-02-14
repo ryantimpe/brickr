@@ -2,13 +2,15 @@
 # Generate LEGO mosaic an image
 #####
 
+#RUN THIS CODE AFTER DOWNLOADING SOURCE FILES
+
 source("0_Functions.R")
 
 #This will take a few minutes to run
 lego_mosaic <- readJPEG("Images/Ryan.jpg") %>% 
   # scale_image(48) %>% #Single value for square,
-  # scale_image(c(56, 48)) %>% # c(W, H) for rectangle
-  scale_image(c(48, 56)) %>% # c(W, H) for rectangle
+  # scale_image(c(56, 48)) %>% # WIDE -  c(W, H) for rectangle
+  scale_image(c(48, 56)) %>% # PORTRAIT - c(W, H) for rectangle
   legoize() %>% 
   collect_bricks() 
 
@@ -23,17 +25,11 @@ pieces <- lego_mosaic %>% table_pieces()
 
 lego_mosaic %>% display_pieces()
 
-ggsave("Emmet.png", device = "png", height = 5, width = 5)
+#Save it
+ggsave("LegoMosaic.png", device = "png", height = 5, width = 5)
 
-#3D
+#3D with rayshader ----
 library(rayshader)
-
-lego_mosaic_3d <- lego_mosaic %>% 
-  collect_3d(mosaic_height = 9, highest_el = "dark") 
-
-lego_mosaic_3d$`threed_hillshade`%>%
-  plot_3d(lego_mosaic_3d$`threed_elevation`, zscale=0.125,fov=0,theta=-30,phi=30,windowsize=c(1000,800),zoom=0.75
-  )
 
 #mosaic_height is the elevation of the mosaic in LEGO plates... 3 plates =  1 LEGO brick
 #Set highest_el = "dark" for dark bricks to be tallest... otherwise light bricks are tallest
