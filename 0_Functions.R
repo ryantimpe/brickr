@@ -463,7 +463,7 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
 
 display_3d <- function(image_list, ...){
   image_list$`threed_hillshade`%>%
-    plot_3d(image_list$`threed_elevation`, ...)
+    plot_3d(image_list$`threed_elevation`, zscale=0.125, ...)
 }
 
 

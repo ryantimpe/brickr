@@ -35,6 +35,6 @@ library(rayshader)
 #Set highest_el = "dark" for dark bricks to be tallest... otherwise light bricks are tallest
 lego_mosaic %>% 
   collect_3d(mosaic_height = 9, highest_el = "dark") %>% 
-  display_3d(zscale=0.125,fov=0,theta=-30,phi=30,windowsize=c(1000,800),zoom=0.75)
+  display_3d(fov=0,theta=-30,phi=30,windowsize=c(1000,800),zoom=0.75)
 
-#display_3d() takes all inputs of rayshader::plot_3d()
+#display_3d() takes all inputs of rayshader::plot_3d() EXCEPT zscale
