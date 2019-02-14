@@ -1,4 +1,5 @@
-library(tidyverse); library(jpeg)
+library(tidyverse, warn.conflicts = FALSE); 
+library(jpeg)
 
 # LEGO colors ----
 lego_colors <- read_csv("Colors/Lego_Colors.csv") %>% 
@@ -458,6 +459,11 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
   
   return(in_list)
   
+}
+
+display_3d <- function(image_list, ...){
+  image_list$`threed_hillshade`%>%
+    plot_3d(image_list$`threed_elevation`, ...)
 }
 
 
