@@ -222,7 +222,7 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
   return(in_list)
 }
 
-#3a display_set  - plot output of collect_bricks()
+#3a display_set  - plot output of collect_bricks() ----
 display_set <- function(image_list, title=NULL){
   in_list <- image_list
   image <- in_list$Img_bricks
@@ -370,4 +370,104 @@ display_pieces <- function(image_list){
       panel.grid = element_blank()
     )
 }
+
+#3D Functions with rayshader! ----
+
+collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
+  #Get previous data
+  in_list <- image_list
   
+  if(in_list$mosaic_type != "flat")stop("3D mosaics can only be generated with 'flat' mosaics. Set this input in the 'collect_bricks' function.")
+  
+  BrickIDs <- in_list$ID_bricks
+  img_lego <- in_list$Img_lego
+  
+  #Number of 'pixels' on a side of a single-stud brick. I think this should be fixed for now
+  ex_size <- 15
+  
+  lego_expand <- img_lego %>%
+    select(x, y, Lego_name, Lego_color) %>% 
+    mutate(stud_id = row_number()) 
+  
+  lego_expand2 <- expand.grid(x = (min(lego_expand$x)*ex_size):(max(lego_expand$x+1)*ex_size),
+                              y = (min(lego_expand$y)*ex_size):(max(lego_expand$y+1)*ex_size)) %>% 
+    mutate(x_comp = x %/% ex_size,
+           y_comp = y %/% ex_size) %>% 
+    left_join(lego_expand %>% rename(x_comp = x, y_comp = y), by = c("x_comp", "y_comp")) %>% 
+    left_join(BrickIDs %>% select(brick_id, x_comp = x, y_comp = y), by = c("x_comp", "y_comp")) %>% 
+    select(-x_comp, -y_comp) %>% 
+    left_join(lego_colors %>% select(Lego_name = Color, R_lego, G_lego, B_lego), by = "Lego_name") %>% 
+    do(
+      if(highest_el == "dark"){
+        mutate(., elevation = (1-((R_lego + G_lego + B_lego )/3)) * 1000)
+      } else {
+        mutate(., elevation = (((R_lego + G_lego + B_lego )/3)) * 1000)
+      }
+    ) %>% 
+    #Round elevation to nearest 1/height
+    mutate(elevation = as.numeric(as.factor(cut(elevation, mosaic_height)))) %>% 
+    mutate(y = max(y)-y) %>% 
+    filter(!is.na(elevation)) %>% 
+    #Calculate stud placement... radius of 1/3 and height of 0.5 plate
+    group_by(stud_id) %>% 
+    mutate(x_mid = median(x), y_mid = median(y),
+           stud = ((x-x_mid)^2 + (y-y_mid)^2)^(1/2) < ex_size/3) %>% 
+    ungroup() %>% 
+    mutate(elevation = ifelse(stud, elevation+0.5, elevation)) %>% 
+    mutate_at(vars(R_lego, G_lego, B_lego), funs(ifelse(stud, .-0.1, .))) %>% 
+    mutate_at(vars(R_lego, G_lego, B_lego), funs(ifelse(. < 0, 0, .)))
+  
+  #Elevation Matrix
+  lego_elmat <- lego_expand2 %>% 
+    select(x, y, elevation) %>% 
+    spread(y, elevation) %>% 
+    select(-x) %>% 
+    as.matrix()
+  
+  #Hillshade matrix
+  lego_hillshade_m <- array(dim = c(length(unique(lego_expand2$y)), length(unique(lego_expand2$x)), 3))
+  
+  lego_expand_color <- lego_expand2 %>% 
+    group_by(brick_id) %>% 
+    #This darkens the edge of each brick, to look like they are separated
+    mutate_at(vars(R_lego, G_lego, B_lego), 
+              funs(ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), .*0.4, .))) %>% 
+    ungroup()
+  
+  lego_hillshade_m[,,1] <- lego_expand_color %>% 
+    select(x, y, R_lego) %>% 
+    spread(x, R_lego) %>% 
+    select(-y) %>% 
+    as.matrix()
+  
+  lego_hillshade_m[,,2] <- lego_expand_color %>% 
+    select(x, y, G_lego) %>% 
+    spread(x, G_lego) %>% 
+    select(-y) %>% 
+    as.matrix()
+  
+  lego_hillshade_m[,,3] <- lego_expand_color %>% 
+    select(x, y, B_lego) %>% 
+    spread(x, B_lego) %>% 
+    select(-y) %>% 
+    as.matrix()
+  
+  #Return
+  in_list[["threed_elevation"]] <- lego_elmat
+  in_list[["threed_hillshade"]] <- lego_hillshade_m
+  
+  return(in_list)
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
