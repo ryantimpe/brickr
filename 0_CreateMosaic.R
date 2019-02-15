@@ -12,6 +12,7 @@ lego_mosaic <- readJPEG("Images/Ryan.jpg") %>%
   # scale_image(c(56, 48)) %>% # WIDE -  c(W, H) for rectangle
   scale_image(c(48, 56)) %>% # PORTRAIT - c(W, H) for rectangle
   legoize() %>% 
+  # legoize(theme="bw") %>% 
   collect_bricks() 
 
 lego_mosaic %>% display_set()
@@ -37,4 +38,5 @@ lego_mosaic %>%
   collect_3d(mosaic_height = 9, highest_el = "dark") %>% 
   display_3d(fov=0,theta=-30,phi=30,windowsize=c(1000,800),zoom=0.75)
 
-#display_3d() takes all inputs of rayshader::plot_3d() EXCEPT zscale
+#display_3d() takes all inputs of rayshader::plot_3d() EXCEPT hillshade, heightmap, & zscale
+# If you want to use plot_3d() instead, use the items 'threed_hillshade' and 'threed_elevation' in the collect_3d() output

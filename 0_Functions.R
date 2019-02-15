@@ -8,7 +8,7 @@ lego_colors <- read_csv("Colors/Lego_Colors.csv") %>%
   rename(R_lego = R, G_lego = G, B_lego = B)%>% 
   mutate_at(vars(starts_with("w_")), funs(ifelse(is.na(.), 0, .)))
 
-#GGplot theme to remove axes, etc ----
+# GGplot theme to remove axes, etc ----
 theme_lego <- theme(panel.background = element_rect(fill = "#7EC0EE"),
         strip.background = element_rect(fill = "#F7F18D"),
         strip.text = element_text(color = "#333333", face = "bold"),
@@ -88,21 +88,40 @@ convert_to_lego_colors <- function(R, G, B){
     select(Lego_name = Color, Lego_color)
 }
 
-legoize <- function(image_list){
+legoize <- function(image_list, theme = "standard"){
   in_list <- image_list
   
-  #Speed up calc by round pixel to nearest 1/20 & only calculating unique
-  mosaic_colors <- in_list$Img_scaled %>% 
-    mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>% 
-    select(R, G, B) %>% 
-    distinct() %>% 
-    mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors)) %>% 
-    unnest(lego)
-  
-  img <- in_list$Img_scaled %>% 
-    mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>%
-    left_join(mosaic_colors, by = c("R", "G", "B"))
-  
+  if(theme != "bw"){
+    #Speed up calc by round pixel to nearest 1/20 & only calculating unique
+    mosaic_colors <- in_list$Img_scaled %>% 
+      mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>% 
+      select(R, G, B) %>% 
+      distinct() %>% 
+      mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors)) %>% 
+      unnest(lego)
+    
+    img <- in_list$Img_scaled %>% 
+      mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>%
+      left_join(mosaic_colors, by = c("R", "G", "B"))
+    
+  } else {
+    #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
+    bw_colors <- lego_colors %>% 
+      filter(t_BW) %>% 
+      arrange((R_lego + G_lego + B_lego))%>% 
+      mutate(Lego_color = rgb(R_lego, G_lego, B_lego))
+    
+    contrast_index <- 2
+    
+    img <- in_list$Img_scaled %>% 
+      mutate(shade = (R+G+B)/3,
+             shade = shade ^ contrast_index) %>% 
+      mutate(shade_bw = as.numeric(as.factor(cut(shade, 4)))) %>% 
+      mutate(Lego_name = bw_colors$Color[shade_bw],
+             Lego_color = bw_colors$Lego_color[shade_bw]) %>% 
+      select(-starts_with("shade"))
+  }
+
   in_list[["Img_lego"]] <- img
   
   return(in_list)
