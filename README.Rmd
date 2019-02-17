@@ -8,6 +8,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 source("0_Functions.R")
 
+render_snapshot = function(filename) {
+  temp = paste0(tempfile(),".png")
+  rgl::snapshot3d(filename=temp)
+  tempmap = png::readPNG(temp)
+  if(missing(filename)) {
+    plot_map(tempmap)
+  } else {
+    save_png(tempmap,filename)
+  }
+}
+
 ```
 
 ## Introduction
@@ -23,13 +34,16 @@ ggplot(mosaic1_orig$Img_scaled, aes(x=x, y=y, fill = color)) +
   geom_raster()+
   scale_fill_identity() +
   coord_fixed(expand = FALSE) +
-  theme_minimal() +
+  theme_void() +
   theme_lego +
   theme(axis.line = element_blank(),
         axis.ticks = element_blank())
 ```
 ```{r m1_set, fig.width = 3, fig.height=3, echo = FALSE, message = FALSE, warning = FALSE}
-mosaic1 <- readRDS("README_cache/m1_lego.RDS")
+mosaic1 <- readJPEG("Images/goldengirls.jpg") %>% 
+  scale_image(48) %>%
+  legoize() %>% 
+  collect_bricks() 
 
 mosaic1 %>% display_set()
 ```
@@ -38,7 +52,7 @@ This process is competed in a few distinct steps:
 
 - `scale_image()` reduces the image to a number of brick "pixels". Providing a single value, such as `48`, crops the image to a square. Inputting a 2-element array, `c(56, 48)`, will output a rectangular image of `c(width, height)`.
 
-- `legoize()` converts every brick-sized pixel in the scaled image to an official LEGO brick color. Those colors are stored in `Colors/Lego_Colors.csv`. By default, the functions look at only currently produced, non-transparent colors.
+- `legoize()` converts every brick-sized pixel in the scaled image to an official LEGO brick color. Those colors are stored in `Colors/Lego_Colors.csv`. By default, the functions look at only currently produced, non-transparent colors. Use `theme = 'bw'`to create a 4-color grayscale mosaic.
 
 - `collect_bricks()` looks for adjacent groups of the same color to replace single 1 x 1 bricks with larger bricks.
 
@@ -51,6 +65,24 @@ mosaic1 <- readJPEG("Images/goldengirls.jpg") %>%
   collect_bricks() 
 
 mosaic1 %>% display_set()
+```
+
+## 3D Mosaics
+
+Two additional functions can convert the `collect_bricks()` output into a 3D mosaic using the [rayshader](https://github.com/tylermorganwall/rayshader) package by [Tyler Mogran-Wall](https://twitter.com/tylermorganwall).
+
+- `collect_3d()` translates the 2D LEGO mosaic into two matrices - one for the color image and one for the elevation of each point on the image. By default, the produced image has the height of 6 LEGO plates (2 LEGO bricks) with lighter colors having a higher elevation. Use `mosaic_height` to change the height of the mosaic and set `highest_el = 'dark'` to set the darker colors as the tallest bricks.
+
+- `display_3d()` simply calls `rayshader::plot_3d()`, but pulls both the hillshade and elevation matrices from the output of `collect_3d()` and fixes the `zscale` value. See `?rayshader::plot_3d()` for more information.
+
+```{r m1_3d, echo=TRUE,warning=FALSE, message=FALSE}
+library(rayshader)
+
+mosaic1 %>% 
+  collect_3d() %>% 
+  display_3d(fov=0,theta=-20,phi=30,windowsize=c(1000,800),zoom=0.7)
+
+render_snapshot()
 ```
 
 ## LEGO Mosaics IRL
@@ -92,6 +124,20 @@ mosaic2 <- readRDS("README_cache/m2_lego.RDS")
 mosaic2 %>% display_set()
 ```
 
-```{r m2_pieces, fig.width = 9, fig.height=7, message = FALSE, warning = FALSE}
+```{r m2_pieces, fig.width = 8, fig.height=6, message = FALSE, warning = FALSE}
 mosaic2 %>% display_pieces()
+```
+
+## Color options
+
+For now, you can limit the available LEGO brick colors by filtering rows in the included `Colors/Lego_Colors.csv` file.
+
+You can also use `legoize(theme='bw')` to create a 4-color grayscale mosaic. Set the `contrast` input to be less than or greater than 1 to adjust the allocation of colors. 
+
+```{r m1_bw, fig.width = 3, fig.height=3, echo = TRUE, message = FALSE, warning = FALSE}
+readJPEG("Images/goldengirls.jpg") %>% 
+  scale_image(48) %>%
+  legoize(theme='bw', contrast = 1.25) %>% 
+  collect_bricks() %>% 
+  display_set()
 ```
