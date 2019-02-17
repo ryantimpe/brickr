@@ -299,14 +299,20 @@ generate_instructions <- function(image_list, num_steps=6) {
   
   num_steps <- min(round(num_steps), 40)
   
-  rows_per_step <- ceiling((max(image$ymax)-0.5) / num_steps)
+  rows_per_step <- ceiling((max(image$ymax)-0.5) / (num_steps+1))
   
-  create_steps <- function(a) {
-    image %>% 
-      group_by(brick_id) %>% 
-      filter(min(ymin) <= a*rows_per_step+(min(image$ymin)+0.5)) %>% 
-      ungroup() %>%
-      mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
+  create_steps <- function(a, n_steps) {
+    if(a < n_steps){
+      image %>% 
+        group_by(brick_id) %>% 
+        filter(min(ymin) <= a*rows_per_step+(min(image$ymin)+0.5)) %>% 
+        ungroup() %>%
+        mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
+    } else {
+      image %>% 
+        mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))
+    }
+
   }
   
   #Ratio of the "pixels" is different for flat or stacked bricks
@@ -317,7 +323,7 @@ generate_instructions <- function(image_list, num_steps=6) {
   }
   
   1:num_steps %>% 
-    map(create_steps) %>% 
+    map(create_steps, num_steps) %>% 
     bind_rows() %>% 
     ggplot() +
     geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
@@ -500,7 +506,7 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
 
 display_3d <- function(image_list, ...){
   image_list$`threed_hillshade`%>%
-    plot_3d(image_list$`threed_elevation`, zscale=0.125, ...)
+    rayshader::plot_3d(image_list$`threed_elevation`, zscale=0.125, ...)
 }
 
 
