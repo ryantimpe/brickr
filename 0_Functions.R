@@ -2,7 +2,25 @@ library(tidyverse, warn.conflicts = FALSE);
 library(jpeg)
 
 # LEGO colors ----
-lego_colors <- read_csv("Colors/Lego_Colors.csv") %>% 
+lego_colors <- read_csv("Colors/Lego_Colors.csv", 
+                        col_types = cols(
+                                    LEGONo = col_double(),
+                                    Color = col_character(),
+                                    Sample = col_logical(),
+                                    R = col_double(),
+                                    G = col_double(),
+                                    B = col_double(),
+                                    c_Palette2016 = col_logical(),
+                                    c_Transparent = col_logical(),
+                                    c_Glow = col_logical(),
+                                    c_Metallic = col_logical(),
+                                    t_BW = col_logical(),
+                                    t_Classic = col_logical(),
+                                    t_Friends = col_logical(),
+                                    w_weight = col_double(),
+                                    w_Classic = col_double()
+                                  )
+) %>% 
   filter(c_Palette2016, !c_Transparent, !c_Glow, !c_Metallic) %>% 
   mutate_at(vars(R, G, B), funs(./255)) %>% 
   rename(R_lego = R, G_lego = G, B_lego = B)%>% 
@@ -80,48 +98,48 @@ scale_image <- function(image, img_size){
 }
 
 #2 Legoize - Convert image Lego colors -----
-convert_to_lego_colors <- function(R, G, B){
-  lego_colors %>% 
+convert_to_lego_colors <- function(R, G, B, dat_color){
+  dat_color %>% 
     mutate(dist = ((R_lego - R)^2 + (G_lego - G)^2 + (B_lego - B)^2)^(1/2)) %>% 
     top_n(-1, dist) %>% 
     mutate(Lego_color = rgb(R_lego, G_lego, B_lego)) %>% 
     select(Lego_name = Color, Lego_color)
 }
 
-legoize <- function(image_list, theme = "standard"){
+legoize <- function(image_list, theme = "default", contrast = 1){
   in_list <- image_list
   
-  if(theme != "bw"){
+  color_table <- lego_colors
+
+  if(theme == "default"){
     #Speed up calc by round pixel to nearest 1/20 & only calculating unique
     mosaic_colors <- in_list$Img_scaled %>% 
       mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>% 
       select(R, G, B) %>% 
       distinct() %>% 
-      mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors)) %>% 
+      mutate(lego = purrr::pmap(list(R, G, B), convert_to_lego_colors, color_table)) %>% 
       unnest(lego)
     
     img <- in_list$Img_scaled %>% 
       mutate_at(vars(R, G, B), funs(round(.*20)/20)) %>%
       left_join(mosaic_colors, by = c("R", "G", "B"))
     
-  } else {
+  } else if (theme == "bw"){
     #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
-    bw_colors <- lego_colors %>% 
+    bw_colors <- color_table %>% 
       filter(t_BW) %>% 
-      arrange((R_lego + G_lego + B_lego))%>% 
+      arrange((R_lego + G_lego + B_lego)) %>% 
       mutate(Lego_color = rgb(R_lego, G_lego, B_lego))
-    
-    contrast_index <- 2
     
     img <- in_list$Img_scaled %>% 
       mutate(shade = (R+G+B)/3,
-             shade = shade ^ contrast_index) %>% 
+             shade = shade ^ contrast) %>% 
       mutate(shade_bw = as.numeric(as.factor(cut(shade, 4)))) %>% 
       mutate(Lego_name = bw_colors$Color[shade_bw],
              Lego_color = bw_colors$Lego_color[shade_bw]) %>% 
       select(-starts_with("shade"))
+    
   }
-
   in_list[["Img_lego"]] <- img
   
   return(in_list)
