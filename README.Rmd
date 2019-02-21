@@ -50,7 +50,7 @@ mosaic1 %>% display_set()
 
 This process is competed in a few distinct steps:
 
-- `scale_image()` reduces the image to a number of brick "pixels". Providing a single value, such as `48`, crops the image to a square. Inputting a 2-element array, `c(56, 48)`, will output a rectangular image of `c(width, height)`.
+- `scale_image()` reduces the image to a number of brick "pixels". Providing a single value, such as `48`, crops the image to a square. Inputting a 2-element array, `c(56, 48)`, will output a rectangular image of `c(width, height)`. Use `brightness` to adjust the light of the image. Values greater than 1 will lighten the image, while value less than 1 will darken it.
 
 - `legoize()` converts every brick-sized pixel in the scaled image to an official LEGO brick color. Those colors are stored in `Colors/Lego_Colors.csv`. By default, the functions look at only currently produced, non-transparent colors. Use `theme = 'bw'`to create a 4-color grayscale mosaic.
 

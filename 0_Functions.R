@@ -37,15 +37,20 @@ theme_lego <- theme(panel.background = element_rect(fill = "#7EC0EE"),
         axis.text.y = element_blank())
 
 #1 SCALE IMAGE ----
-scale_image <- function(image, img_size){
+scale_image <- function(image, img_size, brightness = 1){
+  #Adjust brightness
+  if(brightness < 0 ){stop("brightness should be a positive value. Use 1 for no change, >1 for lighter, <1 for darker.")}
+  image_b <- image*brightness
+  image_b[image_b>1] <- 1
+  
   #Convert image to a data frame with RGB values
   img <- bind_rows(
     list(
-      (as.data.frame(image[, , 1]) %>% 
+      (as.data.frame(image_b[, , 1]) %>% 
          mutate(y=row_number(), channel = "R")),
-      (as.data.frame(image[, , 2]) %>% 
+      (as.data.frame(image_b[, , 2]) %>% 
          mutate(y=row_number(), channel = "G")),
-      (as.data.frame(image[, , 3]) %>% 
+      (as.data.frame(image_b[, , 3]) %>% 
          mutate(y=row_number(), channel = "B"))
     )
   ) %>% 
