@@ -200,11 +200,11 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
                                  paste0("x2y1_", "x", min(x), "_y", min(y)), NA)) %>% 
       #2x1 bricks -  vertical
       ungroup() %>% group_by(xg = x, yg = y %/% 2) %>% 
-      mutate(g_10_x1y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
+      mutate(g_a_x1y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
                                   paste0("x1y2_", "x", min(x), "_y", min(y)), NA)) %>% 
       ungroup() %>% 
       #1x1
-      mutate(g_11_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
+      mutate(g_b_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
       select(-xg, -yg)
   }
   else if(mosaic_type == "stacked"){
@@ -224,29 +224,67 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
                                  paste0("x2y1_", "x", min(x), "_y", min(y)), NA)) %>% 
       ungroup() %>% 
       #1x1
-      mutate(g_11_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
+      mutate(g_b_x1y1_0 = paste0("x1y1_", "x", x, "_y", y)) %>% 
       select(-xg, -yg)
   }
   else(stop("Use mosaic_type = 'flat' or 'stacked'"))
   
-  img2 <- img %>% 
-    gather(Brick, brick_id, dplyr::starts_with("g_")) %>% 
-    #Only keep first Brick group has a name
-    group_by(x, y) %>% 
-    filter(Brick == Brick[min(which(!is.na(brick_id)))]) %>% 
-    ungroup() %>% 
+  # New calculation for piece placement, March 1, 2019.
+  # https://github.com/ryantimpe/LEGOMosaics/issues/2
+  img2a <- img %>% 
+    gather(Brick, brick_id, dplyr::starts_with("g_"))
+  
+  bricks <- unique(img2a$Brick)
+  
+  bricks_df <- img2a %>% 
+    filter(row_number() <1)
+  
+  #Iteratively go through each brick, in order from largest to smallest, removing them and then checking the remaining image for complete bricks.
+  for(bb in bricks){
+    dat <- img2a %>% 
+      filter(Brick == bb) %>% 
+      drop_na(brick_id) %>% 
+      anti_join(bricks_df, by = c("x", "y")) %>% 
+      #Necessary Area
+      mutate(area_tar = as.numeric(substr(brick_id, 2,2)) *  as.numeric(substr(brick_id, 4,4))) %>%
+      #Actual Area
+      group_by(brick_id) %>% 
+      mutate(area_act = n()) %>% 
+      ungroup() %>% 
+      #Drop rows where the areas don't match
+      filter(area_act == area_tar) %>% 
+      select(-starts_with("area"))
+    
+    bricks_df <- bricks_df %>% 
+      bind_rows(dat)
+  }
+  
+  img2 <- bricks_df %>% 
     # min/max coord for geom_rect()
     group_by(Brick, brick_id, Lego_color, Lego_name) %>% 
     summarise(xmin = min(x)-0.5, xmax = max(x)+0.5,
-           ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
+              ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
     ungroup()
+
+  # PREVIOUS Method. Will delete soon
+  # img2 <- img %>% 
+  #   gather(Brick, brick_id, dplyr::starts_with("g_")) %>% 
+  #   #Only keep first Brick group has a name
+  #   group_by(x, y) %>% 
+  #   filter(Brick == Brick[min(which(!is.na(brick_id)))]) %>% 
+  #   ungroup() %>% 
+  #   # min/max coord for geom_rect()
+  #   group_by(Brick, brick_id, Lego_color, Lego_name) %>% 
+  #   summarise(xmin = min(x)-0.5, xmax = max(x)+0.5,
+  #          ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
+  #   ungroup()
   
-  brick_ids <- img %>% 
-    gather(Brick, brick_id, dplyr::starts_with("g_")) %>% 
-    #Only keep first Brick group has a name
-    group_by(x, y) %>% 
-    filter(Brick == Brick[min(which(!is.na(brick_id)))]) %>% 
-    ungroup() 
+  # brick_ids <- img %>% 
+  #   gather(Brick, brick_id, dplyr::starts_with("g_")) %>% 
+  #   #Only keep first Brick group has a name
+  #   group_by(x, y) %>% 
+  #   filter(Brick == Brick[min(which(!is.na(brick_id)))]) %>% 
+  #   ungroup() 
   
   # This is very brute-force. Probably a much cleaner way to do this
   pcs <- img2 %>% 
@@ -266,7 +304,7 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
   }
   
   in_list[["Img_bricks"]] <- img2
-  in_list[["ID_bricks"]] <- brick_ids
+  in_list[["ID_bricks"]] <- bricks_df
   in_list[["mosaic_type"]] <- mosaic_type
   in_list[["pieces"]] <- pcs
   
@@ -438,6 +476,11 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
   
   BrickIDs <- in_list$ID_bricks
   img_lego <- in_list$Img_lego
+  
+  test <-BrickIDs %>% 
+    count(brick_id) %>% 
+    mutate(tar_area = as.numeric(substr(brick_id, 2,2)) *  as.numeric(substr(brick_id, 4,4))) %>% 
+    filter(n != tar_area)
   
   #Number of 'pixels' on a side of a single-stud brick. I think this should be fixed for now
   ex_size <- 15
