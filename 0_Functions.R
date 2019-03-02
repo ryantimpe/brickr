@@ -476,12 +476,7 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
   
   BrickIDs <- in_list$ID_bricks
   img_lego <- in_list$Img_lego
-  
-  test <-BrickIDs %>% 
-    count(brick_id) %>% 
-    mutate(tar_area = as.numeric(substr(brick_id, 2,2)) *  as.numeric(substr(brick_id, 4,4))) %>% 
-    filter(n != tar_area)
-  
+
   #Number of 'pixels' on a side of a single-stud brick. I think this should be fixed for now
   ex_size <- 15
   
@@ -517,8 +512,19 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
     mutate_at(vars(R_lego, G_lego, B_lego), funs(ifelse(stud, .-0.1, .))) %>% 
     mutate_at(vars(R_lego, G_lego, B_lego), funs(ifelse(. < 0, 0, .)))
   
+  edges <- bind_rows(list(
+    lego_expand2 %>% filter(x == min(x)) %>% mutate(x = x-1),
+    lego_expand2 %>% filter(x == max(x)) %>% mutate(x = x+1),
+    lego_expand2 %>% filter(y == min(y)) %>% mutate(y = y-1),
+    lego_expand2 %>% filter(y == max(y)) %>% mutate(y = y+1)
+  )) %>% 
+    mutate(R_lego = 1, G_lego = 1, B_lego = 1, 
+           elevation = 0,
+           brick_id = NA)
+  
   #Elevation Matrix
   lego_elmat <- lego_expand2 %>% 
+    bind_rows(edges) %>% 
     select(x, y, elevation) %>% 
     spread(y, elevation) %>% 
     select(-x) %>% 
@@ -560,9 +566,9 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
   
 }
 
-display_3d <- function(image_list, ...){
+display_3d <- function(image_list, solidcolor = "#a3a2a4", ...){
   image_list$`threed_hillshade`%>%
-    rayshader::plot_3d(image_list$`threed_elevation`, zscale=0.125, ...)
+    rayshader::plot_3d(image_list$`threed_elevation`, zscale=0.125, solidcolor=solidcolor, ...)
 }
 
 
