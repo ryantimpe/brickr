@@ -1,0 +1,23 @@
+Package: LEGOMosaics
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ryan",
+           family = "Timpe",
+           role = c("aut", "cre"),
+           email = "ryan.timpe@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    tidyr,
+    purrr,
+    ggplot2,
+    magrittr
+Suggests: 
+    rayshader
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
