@@ -6,6 +6,8 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+library(jpeg)
+
 source("0_Functions.R")
 
 render_snapshot = function(filename) {
