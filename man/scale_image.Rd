@@ -4,7 +4,7 @@
 \alias{scale_image}
 \title{Scale an image raster array to a small number of pixels. Process into a data frame.}
 \usage{
-scale_image(image, img_size, brightness = 1, warhol = 1:3)
+scale_image(image, img_size = 48, brightness = 1, warhol = 1:3)
 }
 \arguments{
 \item{image}{A raster array from an image.}

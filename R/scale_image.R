@@ -8,7 +8,7 @@
 #' @return A list with element \code{Img_scaled} containing a data frame of the x- & y-coordinates, R, G, B channels, and hex color of each brick (pixel).
 #' @export 
 #' 
-scale_image <- function(image, img_size, brightness = 1, warhol = 1:3){
+scale_image <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
   
   #Adjust brightness. Max channel value is 1
   if(brightness < 0 ){stop("brightness should be a positive value. Use 1 for no change, >1 for lighter, <1 for darker.")}
