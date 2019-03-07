@@ -55,7 +55,7 @@ legoize <- function(image_list, color_table = lego_colors, theme = "default", co
     
   }
   in_list[["Img_lego"]] <- img %>% 
-    dplyr::mutate(Level = "A")
+    dplyr::mutate(Level = 1)
   
   return(in_list)
   

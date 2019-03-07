@@ -3,6 +3,8 @@
 export("%>%")
 export(collect_bricks)
 export(convert_to_match_color)
+export(display_set)
+export(generate_instructions)
 export(image_to_bricks)
 export(legoize)
 export(scale_image)
