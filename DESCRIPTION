@@ -1,23 +1,24 @@
-Package: LEGOMosaics
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Package: brickr
+Title: Create Simulated LEGO Models from Images or Data Frames
+Version: 0.0.0.9100
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
            role = c("aut", "cre"),
-           email = "ryan.timpe@gmail.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "ryan.timpe@gmail.com")
+Description: Generate digital LEGO-eque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. Build 3D models using data frames with rayshader.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.0.2)
 Imports: 
     dplyr,
     tidyr,
     purrr,
-    ggplot2,
-    magrittr
+    ggplot2
 Suggests: 
     rayshader
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
+URL: https://github.com/ryantimpe/brickr
+BugReports: https://github.com/ryantimpe/brickr/issues
