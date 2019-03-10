@@ -7,7 +7,7 @@
 layer_from_bricks(brick_list, lev = 1)
 }
 \arguments{
-\item{brick_list}{List output from collect_bricks(). Contains an element \code{Img_lego}.}
+\item{brick_list}{List output from table_to_bricks(). Contains an element \code{Img_lego}.}
 
 \item{lev}{z-level of 3D model}
 }
