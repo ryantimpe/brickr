@@ -20,32 +20,92 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x %/% 2, yg = y %/% 4) %>% 
       dplyr::mutate(g_2_x2y4_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
                                         paste0("x2y4_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #4x2 bricks - horizontal - offset by 2
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+2) %/% 4, yg = y %/% 2) %>% 
+      dplyr::mutate(g_1_x4y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
+                                        paste0("x4y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #4x2 bricks - vertical - offset by 2
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x %/% 2, yg = (y+2) %/% 4) %>% 
+      dplyr::mutate(g_2_x2y4_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 8,
+                                        paste0("x2y4_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #2x2 bricks
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x %/% 2, yg = y %/% 2) %>% 
       dplyr::mutate(g_5_x2y2_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                        paste0("x2y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #2x2 bricks - offset by 1,1
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+1) %/% 2, yg = (y+1) %/% 2) %>% 
+      dplyr::mutate(g_5_x2y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
                                         paste0("x2y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #4x1 bricks - horizontal
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x %/% 4, yg = y ) %>% 
       dplyr::mutate(g_7_x4y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
                                         paste0("x4y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
-      #4x1 bricks -  vertical
+      #4x1 bricks - horizontal - offset 1
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+1) %/% 4, yg = y ) %>% 
+      dplyr::mutate(g_7_x4y1_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                        paste0("x4y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>%  
+      #4x1 bricks - horizontal - offset 2
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+2) %/% 4, yg = y ) %>% 
+      dplyr::mutate(g_7_x4y1_2 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                        paste0("x4y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #4x1 bricks - horizontal - offset 3
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+3) %/% 4, yg = y ) %>% 
+      dplyr::mutate(g_7_x4y1_3 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                        paste0("x4y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #4x1 bricks - vertical
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = y %/% 4) %>% 
+      dplyr::mutate(g_8_x1y4_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                        paste0("x1y4_", "x", min(x), "_y", min(y), "_", Level), NA)) %>%
+      #4x1 bricks - vertical - offset 1
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = (y+1) %/% 4) %>% 
       dplyr::mutate(g_8_x1y4_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                        paste0("x1y4_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #4x1 bricks - vertical - offset 2
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = (y+2) %/% 4) %>% 
+      dplyr::mutate(g_8_x1y4_2 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
+                                        paste0("x1y4_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #4x1 bricks - vertical - offset 3
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = (y+3) %/% 4) %>% 
+      dplyr::mutate(g_8_x1y4_3 = ifelse(length(unique(Lego_name)) == 1 & n() == 4,
                                         paste0("x1y4_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #3x1 bricks - horizontal
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x %/% 3, yg = y ) %>% 
       dplyr::mutate(g_7_x3y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
                                         paste0("x3y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #3x1 bricks - horizontal - offset 1
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+1) %/% 3, yg = y ) %>% 
+      dplyr::mutate(g_7_x3y1_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
+                                        paste0("x3y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #3x1 bricks - horizontal - offset 2
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+2) %/% 3, yg = y ) %>% 
+      dplyr::mutate(g_7_x3y1_2 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
+                                        paste0("x3y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #3x1 bricks -  vertical
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = y %/% 3) %>% 
+      dplyr::mutate(g_8_x1y3_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
+                                        paste0("x1y3_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #3x1 bricks -  vertical - offset 1
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = (y+1) %/% 3) %>% 
       dplyr::mutate(g_8_x1y3_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
+                                        paste0("x1y3_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #3x1 bricks -  vertical - offset 2
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = (y+2) %/% 3) %>% 
+      dplyr::mutate(g_8_x1y3_2 = ifelse(length(unique(Lego_name)) == 1 & n() == 3,
                                         paste0("x1y3_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #2x1 bricks - horizontal
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x %/% 2, yg = y ) %>% 
       dplyr::mutate(g_9_x2y1_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
                                         paste0("x2y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #2x1 bricks - horizontal - offset 1
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+1) %/% 2, yg = y ) %>% 
+      dplyr::mutate(g_9_x2y1_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
+                                        paste0("x2y1_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #2x1 bricks -  vertical
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = y %/% 2) %>% 
+      dplyr::mutate(g_a_x1y2_0 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
+                                        paste0("x1y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #2x1 bricks -  vertical - offset 1
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x, yg = (y+1) %/% 2) %>% 
       dplyr::mutate(g_a_x1y2_1 = ifelse(length(unique(Lego_name)) == 1 & n() == 2,
                                         paste0("x1y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       dplyr::ungroup() %>% 
