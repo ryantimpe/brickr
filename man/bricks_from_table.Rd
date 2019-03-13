@@ -4,12 +4,19 @@
 \alias{bricks_from_table}
 \title{Convert a data frame in 3D matrix format into bricks for 3D Model}
 \usage{
-bricks_from_table(matrix_table, color_guide = lego_colors)
+bricks_from_table(matrix_table, color_guide = lego_colors,
+  .re_level = TRUE, exclude_color = NULL, exclude_level = NULL)
 }
 \arguments{
 \item{matrix_table}{A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.}
 
 \item{color_guide}{A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.}
+
+\item{.re_level}{Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.}
+
+\item{exclude_color}{Numeric array of color ID numbers to exclude.}
+
+\item{exclude_level}{Numeric array of Level/z dimensions to exclude.}
 }
 \value{
 A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.

@@ -2,10 +2,14 @@
 #'
 #' @param matrix_table A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
+#' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
+#' @param exclude_color Numeric array of color ID numbers to exclude.
+#' @param exclude_level Numeric array of Level/z dimensions to exclude.
 #' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 #' @export 
 #'
-bricks_from_table <- function(matrix_table, color_guide = lego_colors){
+bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level = TRUE,
+                              exclude_color = NULL, exclude_level = NULL){
   
   #Reformat input table to consistent format
   bricks_raw <- matrix_table
@@ -30,6 +34,12 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors){
     stop(color_guide_error_msg)
   }
   
+  #Literal levels or names
+  if(.re_level){
+    bricks_raw <- bricks_raw %>% 
+      mutate(Level = as.numeric(as.factor(as.character(Level))))
+  }
+
   brick_set <- bricks_raw %>% 
     dplyr::mutate_all(dplyr::funs(ifelse(is.na(.), 0, .))) %>% 
     dplyr::group_by(Level) %>% 
@@ -46,7 +56,13 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors){
     dplyr::mutate(Lego_color = ifelse(is.na(Color),NA, Lego_color)) %>% 
     dplyr::rename(Lego_name = Color) %>%
     dplyr::arrange(Level) %>% 
-    dplyr::mutate(Level = as.numeric(as.factor(Level))) 
+    #Exclusions
+    dplyr::filter(!(.value %in% exclude_color)) %>% 
+    dplyr::filter(!(Level %in% exclude_level)) %>% 
+    #In the end, drop empty levels
+    dplyr::group_by(Level) %>% 
+    dplyr::filter(!all(is.na(Lego_color))) %>% 
+    dplyr::ungroup()
   
   #Return an object from collect_bricks()
   return(
@@ -161,12 +177,14 @@ layer_from_bricks <- function(brick_list, lev=1){
 #' Build 3D brick model with rayshader.
 #'
 #' @param brick_list List output from collect_bricks(). Contains an element \code{Img_lego}.
+#' @param view_levels Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.
 #' @param solidcolor Hex color of mosaic base. Only renders on bottom.
 #' @param ... All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @export 
 #'
-display_bricks <- function(brick_list, solidcolor = "#a3a2a4", ...){
+display_bricks <- function(brick_list, view_levels = NULL, 
+                           solidcolor = "#a3a2a4", ...){
   #Requires Rayshader
   if (!requireNamespace("rayshader", quietly = TRUE)) {
     stop("Package \"rayshader\" needed for this function to work. Please install it.",
@@ -179,13 +197,16 @@ display_bricks <- function(brick_list, solidcolor = "#a3a2a4", ...){
   BrickIDs <- in_list$ID_bricks
   img_lego <- in_list$Img_lego 
   
-  num_levels <- max(img_lego$Level)
+  if(is.null(view_levels)){
+    view_levels <- unique(img_lego$Level)
+  }
   
-  for(ii in 1:num_levels){
+  for(ii in view_levels){
     brick_layer <- brick_list %>% layer_from_bricks(ii)
     
     brick_layer$`threed_hillshade`%>%
       rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167, solid = FALSE,
                          solidcolor=solidcolor, shadow = FALSE, ...)
   }
+
 }

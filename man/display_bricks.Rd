@@ -4,10 +4,13 @@
 \alias{display_bricks}
 \title{Build 3D brick model with rayshader.}
 \usage{
-display_bricks(brick_list, solidcolor = "#a3a2a4", ...)
+display_bricks(brick_list, view_levels = NULL, solidcolor = "#a3a2a4",
+  ...)
 }
 \arguments{
 \item{brick_list}{List output from collect_bricks(). Contains an element \code{Img_lego}.}
+
+\item{view_levels}{Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.}
 
 \item{solidcolor}{Hex color of mosaic base. Only renders on bottom.}
 
