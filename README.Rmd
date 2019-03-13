@@ -6,76 +6,69 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+library(brickr)
 library(jpeg)
-
-source("0_Functions.R")
-
-render_snapshot = function(filename) {
-  temp = paste0(tempfile(),".png")
-  rgl::snapshot3d(filename=temp)
-  tempmap = png::readPNG(temp)
-  if(missing(filename)) {
-    plot_map(tempmap)
-  } else {
-    save_png(tempmap,filename)
-  }
-}
+library(tidyverse)
 
 ```
 
-## Introduction
+# brickr <img src='man/figures/logo.png' align="right" height="138" />
+<!-- <!-- badges: start --> 
+<!-- [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) -->
+<!-- <!-- badges: end -->
 
-The functions in the file `0_functions.R` convert a jpg or png image into a mosaic of available LEGO colors and bricks using the R [tidyverse](https://www.tidyverse.org/) and the `jpeg` or `png` packages.
+## Overview
+**brickr** is a package for creating LEGO-esque 2D and 3D models using the R [tidyverse](https://www.tidyverse.org/) and [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://github.com/tylermorganwall/rayshader) package.
 
-A full explanation can be found on [this blog post](http://www.ryantimpe.com/2018/04/23/lego-mosaic1/) and this [follow-up post](http://www.ryantimpe.com/2018/05/07/lego-mosaic2/).
+The package has two key uses: 
+  - Converting image files in to 2D and 3D LEGO mosaics
+  - Building 3D LEGO models from simple data frames
 
-```{r m1_orig, fig.width = 3, fig.height=3, echo = FALSE, message = FALSE, warning = FALSE}
-mosaic1_orig <- readRDS("README_cache/m1_orig.RDS")
-
-ggplot(mosaic1_orig$Img_scaled, aes(x=x, y=y, fill = color)) +
-  geom_raster()+
-  scale_fill_identity() +
-  coord_fixed(expand = FALSE) +
-  theme_void() +
-  theme_lego +
-  theme(axis.line = element_blank(),
-        axis.ticks = element_blank())
+## Installation
+``` r
+# To install the latest version from Github:
+# install.packages("devtools")
+devtools::install_github("ryantimpe/brickr")
 ```
-```{r m1_set, fig.width = 3, fig.height=3, echo = FALSE, message = FALSE, warning = FALSE}
-mosaic1 <- readJPEG("Images/goldengirls.jpg") %>% 
-  scale_image(48) %>%
-  legoize() %>% 
-  collect_bricks() 
 
+## Mosaics
+
+The mosaic functions renders an imported JPG or PNG file using LEGO colors and bricks. The resulting mosaic can be viewed in 2D and 3D. A full explanation can be found on [this blog post](http://www.ryantimpe.com/post/lego-mosaic1/), this [follow-up post](http://www.ryantimpe.com/post/lego-mosaic2/),and this [third post](http://www.ryantimpe.com/post/lego-mosaic3/).
+
+```{r m1_set, fig.width = 3, fig.height=3, echo = TRUE, message = FALSE, warning = FALSE}
+mosaic1 <- jpeg::readJPEG("Images/goldengirls.jpg") %>% 
+  image_to_bricks(img_size = 48) #Length of each side of mosaic in "bricks"
+
+#Plot 2D mosaic
 mosaic1 %>% display_set()
 ```
-
-This process is competed in a few distinct steps:
-
-- `scale_image()` reduces the image to a number of brick "pixels". Providing a single value, such as `48`, crops the image to a square. Inputting a 2-element array, `c(56, 48)`, will output a rectangular image of `c(width, height)`. Use `brightness` to adjust the light of the image. Values greater than 1 will lighten the image, while value less than 1 will darken it.
-
-- `legoize()` converts every brick-sized pixel in the scaled image to an official LEGO brick color. Those colors are stored in `Colors/Lego_Colors.csv`. By default, the functions look at only currently produced, non-transparent colors. Use `theme = 'bw'`to create a 4-color grayscale mosaic.
-
-- `collect_bricks()` looks for adjacent groups of the same color to replace single 1 x 1 bricks with larger bricks.
-
-- `display_set()` renders the LEGO mosaic as a plot for viewing, creating the image above.
-
-```{r m1_demo, echo=TRUE, eval=FALSE}
-mosaic1 <- readJPEG("Images/goldengirls.jpg") %>% 
-  scale_image(48) %>%
-  legoize() %>% 
-  collect_bricks() 
-
-mosaic1 %>% display_set()
+If you had previously created mosaics before the package release, the script below will still work.
+```{r m1_set2, eval=FALSE, echo = TRUE}
+mosaic1 <- jpeg::readJPEG("Images/goldengirls.jpg") %>% 
+  scale_image(img_size = 48) %>% #Length of each side of mosaic in "bricks"
+  legoize() %>%  
+  collect_bricks()
 ```
 
-## 3D Mosaics
+### 2D Mosaics
 
-Two additional functions can convert the `collect_bricks()` output into a 3D mosaic using the [rayshader](https://github.com/tylermorganwall/rayshader) package by [Tyler Morgan-Wall](https://twitter.com/tylermorganwall).
+`image_to_bricks()` can take a few important arguments:
+
+- `img_size` Providing a single value, such as `48`, crops the image to a square. Inputting a 2-element array, `c(56, 48)`, will output a rectangular image of `c(width, height)`. 
+
+- `color_table` Data frame of possible brick colors in the mosaic. Defaults to the included data set `lego_colors`.
+
+- `brightness` adjusts the light of the image. Values greater than 1 will lighten the image, while value less than 1 will darken it.
+
+`display_set()` creates a ggplot of the image.
+
+### 3D Mosaics
+
+Two additional functions can convert the `image_to_bricks()` output into a 3D mosaic using the [rayshader](https://github.com/tylermorganwall/rayshader) package by [Tyler Morgan-Wall](https://twitter.com/tylermorganwall).
 
 - `collect_3d()` translates the 2D LEGO mosaic into two matrices - one for the color image and one for the elevation of each point on the image. By default, the produced image has the height of 6 LEGO plates (2 LEGO bricks) with lighter colors having a higher elevation. Use `mosaic_height` to change the height of the mosaic and set `highest_el = 'dark'` to set the darker colors as the tallest bricks.
 
-- `display_3d()` simply calls `rayshader::plot_3d()`, but pulls both the hillshade and elevation matrices from the output of `collect_3d()` and fixes the `zscale` value. See `?rayshader::plot_3d()` for more information.
+- `display_3d()` simply calls `rayshader::plot_3d()`, but pulls both the hillshade and elevation matrices from the output of `collect_3d()` and fixes some of the arguments. See `?rayshader::plot_3d()` for more information.
 
 ```{r m1_3d, echo=TRUE,warning=FALSE, message=FALSE}
 library(rayshader)
@@ -105,41 +98,4 @@ Use `display_pieces()` to generate a graphic and count of all required plates or
 
 ```{r m1_pieces, fig.width = 9, fig.height=9, message = FALSE, warning = FALSE}
 mosaic1 %>% display_pieces()
-```
-
-## Stacked mosaics
-
-The default produces instructions for a flat LEGO mosaic, with all bricks placed "stud-up" on a plate. Alternatively, specifying `mosaic_type = "stacked"` in the `collect_bricks()` function will generate a mosaic where all bricks are stack on top of each other, resulting in the mosaic image being visible from the side.
-
-A 1 x 1 LEGO brick is taller than it is wide by a ratio of 6/5, so it's recommended to use a wider image.
-
-```{r m2_demo, eval=FALSE}
-m2_lego <- readJPEG("Images/goldengirls2.jpg") %>% 
-  scale_image(c(56, 48)) %>% #c(Width, Height) for rectangle
-  legoize() %>% 
-  collect_bricks("stacked") 
-```
-
-```{r m2_set, fig.width = 4, fig.height=4, echo = FALSE, message = FALSE, warning = FALSE}
-mosaic2 <- readRDS("README_cache/m2_lego.RDS")
-
-mosaic2 %>% display_set()
-```
-
-```{r m2_pieces, fig.width = 8, fig.height=6, message = FALSE, warning = FALSE}
-mosaic2 %>% display_pieces()
-```
-
-## Color options
-
-For now, you can limit the available LEGO brick colors by filtering rows in the included `Colors/Lego_Colors.csv` file.
-
-You can also use `legoize(theme='bw')` to create a 4-color grayscale mosaic. Set the `contrast` input to be less than or greater than 1 to adjust the allocation of colors. 
-
-```{r m1_bw, fig.width = 3, fig.height=3, echo = TRUE, message = FALSE, warning = FALSE}
-readJPEG("Images/goldengirls.jpg") %>% 
-  scale_image(48) %>%
-  legoize(theme='bw', contrast = 1.25) %>% 
-  collect_bricks() %>% 
-  display_set()
 ```

@@ -1,14 +1,33 @@
 LEGO Mosaics in R
 ================
 
-Introduction
+brickr <img src='man/figures/logo.png' align="right" height="138" />
+====================================================================
+
+<!-- <!-- badges: start -->
+--&gt; <!-- [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) --> <!-- <!-- badges: end --> --&gt;
+
+Overview
+--------
+
+**brickr** is a package for creating LEGO-esque 2D and 3D models using the R [tidyverse](https://www.tidyverse.org/) and [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://github.com/tylermorganwall/rayshader) package.
+
+The package has two key uses: - Converting image files in to 2D and 3D LEGO mosaics - Building 3D LEGO models from simple data frames
+
+Installation
 ------------
 
-The functions in the file `0_functions.R` convert a jpg or png image into a mosaic of available LEGO colors and bricks using the R [tidyverse](https://www.tidyverse.org/) and the `jpeg` or `png` packages.
+``` r
+# To install the latest version from Github:
+# install.packages("devtools")
+devtools::install_github("ryantimpe/brickr")
+```
 
-A full explanation can be found on [this blog post](http://www.ryantimpe.com/2018/04/23/lego-mosaic1/) and this [follow-up post](http://www.ryantimpe.com/2018/05/07/lego-mosaic2/).
+A full explanation can be found on [this blog post](http://www.ryantimpe.com/post/lego-mosaic1/), this [follow-up post](http://www.ryantimpe.com/post/lego-mosaic2/),and this [third post](http://www.ryantimpe.com/post/lego-mosaic3/).
 
-![](README_files/figure-markdown_github/m1_orig-1.png) ![](README_files/figure-markdown_github/m1_set-1.png)
+<img src='Images/goldengirls.JPG'  height="180" />
+
+![](README_files/figure-markdown_github/m1_set-1.png)
 
 This process is competed in a few distinct steps:
 
