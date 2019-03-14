@@ -3,12 +3,21 @@
 #' @param matrix_table A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
 #' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
+#' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
+#' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
+#' @param increment_x Default '0'. Use in animations. Shift x dimension by an integer.
+#' @param max_x Default 'Inf'. Use in animations. Any x values above this value will be cut off.
+#' @param increment_y Default '0'. Use in animations. Shift y dimension by an integer.
+#' @param max_y Default 'Inf'. Use in animations. Any y values above this value will be cut off.
 #' @param exclude_color Numeric array of color ID numbers to exclude.
 #' @param exclude_level Numeric array of Level/z dimensions to exclude.
 #' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 #' @export 
 #'
 bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level = TRUE,
+                              increment_level = 0, max_level = Inf,
+                              increment_x = 0, max_x = Inf,
+                              increment_y = 0, max_y = Inf,
                               exclude_color = NULL, exclude_level = NULL){
   
   #Reformat input table to consistent format
@@ -39,6 +48,14 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
     bricks_raw <- bricks_raw %>% 
       mutate(Level = as.numeric(as.factor(as.character(Level))))
   }
+  
+  #Clean up increments
+  incr_level <- as.numeric(increment_level)[1]
+  if(is.na(incr_level)){incr_level<-0}
+  incr_x <- as.numeric(increment_x)[1]
+  if(is.na(incr_x)){incr_x<-0}
+  incr_y <- as.numeric(increment_y)[1]
+  if(is.na(incr_y)){incr_y<-0}
 
   brick_set <- bricks_raw %>% 
     dplyr::mutate_all(dplyr::funs(ifelse(is.na(.), 0, .))) %>% 
@@ -59,6 +76,12 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
     #Exclusions
     dplyr::filter(!(.value %in% exclude_color)) %>% 
     dplyr::filter(!(Level %in% exclude_level)) %>% 
+    #Increment coordinates
+    dplyr::mutate(Level = Level + incr_level,
+                  x = x + incr_x, y = y + incr_y) %>% 
+    dplyr::filter(Level >= 1, Level <= max_level,
+                  x >= 1, x <= max_x,
+                  y >= 1, y <= max_y) %>% 
     #In the end, drop empty levels
     dplyr::group_by(Level) %>% 
     dplyr::filter(!all(is.na(Lego_color))) %>% 
