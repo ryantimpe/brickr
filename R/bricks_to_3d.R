@@ -29,13 +29,20 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
   color_guide_error_msg <- "Color guide should be a data frame with at least 2 columns: `.value` and `Color`. 
   `Color` should match official LEGO names in the data frame`lego_colors`."
   
-  if(identical(color_guide, lego_colors)){
+  if(identical(color_guide, brickr::lego_colors)){
     color_map <- lego_colors %>% 
-      dplyr::rename(.value = LEGONo)
+      dplyr::rename(.value = brickrID)
   } else if(is.data.frame(color_guide)){
     if(ncol(color_guide) < 2){stop(color_guide_error_msg)}
     if(!(".value" %in% names(color_guide)) | !("Color" %in% names(color_guide))){stop(color_guide_error_msg)}
     
+    if(!all(color_guide$Color %in% display_colors(.names_only = TRUE))){
+      stop(paste("At least one color name supplied does not match allowed brick color names. See display_colors().\n\n",
+                    paste(color_guide$Color[!(color_guide$Color %in% display_colors(.names_only = TRUE))],collapse = ", ")
+                    ))
+      
+    }
+      
     color_map <- color_guide %>% 
       dplyr::left_join(lego_colors, by = "Color")
     
