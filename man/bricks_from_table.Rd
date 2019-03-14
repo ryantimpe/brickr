@@ -5,7 +5,9 @@
 \title{Convert a data frame in 3D matrix format into bricks for 3D Model}
 \usage{
 bricks_from_table(matrix_table, color_guide = lego_colors,
-  .re_level = TRUE, exclude_color = NULL, exclude_level = NULL)
+  .re_level = TRUE, increment_level = 0, max_level = Inf,
+  increment_x = 0, max_x = Inf, increment_y = 0, max_y = Inf,
+  exclude_color = NULL, exclude_level = NULL)
 }
 \arguments{
 \item{matrix_table}{A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.}
@@ -13,6 +15,18 @@ bricks_from_table(matrix_table, color_guide = lego_colors,
 \item{color_guide}{A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.}
 
 \item{.re_level}{Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.}
+
+\item{increment_level}{Default '0'. Use in animations. Shift  Level/z dimension by an integer.}
+
+\item{max_level}{Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.}
+
+\item{increment_x}{Default '0'. Use in animations. Shift x dimension by an integer.}
+
+\item{max_x}{Default 'Inf'. Use in animations. Any x values above this value will be cut off.}
+
+\item{increment_y}{Default '0'. Use in animations. Shift y dimension by an integer.}
+
+\item{max_y}{Default 'Inf'. Use in animations. Any y values above this value will be cut off.}
 
 \item{exclude_color}{Numeric array of color ID numbers to exclude.}
 
