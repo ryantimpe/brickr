@@ -44,6 +44,7 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
     }
       
     color_map <- color_guide %>% 
+      dplyr::mutate(Color = as.character(Color)) %>% 
       dplyr::left_join(lego_colors, by = "Color")
     
   } else{
@@ -53,7 +54,7 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
   #Literal levels or names
   if(.re_level){
     bricks_raw <- bricks_raw %>% 
-      mutate(Level = as.numeric(as.factor(as.character(Level))))
+      dplyr::mutate(Level = as.numeric(as.factor(as.character(Level))))
   }
   
   #Clean up increments

@@ -1,6 +1,10 @@
 ---
 title: "LEGO Mosaics in R"
-output: github_document
+output:
+  github_document:
+    fig_width: 7.5
+    fig_height: 6
+  html_preview: false
 ---
 
 ```{r setup, include=FALSE}
@@ -14,13 +18,14 @@ library(tidyverse)
 
 # brickr <img src='man/figures/logo.png' align="right" height="138" />
 <!-- <!-- badges: start --> 
-<!-- [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- <!-- badges: end -->
 
 ## Overview
 **brickr** is a package for creating LEGO-esque 2D and 3D models using the R [tidyverse](https://www.tidyverse.org/) and [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://github.com/tylermorganwall/rayshader) package.
 
 The package has two key uses: 
+
   - Converting image files in to 2D and 3D LEGO mosaics
   - Building 3D LEGO models from simple data frames
 
@@ -29,8 +34,153 @@ The package has two key uses:
 # To install the latest version from Github:
 # install.packages("devtools")
 devtools::install_github("ryantimpe/brickr")
+
+#For 3D features, rayshader is also required.
+install.packages("rayshader")
+```
+## 3D Models
+
+Building 3D models requires a properly formatted data frames and two functions.
+
+**These functions are very experimental and will change. Better documentation will be released soon.**
+
+- `bricks_from_table()` converts a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using `data.frame()` or `tibble::tribble()`. For more advanced models, it's recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. The function by default converts this to numeric for you. Each other column is an x-coordinate and each row is a y-coordinate. More flexible inputs will be available in a future release.
+
+- `display_bricks()` uses **rayshader** to display the 3D output from `bricks_from_table()`.
+
+```{r bricks_1, echo=TRUE, warning=FALSE, message=FALSE}
+library(brickr)
+
+#This is a brick
+brick <- data.frame(
+  Level="A",
+  X1 = rep(1,4),
+  X2 = rep(1,4)
+)
+
+brick
+
+brick %>% 
+  bricks_from_table() %>% 
+  display_bricks()
+
+rayshader::render_snapshot()
+```
+```{r, echo=FALSE}
+ rgl::rgl.clear()
+```
+### Brick Colors
+
+There are 2 ways to assign the color of the bricks. The `display_colors()` function helps with ID numbers and names
+
+ - Use the `brickrID` value instead of '1' in the model input table. Values of '0' are blank spaces.
+
+ - Create a table of color assignments and pass this to `bricks_from_table()`
+ 
+```{r bricks_2, echo=TRUE, warning=FALSE, message=FALSE}
+brick_colors <- data.frame(
+  .value = 1,
+  Color = "Bright blue"
+)
+
+brick %>% 
+  bricks_from_table(brick_colors) %>% 
+  display_bricks()
+
+rayshader::render_snapshot()
+```
+```{r, echo=FALSE}
+ rgl::rgl.clear()
 ```
 
+### Stacking bricks
+
+The Level column in the input table determines the height of the bricks. `bricks_from_table()` will convert alphanumeric levels into a z coordinate.
+
+```{r bricks_3, echo=TRUE, warning=FALSE, message=FALSE}
+# A is the bottom Level, B is the top
+brick <- data.frame(
+  Level= c(rep("A",4), rep("B",4)),
+  X1 = rep(1,4),
+  X2 = rep(1,4)
+)
+
+brick %>% 
+  bricks_from_table(brick_colors) %>% 
+  display_bricks()
+
+rayshader::render_snapshot()
+```
+```{r, echo=FALSE}
+ rgl::rgl.clear()
+```
+
+The same process works with many levels
+
+```{r bricks_4, echo=TRUE, warning=FALSE, message=FALSE}
+#You can stack many bricks ----
+brick <- data.frame(
+  Level="A",
+  X1 = rep(1,4),
+  X2 = rep(1,4)
+)
+
+#... And they can all be different colors ----
+1:10 %>% 
+  purrr::map_df(~dplyr::mutate(brick, Level = LETTERS[.x], X1 = .x, X2 = .x)) %>% 
+  bricks_from_table() %>% 
+  display_bricks()
+
+rayshader::render_snapshot()
+```
+```{r, echo=FALSE}
+ rgl::rgl.clear()
+```
+
+# Full Models
+
+For larger models, use `tibble::tribble()` to more easily visualize the model. For very large models, use MS Excel. 
+
+```{r bricks_5, echo=TRUE, warning=FALSE, message=FALSE}
+my_first_model <- tibble::tribble(
+  ~Level, ~X1, ~X2, ~X3, ~x4, ~x5, ~X6, ~x7, ~x8,
+  "A", 1, 1, 1, 0, 1, 1, 1, 1,
+  "A", 1, 0, 0, 0, 0, 0, 0, 1,
+  "A", 1, 0, 0, 0, 0, 0, 0, 1,
+  "A", 1, 1, 1, 1, 1, 1, 1, 1,
+  "B", 1, 0, 1, 0, 1, 1, 0, 1,
+  "B", 1, 0, 0, 0, 0, 0, 0, 1,
+  "B", 1, 0, 0, 0, 0, 0, 0, 1,
+  "B", 1, 0, 1, 0, 0, 1, 0, 1,
+  "C", 1, 1, 1, 1, 1, 1, 1, 1,
+  "C", 1, 0, 0, 0, 0, 0, 0, 1,
+  "C", 1, 0, 0, 0, 0, 0, 0, 1,
+  "C", 1, 1, 1, 1, 1, 1, 1, 1,
+  "D", 2, 2, 2, 2, 2, 2, 2, 2,
+  "D", 1, 0, 0, 0, 0, 0, 0, 1,
+  "D", 1, 0, 0, 0, 0, 0, 0, 1,
+  "D", 2, 2, 2, 2, 2, 2, 2, 2,
+  "E", 0, 0, 0, 0, 0, 0, 0, 0,
+  "E", 2, 2, 2, 2, 2, 2, 2, 2,
+  "E", 2, 2, 2, 2, 2, 2, 2, 2,
+  "E", 0, 0, 0, 0, 0, 0, 0, 0
+)
+
+brick_colors <- tibble::tribble(
+  ~`.value`, ~Color,
+  1, "Bright blue",
+  2, "Dark orange"
+)
+  
+my_first_model %>% 
+  bricks_from_table(brick_colors) %>% 
+  display_bricks(theta = 210)
+
+rayshader::render_snapshot()
+```
+```{r, echo=FALSE}
+ rgl::rgl.clear()
+```
 ## Mosaics
 
 The mosaic functions renders an imported JPG or PNG file using LEGO colors and bricks. The resulting mosaic can be viewed in 2D and 3D. A full explanation can be found on [this blog post](http://www.ryantimpe.com/post/lego-mosaic1/), this [follow-up post](http://www.ryantimpe.com/post/lego-mosaic2/),and this [third post](http://www.ryantimpe.com/post/lego-mosaic3/).

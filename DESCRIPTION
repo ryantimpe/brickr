@@ -12,6 +12,7 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.0.2)
 Imports: 
+    magrittr,
     dplyr,
     tidyr,
     purrr,

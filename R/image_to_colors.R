@@ -70,7 +70,7 @@ display_colors <- function(.names_only = FALSE){
   if(.names_only){
     return(lego_colors$Color)
   }
-  View(lego_colors)
+  message("Use View(lego_colors) to see these in a table format.")
   lego_colors %>% 
     dplyr::mutate(Label = paste0(brickrID, "\n", Color)) %>% 
     ggplot2::ggplot(ggplot2::aes(x = brickrID %% 6, y = (6 - (brickrID %/% 6)))) +
