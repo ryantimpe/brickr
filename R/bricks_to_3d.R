@@ -1,106 +1,3 @@
-#' Convert a data frame in 3D matrix format into bricks for 3D Model
-#'
-#' @param matrix_table A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
-#' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
-#' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
-#' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
-#' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
-#' @param increment_x Default '0'. Use in animations. Shift x dimension by an integer.
-#' @param max_x Default 'Inf'. Use in animations. Any x values above this value will be cut off.
-#' @param increment_y Default '0'. Use in animations. Shift y dimension by an integer.
-#' @param max_y Default 'Inf'. Use in animations. Any y values above this value will be cut off.
-#' @param exclude_color Numeric array of color ID numbers to exclude.
-#' @param exclude_level Numeric array of Level/z dimensions to exclude.
-#' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
-#' @export 
-#'
-bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level = TRUE,
-                              increment_level = 0, max_level = Inf,
-                              increment_x = 0, max_x = Inf,
-                              increment_y = 0, max_y = Inf,
-                              exclude_color = NULL, exclude_level = NULL){
-  
-  #Reformat input table to consistent format
-  bricks_raw <- matrix_table
-  names(bricks_raw)[1] <- "Level"
-  names(bricks_raw)[-1] <- paste0("X", seq_along(names(bricks_raw)[-1]))
-  
-  #Color mapping
-  color_guide_error_msg <- "Color guide should be a data frame with at least 2 columns: `.value` and `Color`. 
-  `Color` should match official LEGO names in the data frame`lego_colors`."
-  
-  if(identical(color_guide, brickr::lego_colors)){
-    color_map <- lego_colors %>% 
-      dplyr::rename(.value = brickrID)
-  } else if(is.data.frame(color_guide)){
-    if(ncol(color_guide) < 2){stop(color_guide_error_msg)}
-    if(!(".value" %in% names(color_guide)) | !("Color" %in% names(color_guide))){stop(color_guide_error_msg)}
-    
-    if(!all(color_guide$Color %in% display_colors(.names_only = TRUE))){
-      stop(paste("At least one color name supplied does not match allowed brick color names. See display_colors().\n\n",
-                    paste(color_guide$Color[!(color_guide$Color %in% display_colors(.names_only = TRUE))],collapse = ", ")
-                    ))
-      
-    }
-      
-    color_map <- color_guide %>% 
-      dplyr::mutate(Color = as.character(Color)) %>% 
-      dplyr::left_join(lego_colors, by = "Color")
-    
-  } else{
-    stop(color_guide_error_msg)
-  }
-  
-  #Literal levels or names
-  if(.re_level){
-    bricks_raw <- bricks_raw %>% 
-      dplyr::mutate(Level = as.numeric(as.factor(as.character(Level))))
-  }
-  
-  #Clean up increments
-  incr_level <- as.numeric(increment_level)[1]
-  if(is.na(incr_level)){incr_level<-0}
-  incr_x <- as.numeric(increment_x)[1]
-  if(is.na(incr_x)){incr_x<-0}
-  incr_y <- as.numeric(increment_y)[1]
-  if(is.na(incr_y)){incr_y<-0}
-
-  brick_set <- bricks_raw %>% 
-    dplyr::mutate_all(dplyr::funs(ifelse(is.na(.), 0, .))) %>% 
-    dplyr::group_by(Level) %>% 
-    dplyr::mutate(y = dplyr::n() - dplyr::row_number() + 1) %>% 
-    dplyr::ungroup() %>% 
-    dplyr::select(Level, y, dplyr::everything()) %>% 
-    tidyr::gather(x, .value, 3:ncol(.)) %>% 
-    dplyr::mutate(x = as.numeric(substr(x, 2, 20))) %>% 
-    dplyr::arrange(Level, x, dplyr::desc(y)) %>% 
-    tidyr::drop_na(.value) %>% 
-    dplyr::left_join(color_map, by = ".value") %>% 
-    dplyr::mutate_at(dplyr::vars(dplyr::contains("_lego")), dplyr::funs(ifelse(is.na(.), 0, .))) %>% 
-    dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego)) %>% 
-    dplyr::mutate(Lego_color = ifelse(is.na(Color),NA, Lego_color)) %>% 
-    dplyr::rename(Lego_name = Color) %>%
-    dplyr::arrange(Level) %>% 
-    #Exclusions
-    dplyr::filter(!(.value %in% exclude_color)) %>% 
-    dplyr::filter(!(Level %in% exclude_level)) %>% 
-    #Increment coordinates
-    dplyr::mutate(Level = Level + incr_level,
-                  x = x + incr_x, y = y + incr_y) %>% 
-    dplyr::filter(Level >= 1, Level <= max_level,
-                  x >= 1, x <= max_x,
-                  y >= 1, y <= max_y) %>% 
-    #In the end, drop empty levels
-    dplyr::group_by(Level) %>% 
-    dplyr::filter(!all(is.na(Lego_color))) %>% 
-    dplyr::ungroup()
-  
-  #Return an object from collect_bricks()
-  return(
-    list(Img_lego =  brick_set) %>% collect_bricks
-  )
-}
-
 #' Helper function to convert a level from a 3D model into a rayshader-friendly object.
 #'
 #' @param brick_list List output from table_to_bricks(). Contains an element \code{Img_lego}.
@@ -204,6 +101,7 @@ layer_from_bricks <- function(brick_list, lev=1){
   return(in_list)
   
 }
+
 
 #' Build 3D brick model with rayshader.
 #'
