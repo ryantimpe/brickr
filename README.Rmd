@@ -40,15 +40,17 @@ install.packages("rayshader")
 ```
 ## 3D Models
 
-Building 3D models requires a properly formatted data frames and two functions.
+Currently, 3D models can be built from one of two data input formats: `bricks_from_table()` or `bricks_from_coords()`.
 
 **These functions are very experimental and will change. Better documentation will be released soon.**
 
 - `bricks_from_table()` converts a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using `data.frame()` or `tibble::tribble()`. For more advanced models, it's recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. The function by default converts this to numeric for you. Each other column is an x-coordinate and each row is a y-coordinate. More flexible inputs will be available in a future release.
 
-- `display_bricks()` uses **rayshader** to display the 3D output from `bricks_from_table()`.
+- `bricks_from_coords()` takes a data frame with `x`, `y`, & `z` integer values, and `Color` columns, where each combination of x, y, & z is a point in 3-dimensional space. Color must be an official LEGO color name from `display_colors()`. This format is much more flexible than `bricks_from_table()` and allows the programatic development of 3D models.
 
-```{r bricks_1, echo=TRUE, warning=FALSE, message=FALSE}
+Pass the output from any `bricks_from_*()` function to `display_bricks()` to see the 3D model.
+
+```{r bricks_1, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
 library(brickr)
 
 #This is a brick
@@ -77,7 +79,7 @@ There are 2 ways to assign the color of the bricks. The `display_colors()` funct
 
  - Create a table of color assignments and pass this to `bricks_from_table()`
  
-```{r bricks_2, echo=TRUE, warning=FALSE, message=FALSE}
+```{r bricks_2, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
 brick_colors <- data.frame(
   .value = 1,
   Color = "Bright blue"
@@ -97,7 +99,7 @@ rayshader::render_snapshot()
 
 The Level column in the input table determines the height of the bricks. `bricks_from_table()` will convert alphanumeric levels into a z coordinate.
 
-```{r bricks_3, echo=TRUE, warning=FALSE, message=FALSE}
+```{r bricks_3, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=4}
 # A is the bottom Level, B is the top
 brick <- data.frame(
   Level= c(rep("A",4), rep("B",4)),
@@ -117,7 +119,7 @@ rayshader::render_snapshot()
 
 The same process works with many levels
 
-```{r bricks_4, echo=TRUE, warning=FALSE, message=FALSE}
+```{r bricks_4, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=3}
 #You can stack many bricks ----
 brick <- data.frame(
   Level="A",
@@ -141,7 +143,7 @@ rayshader::render_snapshot()
 
 For larger models, use `tibble::tribble()` to more easily visualize the model. For very large models, use MS Excel. 
 
-```{r bricks_5, echo=TRUE, warning=FALSE, message=FALSE}
+```{r bricks_5, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 my_first_model <- tibble::tribble(
   ~Level, ~X1, ~X2, ~X3, ~x4, ~x5, ~X6, ~x7, ~x8,
   "A", 1, 1, 1, 0, 1, 1, 1, 1,
@@ -181,6 +183,38 @@ rayshader::render_snapshot()
 ```{r, echo=FALSE}
  rgl::rgl.clear()
 ```
+
+### Programmatically build models
+
+Use `bricks_from_coords()` to programmatically build 3D LEGO models instead of manually drawing them in a spreadsheet or table. Here you must provide whole number coordinates for x, y, and z, along with an official LEGO color name for each point.
+
+```{r bricks_6, echo=TRUE, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+radius <- 4
+sphere_coords <- expand.grid(
+  x = 1:round((radius*2.5)),
+  y = 1:round((radius*2.5)),
+  z = 1:round((radius/(6/5)*3)) #A brick is 6/5 taller than it is wide/deep
+) %>%
+  mutate(
+    #Distance of each coordinate from center
+    dist = (((x-mean(x))^2 + (y-mean(y))^2 + (z-mean(z))^2)^(1/2)),
+    Color = case_when(
+      #Yellow stripes on the surface with a 2to4 thickness
+      between(dist, (radius-1), radius) & (x+y+z) %% 6 %in% 0:1 ~ "Bright yellow",
+      #Otherwise, sphere is blue
+      dist <= radius ~ "Bright blue"
+  ))
+
+sphere_coords %>% 
+  bricks_from_coords() %>% 
+  display_bricks(phi = 30, theta = 30)
+
+rayshader::render_snapshot()
+```
+```{r, echo=FALSE}
+ rgl::rgl.clear()
+```
+
 ## Mosaics
 
 The mosaic functions renders an imported JPG or PNG file using LEGO colors and bricks. The resulting mosaic can be viewed in 2D and 3D. A full explanation can be found on [this blog post](http://www.ryantimpe.com/post/lego-mosaic1/), this [follow-up post](http://www.ryantimpe.com/post/lego-mosaic2/),and this [third post](http://www.ryantimpe.com/post/lego-mosaic3/).

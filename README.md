@@ -34,8 +34,8 @@ install.packages("rayshader")
 
 ## 3D Models
 
-Building 3D models requires a properly formatted data frames and two
-functions.
+Currently, 3D models can be built from one of two data input formats:
+`bricks_from_table()` or `bricks_from_coords()`.
 
 **These functions are very experimental and will change. Better
 documentation will be released soon.**
@@ -50,10 +50,15 @@ documentation will be released soon.**
     y-coordinate. More flexible inputs will be available in a future
     release.
 
-  - `display_bricks()` uses **rayshader** to display the 3D output from
-    `bricks_from_table()`.
+  - `bricks_from_coords()` takes a data frame with `x`, `y`, & `z`
+    integer values, and `Color` columns, where each combination of x, y,
+    & z is a point in 3-dimensional space. Color must be an official
+    LEGO color name from `display_colors()`. This format is much more
+    flexible than `bricks_from_table()` and allows the programatic
+    development of 3D models.
 
-<!-- end list -->
+Pass the output from any `bricks_from_*()` function to
+`display_bricks()` to see the 3D model.
 
 ``` r
 library(brickr)
@@ -200,6 +205,39 @@ rayshader::render_snapshot()
 ```
 
 ![](README_files/figure-gfm/bricks_5-1.png)<!-- -->
+
+### Programmatically build models
+
+Use `bricks_from_coords()` to programmatically build 3D LEGO models
+instead of manually drawing them in a spreadsheet or table. Here you
+must provide whole number coordinates for x, y, and z, along with an
+official LEGO color name for each point.
+
+``` r
+radius <- 4
+sphere_coords <- expand.grid(
+  x = 1:round((radius*2.5)),
+  y = 1:round((radius*2.5)),
+  z = 1:round((radius/(6/5)*3)) #A brick is 6/5 taller than it is wide/deep
+) %>%
+  mutate(
+    #Distance of each coordinate from center
+    dist = (((x-mean(x))^2 + (y-mean(y))^2 + (z-mean(z))^2)^(1/2)),
+    Color = case_when(
+      #Yellow stripes on the surface with a 2to4 thickness
+      between(dist, (radius-1), radius) & (x+y+z) %% 6 %in% 0:1 ~ "Bright yellow",
+      #Otherwise, sphere is blue
+      dist <= radius ~ "Bright blue"
+  ))
+
+sphere_coords %>% 
+  bricks_from_coords() %>% 
+  display_bricks(phi = 30, theta = 30)
+
+rayshader::render_snapshot()
+```
+
+![](README_files/figure-gfm/bricks_6-1.png)<!-- -->
 
 ## Mosaics
 

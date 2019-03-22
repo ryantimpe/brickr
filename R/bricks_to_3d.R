@@ -53,8 +53,8 @@ layer_from_bricks <- function(brick_list, lev=1){
                   stud = ((x-x_mid)^2 + (y-y_mid)^2)^(1/2) < ex_size/3) %>% 
     dplyr::ungroup() %>% 
     dplyr::mutate(elevation = ifelse(stud, elevation+0.5, elevation)) %>% 
-    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), dplyr::funs(ifelse(stud, .-0.1, .))) %>% 
-    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), dplyr::funs(ifelse(. < 0, 0, .)))
+    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), list(~ifelse(stud, .-0.1, .))) %>% 
+    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), list(~ifelse(. < 0, 0, .)))
   
   #Elevation Matrix
   lego_elmat <- lego_expand2 %>% 
@@ -73,7 +73,7 @@ layer_from_bricks <- function(brick_list, lev=1){
     dplyr::group_by(brick_id) %>% 
     #This darkens the edge of each brick, to look like they are separated
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
-                     dplyr::funs(ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), .*0.9, .))) %>% 
+                     list(~ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), .*0.9, .))) %>% 
     dplyr::ungroup()
   
   lego_hillshade_m[,,1] <- lego_expand_color %>% 

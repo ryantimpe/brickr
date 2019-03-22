@@ -2,7 +2,7 @@
 % Please edit documentation in R/bricks_from.R
 \name{bricks_from_coords}
 \alias{bricks_from_coords}
-\title{Convert a data frame with x, y, & z coordinates into bricks for 3D Model}
+\title{Convert a data frame with x, y, & z coordinates & Color into bricks for 3D Model}
 \usage{
 bricks_from_coords(coord_table, color_guide = lego_colors,
   increment_level = 0, max_level = Inf, increment_x = 0,
@@ -10,9 +10,7 @@ bricks_from_coords(coord_table, color_guide = lego_colors,
   exclude_level = NULL)
 }
 \arguments{
-\item{coord_table}{A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.}
-
-\item{color_guide}{A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.}
+\item{coord_table}{A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{display_colors()}.}
 
 \item{increment_level}{Default '0'. Use in animations. Shift  Level/z dimension by an integer.}
 
@@ -34,5 +32,5 @@ bricks_from_coords(coord_table, color_guide = lego_colors,
 A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 }
 \description{
-Convert a data frame with x, y, & z coordinates into bricks for 3D Model
+Convert a data frame with x, y, & z coordinates & Color into bricks for 3D Model
 }

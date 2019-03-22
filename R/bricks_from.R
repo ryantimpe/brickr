@@ -102,10 +102,9 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
 }
 
 
-#' Convert a data frame with x, y, & z coordinates into bricks for 3D Model
+#' Convert a data frame with x, y, & z coordinates & Color into bricks for 3D Model
 #'
-#' @param coord_table A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
-#' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
+#' @param coord_table A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{display_colors()}.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
 #' @param increment_x Default '0'. Use in animations. Shift x dimension by an integer.
@@ -131,8 +130,15 @@ bricks_from_coords <- function(coord_table, color_guide = lego_colors,
   names(bricks_raw)[tolower(names(bricks_raw)) == "color"] <- "Color"
   
   if(!all(c("x", "y", "z", "Color") %in% names(bricks_raw))){
-    stop("Input 'coord_table' must include the columns x, y, z, and Color. Color uses offical brick color names. See display_colors().")
+    stop("Input 'coord_table' must include the columns x, y, z, and Color. z should be >1. Color uses offical brick color names. See display_colors().")
   }
+  
+  #x, y, z, must be whole numbers and unique
+  bricks_raw <- bricks_raw %>% 
+    dplyr::mutate_at(dplyr::vars("x", "y", "z"), round) %>% 
+    dplyr::group_by(x, y, z) %>% 
+    dplyr::filter(dplyr::row_number() == 1) %>% 
+    dplyr::ungroup()
   
   #Need to assume users might supply NA-supressed or non-cube data. But layer_from_brick() needs cubes.
   bricks_full <- expand.grid(
