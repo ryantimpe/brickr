@@ -218,7 +218,7 @@ radius <- 4
 sphere_coords <- expand.grid(
   x = 1:round((radius*2.5)),
   y = 1:round((radius*2.5)),
-  z = 1:round((radius/(6/5)*3)) #A brick is 6/5 taller than it is wide/deep
+  z = 1:round((radius/(6/5)*2.5)) #A brick is 6/5 taller than it is wide/deep
 ) %>%
   mutate(
     #Distance of each coordinate from center
@@ -239,6 +239,21 @@ rayshader::render_snapshot()
 
 ![](README_files/figure-gfm/bricks_6-1.png)<!-- -->
 
+### Examples
+
+More examples using `bricks_from_table()` and `bricks_from_coords()` can
+be found at the links below.
+
+  - [**Get
+    started**](https://gist.github.com/ryantimpe/a784beaa4f798f57010369329d46ce71)
+    with the framework for building a brick from scratch.
+  - [**Build an
+    owl**](https://gist.github.com/ryantimpe/ceab2ed6b8a4737077280fc9b0d1c886)
+    with `bricks_from_table()` by manually placing each brick.
+  - Generate a punny [**random forest
+    model**](https://gist.github.com/ryantimpe/a7363a5e99dceabada150a43925beec7)
+    using `bricks_from_coords()` and {purrr}.
+
 ## Mosaics
 
 The mosaic functions renders an imported JPG or PNG file using LEGO
@@ -256,9 +271,10 @@ mosaic1 <- jpeg::readJPEG("Images/goldengirls.jpg") %>%
 mosaic1 %>% display_set()
 ```
 
-![](README_files/figure-gfm/m1_set-1.png)<!-- --> If you had previously
-created mosaics before the package release, the script below will still
-work.
+![](README_files/figure-gfm/m1_set-1.png)<!-- -->
+
+If you had previously created mosaics before the package release, the
+script below will still work.
 
 ``` r
 mosaic1 <- jpeg::readJPEG("Images/goldengirls.jpg") %>% 

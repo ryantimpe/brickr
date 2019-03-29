@@ -193,7 +193,7 @@ radius <- 4
 sphere_coords <- expand.grid(
   x = 1:round((radius*2.5)),
   y = 1:round((radius*2.5)),
-  z = 1:round((radius/(6/5)*3)) #A brick is 6/5 taller than it is wide/deep
+  z = 1:round((radius/(6/5)*2.5)) #A brick is 6/5 taller than it is wide/deep
 ) %>%
   mutate(
     #Distance of each coordinate from center
@@ -215,6 +215,14 @@ rayshader::render_snapshot()
  rgl::rgl.clear()
 ```
 
+### Examples
+
+More examples using `bricks_from_table()` and `bricks_from_coords()` can be found at the links below.
+
+  - [**Get started**](https://gist.github.com/ryantimpe/a784beaa4f798f57010369329d46ce71) with the framework for building a brick from scratch.
+  - [**Build an owl**](https://gist.github.com/ryantimpe/ceab2ed6b8a4737077280fc9b0d1c886) with `bricks_from_table()` by manually placing each brick.
+  - Generate a punny [**random forest model**](https://gist.github.com/ryantimpe/a7363a5e99dceabada150a43925beec7) using `bricks_from_coords()` and {purrr}.
+
 ## Mosaics
 
 The mosaic functions renders an imported JPG or PNG file using LEGO colors and bricks. The resulting mosaic can be viewed in 2D and 3D. A full explanation can be found on [this blog post](http://www.ryantimpe.com/post/lego-mosaic1/), this [follow-up post](http://www.ryantimpe.com/post/lego-mosaic2/),and this [third post](http://www.ryantimpe.com/post/lego-mosaic3/).
@@ -226,7 +234,9 @@ mosaic1 <- jpeg::readJPEG("Images/goldengirls.jpg") %>%
 #Plot 2D mosaic
 mosaic1 %>% display_set()
 ```
+
 If you had previously created mosaics before the package release, the script below will still work.
+
 ```{r m1_set2, eval=FALSE, echo = TRUE}
 mosaic1 <- jpeg::readJPEG("Images/goldengirls.jpg") %>% 
   scale_image(img_size = 48) %>% #Length of each side of mosaic in "bricks"
