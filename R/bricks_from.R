@@ -101,6 +101,56 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
   )
 }
 
+#' Convert an Excel {brickr} template into a 3D model. https://github.com/ryantimpe/brickr_toybox
+#' @param excel_table Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.
+#' @param repeat_levels How many times to repeat a level. Can save time in model planning. Default is 1.
+#' @inheritParams bricks_from_table
+#' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+#' @export 
+#'
+bricks_from_excel <- function(excel_table, repeat_levels = 1,
+                              increment_level = 0, max_level = Inf,
+                              increment_x = 0, max_x = Inf,
+                              increment_y = 0, max_y = Inf,
+                              exclude_color = NULL, exclude_level = NULL){
+  
+  columns_meta_start <- max(which(grepl("^\\d", names(excel_table))))
+  
+  #Set Instructions
+  instructions <- excel_table %>% 
+    dplyr::select(1:columns_meta_start) %>% 
+    dplyr::rename(Level = 1) %>% 
+    dplyr::filter(Level != "Level")
+  
+  #Repeat levels. 
+  #TODO: DO this for x and y too
+  if(is.numeric(repeat_levels)){
+    rep_levels <- max(round(repeat_levels), 1)
+    
+    if(rep_levels == 1){instructions <- instructions}
+    else{
+      instructions <- 1:rep_levels %>% 
+        purrr::map_df(
+          ~dplyr::mutate(instructions, Level = paste0(Level, .x))
+        )
+    }
+  }
+  
+  #Color Instructions
+  colors_user <- excel_table %>% 
+    dplyr::select(.value = user_color, Color = LEGO_color) %>% 
+    tidyr::drop_na()
+  
+  #Render as brickr output
+  brickr_out <- instructions %>% 
+    bricks_from_table(color_guide =  colors_user,
+                      .re_level = TRUE,
+                      increment_level = increment_level, max_level = max_level,
+                      increment_x = increment_x, max_x = max_x,
+                      increment_y = increment_y, max_y = max_y,
+                      exclude_color = exclude_color, exclude_level = exclude_level)
+  return(brickr_out)
+}
 
 #' Convert a data frame with x, y, & z coordinates & Color into bricks for 3D Model
 #'

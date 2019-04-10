@@ -2,6 +2,7 @@
 
 export("%>%")
 export(bricks_from_coords)
+export(bricks_from_excel)
 export(bricks_from_table)
 export(collect_3d)
 export(collect_bricks)

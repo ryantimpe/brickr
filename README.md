@@ -50,6 +50,10 @@ documentation will be released soon.**
     y-coordinate. More flexible inputs will be available in a future
     release.
 
+  - `bricks_from_excel()` is a wrapper function to more easily build
+    models designed using a Microsoft Excel template. Please see this
+    repo: [brickr toybox](https://github.com/ryantimpe/brickr_toybox).
+
   - `bricks_from_coords()` takes a data frame with `x`, `y`, & `z`
     integer values, and `Color` columns, where each combination of x, y,
     & z is a point in 3-dimensional space. Color must be an official
@@ -253,6 +257,8 @@ be found at the links below.
   - Generate a punny [**random forest
     model**](https://gist.github.com/ryantimpe/a7363a5e99dceabada150a43925beec7)
     using `bricks_from_coords()` and {purrr}.
+  - [**brickr toybox**](https://github.com/ryantimpe/brickr_toybox) repo
+    for tools and resources to get started.
 
 ## Mosaics
 

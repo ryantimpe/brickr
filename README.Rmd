@@ -46,6 +46,8 @@ Currently, 3D models can be built from one of two data input formats: `bricks_fr
 
 - `bricks_from_table()` converts a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using `data.frame()` or `tibble::tribble()`. For more advanced models, it's recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. The function by default converts this to numeric for you. Each other column is an x-coordinate and each row is a y-coordinate. More flexible inputs will be available in a future release.
 
+- `bricks_from_excel()` is a wrapper function to more easily build models designed using a Microsoft Excel template. Please see this repo: [brickr toybox](https://github.com/ryantimpe/brickr_toybox).
+
 - `bricks_from_coords()` takes a data frame with `x`, `y`, & `z` integer values, and `Color` columns, where each combination of x, y, & z is a point in 3-dimensional space. Color must be an official LEGO color name from `display_colors()`. This format is much more flexible than `bricks_from_table()` and allows the programatic development of 3D models.
 
 Pass the output from any `bricks_from_*()` function to `display_bricks()` to see the 3D model.
@@ -222,6 +224,7 @@ More examples using `bricks_from_table()` and `bricks_from_coords()` can be foun
   - [**Get started**](https://gist.github.com/ryantimpe/a784beaa4f798f57010369329d46ce71) with the framework for building a brick from scratch.
   - [**Build an owl**](https://gist.github.com/ryantimpe/ceab2ed6b8a4737077280fc9b0d1c886) with `bricks_from_table()` by manually placing each brick.
   - Generate a punny [**random forest model**](https://gist.github.com/ryantimpe/a7363a5e99dceabada150a43925beec7) using `bricks_from_coords()` and {purrr}.
+  - [**brickr toybox**](https://github.com/ryantimpe/brickr_toybox) repo for tools and resources to get started.
 
 ## Mosaics
 
