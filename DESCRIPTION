@@ -28,7 +28,6 @@ Collate:
     'bricks_from_data.R'
     'bricks_to_3d.R'
     'collect_bricks.R'
-    'geom_brick.r'
     'geom_brick.R'
     'image_to_3d.R'
     'image_to_colors.R'

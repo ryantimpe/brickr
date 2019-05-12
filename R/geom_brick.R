@@ -32,8 +32,8 @@ geom_brick <- function(mapping = NULL, data = NULL,
 #' @format NULL
 #' @usage NULL
 #' @export
-#' @include geom_brick.r
-GeomColBrick <- ggproto("GeomColBrick", GeomRectRect,
+#' @include geom_brick.R
+GeomColBrick <- ggproto("GeomColBrick", GeomRectBrick,
                    required_aes = c("x", "y"),
                    
                    # These aes columns are created by setup_data(). They need to be listed here so
@@ -58,7 +58,7 @@ GeomColBrick <- ggproto("GeomColBrick", GeomRectRect,
                    
                    draw_panel = function(self, data, panel_params, coord, width = NULL) {
                      # Hack to ensure that width is detected as a parameter
-                     ggproto_parent(GeomRectRect, self)$draw_panel(data, panel_params, coord)
+                     ggproto_parent(GeomRectBrick, self)$draw_panel(data, panel_params, coord)
                    }
 )
 
@@ -66,7 +66,7 @@ GeomColBrick <- ggproto("GeomColBrick", GeomRectRect,
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomBrickRect <- ggproto("GeomBrickRect", Geom,
+GeomRectBrick <- ggproto("GeomRectBrick", Geom,
                     default_aes = aes(colour = "black", fill = "#C4281B", size = 0.5, linetype = 1,
                                       alpha = NA),
                     
