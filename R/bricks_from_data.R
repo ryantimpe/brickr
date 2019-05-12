@@ -1,15 +1,15 @@
 ###
 # Development of bricks_from_data()
 ###
-library(brickr)
-dat_table <- PlantGrowth %>% 
-  dplyr::group_by(group) %>%
-  dplyr::summarize_at(dplyr::vars(weight), mean) %>% 
-  dplyr::ungroup()
-
-dat_table <- Titanic %>% 
-  as.data.frame() %>% 
-  dplyr::count(Class, wt = Freq)
+# library(brickr)
+# dat_table <- PlantGrowth %>% 
+#   dplyr::group_by(group) %>%
+#   dplyr::summarize_at(dplyr::vars(weight), mean) %>% 
+#   dplyr::ungroup()
+# 
+# dat_table <- Titanic %>% 
+#   as.data.frame() %>% 
+#   dplyr::count(Class, wt = Freq)
 
 
 
@@ -52,8 +52,8 @@ bricks_from_data <- function(dat_table = dat_table, x, y, color,
   bricks <- bricks_from_coords(dat_bricks2)
   return(bricks)
 }
-
-
-dat_table %>% 
-  bricks_from_data(x = Class, y = n, color = Class, brick_value = 50) %>% 
-  display_bricks()
+# 
+# 
+# dat_table %>% 
+#   bricks_from_data(x = Class, y = n, color = Class, brick_value = 50) %>% 
+#   display_bricks()

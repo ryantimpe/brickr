@@ -2,7 +2,7 @@
 % Please edit documentation in R/bricks_from.R
 \name{bricks_from_excel}
 \alias{bricks_from_excel}
-\title{Convert an Excel {brickr} template into a 3D model}
+\title{Convert an Excel {brickr} template into a 3D model. https://github.com/ryantimpe/brickr_toybox}
 \usage{
 bricks_from_excel(excel_table, repeat_levels = 1, increment_level = 0,
   max_level = Inf, increment_x = 0, max_x = Inf, increment_y = 0,
@@ -33,5 +33,5 @@ bricks_from_excel(excel_table, repeat_levels = 1, increment_level = 0,
 A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 }
 \description{
-Convert an Excel {brickr} template into a 3D model
+Convert an Excel {brickr} template into a 3D model. https://github.com/ryantimpe/brickr_toybox
 }
