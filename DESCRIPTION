@@ -16,7 +16,8 @@ Imports:
     dplyr,
     tidyr,
     purrr,
-    ggplot2
+    ggplot2,
+    scales
 Suggests: 
     rayshader
 Roxygen: list(markdown = TRUE)

@@ -39,8 +39,7 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
       fill = "#333333",
       color = NA,
       alpha = 0.2,
-      na.rm = na.rm,
-      ...
+      na.rm = na.rm
     )
   )
   
@@ -66,9 +65,9 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
+    check.aes = FALSE,
     params = list(
-      na.rm = na.rm,
-      ...
+      na.rm = na.rm
     )
   )
   
@@ -119,7 +118,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                            default.units = "native",
                            just = c("left", "top"),
                            gp = grid::gpar(
-                             col = coords$colour,
+                             col = alpha(coords$colour, 0.2),
                              fill = alpha(coords$fill, coords$alpha),
                              lwd = coords$size * .pt,
                              lty = coords$linetype,
@@ -155,7 +154,7 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                               grid::circleGrob(
                                 coords$x, coords$y,
                                 #coords$r, 
-                                r= coords$x[1]*(5/8)*(1/2),
+                                r= coords$x[1]*(5/8)*(1/2)*(.8),
                                 default.units = "native",
                                 gp = grid::gpar(
                                   col = alpha(coords$colour, 0.2),
@@ -170,30 +169,50 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                      draw_key = draw_key_polygon
 )
 
-GeomBrickKnobText <- ggproto("GeomBrickKnobText", GeomText,
+# Need some hacks to rescale text size based on plot size
+# https://ryouready.wordpress.com/2012/08/01/creating-a-text-grob-that-automatically-adjusts-to-viewport-size/
+
+resizingTextGrob <- function(...) {
+  grid::grob(tg=grid::textGrob(...), cl="resizingTextGrob")
+}
+
+drawDetails.resizingTextGrob <- function(x, recording=TRUE){
+  grid::grid.draw(x$tg)
+}
+
+preDrawDetails.resizingTextGrob <- function(x){
+  w <- grid::convertHeight(unit(1, "snpc"), "mm", valueOnly=TRUE)
+  fs <- scales::rescale(w, to=c(18, 7), from=c(120, 20))
+  grid::pushViewport(grid::viewport(gp = grid::gpar(fontsize = fs)))
+}
+
+GeomBrickKnobText <- ggproto("GeomBrickKnobText", Geom,
                          required_aes = c("x", "y"),
                          default_aes = aes(
-                           label = "LEGO", colour = "#333333", size = 3.88, alpha = 0.2,
+                           label = "LEGO", colour = "#333333", alpha = 0.2,
                            angle = 0, family = "", fontface = 1, lineheight = 1.2
                          ),
 
                          draw_panel = function(self, data, panel_params, coord, na.rm = FALSE) {
 
                            coords <- coord$transform(data, panel_params)
+                           # print(coords)
 
-                           ggplot2:::ggname("geom_area_brick",
-                                            grid::textGrob(
-                                              data$label,
-                                              coords$x, coords$y,
-                                              default.units = "native",
-                                              gp = grid::gpar(
-                                                col = alpha(coords$colour, 0.2),
-                                                size = unit(coords$size * .pt, "npc"),
-                                                fontfamily = coords$family,
-                                                fontface = coords$fontface,
-                                                lineheight = coords$lineheight
-                                              )
-                                            )
+                           resizingTextGrob(
+                             data$label,
+                             coords$x, coords$y, 
+                             default.units = "native",
+                             hjust = data$hjust, vjust = data$vjust,
+                             rot = data$angle,
+                             gp = grid::gpar(
+                               col = alpha(data$colour, data$alpha),
+                               cex = 3/9 * 0.6,
+                               #fontsize = 10,
+                               #size = unit((5/8)/2, "npc"),
+                               fontfamily = data$family,
+                               fontface = data$fontface,
+                               lineheight = data$lineheight
+                             )
                            )
                          },
 
