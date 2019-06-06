@@ -7,7 +7,7 @@
 geom_area_brick <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
-                            label = "LEGO", simplified_threshold = 48*48,
+                            label = "LEGO", simplified_threshold = 24*24,
                             linejoin = "mitre",
                             na.rm = FALSE,
                             show.legend = NA,
@@ -40,8 +40,8 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
       fill = "#333333",
       color = NA,
       alpha = 0.2,
-      na.rm = na.rm,
-      simplified_threshold = simplified_threshold
+      na.rm = na.rm#,
+      # simplified_threshold = simplified_threshold
     )
   )
   
@@ -55,7 +55,7 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
-      simplified_threshold = Inf,
+      # simplified_threshold = Inf,
       ...
     )
   )
@@ -168,12 +168,13 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                        return(data)
                      },
                      
-                     draw_panel = function(self, data, panel_params, coord, na.rm = FALSE, 
-                                           simplified_threshold = 48*48) {
+                     draw_panel = function(self, data, panel_params, coord, na.rm = FALSE
+                                           # ,simplified_threshold = 48*48
+                                           ) {
                        
-                       #Don't draw if mosaic is larger than threshold size
-                       n <- nrow(data)
-                       if (n > simplified_threshold ) return(grid::nullGrob())
+                       # #Don't draw if mosaic is larger than threshold size
+                       # n <- nrow(data)
+                       # if (n > simplified_threshold ) return(grid::nullGrob())
 
                        coords <- coord$transform(data, panel_params)
                        
