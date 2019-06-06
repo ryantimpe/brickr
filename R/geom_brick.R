@@ -7,6 +7,7 @@
 geom_area_brick <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
+                            label = "LEGO",
                             linejoin = "mitre",
                             na.rm = FALSE,
                             show.legend = NA,
@@ -67,6 +68,7 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     check.aes = FALSE,
     params = list(
+      label = label,
       na.rm = na.rm
     )
   )
@@ -111,6 +113,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          ggplot2:::ggname("bar", do.call("grobTree", polys))
                        } else {
                          coords <- coord$transform(data, panel_params)
+                         
                          ggplot2:::ggname("geom_area_brick", grid::rectGrob(
                            coords$xmin, coords$ymax,
                            width = coords$xmax - coords$xmin,
@@ -137,7 +140,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
 GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                      required_aes = c("x", "y"),
                      default_aes = aes(
-                       colour = "#333333", fill = "#C4281B", size = 0.3, linetype = 1,
+                       colour = "#333333", fill = "#C4281B", size = NA, linetype = 1,
                        alpha = NA
                      ),
                      
@@ -149,12 +152,14 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                      draw_panel = function(self, data, panel_params, coord, na.rm = FALSE) {
 
                        coords <- coord$transform(data, panel_params)
-
+                       
+                       diameter <- min(resolution(coords$x), resolution(coords$y))
+                       
                        ggplot2:::ggname("geom_area_brick",
                               grid::circleGrob(
                                 coords$x, coords$y,
                                 #coords$r, 
-                                r= coords$x[1]*(5/8)*(1/2)*(.8),
+                                r= diameter*(5/8)*(1/2),
                                 default.units = "native",
                                 gp = grid::gpar(
                                   col = alpha(coords$colour, 0.2),
@@ -196,7 +201,12 @@ GeomBrickKnobText <- ggproto("GeomBrickKnobText", Geom,
                          draw_panel = function(self, data, panel_params, coord, na.rm = FALSE) {
 
                            coords <- coord$transform(data, panel_params)
-                           # print(coords)
+                           
+                           lab <- data$label
+                           if(any(nchar(lab) > 6)){
+                             warning("aes `label` is too long and will be truncated. Please limit to 6 characters or less.")
+                             lab <- substr(lab, 1, 6)
+                           }
 
                            resizingTextGrob(
                              data$label,
@@ -206,7 +216,7 @@ GeomBrickKnobText <- ggproto("GeomBrickKnobText", Geom,
                              rot = data$angle,
                              gp = grid::gpar(
                                col = alpha(data$colour, data$alpha),
-                               cex = 3/9 * 0.6,
+                               cex = 3/8 * 0.5,
                                #fontsize = 10,
                                #size = unit((5/8)/2, "npc"),
                                fontfamily = data$family,
