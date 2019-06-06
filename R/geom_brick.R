@@ -91,13 +91,28 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      required_aes = c("x", "y"),
                      
                      setup_data = function(data, params) {
-                       data$width <- 1
-                       data$height <- 1
+                       # data$width <- 1
+                       # data$height <- 1
+                       # transform(data,
+                       #           # xmin = x - width / 2,  xmax = x + width / 2,  width = NULL,
+                       #           # ymin = y - height / 2, ymax = y + height / 2, height = NULL
+                       # )
                        
-                       transform(data,
-                                 xmin = x - width / 2,  xmax = x + width / 2,  width = NULL,
-                                 ymin = y - height / 2, ymax = y + height / 2, height = NULL
-                       )
+                       #Probably super frowned upon to use dplyr inside of a ggproto, but this simplifies the data that can be fed into geom
+                       data$Level <- data$PANEL
+                       if(is.null(data$fill)){
+                         data$Lego_name <- "none"
+                         data$Lego_color <- "none"
+                       }else{
+                         data$Lego_name <- data$fill
+                         data$Lego_color <- data$fill 
+                       }
+    
+                       
+                       dat <- collect_bricks(list(Img_lego = data))$Img_bricks
+                       transform(dat,
+                                 PANEL = Level, Level = NULL,
+                                 fill = Lego_color)
                      },
                      
                      draw_panel = function(self, data, panel_params, coord, linejoin = "mitre") {
