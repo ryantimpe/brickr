@@ -7,7 +7,7 @@
 geom_area_brick <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
-                            label = "LEGO",
+                            label = "LEGO", simplified_threshold = 48*48,
                             linejoin = "mitre",
                             na.rm = FALSE,
                             show.legend = NA,
@@ -26,7 +26,7 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
       ...
     )
   )
-  
+
   #This is the knob ggproto, but we fix the attributes and nudge the circle to the bottom right
   layer_knob_shadow <- layer(
     data = data,
@@ -40,7 +40,8 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
       fill = "#333333",
       color = NA,
       alpha = 0.2,
-      na.rm = na.rm
+      na.rm = na.rm,
+      simplified_threshold = simplified_threshold
     )
   )
   
@@ -54,6 +55,7 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
+      simplified_threshold = Inf,
       ...
     )
   )
@@ -69,7 +71,8 @@ geom_area_brick <- function(mapping = NULL, data = NULL,
     check.aes = FALSE,
     params = list(
       label = label,
-      na.rm = na.rm
+      na.rm = na.rm,
+      simplified_threshold = simplified_threshold
     )
   )
   
@@ -146,10 +149,16 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                      
                      setup_data = function(data, params) {
                        data$r <- (5/8)/2 #5mm out of 8mm diameter, divided by 2
+
                        return(data)
                      },
                      
-                     draw_panel = function(self, data, panel_params, coord, na.rm = FALSE) {
+                     draw_panel = function(self, data, panel_params, coord, na.rm = FALSE, 
+                                           simplified_threshold = 48*48) {
+                       
+                       #Don't draw if mosaic is larger than threshold size
+                       n <- nrow(data)
+                       if (n > simplified_threshold ) return(grid::nullGrob())
 
                        coords <- coord$transform(data, panel_params)
                        
@@ -198,7 +207,12 @@ GeomBrickKnobText <- ggproto("GeomBrickKnobText", Geom,
                            angle = 0, family = "", fontface = 1, lineheight = 1.2
                          ),
 
-                         draw_panel = function(self, data, panel_params, coord, na.rm = FALSE) {
+                         draw_panel = function(self, data, panel_params, coord, na.rm = FALSE, 
+                                               simplified_threshold = 48*48) {
+                           
+                           #Don't draw if mosaic is larger than threshold size
+                           n <- nrow(data)
+                           if (n > simplified_threshold ) return(grid::nullGrob())
 
                            coords <- coord$transform(data, panel_params)
                            
