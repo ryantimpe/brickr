@@ -105,18 +105,20 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                        #Probably super frowned upon to use dplyr inside of a ggproto, but this simplifies the data that can be fed into geom
                        data$Level <- data$PANEL
                        if(is.null(data$fill)){
-                         data$Lego_name <- "none"
-                         data$Lego_color <- "none"
+                         data$Lego_name <- "#C4281B"
+                         data$Lego_color <- "#C4281B"
                        }else{
                          data$Lego_name <- data$fill
                          data$Lego_color <- data$fill 
                        }
-    
                        
                        dat <- collect_bricks(list(Img_lego = data))$Img_bricks
-                       transform(dat,
+                       dat <- transform(dat,
                                  PANEL = Level, Level = NULL,
                                  fill = Lego_color)
+                       
+                       # print(dat)
+                       return(dat)
                      },
                      
                      draw_panel = function(self, data, panel_params, coord, linejoin = "mitre") {
@@ -158,6 +160,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      
                      draw_key = draw_key_polygon
 )
+
 
 #' @rdname brickr-ggproto
 GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
