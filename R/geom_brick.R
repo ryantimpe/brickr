@@ -80,6 +80,10 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
               ))
 }
 
+#' GeomBrick
+#'
+#' ggproto for brickr geoms
+#'
 #' @rdname brickr-ggproto
 #' @format NULL
 #' @usage NULL
@@ -155,6 +159,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      draw_key = draw_key_polygon
 )
 
+#' @rdname brickr-ggproto
 GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                      required_aes = c("x", "y"),
                      default_aes = aes(
@@ -201,21 +206,21 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
 
 # Need some hacks to rescale text size based on plot size
 # https://ryouready.wordpress.com/2012/08/01/creating-a-text-grob-that-automatically-adjusts-to-viewport-size/
-
+#' @rdname brickr-ggproto
 resizingTextGrob <- function(...) {
   grid::grob(tg=grid::textGrob(...), cl="resizingTextGrob")
 }
-
+#' @rdname brickr-ggproto
 drawDetails.resizingTextGrob <- function(x, recording=TRUE){
   grid::grid.draw(x$tg)
 }
-
+#' @rdname brickr-ggproto
 preDrawDetails.resizingTextGrob <- function(x){
   w <- grid::convertHeight(unit(1, "snpc"), "mm", valueOnly=TRUE)
   fs <- scales::rescale(w, to=c(18, 7), from=c(120, 20))
   grid::pushViewport(grid::viewport(gp = grid::gpar(fontsize = fs)))
 }
-
+#' @rdname brickr-ggproto
 GeomBrickKnobText <- ggproto("GeomBrickKnobText", Geom,
                          required_aes = c("x", "y"),
                          default_aes = aes(
