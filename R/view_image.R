@@ -12,35 +12,23 @@ display_set <- function(image_list, title=NULL){
   
   coord_x <- c(min(image$xmin)+0.5, max(image$xmax)-0.5)
   coord_y <- c(min(image$ymin)+0.5, max(image$ymax)-0.5)
-  
-  img <- ggplot2::ggplot(image) +
-    ggplot2::geom_rect(ggplot2::aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
-                       fill = Lego_color), color = "#333333")+
-    ggplot2::scale_fill_identity()
-  
+
+  #FLat mosaics use the new geom_brick_rect, which looks for individual x and ys out of $Img_lego
   if(type == "flat"){
-    img <- img + 
-      ggplot2::geom_point(data = expand.grid(x=coord_x[1]:coord_x[2], 
-                                             y=coord_y[1]:coord_y[2]),
-                          ggplot2::aes(x=x, y=y), 
-                          color = "#333333", alpha = 0.2, shape = 1, size = 2)   +
+    img <- ggplot2::ggplot(in_list$Img_lego, ggplot2::aes(x=x, y=y))  +
+      geom_brick_rect(ggplot2::aes(fill = Lego_color), color = "#333333")+
+      ggplot2::scale_fill_identity() + 
       ggplot2::coord_fixed(expand = FALSE) 
   } else {
-    img <- img +
+    img <- ggplot2::ggplot(image) +
+      gplot2::geom_rect(ggplot2::aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
+                                   fill = Lego_color), color = "#333333")
       ggplot2::coord_fixed(ratio = 6/5, expand = FALSE)
   }
   
   img <- img +
     ggplot2::labs(title = title) +
-    ggplot2::theme_minimal() +
-    ggplot2::theme( panel.background = ggplot2::element_rect(fill = "#7EC0EE"),
-                    strip.background = ggplot2::element_rect(fill = "#F7F18D"),
-                    strip.text = ggplot2::element_text(color = "#333333", face = "bold"),
-                    axis.line = ggplot2::element_blank(),
-                    axis.title.x = ggplot2::element_blank(),
-                    axis.text.x = ggplot2::element_blank(),
-                    axis.title.y = ggplot2::element_blank(),
-                    axis.text.y = ggplot2::element_blank())
+    ggplot2::theme_void() 
   
   return(img)
 } 

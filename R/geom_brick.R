@@ -186,8 +186,10 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
 
                        coords <- coord$transform(data, panel_params)
                        
-                       diameter <- min(resolution(coords$x), resolution(coords$y))
+                       # diameter <- min(resolution(coords$x), resolution(coords$y))
                        
+                       diameter <- median(diff(coords$x))
+
                        ggplot2:::ggname("geom_brick_rect",
                               grid::circleGrob(
                                 coords$x, coords$y,
