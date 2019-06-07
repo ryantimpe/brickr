@@ -4,7 +4,7 @@
 #'
 #' @inheritParams ggplot2::geom_rect
 #' @export
-geom_area_brick <- function(mapping = NULL, data = NULL,
+geom_brick_rect <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
                             label = "LEGO", simplified_threshold = 24*24,
@@ -132,7 +132,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                        } else {
                          coords <- coord$transform(data, panel_params)
                          
-                         ggplot2:::ggname("geom_area_brick", grid::rectGrob(
+                         ggplot2:::ggname("geom_brick_rect", grid::rectGrob(
                            coords$xmin, coords$ymax,
                            width = coords$xmax - coords$xmin,
                            height = coords$ymax - coords$ymin,
@@ -180,7 +180,7 @@ GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
                        
                        diameter <- min(resolution(coords$x), resolution(coords$y))
                        
-                       ggplot2:::ggname("geom_area_brick",
+                       ggplot2:::ggname("geom_brick_rect",
                               grid::circleGrob(
                                 coords$x, coords$y,
                                 #coords$r, 
