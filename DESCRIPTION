@@ -30,6 +30,7 @@ Collate:
     'bricks_to_3d.R'
     'collect_bricks.R'
     'geom_brick.R'
+    'geom_brick_point.R'
     'image_to_3d.R'
     'image_to_colors.R'
     'piece_count.R'
