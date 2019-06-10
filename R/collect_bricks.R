@@ -45,7 +45,7 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
       dplyr::mutate(g_1_x4y2_7 = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == 8,
                                         paste0("x4y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>%
       #4x2 bricks - vertical
-      dplyr::ungroup() %>% dplyr::group_by(Level, xg = x %/% 2, yg = (y-1) %/% 4) %>% 
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x-1) %/% 2, yg = (y-1) %/% 4) %>% 
       dplyr::mutate(g_2_x2y4_0 = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == 8,
                                         paste0("x2y4_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #4x2 bricks - vertical - offset 0,1
