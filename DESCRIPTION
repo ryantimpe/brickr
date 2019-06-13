@@ -1,6 +1,6 @@
 Package: brickr
 Title: Create Simulated LEGO Models from Images or Data Frames
-Version: 0.0.0.9200
+Version: 0.0.0.9302
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",

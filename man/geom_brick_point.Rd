@@ -6,8 +6,9 @@
 \usage{
 geom_brick_point(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", ..., label = "LEGO",
-  simplified_threshold = 24 * 24, linejoin = "mitre", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  simplified_threshold = 24, size = 1, stud_scale = 6/5,
+  linejoin = "mitre", na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

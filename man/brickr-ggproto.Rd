@@ -16,9 +16,9 @@ GeomBrickKnob
 
 resizingTextGrob(...)
 
-\method{drawDetails}{resizingTextGrob}(x, recording = TRUE)
+drawDetails.resizingTextGrob(x, recording = TRUE)
 
-\method{preDrawDetails}{resizingTextGrob}(x)
+preDrawDetails.resizingTextGrob(x)
 
 GeomBrickKnobText
 

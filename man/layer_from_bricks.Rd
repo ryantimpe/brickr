@@ -4,7 +4,7 @@
 \alias{layer_from_bricks}
 \title{Helper function to convert a level from a 3D model into a rayshader-friendly object.}
 \usage{
-layer_from_bricks(brick_list, lev = 1)
+layer_from_bricks(brick_list, lev = 1, brick_size = 15)
 }
 \arguments{
 \item{brick_list}{List output from table_to_bricks(). Contains an element \code{Img_lego}.}

@@ -5,7 +5,7 @@
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 #' @export 
 #'
-layer_from_bricks <- function(brick_list, lev=1){
+layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
   #Get previous data
   in_list <- brick_list
   
@@ -19,7 +19,7 @@ layer_from_bricks <- function(brick_list, lev=1){
   up_el = (lev-1)*3 
   
   #Number of 'pixels' on a side of a single-stud brick. I think this should be fixed for now
-  ex_size <- 15
+  ex_size <- brick_size
   
   lego_expand <- img_lego %>%
     dplyr::select(Level, x, y, Lego_name, Lego_color) %>% 
@@ -112,7 +112,7 @@ layer_from_bricks <- function(brick_list, lev=1){
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @export 
 #'
-display_bricks <- function(brick_list, view_levels = NULL, 
+display_bricks <- function(brick_list, view_levels = NULL, brick_size = 15,
                            solidcolor = "#a3a2a4", ...){
   #Requires Rayshader
   if (!requireNamespace("rayshader", quietly = TRUE)) {
@@ -131,10 +131,10 @@ display_bricks <- function(brick_list, view_levels = NULL,
   }
   
   for(ii in view_levels){
-    brick_layer <- brick_list %>% layer_from_bricks(ii)
+    brick_layer <- brick_list %>% layer_from_bricks(ii, brick_size = brick_size)
     
     brick_layer$`threed_hillshade`%>%
-      rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167, solid = FALSE,
+      rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167*(15/brick_size), solid = FALSE,
                          solidcolor=solidcolor, shadow = FALSE, ...)
   }
 
