@@ -72,8 +72,9 @@ layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
   lego_expand_color <- lego_expand2 %>% 
     dplyr::group_by(brick_id) %>% 
     #This darkens the edge of each brick, to look like they are separated
+    # The higher the resolution, the dark this should be
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
-                     list(~ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), .*0.9, .))) %>% 
+                     list(~ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), .*0.9*((15/brick_size)^2), .))) %>% 
     dplyr::ungroup()
   
   lego_hillshade_m[,,1] <- lego_expand_color %>% 
