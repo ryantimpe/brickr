@@ -23,60 +23,28 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
     params = list(
       linejoin = linejoin,
       na.rm = na.rm,
+      simplified_threshold = simplified_threshold,
       ...
     )
   )
 
-  #This is the knob ggproto, but we fix the attributes and nudge the circle to the bottom right
-  layer_knob_shadow <- layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomBrickKnob,
-    position = position_nudge(x = +0.08, y = -0.08),
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list(
-      fill = "#333333",
-      color = NA,
-      alpha = 0.2,
-      na.rm = na.rm#,
-      # simplified_threshold = simplified_threshold
-    )
-  )
+  # layer_knob_text <- layer(
+  #   data = data,
+  #   mapping = mapping,
+  #   stat = stat,
+  #   geom = GeomBrickKnobText,
+  #   position = position,
+  #   show.legend = show.legend,
+  #   inherit.aes = inherit.aes,
+  #   check.aes = FALSE,
+  #   params = list(
+  #     label = label,
+  #     na.rm = na.rm,
+  #     simplified_threshold = simplified_threshold
+  #   )
+  # )
   
-  layer_knob_base <- layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomBrickKnob,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list(
-      na.rm = na.rm,
-      # simplified_threshold = Inf,
-      ...
-    )
-  )
-  
-  layer_knob_text <- layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomBrickKnobText,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    check.aes = FALSE,
-    params = list(
-      label = label,
-      na.rm = na.rm,
-      simplified_threshold = simplified_threshold
-    )
-  )
-  
-  return(list(layer_brick, layer_knob_shadow, layer_knob_base, layer_knob_text
+  return(list(layer_brick#, layer_knob_text
               ))
 }
 
@@ -90,120 +58,142 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
 #' @export
 GeomBrick <- ggproto("GeomBrick", Geom,
                      default_aes = aes(colour = "#333333", fill = "#C4281B", size = 0.5, linetype = 1,
-                                       alpha = NA),
+                                       alpha = NA, label = "LEGO",
+                                       angle = 0, family = "", fontface = 1, lineheight = 1.2),
                      
                      required_aes = c("x", "y"),
                      
                      setup_data = function(data, params) {
-                       # data$width <- 1
-                       # data$height <- 1
-                       # transform(data,
-                       #           # xmin = x - width / 2,  xmax = x + width / 2,  width = NULL,
-                       #           # ymin = y - height / 2, ymax = y + height / 2, height = NULL
-                       # )
-                       
-                       #Probably super frowned upon to use dplyr inside of a ggproto, but this simplifies the data that can be fed into geom
-                       data$Level <- data$PANEL
-                       if(is.null(data$fill)){
-                         data$Lego_name <- "#C4281B"
-                         data$Lego_color <- "#C4281B"
-                       }else{
-                         data$Lego_name <- data$fill
-                         data$Lego_color <- data$fill 
-                       }
-                       
-                       dat <- collect_bricks(list(Img_lego = data))$Img_bricks
-                       dat <- transform(dat,
-                                 PANEL = Level, Level = NULL,
-                                 fill = Lego_color)
-                       
-                       # print(dat)
-                       return(dat)
+                       #This data manipulation happens BEFORE splitting the data into the PANEL
+                       return(data)
                      },
                      
-                     draw_panel = function(self, data, panel_params, coord, linejoin = "mitre") {
+                     draw_panel = function(self, data, panel_params, coord, linejoin = "mitre", 
+                                           simplified_threshold = 24*24) {
+                       #This happens to EACH panel
                        if (!coord$is_linear()) {
-                         aesthetics <- setdiff(
-                           names(data), c("x", "y", "xmin", "xmax", "ymin", "ymax")
-                         )
-                         
-                         polys <- lapply(split(data, seq_len(nrow(data))), function(row) {
-                           poly <- rect_to_poly(row$xmin, row$xmax, row$ymin, row$ymax)
-                           aes <- new_data_frame(row[aesthetics])[rep(1,5), ]
-                           
-                           GeomPolygon$draw_panel(cbind(poly, aes), panel_params, coord)
-                         })
-                         
-                         ggplot2:::ggname("bar", do.call("grobTree", polys))
+                         stop("geom_brick_rect must be used with linear coordinates")
                        } else {
-                         coords <- coord$transform(data, panel_params)
                          
-                         ggplot2:::ggname("geom_brick_rect", grid::rectGrob(
-                           coords$xmin, coords$ymax,
-                           width = coords$xmax - coords$xmin,
-                           height = coords$ymax - coords$ymin,
+                         #Brick border ----
+                         
+                         points_to_rects <- function(data){
+                           #Probably super frowned upon to use dplyr inside of a ggproto, but this simplifies the data that can be fed into geom
+                           data$Level <- data$PANEL
+                           if(is.null(data$fill)){
+                             data$Lego_name <- "#C4281B"
+                             data$Lego_color <- "#C4281B"
+                           }else{
+                             data$Lego_name <- data$fill
+                             data$Lego_color <- data$fill 
+                           }
+                           
+                           dat <- collect_bricks(list(Img_lego = data))$Img_bricks
+                           dat <- transform(dat,
+                                            PANEL = Level, Level = NULL,
+                                            fill = Lego_color)
+                           
+                           # print(dat)
+                           return(dat)
+                         }
+                         
+                         coords_rect <- coord$transform(data %>% points_to_rects, panel_params) %>% 
+                           mutate(size = data$size[1], linetype = data$linetype[1], 
+                                  colour = data$colour[1], alpha = data$alpha[1])
+                         
+                         gm_brick <- grid::rectGrob(
+                           coords_rect$xmin, coords_rect$ymax,
+                           width = coords_rect$xmax - coords_rect$xmin,
+                           height = coords_rect$ymax - coords_rect$ymin,
                            default.units = "native",
                            just = c("left", "top"),
                            gp = grid::gpar(
-                             col = alpha(coords$colour, 0.2),
-                             fill = alpha(coords$fill, coords$alpha),
-                             lwd = coords$size * .pt,
-                             lty = coords$linetype,
+                             col = alpha(coords_rect$colour, 0.2),
+                             fill = alpha(coords_rect$fill, coords_rect$alpha),
+                             lwd = coords_rect$size * .pt,
+                             lty = coords_rect$linetype,
                              linejoin = linejoin,
                              # `lineend` is a workaround for Windows and intentionally kept unexposed
                              # as an argument. (c.f. https://github.com/tidyverse/ggplot2/issues/3037#issuecomment-457504667)
                              lineend = if (identical(linejoin, "round")) "round" else "square"
                            )
-                         ))
-                       }
-                     },
-                     
-                     draw_key = draw_key_polygon
-)
+                         )
 
+                         # Knob ----
+                         
+                         coords <- coord$transform(data, panel_params)
 
-#' @rdname brickr-ggproto
-GeomBrickKnob <- ggproto("GeomBrickKnob", Geom,
-                     required_aes = c("x", "y"),
-                     default_aes = aes(
-                       colour = "#333333", fill = "#C4281B", size = NA, linetype = 1,
-                       alpha = NA
-                     ),
-                     
-                     setup_data = function(data, params) {
-                       data$r <- (5/8)/2 #5mm out of 8mm diameter, divided by 2
+                         x_size <- median(abs(diff(coords$x)[diff(coords$x)>0]))
+                         y_size <-  median(abs(diff(coords$y)[diff(coords$y)>0]))
+                         diameter <- max(x_size, y_size)
+                         
+                         coords_nudge <- ggplot2::transform_position(coords,  
+                                                                     function(x) x + x_size*(5/8)*(1/2)*(1/4),
+                                                                     function(y) y - y_size*(5/8)*(1/2)*(1/4))
 
-                       return(data)
-                     },
-                     
-                     draw_panel = function(self, data, panel_params, coord, na.rm = FALSE
-                                           # ,simplified_threshold = 48*48
-                                           ) {
-                       
-                       # #Don't draw if mosaic is larger than threshold size
-                       # n <- nrow(data)
-                       # if (n > simplified_threshold ) return(grid::nullGrob())
+                         gm_knob_shadow <- grid::circleGrob(
+                           coords_nudge$x,
+                           coords_nudge$y,
+                           r= diameter*(5/8)*(1/2),
+                           default.units = "native",
+                           gp = grid::gpar(
+                             col = NA,
+                             fill = alpha("#333333", 0.2),
+                             size = coords$size * .pt,
+                             lty = coords$linetype
+                           )
+                         )
 
-                       coords <- coord$transform(data, panel_params)
-                       # print(coords)
-                       # diameter <- min(resolution(coords$x), resolution(coords$y))
-                       
-                       diameter <- max(median(diff(coords$x)), median(diff(coords$y)))
-
-                       ggplot2:::ggname("geom_brick_rect",
-                              grid::circleGrob(
-                                coords$x, coords$y,
-                                #coords$r, 
-                                r= diameter*(5/8)*(1/2),
-                                default.units = "native",
-                                gp = grid::gpar(
-                                  col = alpha(coords$colour, 0.2),
-                                  fill = alpha(coords$fill, coords$alpha),
-                                  size = coords$size * .pt,
-                                  lty = coords$linetype
-                                )
+                         gm_knob_base <- grid::circleGrob(
+                           coords$x, coords$y,
+                           r= diameter*(5/8)*(1/2),
+                           default.units = "native",
+                           gp = grid::gpar(
+                             col = alpha("#333333", 0.2),
+                             fill = alpha(coords$fill, coords$alpha),
+                             size = coords$size * .pt,
+                             lty = coords$linetype
+                           )
+                         )
+                         
+                         #Text ----
+                         #Don't draw if mosaic is larger than threshold size
+                         n <- nrow(data)
+                         if (n > simplified_threshold ) {
+                           gm_knob_text <- grid::nullGrob()
+                          } else {
+                            lab <- data$label
+                            if(any(nchar(lab) > 6)){
+                              warning("aes `label` is too long and will be truncated. Please limit to 6 characters or less.")
+                              lab <- substr(lab, 1, 6)
+                            }
+                            
+                            gm_knob_text <- resizingTextGrob(
+                              data$label,
+                              coords$x, coords$y, 
+                              default.units = "native",
+                              hjust = data$hjust, vjust = data$vjust,
+                              rot = data$angle,
+                              gp = grid::gpar(
+                                col = alpha(data$colour, data$alpha),
+                                cex = 3/8 * 0.5,
+                                fontfamily = data$family,
+                                fontface = data$fontface,
+                                lineheight = data$lineheight
                               )
-                       )
+                            )
+                          }
+                         
+
+                         
+                         
+                         # Combine ----
+                         ggplot2:::ggname("geom_brick_rect", 
+                                          grid::grobTree(gm_brick,
+                                                         gm_knob_shadow, gm_knob_base,
+                                                         gm_knob_text
+                                                         ))
+                       }
                      },
                      
                      draw_key = draw_key_polygon
