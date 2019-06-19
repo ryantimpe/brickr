@@ -80,9 +80,17 @@ collect_bricks <- function(image_list, mosaic_type = "flat"){
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x-1) %/% 2, yg = (y-1) %/% 2) %>% 
       dplyr::mutate(g_5_x2y2_0 = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == 4,
                                         paste0("x2y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+      #2x2 bricks
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x-0) %/% 2, yg = (y-1) %/% 2) %>% 
+      dplyr::mutate(g_5_x2y2_1 = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == 4,
+                                        paste0("x2y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>%
+      #2x2 bricks
+      dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x-1) %/% 2, yg = (y-0) %/% 2) %>% 
+      dplyr::mutate(g_5_x2y2_2 = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == 4,
+                                        paste0("x2y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>%
       #2x2 bricks - offset by 1,1
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x+0) %/% 2, yg = (y+0) %/% 2) %>% 
-      dplyr::mutate(g_5_x2y2_1 = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == 4,
+      dplyr::mutate(g_5_x2y2_3 = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == 4,
                                         paste0("x2y2_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
       #4x1 bricks - horizontal
       dplyr::ungroup() %>% dplyr::group_by(Level, xg = (x-1) %/% 4, yg = (y-1) ) %>% 
