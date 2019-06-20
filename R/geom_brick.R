@@ -29,22 +29,6 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
     )
   )
 
-  # layer_knob_text <- layer(
-  #   data = data,
-  #   mapping = mapping,
-  #   stat = stat,
-  #   geom = GeomBrickKnobText,
-  #   position = position,
-  #   show.legend = show.legend,
-  #   inherit.aes = inherit.aes,
-  #   check.aes = FALSE,
-  #   params = list(
-  #     label = label,
-  #     na.rm = na.rm,
-  #     simplified_threshold = simplified_threshold
-  #   )
-  # )
-  
   return(layer_brick)
 }
 
@@ -62,10 +46,15 @@ drawDetails.resizingTextGrob <- function(x, recording=TRUE){
 }
 #' @rdname brickr-ggproto
 preDrawDetails.resizingTextGrob <- function(x){
-  w <- grid::convertHeight(unit(1, "snpc"), "mm", valueOnly=TRUE)
-  fs <- scales::rescale(w, to=c(18, 7), from=c(120, 20))
+  w <- grid::convertWidth(unit(1, "snpc"), "mm", valueOnly=TRUE)
+  fs <- scales::rescale(w, to=c(20, 7), from=c(120, 20))
   grid::pushViewport(grid::viewport(gp = grid::gpar(fontsize = fs)))
 }
+#' @rdname brickr-ggproto
+postDrawDetails.resizingTextGrob <- function(x){
+  grid::popViewport()
+}
+
 
 #' GeomBrick
 #'
@@ -186,8 +175,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               warning("aes `label` is too long and will be truncated. Please limit to 6 characters or less.")
                               lab <- substr(lab, 1, 6)
                             }
-                            num_x <- length(unique(coords$x))
-                            num_y <- length(unique(coords$y))
+                            
+                            label_num <- nchar(lab)[1]
                             
                             gm_knob_text <- resizingTextGrob(
                               lab,
@@ -196,11 +185,10 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               hjust = data$hjust, vjust = data$vjust,
                               rot = data$angle,
                               gp = grid::gpar(
-                                col = alpha(data$colour, data$alpha),
-                                cex = 3/8,
-                                fontsize = 10,
+                                col = alpha("#333333", 0.2),
+                                cex = 3/8 * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
                                 fontfamily = data$family,
-                                fontface = data$fontface,
+                                fontface = "bold",
                                 lineheight = data$lineheight
                               )
                             )
