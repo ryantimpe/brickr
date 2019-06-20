@@ -22,6 +22,7 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       linejoin = linejoin,
+      label = label,
       na.rm = na.rm,
       simplified_threshold = simplified_threshold,
       ...
@@ -44,8 +45,26 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
   #   )
   # )
   
-  return(list(layer_brick#, layer_knob_text
-              ))
+  return(layer_brick)
+}
+
+
+# Need some hacks to rescale text size based on plot size
+# https://ryouready.wordpress.com/2012/08/01/creating-a-text-grob-that-automatically-adjusts-to-viewport-size/
+#' @rdname brickr-ggproto
+#' @export
+resizingTextGrob <- function(...) {
+  grid::grob(tg=grid::textGrob(...), cl="resizingTextGrob")
+}
+#' @rdname brickr-ggproto
+drawDetails.resizingTextGrob <- function(x, recording=TRUE){
+  grid::grid.draw(x$tg)
+}
+#' @rdname brickr-ggproto
+preDrawDetails.resizingTextGrob <- function(x){
+  w <- grid::convertHeight(unit(1, "snpc"), "mm", valueOnly=TRUE)
+  fs <- scales::rescale(w, to=c(18, 7), from=c(120, 20))
+  grid::pushViewport(grid::viewport(gp = grid::gpar(fontsize = fs)))
 }
 
 #' GeomBrick
@@ -167,25 +186,25 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               warning("aes `label` is too long and will be truncated. Please limit to 6 characters or less.")
                               lab <- substr(lab, 1, 6)
                             }
+                            num_x <- length(unique(coords$x))
+                            num_y <- length(unique(coords$y))
                             
                             gm_knob_text <- resizingTextGrob(
-                              data$label,
-                              coords$x, coords$y, 
+                              lab,
+                              coords$x, coords$y,
                               default.units = "native",
                               hjust = data$hjust, vjust = data$vjust,
                               rot = data$angle,
                               gp = grid::gpar(
                                 col = alpha(data$colour, data$alpha),
-                                cex = 3/8 * 0.5,
+                                cex = 3/8,
+                                fontsize = 10,
                                 fontfamily = data$family,
                                 fontface = data$fontface,
                                 lineheight = data$lineheight
                               )
                             )
                           }
-                         
-
-                         
                          
                          # Combine ----
                          ggplot2:::ggname("geom_brick_rect", 
@@ -199,62 +218,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      draw_key = draw_key_polygon
 )
 
-# Need some hacks to rescale text size based on plot size
-# https://ryouready.wordpress.com/2012/08/01/creating-a-text-grob-that-automatically-adjusts-to-viewport-size/
-#' @rdname brickr-ggproto
-resizingTextGrob <- function(...) {
-  grid::grob(tg=grid::textGrob(...), cl="resizingTextGrob")
-}
-#' @rdname brickr-ggproto
-drawDetails.resizingTextGrob <- function(x, recording=TRUE){
-  grid::grid.draw(x$tg)
-}
-#' @rdname brickr-ggproto
-preDrawDetails.resizingTextGrob <- function(x){
-  w <- grid::convertHeight(unit(1, "snpc"), "mm", valueOnly=TRUE)
-  fs <- scales::rescale(w, to=c(18, 7), from=c(120, 20))
-  grid::pushViewport(grid::viewport(gp = grid::gpar(fontsize = fs)))
-}
-#' @rdname brickr-ggproto
-GeomBrickKnobText <- ggproto("GeomBrickKnobText", Geom,
-                         required_aes = c("x", "y"),
-                         default_aes = aes(
-                           label = "LEGO", colour = "#333333", alpha = 0.2,
-                           angle = 0, family = "", fontface = 1, lineheight = 1.2
-                         ),
 
-                         draw_panel = function(self, data, panel_params, coord, na.rm = FALSE, 
-                                               simplified_threshold = 48*48) {
-                           
-                           #Don't draw if mosaic is larger than threshold size
-                           n <- nrow(data)
-                           if (n > simplified_threshold ) return(grid::nullGrob())
 
-                           coords <- coord$transform(data, panel_params)
-                           
-                           lab <- data$label
-                           if(any(nchar(lab) > 6)){
-                             warning("aes `label` is too long and will be truncated. Please limit to 6 characters or less.")
-                             lab <- substr(lab, 1, 6)
-                           }
 
-                           resizingTextGrob(
-                             data$label,
-                             coords$x, coords$y, 
-                             default.units = "native",
-                             hjust = data$hjust, vjust = data$vjust,
-                             rot = data$angle,
-                             gp = grid::gpar(
-                               col = alpha(data$colour, data$alpha),
-                               cex = 3/8 * 0.5,
-                               #fontsize = 10,
-                               #size = unit((5/8)/2, "npc"),
-                               fontfamily = data$family,
-                               fontface = data$fontface,
-                               lineheight = data$lineheight
-                             )
-                           )
-                         },
 
-                         draw_key = draw_key_polygon
-)
+

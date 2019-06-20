@@ -65,22 +65,7 @@ geom_brick_point <- function(mapping = NULL, data = NULL,
       ...
     )
   )
-  layer_knob_text <- layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomBrickKnobText,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    check.aes = FALSE,
-    params = list(
-      label = label,
-      na.rm = na.rm,
-      simplified_threshold = simplified_threshold
-    )
-  )
-  
+
   return(list(layer_stud, layer_knob_shadow, layer_knob_base))
 }
 
