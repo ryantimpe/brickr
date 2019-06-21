@@ -138,6 +138,11 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          coords_nudge <- ggplot2::transform_position(coords,  
                                                                      function(x) x + x_size*(5/8)*(1/2)*(1/4),
                                                                      function(y) y - y_size*(5/8)*(1/2)*(1/4))
+                         
+                         # outline and text for dark colors
+                         coords$color_intensity <- as.numeric(colSums(col2rgb(coords$fill)))
+                         coords$text_alpha <- ifelse(coords$color_intensity < 200, 0.2, 0.2)
+                         coords$text_col <- ifelse(coords$color_intensity < 200, "#CCCCCC", "#333333")
 
                          gm_knob_shadow <- grid::circleGrob(
                            coords_nudge$x,
@@ -157,7 +162,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                            r= diameter*(5/8)*(1/2),
                            default.units = "native",
                            gp = grid::gpar(
-                             col = alpha("#333333", 0.2),
+                             # col = alpha("#333333", 0.2),
+                             col = alpha(coords$text_col, coords$text_alpha),
                              fill = alpha(coords$fill, coords$alpha),
                              size = coords$size * .pt,
                              lty = coords$linetype
@@ -185,7 +191,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               hjust = data$hjust, vjust = data$vjust,
                               rot = data$angle,
                               gp = grid::gpar(
-                                col = alpha("#333333", 0.2),
+                                # col = alpha("#333333", 0.2),
+                                col = alpha(coords$text_col, coords$text_alpha),
                                 cex = 3/8 * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
                                 fontfamily = data$family,
                                 fontface = "bold",

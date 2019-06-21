@@ -5,6 +5,7 @@
 \alias{resizingTextGrob}
 \alias{drawDetails.resizingTextGrob}
 \alias{preDrawDetails.resizingTextGrob}
+\alias{postDrawDetails.resizingTextGrob}
 \alias{GeomBrick}
 \alias{GeomStud}
 \title{GeomBrick}
@@ -12,9 +13,11 @@
 \usage{
 resizingTextGrob(...)
 
-drawDetails.resizingTextGrob(x, recording = TRUE)
+\method{drawDetails}{resizingTextGrob}(x, recording = TRUE)
 
-preDrawDetails.resizingTextGrob(x)
+\method{preDrawDetails}{resizingTextGrob}(x)
+
+\method{postDrawDetails}{resizingTextGrob}(x)
 
 GeomStud
 }
