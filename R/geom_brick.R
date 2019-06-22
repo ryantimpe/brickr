@@ -32,30 +32,6 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
   return(layer_brick)
 }
 
-
-# Need some hacks to rescale text size based on plot size
-# https://ryouready.wordpress.com/2012/08/01/creating-a-text-grob-that-automatically-adjusts-to-viewport-size/
-#' @rdname brickr-ggproto
-#' @export
-resizingTextGrob <- function(...) {
-  grid::grob(tg=grid::textGrob(...), cl="resizingTextGrob")
-}
-#' @rdname brickr-ggproto
-drawDetails.resizingTextGrob <- function(x, recording=TRUE){
-  grid::grid.draw(x$tg)
-}
-#' @rdname brickr-ggproto
-preDrawDetails.resizingTextGrob <- function(x){
-  w <- grid::convertWidth(unit(1, "snpc"), "mm", valueOnly=TRUE)
-  fs <- scales::rescale(w, to=c(20, 7), from=c(120, 20))
-  grid::pushViewport(grid::viewport(gp = grid::gpar(fontsize = fs)))
-}
-#' @rdname brickr-ggproto
-postDrawDetails.resizingTextGrob <- function(x){
-  grid::popViewport()
-}
-
-
 #' GeomBrick
 #'
 #' ggproto for brickr geoms
@@ -78,6 +54,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      
                      draw_panel = function(self, data, panel_params, coord, linejoin = "mitre", 
                                            simplified_threshold = 24*24) {
+
                        #This happens to EACH panel
                        if (!coord$is_linear()) {
                          stop("geom_brick_rect must be used with linear coordinates")
@@ -106,7 +83,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          }
                          
                          coords_rect <- coord$transform(data %>% points_to_rects, panel_params) %>% 
-                           mutate(size = data$size[1], linetype = data$linetype[1], 
+                           dplyr::mutate(size = data$size[1], linetype = data$linetype[1], 
                                   colour = data$colour[1], alpha = data$alpha[1])
                          
                          gm_brick <- grid::rectGrob(
@@ -130,16 +107,20 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          # Knob ----
                          
                          coords <- coord$transform(data, panel_params)
-
-                         x_size <- median(abs(diff(coords$x)[diff(coords$x)>0]))
-                         y_size <-  median(abs(diff(coords$y)[diff(coords$y)>0]))
-                         diameter <- max(x_size, y_size)
                          
+                         # test_coord <<- coords
+
+                         x_size <- median(abs(diff(coords$x))[abs(diff(coords$x))>0], na.rm=TRUE)
+                         y_size <- median(abs(diff(coords$y))[abs(diff(coords$y))>0], na.rm=TRUE)
+
+                         diameter <- max(x_size, y_size, na.rm=TRUE)
+
+                         #Nudge the shadow down and right by a 1/4 knob radius
                          coords_nudge <- ggplot2::transform_position(coords,  
                                                                      function(x) x + x_size*(5/8)*(1/2)*(1/4),
                                                                      function(y) y - y_size*(5/8)*(1/2)*(1/4))
                          
-                         # outline and text for dark colors
+                         #Outline and text for dark colors
                          coords$color_intensity <- as.numeric(colSums(col2rgb(coords$fill)))
                          coords$text_alpha <- ifelse(coords$color_intensity < 200, 0.2, 0.2)
                          coords$text_col <- ifelse(coords$color_intensity < 200, "#CCCCCC", "#333333")
@@ -184,7 +165,11 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                             
                             label_num <- nchar(lab)[1]
                             
-                            gm_knob_text <- resizingTextGrob(
+                            vp_width = grid::convertWidth(unit(1, "snpc"), "mm", valueOnly=TRUE)
+                            fs <- scales::rescale(vp_width, to=c(20, 7), from=c(120, 20))
+                            print(fs)
+                            
+                            gm_knob_text <- grid::textGrob(
                               lab,
                               coords$x, coords$y,
                               default.units = "native",
@@ -193,7 +178,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               gp = grid::gpar(
                                 # col = alpha("#333333", 0.2),
                                 col = alpha(coords$text_col, coords$text_alpha),
-                                cex = 3/8 * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
+                                fontsize = fs,
+                                cex = (3/8) * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
                                 fontfamily = data$family,
                                 fontface = "bold",
                                 lineheight = data$lineheight

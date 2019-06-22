@@ -18,7 +18,7 @@ display_set <- function(image_list, title=NULL){
     img <- ggplot2::ggplot(in_list$Img_lego, ggplot2::aes(x=x, y=y))  +
       geom_brick_rect(ggplot2::aes(fill = Lego_color), color = "#333333")+
       ggplot2::scale_fill_identity() + 
-      ggplot2::coord_fixed(expand = FALSE) 
+      ggplot2::coord_fixed(expand = 0.5) 
   } else {
     img <- ggplot2::ggplot(image) +
       gplot2::geom_rect(ggplot2::aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,

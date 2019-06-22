@@ -1,6 +1,6 @@
 Package: brickr
 Title: Create Simulated LEGO Models from Images or Data Frames
-Version: 0.0.0.9303
+Version: 0.0.0.9304
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -27,6 +27,7 @@ BugReports: https://github.com/ryantimpe/brickr/issues
 Collate: 
     'bricks_from.R'
     'bricks_from_data.R'
+    'resizing_text_grob.R'
     'bricks_to_3d.R'
     'collect_bricks.R'
     'geom_brick.R'
