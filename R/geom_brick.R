@@ -164,11 +164,11 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                             }
                             
                             label_num <- nchar(lab)[1]
-                            
+
+                            #Get view port size for initial text drawing... 
                             vp_width = grid::convertWidth(unit(1, "snpc"), "mm", valueOnly=TRUE)
                             fs <- scales::rescale(vp_width, to=c(20, 7), from=c(120, 20))
-                            print(fs)
-                            
+
                             gm_knob_text <- grid::textGrob(
                               lab,
                               coords$x, coords$y,
@@ -176,7 +176,6 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               hjust = data$hjust, vjust = data$vjust,
                               rot = data$angle,
                               gp = grid::gpar(
-                                # col = alpha("#333333", 0.2),
                                 col = alpha(coords$text_col, coords$text_alpha),
                                 fontsize = fs,
                                 cex = (3/8) * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
@@ -198,9 +197,6 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      
                      draw_key = draw_key_polygon
 )
-
-
-
 
 
 
