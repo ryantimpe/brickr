@@ -5,8 +5,8 @@
 \title{Convert image raster array to a LEGO-esque mosaic. Wrapper function.}
 \usage{
 image_to_bricks(img, img_size = 48, color_table = lego_colors,
-  mosaic_type = "flat", brightness = 1, warhol = 1:3,
-  brick_theme = "default", contrast = 1)
+  mosaic_type = NULL, use_bricks = NULL, brightness = 1,
+  warhol = 1:3, brick_theme = "default", contrast = 1)
 }
 \arguments{
 \item{img_size}{Size of output image in pixel, where one pixel = one 'brick'. Use a single value (e.g. \code{48}) for a square image with 48 pixels on each side.
@@ -14,7 +14,9 @@ Use an array of two values for a rectangular image \code{c(width, height)}.}
 
 \item{color_table}{Defaults to \code{lego_colors}. Data frame of brick colors to map onto image. Must contain Name and R, G, B channels. See attached data  \code{lego_colors} as examples.}
 
-\item{mosaic_type}{Default is 'flat' for a "studs-up" mosaic. Other option is 'stacked' for bricks placed on top of each other.}
+\item{mosaic_type}{DEPRECATED. All mosaics are "flat" or knobs-up.}
+
+\item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.}
 
 \item{brightness}{A value >1 will increase the brightness of the image while a positive value <1 will decrease the brightness.}
 
