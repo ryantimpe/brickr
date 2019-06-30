@@ -41,7 +41,7 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
 #' @usage NULL
 #' @export
 GeomBrick <- ggproto("GeomBrick", Geom,
-                     default_aes = aes(colour = "#333333", fill = "#C4281B", size = 0.5, linetype = 1,
+                     default_aes = aes(colour = "#333333", fill = "#C4281B", size = 1, linetype = 1,
                                        alpha = NA, label = "LEGO",
                                        angle = 0, family = "", fontface = 1, lineheight = 1.2),
                      
