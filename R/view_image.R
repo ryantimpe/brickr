@@ -52,7 +52,7 @@ generate_instructions <- function(image_list, num_steps=6) {
   create_steps <- function(a, n_steps) {
     if(a < n_steps){
       image %>% 
-        dplyr::group_by(brick_id) %>% 
+        dplyr::group_by(brick_name) %>% 
         dplyr::filter(min(ymin) <= a*rows_per_step+(min(image$ymin)+0.5)) %>% 
         dplyr::ungroup() %>%
         dplyr::mutate(Step = paste("Step", (if(a<10){paste0('0', a)}else{a})))

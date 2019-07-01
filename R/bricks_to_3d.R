@@ -31,15 +31,15 @@ layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
                   y_comp = y %/% ex_size) %>% 
     dplyr::left_join(lego_expand %>% dplyr::rename(x_comp = x, y_comp = y), 
                      by = c("x_comp", "y_comp")) %>% 
-    dplyr::left_join(BrickIDs %>% dplyr::select(brick_id, x_comp = x, y_comp = y), 
+    dplyr::left_join(BrickIDs %>% dplyr::select(brick_name, x_comp = x, y_comp = y), 
                      by = c("x_comp", "y_comp")) %>% 
     dplyr::select(-x_comp, -y_comp) %>% 
     dplyr::left_join(lego_colors %>% dplyr::select(Lego_name = Color, R_lego, G_lego, B_lego), 
                      by = "Lego_name") %>% 
     #Round elevation to nearest 1/height
-    dplyr::mutate(elevation = ifelse(is.na(brick_id),NA, 3 + up_el),
+    dplyr::mutate(elevation = ifelse(is.na(brick_name),NA, 3 + up_el),
                   elevation = ifelse(is.na(Lego_name),NA, elevation)) %>% 
-    dplyr::group_by(brick_id) %>% 
+    dplyr::group_by(brick_name) %>% 
     dplyr::mutate(elevation = dplyr::case_when(
       x == min(x) | x == max(x) ~ 0.1+up_el,
       y == min(y) | y == max(y) ~ 0.1+up_el,
@@ -70,7 +70,7 @@ layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
                                     3))
   
   lego_expand_color <- lego_expand2 %>% 
-    dplyr::group_by(brick_id) %>% 
+    dplyr::group_by(brick_name) %>% 
     #This darkens the edge of each brick, to look like they are separated
     # The higher the resolution, the dark this should be
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 

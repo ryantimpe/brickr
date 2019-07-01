@@ -29,7 +29,7 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
                   y_comp = y %/% ex_size) %>% 
     dplyr::left_join(lego_expand %>% dplyr::rename(x_comp = x, y_comp = y), 
                      by = c("x_comp", "y_comp")) %>% 
-    dplyr::left_join(BrickIDs %>% dplyr::select(brick_id, x_comp = x, y_comp = y), 
+    dplyr::left_join(BrickIDs %>% dplyr::select(brick_name, x_comp = x, y_comp = y), 
                      by = c("x_comp", "y_comp")) %>% 
     dplyr::select(-x_comp, -y_comp) %>% 
     dplyr::left_join(lego_colors %>% dplyr::select(Lego_name = Color, R_lego, G_lego, B_lego), 
@@ -62,7 +62,7 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
   )) %>% 
     dplyr:: mutate(R_lego = 1, G_lego = 1, B_lego = 1, 
                    elevation = 0,
-                   brick_id = NA)
+                   brick_name = NA)
   
   #Elevation Matrix
   lego_elmat <- lego_expand2 %>% 
@@ -78,7 +78,7 @@ collect_3d <- function(image_list, mosaic_height = 6, highest_el = "light"){
                                     3))
   
   lego_expand_color <- lego_expand2 %>% 
-    dplyr::group_by(brick_id) %>% 
+    dplyr::group_by(brick_name) %>% 
     #This darkens the edge of each brick, to look like they are separated
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
                      dplyr::funs(ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), .*0.75, .))) %>% 
