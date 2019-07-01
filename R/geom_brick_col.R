@@ -30,6 +30,9 @@ geom_brick_col <- function(mapping = NULL, data = NULL,
 #' @export
 #' @include geom_brick.R
 GeomBrickCol <- ggproto("GeomCol", GeomBrick,
+                        default_aes = aes(colour = "#333333", fill = "#C4281B", size = 0.5, linetype = 1,
+                                          alpha = NA, label = "LEGO",
+                                          angle = 0, family = "", fontface = 1, lineheight = 1.2),
                    required_aes = c("x", "y"),
                    
                    # These aes columns are created by setup_data(). They need to be listed here so
@@ -60,6 +63,40 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        coords_rect <- coord$transform(data, panel_params) %>% 
                          dplyr::mutate(size = data$size[1], linetype = data$linetype[1], 
                                        colour = data$colour[1], alpha = data$alpha[1])
+                       
+                       n_knob <- 2
+                       
+                       hmm <- coords_rect %>% 
+                         dplyr::mutate( brick_width = abs(xmax - xmin)/n_knob,
+                                        num_of_1xs = ymax %/% brick_width,
+                                        num_of_4xs = ymax %/% (brick_width*4) + 1) #1 for main, 2 of excess
+                       
+                       coords_rect_complete_bricks <- 1:max(hmm$num_of_4xs) %>% 
+                         purrr::map_dfr(function(kk){
+                           hmm %>% 
+                             dplyr::filter(num_of_4xs >= kk) %>% 
+                             dplyr::mutate(ymin_orig = ymin, ymax_orig = ymax) %>% 
+                             dplyr::rowwise() %>% 
+                             dplyr::mutate(ymin_ideal = ymin_orig + (kk-1)*4*brick_width,
+                                           ymax_ideal = min(ymax_orig, ymin_ideal + 4*brick_width),
+                                           num_of_knobs_in_this_brick = (ymax_ideal - ymin_ideal) %/% brick_width,
+                                           ymin = ymin_orig + (kk-1)*4*brick_width,
+                                           ymax = min(ymax_orig, ymin + num_of_knobs_in_this_brick*brick_width)) %>% 
+                             dplyr::ungroup()
+                         })
+                       
+                       
+                       coords_rect <- dplyr::bind_rows(
+                         coords_rect_complete_bricks,
+                         coords_rect_complete_bricks %>% 
+                           dplyr::group_by(PANEL, group) %>% 
+                           dplyr::filter(ymax == max(ymax)) %>% 
+                           dplyr::ungroup() %>% 
+                           dplyr::mutate(ymin = ymax,
+                                         ymax = ymax_orig)
+                       )
+                       
+                       # test <<- coords_rect
                        
                        gm_brick <- grid::rectGrob(
                          coords_rect$xmin, coords_rect$ymax,

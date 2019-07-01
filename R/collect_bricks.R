@@ -30,7 +30,7 @@ collect_bricks <- function(image_list, use_bricks = NULL,
 
   brick_sizes2 <- dplyr::bind_rows(
     brick_sizes,
-    brick_sizes %>% rename(yy=1, xx=2)
+    brick_sizes %>% dplyr::rename(yy=1, xx=2)
   ) %>%
     dplyr::distinct() %>% 
     dplyr::mutate(offset_x = purrr::map(xx, ~.x:1 -1)) %>% 
@@ -63,7 +63,7 @@ collect_bricks <- function(image_list, use_bricks = NULL,
         dplyr::mutate(brick_name = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == (xx*yy),
                                           paste0("brick_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
         dplyr::ungroup() %>% 
-        select(-xg, -yg)
+        dplyr::select(-xg, -yg)
       
     }
     )
