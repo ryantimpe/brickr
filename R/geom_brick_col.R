@@ -64,6 +64,8 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                          dplyr::mutate(size = data$size[1], linetype = data$linetype[1], 
                                        colour = data$colour[1], alpha = data$alpha[1])
                        
+                       test_coords_rect <<- coords_rect
+                       
                        n_knob <- 2
                        
                        hmm <- coords_rect %>% 
@@ -79,24 +81,28 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                              dplyr::rowwise() %>% 
                              dplyr::mutate(ymin_ideal = ymin_orig + (kk-1)*4*brick_width,
                                            ymax_ideal = min(ymax_orig, ymin_ideal + 4*brick_width),
-                                           num_of_knobs_in_this_brick = (ymax_ideal - ymin_ideal) %/% brick_width,
+                                           num_of_knobs_in_this_brick = (ymax_ideal - ymin_ideal + 0.001) %/% brick_width,
                                            ymin = ymin_orig + (kk-1)*4*brick_width,
                                            ymax = min(ymax_orig, ymin + num_of_knobs_in_this_brick*brick_width)) %>% 
                              dplyr::ungroup()
-                         })
+                         }) %>% 
+                         dplyr::filter(num_of_knobs_in_this_brick > 0)
                        
+                       test_coords_rect2 <<- coords_rect_complete_bricks
                        
                        coords_rect <- dplyr::bind_rows(
                          coords_rect_complete_bricks,
-                         coords_rect_complete_bricks %>% 
-                           dplyr::group_by(PANEL, group) %>% 
-                           dplyr::filter(ymax == max(ymax)) %>% 
-                           dplyr::ungroup() %>% 
+                         coords_rect_complete_bricks %>%
+                           dplyr::group_by(PANEL, group) %>%
+                           dplyr::filter(ymax == max(ymax)) %>%
+                           dplyr::ungroup() %>%
                            dplyr::mutate(ymin = ymax,
                                          ymax = ymax_orig)
                        )
+                       # coords_rect <- coords_rect_complete_bricks
                        
                        # test <<- coords_rect
+                       test_coords_rect3 <<- coords_rect
                        
                        gm_brick <- grid::rectGrob(
                          coords_rect$xmin, coords_rect$ymax,
