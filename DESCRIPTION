@@ -29,6 +29,7 @@ Collate:
     'bricks_from_data.R'
     'bricks_to_3d.R'
     'collect_bricks.R'
+    'coord_brick.R'
     'geom_brick.R'
     'geom_brick_col.R'
     'geom_brick_point.R'
