@@ -1,7 +1,7 @@
 #' @export
 #' @rdname geom_brick_rect
 geom_brick_col <- function(mapping = NULL, data = NULL,
-                     position = "stack",
+                     position = "dodge", two_knob = TRUE,
                      ...,
                      width = NULL,
                      na.rm = FALSE,
@@ -18,6 +18,7 @@ geom_brick_col <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       width = width,
+      two_knob = two_knob,
       na.rm = na.rm,
       ...
     )
@@ -51,7 +52,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                    },
                    
                    draw_panel = function(self, data, panel_params, coord, linejoin = "mitre", 
-                                         simplified_threshold = 24*24, width=NULL) {
+                                         simplified_threshold = 24*24, width=NULL, two_knob = TRUE) {
                      
                      #This happens to EACH panel
                      if (!coord$is_linear()) {
@@ -66,7 +67,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        
                        test_coords_rect <<- coords_rect
                        
-                       n_knob <- 2
+                       if(two_knob) n_knob <- 2 else n_knob <- 1
                        
                        hmm <- coords_rect %>% 
                          dplyr::mutate( brick_width = abs(xmax - xmin)/n_knob,
@@ -85,15 +86,17 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                                            ymin = ymin_orig + (kk-1)*4*brick_width,
                                            ymax = min(ymax_orig, ymin + num_of_knobs_in_this_brick*brick_width)) %>% 
                              dplyr::ungroup()
-                         }) %>% 
-                         dplyr::filter(num_of_knobs_in_this_brick > 0)
+                         })
                        
                        test_coords_rect2 <<- coords_rect_complete_bricks
                        
                        coords_rect <- dplyr::bind_rows(
-                         coords_rect_complete_bricks,
+                         coords_rect_complete_bricks %>% 
+                           dplyr::filter(num_of_knobs_in_this_brick > 0),
                          coords_rect_complete_bricks %>%
-                           dplyr::group_by(PANEL, group) %>%
+                           dplyr::group_by(PANEL, group) %>% 
+                           dplyr::filter((n() > 1 && num_of_knobs_in_this_brick > 0) |
+                                           n() == 1) %>%
                            dplyr::filter(ymax == max(ymax)) %>%
                            dplyr::ungroup() %>%
                            dplyr::mutate(ymin = ymax,
@@ -125,9 +128,6 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        # Knob ----
                        
                        coords <- coord$transform(data, panel_params)
-                       
-                       #Calculations to add 2 knobs
-                       n_knob <- 2
                        
                        hmm <- coords %>% 
                          dplyr::mutate(brick_width = abs(xmax - xmin)/n_knob,
