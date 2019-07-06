@@ -2,7 +2,6 @@
 #'
 #' `geom_rect`, except bars look like LEGO(R) bricks.
 #'
-#' @inheritParams ggplot2::geom_rect
 #' @export
 geom_brick_rect <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",

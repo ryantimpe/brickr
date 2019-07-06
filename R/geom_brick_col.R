@@ -223,5 +223,5 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                      }
                    },
                    
-                   draw_key = draw_key_polygon
+                   draw_key = draw_key_brick
 )
