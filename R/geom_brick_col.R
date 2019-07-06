@@ -31,7 +31,7 @@ geom_brick_col <- function(mapping = NULL, data = NULL,
 #' @export
 #' @include geom_brick.R
 GeomBrickCol <- ggproto("GeomCol", GeomBrick,
-                        default_aes = aes(colour = "#333333", fill = "#C4281B", size = 0.5, linetype = 1,
+                        default_aes = aes(colour = "#333333", fill = "#C4281B", size = 0.25, linetype = 1,
                                           alpha = NA, label = "LEGO",
                                           angle = 0, family = "", fontface = 1, lineheight = 1.2),
                    required_aes = c("x", "y"),
@@ -45,6 +45,8 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                      data$width <- data$width %||%
                        params$width %||% (resolution(data$x, FALSE) * 0.9)
                      
+                     data$y_sign = sign(data$y)
+                     data$y_abs  =  abs(data$y)
                      transform(data,
                                ymin = pmin(y, 0), ymax = pmax(y, 0),
                                xmin = x - width / 2, xmax = x + width / 2, width = NULL
@@ -91,8 +93,10 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        test_coords_rect2 <<- coords_rect_complete_bricks
                        
                        coords_rect <- dplyr::bind_rows(
+                         #Knobbed-bricks
                          coords_rect_complete_bricks %>% 
                            dplyr::filter(num_of_knobs_in_this_brick > 0),
+                         #Unknobbed caps
                          coords_rect_complete_bricks %>%
                            dplyr::group_by(PANEL, group) %>% 
                            dplyr::filter((n() > 1 && num_of_knobs_in_this_brick > 0) |
@@ -102,10 +106,11 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                            dplyr::mutate(ymin = ymax,
                                          ymax = ymax_orig)
                        )
-                       # coords_rect <- coords_rect_complete_bricks
-                       
-                       # test <<- coords_rect
+
                        test_coords_rect3 <<- coords_rect
+                       
+                       coords_rect$color_intensity <- as.numeric(colSums(col2rgb(coords_rect$fill)))
+                       coords_rect$outline_col <- ifelse(coords_rect$color_intensity < 200, "#CCCCCC", "#333333")
                        
                        gm_brick <- grid::rectGrob(
                          coords_rect$xmin, coords_rect$ymax,
@@ -114,7 +119,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                          default.units = "native",
                          just = c("left", "top"),
                          gp = grid::gpar(
-                           col = alpha(coords_rect$colour, 0.2),
+                           col = alpha(coords_rect$outline_col, 0.3),
                            fill = alpha(coords_rect$fill, coords_rect$alpha),
                            lwd = coords_rect$size * .pt,
                            lty = coords_rect$linetype,
@@ -140,17 +145,22 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                              dplyr::filter(num_of_1x1s >= kk) %>% 
                              dplyr::mutate(y = ymin + (kk * brick_width) - brick_width/2)
                            
-                           dplyr::bind_rows(
-                             dat %>% dplyr::mutate(x = xmin + brick_width/2),
-                             dat %>% dplyr::mutate(x = xmax - brick_width/2)
-                           )
+                           if(two_knob){
+                             dplyr::bind_rows(
+                               dat %>% dplyr::mutate(x = xmin + brick_width/2),
+                               dat %>% dplyr::mutate(x = xmax - brick_width/2)
+                             )
+                           } else {
+                             dat %>% dplyr::mutate(x = xmin + brick_width/2)
+                           }
+                           
                          })
                        
-                       # test_coord <<- coords
+                       # coords_knobs1 <<- coords_knobs
 
                        #Outline and text for dark colors
                        coords_knobs$color_intensity <- as.numeric(colSums(col2rgb(coords_knobs$fill)))
-                       coords_knobs$text_alpha <- ifelse(coords_knobs$color_intensity < 200, 0.2, 0.2)
+                       coords_knobs$text_alpha <- ifelse(coords_knobs$color_intensity < 200, 0.3, 0.3)
                        coords_knobs$text_col <- ifelse(coords_knobs$color_intensity < 200, "#CCCCCC", "#333333")
 
                        gm_knob_shadow <- grid::circleGrob(
@@ -160,7 +170,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                          default.units = "native",
                          gp = grid::gpar(
                            col = NA,
-                           fill = alpha("#333333", 0.2),
+                           fill = alpha("#333333", 0.3),
                            size = coords_knobs$size * .pt,
                            lty = coords_knobs$linetype
                          )
