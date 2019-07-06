@@ -2,6 +2,7 @@
 #' @rdname geom_brick_rect
 geom_brick_col <- function(mapping = NULL, data = NULL,
                      position = "dodge", two_knob = TRUE,
+                     min_radius_for_text = 0.02,
                      ...,
                      width = NULL,
                      na.rm = FALSE,
@@ -19,6 +20,7 @@ geom_brick_col <- function(mapping = NULL, data = NULL,
     params = list(
       width = width,
       two_knob = two_knob,
+      min_radius_for_text = min_radius_for_text,
       na.rm = na.rm,
       ...
     )
@@ -54,7 +56,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                    },
                    
                    draw_panel = function(self, data, panel_params, coord, linejoin = "mitre", 
-                                         simplified_threshold = 24*24, width=NULL, two_knob = TRUE) {
+                                         min_radius_for_text = 0.02, width=NULL, two_knob = TRUE) {
                      
                      #This happens to EACH panel
                      if (!coord$is_linear()) {
@@ -137,7 +139,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        hmm <- coords %>% 
                          dplyr::mutate(brick_width = abs(xmax - xmin)/n_knob,
                                 num_of_1x1s = (ymax-ymin) %/% brick_width,
-                                knob_radius = brick_width * (5/8) /2 )
+                                knob_radius = brick_width * (5/8) * (1/2) )
                        
                        coords_knobs <- 1:max(hmm$num_of_1x1s) %>% 
                          purrr::map_dfr(function(kk){
@@ -156,7 +158,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                            
                          })
                        
-                       # coords_knobs1 <<- coords_knobs
+                       coords_knobs1 <<- coords_knobs
 
                        #Outline and text for dark colors
                        coords_knobs$color_intensity <- as.numeric(colSums(col2rgb(coords_knobs$fill)))
@@ -189,9 +191,9 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        )
 
                        #Text ----
-                       #Don't draw if mosaic is larger than threshold size
+                       #Don't draw if there are more knobs than threshold size
                        n <- nrow(coords_knobs)
-                       if (n > simplified_threshold ) {
+                       if (coords_knobs$knob_radius[1] < min_radius_for_text ) {
                          gm_knob_text <- grid::nullGrob()
                        } else {
                          lab <- data$label
@@ -215,7 +217,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                            gp = grid::gpar(
                              col = alpha(coords_knobs$text_col, coords_knobs$text_alpha),
                              fontsize = fs,
-                             cex = (3/8) * 0.5 * (1), 
+                             cex = (3/8) * 0.5 * ((coords_knobs$knob_radius / 0.03)^(1/2)), 
                              # fontfamily = data$family,
                              fontface = "bold"#,
                              # lineheight = data$lineheight
