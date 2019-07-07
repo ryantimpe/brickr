@@ -54,8 +54,10 @@ collect_bricks <- function(image_list, use_bricks = NULL,
       offset_y <- brick_sizes2$offset_y[aa]
       
       in_list$Img_lego %>%
+        #Weird bug when resetting the level
         dplyr::select(Level, x, y, Lego_name, Lego_color) %>%
-        dplyr::mutate(Level = ifelse(!is.numeric(Level), as.numeric(as.factor(Level)), Level)) %>% 
+        # dplyr::mutate(Level = ifelse(!is.numeric(lll), as.numeric(as.factor(lll)), lll)) %>% 
+        # dplyr::select(-lll) %>% 
         dplyr::group_by(Level, 
                         xg = (x + offset_x -1 + Level -1) %/% xx, 
                         yg = (y + offset_y -1 + Level -1) %/% yy) %>%

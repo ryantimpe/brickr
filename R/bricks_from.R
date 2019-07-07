@@ -210,9 +210,9 @@ bricks_from_coords <- function(coord_table, color_guide = lego_colors,
     dplyr::rename(Level = z) %>% 
     dplyr::left_join(brickr::lego_colors %>% dplyr::select(Color, dplyr::contains("_lego")), 
                      by = "Color") %>% 
-    dplyr::mutate_at(dplyr::vars(dplyr::contains("_lego")), dplyr::funs(ifelse(is.na(.), 0, .))) %>% 
+    dplyr::mutate_at(dplyr::vars(dplyr::contains("_lego")), list(~ifelse(is.na(.), 0, .))) %>% 
     dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego)) %>% 
-    dplyr::mutate(Lego_color = ifelse(is.na(Color),NA, Lego_color)) %>% 
+    dplyr::mutate(Lego_color = ifelse(is.na(Color), NA, Lego_color)) %>% 
     dplyr::rename(Lego_name = Color) %>%
     dplyr::arrange(Level) %>% 
     #Exclusions
