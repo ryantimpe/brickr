@@ -2,10 +2,12 @@
 #'
 #' @param brick_list List output from table_to_bricks(). Contains an element \code{Img_lego}.
 #' @param lev z-level of 3D model
+#' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 
+#' Enter a value for a custom resolution. High resolutions take longer to render.
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 #' @export 
 #'
-layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
+layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
   #Get previous data
   in_list <- brick_list
   
@@ -19,19 +21,30 @@ layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
   up_el = (lev-1)*3 
   
   #Number of 'pixels' on a side of a single-stud brick. I think this should be fixed for now
-  ex_size <- brick_size
-  
-  lego_expand <- img_lego %>%
-    dplyr::select(Level, x, y, Lego_name, Lego_color) %>% 
-    dplyr::mutate(stud_id = dplyr::row_number()) 
+  if(is.numeric(brick_res)){
+    if(brick_res > 100) warning("brick_res capped at 100px per brick.")
+    ex_size <- min(100, abs(round(brick_res)))
+  } else {
+    if(!(brick_res %in% c('sd', 'hd', 'uhd'))) stop("brick_res must be 'sd', 'hd', 'uhd', or a number.")
+    ex_size <- switch(brick_res,
+                      sd = 15,
+                      hd = 30,
+                      uhd = 60)
+  }
+
   
   #Use below is edge calculation
   # Optimized color only in HD bricks >20 pixels
-  if(brick_size >= 20){
+  if(ex_size >= 20){
     edge_offset <- 0:1
   } else {
     edge_offset <- 0
   }
+  
+  #Increase data frame into the correct resolution
+  lego_expand <- img_lego %>%
+    dplyr::select(Level, x, y, Lego_name, Lego_color) %>% 
+    dplyr::mutate(stud_id = dplyr::row_number()) 
   
   lego_expand2 <- expand.grid(x = (min(lego_expand$x)*ex_size):(max(lego_expand$x+1)*ex_size),
                               y = (min(lego_expand$y)*ex_size):(max(lego_expand$y+1)*ex_size)) %>% 
@@ -86,7 +99,7 @@ layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
     # The higher the resolution, the dark this should be
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
                      list(~ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), 
-                                  .*0.9*((15/brick_size)^2), .))) %>% 
+                                  .*0.9*((15/ex_size)^2), .))) %>% 
     dplyr::ungroup()
   
   lego_hillshade_m[,,1] <- lego_expand_color %>% 
@@ -110,6 +123,7 @@ layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
   #Return
   in_list[["threed_elevation"]] <- lego_elmat
   in_list[["threed_hillshade"]] <- lego_hillshade_m
+  in_list[["brick_resolution"]] <- ex_size
   
   return(in_list)
   
@@ -120,12 +134,14 @@ layer_from_bricks <- function(brick_list, lev=1, brick_size = 15){
 #'
 #' @param brick_list List output from collect_bricks(). Contains an element \code{Img_lego}.
 #' @param view_levels Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.
+#' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 
+#' Enter a value for a custom resolution. High resolutions take longer to render.
 #' @param solidcolor Hex color of mosaic base. Only renders on bottom.
 #' @param ... All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @export 
 #'
-display_bricks <- function(brick_list, view_levels = NULL, brick_size = 15,
+display_bricks <- function(brick_list, view_levels = NULL, brick_res = "sd",
                            solidcolor = "#a3a2a4", ...){
   #Requires Rayshader
   if (!requireNamespace("rayshader", quietly = TRUE)) {
@@ -139,15 +155,17 @@ display_bricks <- function(brick_list, view_levels = NULL, brick_size = 15,
   BrickIDs <- in_list$ID_bricks
   img_lego <- in_list$Img_lego 
   
+  
   if(is.null(view_levels)){
     view_levels <- unique(img_lego$Level)
   }
   
   for(ii in view_levels){
-    brick_layer <- brick_list %>% layer_from_bricks(ii, brick_size = brick_size)
+    brick_layer <- brick_list %>% layer_from_bricks(ii, brick_res = brick_res)
     
     brick_layer$`threed_hillshade`%>%
-      rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167*(15/brick_size), solid = FALSE,
+      rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167*(15/brick_layer$`brick_resolution`), 
+                         solid = FALSE,
                          solidcolor=solidcolor, shadow = FALSE, ...)
   }
 
