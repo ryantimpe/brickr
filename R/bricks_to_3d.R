@@ -60,13 +60,13 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
     #Round elevation to nearest 1/height
     dplyr::mutate(elevation = ifelse(is.na(brick_name),NA, 3 + up_el),
                   elevation = ifelse(is.na(Lego_name),NA, elevation)) %>% 
-    #Create the edges of bricks... 2 deep, but will offset the colors
+    #Create the edges of bricks... Brick base begins at 0.01 to avoid complete overlap with previous brick
     dplyr::group_by(brick_name) %>% 
     dplyr::mutate(elevation = dplyr::case_when(
-      x %in% (min(x) + edge_offset) ~ 0.1+up_el,
-      x %in% (max(x) - edge_offset) ~ 0.1+up_el,
-      y %in% (min(y) + edge_offset) ~ 0.1+up_el,
-      y %in% (max(y) - edge_offset) ~ 0.1+up_el,
+      x %in% (min(x) + edge_offset) ~ 0.01+up_el,
+      x %in% (max(x) - edge_offset) ~ 0.01+up_el,
+      y %in% (min(y) + edge_offset) ~ 0.01+up_el,
+      y %in% (max(y) - edge_offset) ~ 0.01+up_el,
       TRUE ~ elevation
     )) %>% 
     dplyr::ungroup() %>% 
@@ -74,10 +74,14 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
     #Calculate stud placement... radius of 5/8 * (1/2) and height of 0.5 plate
     dplyr::group_by(stud_id) %>% 
     dplyr::mutate(x_mid = median(x), y_mid = median(y),
-                  stud = ((x-x_mid)^2 + (y-y_mid)^2)^(1/2) < ex_size * (5/8 * (1/2))) %>% 
+                  stud = ((x-x_mid)^2 + (y-y_mid)^2)^(1/2) <= (ex_size * (5/8 * (1/2))),
+                  stud_color = dplyr::between(((x-x_mid)^2 + (y-y_mid)^2)^(1/2),
+                  (ex_size * (5/8 * (1/2))) - 1,
+                  (ex_size * (5/8 * (1/2)))
+                  )) %>% 
     dplyr::ungroup() %>% 
     dplyr::mutate(elevation = ifelse(stud, elevation+0.5, elevation)) %>% 
-    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), list(~ifelse(stud, .-0.1, .))) %>% 
+    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), list(~ifelse(stud_color, .-0.1, .))) %>% 
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), list(~ifelse(. < 0, 0, .)))
   
   #Elevation Matrix
@@ -99,7 +103,7 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
     # The higher the resolution, the dark this should be
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
                      list(~ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), 
-                                  .*0.9*((15/ex_size)^2), .))) %>% 
+                                  .*0.9*((15/ex_size)^(1/2)), .))) %>% 
     dplyr::ungroup()
   
   lego_hillshade_m[,,1] <- lego_expand_color %>% 
