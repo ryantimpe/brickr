@@ -4,6 +4,7 @@
 \docType{data}
 \name{CoordBrick}
 \alias{CoordBrick}
+\alias{CoordBrickFlip}
 \alias{GeomBrick}
 \alias{GeomBrickCol}
 \alias{GeomStud}
@@ -14,7 +15,7 @@
 \title{GeomBrick}
 \format{An object of class \code{CoordBrick} (inherits from \code{CoordCartesian}, \code{Coord}, \code{ggproto}, \code{gg}) of length 3.}
 \usage{
-CoordBrick
+CoordBrickFlip
 
 GeomStud
 

@@ -63,11 +63,19 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        stop("geom_brick_rect must be used with linear coordinates")
                      } else {
                        
+                       # print(coord)
+                       # print(coord$is_flipped())
+                       
                        #Brick border ----
 
                        coords_rect <- coord$transform(data, panel_params) %>% 
                          dplyr::mutate(size = data$size[1], linetype = data$linetype[1], 
                                        colour = data$colour[1], alpha = data$alpha[1])
+                       
+                       #Reverse calc for flipped
+                       if(coord$is_flipped()){
+                         coords_rect <- flip_coords(coords_rect)
+                       }
                        
                        test_coords_rect <<- coords_rect
                        
@@ -114,6 +122,11 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        coords_rect$color_intensity <- as.numeric(colSums(col2rgb(coords_rect$fill)))
                        coords_rect$outline_col <- ifelse(coords_rect$color_intensity < 200, "#CCCCCC", "#333333")
                        
+                       #Un-Reverse calc for flipped
+                       if(coord$is_flipped()){
+                          coords_rect <- flip_coords(coords_rect)
+                       }
+                       
                        gm_brick <- grid::rectGrob(
                          coords_rect$xmin, coords_rect$ymax,
                          width = coords_rect$xmax - coords_rect$xmin,
@@ -135,11 +148,19 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        # Knob ----
                        
                        coords <- coord$transform(data, panel_params)
+                       coords_knobs0 <<- coords
+                       
+                       #Reverse calc for flipped
+                       if(coord$is_flipped()){
+                         coords <- flip_coords(coords)
+                       }
                        
                        hmm <- coords %>% 
                          dplyr::mutate(brick_width = abs(xmax - xmin)/n_knob,
                                 num_of_1x1s = (ymax-ymin) %/% brick_width,
                                 knob_radius = brick_width * (5/8) * (1/2) )
+                       
+                       coords_knobs0a <<- hmm
                        
                        coords_knobs <- 1:max(hmm$num_of_1x1s) %>% 
                          purrr::map_dfr(function(kk){
@@ -164,6 +185,11 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                        coords_knobs$color_intensity <- as.numeric(colSums(col2rgb(coords_knobs$fill)))
                        coords_knobs$text_alpha <- ifelse(coords_knobs$color_intensity < 200, 0.3, 0.3)
                        coords_knobs$text_col <- ifelse(coords_knobs$color_intensity < 200, "#CCCCCC", "#333333")
+                       
+                       #Un-Reverse calc for flipped
+                       if(coord$is_flipped()){
+                         coords_knobs <- flip_coords_xy(coords_knobs)
+                       }
 
                        gm_knob_shadow <- grid::circleGrob(
                          coords_knobs$x + (1/4)*coords_knobs$knob_radius,
@@ -237,3 +263,25 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                    
                    draw_key = draw_key_brick
 )
+
+flip_coords <- function(dat){
+  dat$zmin <- dat$xmin
+  dat$zmax <- dat$xmax
+  dat$xmin <- dat$ymin
+  dat$xmax <- dat$ymax
+  dat$ymin <- dat$zmin
+  dat$ymax <- dat$zmax
+  dat$zmin <- NULL
+  dat$zmax <- NULL
+  
+  return(dat)
+}
+
+flip_coords_xy <- function(dat){
+  dat$z <- dat$x
+  dat$x <- dat$y
+  dat$y <- dat$z
+  dat$z <- NULL
+  
+  return(dat)
+}

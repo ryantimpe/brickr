@@ -4,12 +4,15 @@
 \alias{layer_from_bricks}
 \title{Helper function to convert a level from a 3D model into a rayshader-friendly object.}
 \usage{
-layer_from_bricks(brick_list, lev = 1, brick_size = 15)
+layer_from_bricks(brick_list, lev = 1, brick_res = "sd")
 }
 \arguments{
 \item{brick_list}{List output from table_to_bricks(). Contains an element \code{Img_lego}.}
 
 \item{lev}{z-level of 3D model}
+
+\item{brick_res}{Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px.
+Enter a value for a custom resolution. High resolutions take longer to render.}
 }
 \value{
 A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.

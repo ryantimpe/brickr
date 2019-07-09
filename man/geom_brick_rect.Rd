@@ -14,8 +14,8 @@ geom_brick_rect(mapping = NULL, data = NULL, stat = "identity",
   show.legend = NA, inherit.aes = TRUE)
 
 geom_brick_col(mapping = NULL, data = NULL, position = "dodge",
-  two_knob = TRUE, ..., width = NULL, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  two_knob = TRUE, min_radius_for_text = 0.02, ..., width = NULL,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \description{
 \code{geom_rect}, except bars look like LEGO(R) bricks.

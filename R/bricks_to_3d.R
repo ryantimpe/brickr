@@ -20,7 +20,7 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
   #Increment elevation - a brick is 3 plates tall
   up_el = (lev-1)*3 
   
-  #Number of 'pixels' on a side of a single-stud brick. I think this should be fixed for now
+  #Number of 'pixels' on a side of a single-stud brick. Set by brick_res.
   if(is.numeric(brick_res)){
     if(brick_res > 100) warning("brick_res capped at 100px per brick.")
     ex_size <- min(100, abs(round(brick_res)))

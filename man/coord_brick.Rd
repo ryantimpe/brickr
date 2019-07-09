@@ -4,11 +4,7 @@
 \alias{coord_brick}
 \title{Cartesian coordinates with fixed "aspect ratio"}
 \usage{
-coord_brick(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE,
-  clip = "on")
-}
-\arguments{
-\item{ratio}{aspect ratio, expressed as \code{y / x}Resize the plot to see that the specified aspect ratio is maintained}
+coord_brick(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 }
 \description{
 A fixed scale coordinate system forces a specified ratio between the
