@@ -13,14 +13,13 @@
 **ggplot Extension**
 
 * `geom_brick_col` for bar charts in the shape of bricks.
-* `coord_brick` to prevent chart brick distortion.
+* `coord_brick` to prevent chart brick distortion. `coord_brick_flip` for horizontal bars.
 
 ### TO DO
 
 * negative bars (knobs at 0)
 * negative bars (partial bricks lowest)
 * LEGO color themes
-* coord_brick(flipped)
 * DOCUMENTATION
 * Website
 * Check()
