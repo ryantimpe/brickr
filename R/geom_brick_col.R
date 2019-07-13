@@ -61,10 +61,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                                               two_knob = TRUE, split_bricks = TRUE) {
                           
                           #This happens to EACH panel
-                          if (!coord$is_linear()) {
-                            stop("geom_brick_rect must be used with linear coordinates")
-                          } else {
-                            
+                          
                             #Parameters ----
                             
                             if(two_knob) n_knob <- 2 else n_knob <- 1
@@ -76,7 +73,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                                             colour = data$colour[1], alpha = data$alpha[1])
                             
                             #Reverse calc for flipped
-                            if(coord$is_flipped()){
+                            if(coord$is_linear() == "flipped"){
                               coords_rect <- flip_coords(coords_rect)
                             }
                             
@@ -146,7 +143,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             coords_rect$outline_col <- ifelse(coords_rect$color_intensity < 200, "#CCCCCC", "#333333")
                             
                             #Un-Reverse calc for flipped coords
-                            if(coord$is_flipped()){
+                            if(coord$is_linear() == "flipped"){
                               coords_rect <- flip_coords(coords_rect)
                             }
                             
@@ -172,7 +169,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             coords_knobs0 <<- coords
                             
                             #Reverse calc for flipped
-                            if(coord$is_flipped()){
+                            if(coord$is_linear() == "flipped"){
                               coords <- flip_coords(coords)
                             }
                             
@@ -210,7 +207,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             coords_knobs$text_col <- ifelse(coords_knobs$color_intensity < 200, "#CCCCCC", "#333333")
                             
                             #Un-Reverse calc for flipped
-                            if(coord$is_flipped()){
+                            if(coord$is_linear() == "flipped"){
                               coords_knobs <- flip_coords_xy(coords_knobs)
                             }
                             
@@ -281,7 +278,6 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                                                             gm_knob_base,
                                                             gm_knob_text
                                              ))
-                          }
                         },
                         
                         draw_key = draw_key_brick
