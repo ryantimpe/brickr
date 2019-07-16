@@ -121,8 +121,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          
                          #Outline and text for dark colors
                          coords$color_intensity <- as.numeric(colSums(col2rgb(coords$fill)))
-                         coords$text_alpha <- ifelse(coords$color_intensity < 200, 0.2, 0.2)
-                         coords$text_col <- ifelse(coords$color_intensity < 200, "#CCCCCC", "#333333")
+                         coords$text_alpha <- ifelse(coords$color_intensity <= 300, 0.2, 0.2)
+                         coords$text_col <- ifelse(coords$color_intensity <= 300, "#CCCCCC", "#333333")
 
                          gm_knob_shadow <- grid::circleGrob(
                            coords_nudge$x,

@@ -4,8 +4,8 @@ draw_key_brick <- function(data, params, size) {
   
   #Outline and text for dark colors
   data$color_intensity <- as.numeric(colSums(col2rgb(data$fill)))
-  data$text_alpha <- ifelse(data$color_intensity < 200, 0.3, 0.3)
-  data$text_col <- ifelse(data$color_intensity < 200, "#CCCCCC", "#333333")
+  data$text_alpha <- ifelse(data$color_intensity <= 300, 0.3, 0.3)
+  data$text_col <- ifelse(data$color_intensity <= 300, "#CCCCCC", "#333333")
 
   grid::grobTree(
     grid::rectGrob(gp = grid::gpar(col = alpha(data$colour %||%  "#333333", 0.3),

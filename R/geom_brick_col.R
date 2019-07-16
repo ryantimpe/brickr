@@ -140,7 +140,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             
                             #Brighter colors for darker bricks
                             coords_rect$color_intensity <- as.numeric(colSums(col2rgb(coords_rect$fill)))
-                            coords_rect$outline_col <- ifelse(coords_rect$color_intensity < 200, "#CCCCCC", "#333333")
+                            coords_rect$outline_col <- ifelse(coords_rect$color_intensity <= 300, "#CCCCCC", "#333333")
                             
                             #Un-Reverse calc for flipped coords
                             if(coord$is_linear() == "flipped"){
@@ -203,8 +203,8 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             
                             #Outline and text for dark colors
                             coords_knobs$color_intensity <- as.numeric(colSums(col2rgb(coords_knobs$fill)))
-                            coords_knobs$text_alpha <- ifelse(coords_knobs$color_intensity < 200, 0.3, 0.3)
-                            coords_knobs$text_col <- ifelse(coords_knobs$color_intensity < 200, "#CCCCCC", "#333333")
+                            coords_knobs$text_alpha <- ifelse(coords_knobs$color_intensity <= 300, 0.3, 0.3)
+                            coords_knobs$text_col <- ifelse(coords_knobs$color_intensity <= 300, "#CCCCCC", "#333333")
                             
                             #Un-Reverse calc for flipped
                             if(coord$is_linear() == "flipped"){
