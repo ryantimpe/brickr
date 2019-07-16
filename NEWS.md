@@ -1,5 +1,7 @@
 # brickr 0.1.0.0000
 
+* **Breaking:** Data "lego_colors.rda" has been updated with more accurate RGB values and new `brickrID` numbers. This will impact previously created mosaics and 3D models.
+
 **Mosaics**
 
 * New rendering of mosaics in ggplot2. Includes embossed text with custom labels.
@@ -12,14 +14,14 @@
 
 **ggplot Extension**
 
-* `geom_brick_col` for bar charts in the shape of bricks.
+* `geom_brick_col` for bar charts in the shape of bricks. Negative values are fine, but `position = stack` is not available.
 * `coord_brick` to prevent chart brick distortion. `coord_brick_flip` for horizontal bars.
 
 ### TO DO
 
-* negative bars (knobs at 0)
-* negative bars (partial bricks lowest)
 * LEGO color themes
+* Negative bricks are "underside"
+* bricks_from_models
 * DOCUMENTATION
 * Website
 * Check()
