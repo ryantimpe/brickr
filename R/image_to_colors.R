@@ -41,7 +41,7 @@ legoize <- function(image_list, color_table = lego_colors, theme = "default", co
   } else if (theme == "bw"){
     #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
     bw_colors <- color_table %>% 
-      dplyr::filter(t_BW) %>% 
+      dplyr::filter(Color %in% c("Black", "White", "Dark stone grey", "Medium stone grey")) %>% 
       dplyr::arrange((R_lego + G_lego + B_lego)) %>% 
       dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego))
     

@@ -63,7 +63,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          
                          points_to_rects <- function(data){
                            #Probably super frowned upon to use dplyr inside of a ggproto, but this simplifies the data that can be fed into geom
-                           data$Level <- data$PANEL
+                           data$Level <- as.numeric(data$PANEL)
+                           
                            if(is.null(data$fill)){
                              data$Lego_name <- "#C4281B"
                              data$Lego_color <- "#C4281B"
