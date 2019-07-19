@@ -2,16 +2,10 @@
 % Please edit documentation in R/theme_brick.R
 \name{theme_brick}
 \alias{theme_brick}
-\title{Modify components of a theme}
+\title{Brick color themes}
 \usage{
 theme_brick(brick_theme = "classic")
 }
 \description{
-Themes are a powerful way to customize the non-data components of your
-plots: i.e. titles, labels, fonts, background, gridlines, and legends.
-Themes can be used to give plots a consistent customized look.
-Modify a single plot's theme using \code{theme()}; see \code{\link[=theme_update]{theme_update()}} if
-you want modify the active theme, to affect all subsequent plots. Theme
-elements are documented together according to inheritance, read more
-about theme inheritance below.
+Brick color themes
 }

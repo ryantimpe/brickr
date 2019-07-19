@@ -2,49 +2,75 @@
 % Please edit documentation in R/scale_brick.R
 \name{scale_fill_brick}
 \alias{scale_fill_brick}
-\title{Create your own discrete scale}
+\title{Color scales for bricks}
 \usage{
 scale_fill_brick(brick_theme = "classic", ...)
 }
 \arguments{
-\item{brick_theme}{Color options for brickr.}
+\item{brick_theme}{Color palette for bricks. Same as \code{brickr::theme_brick()}. Options include:
+\code{ c("classic", "hp", "sw_light", "sw_dark", "friends", "elves", 
+"ninja", "classy", "city", "ocean", "movie", "space", 
+"jurassic", "duplo", "superhero",
+ "rainbow7", "rainbow13", "doublerainbow", "blue")}.}
 
-\item{...}{Other parameters from ggplots::scale_fill_manual().}
+\item{...}{Arguments passed on to \code{discrete_scale}
+\describe{
+  \item{palette}{A palette function that when called with a single integer
+argument (the number of levels in the scale) returns the values that
+they should take.}
+  \item{breaks}{One of:
+\itemize{
+\item \code{NULL} for no breaks
+\item \code{waiver()} for the default breaks computed by the
+transformation object
+\item A character vector of breaks
+\item A function that takes the limits as input and returns breaks
+as output
+}}
+  \item{limits}{A character vector that defines possible values of the scale
+and their order.}
+  \item{drop}{Should unused factor levels be omitted from the scale?
+The default, \code{TRUE}, uses the levels that appear in the data;
+\code{FALSE} uses all the levels in the factor.}
+  \item{na.translate}{Unlike continuous scales, discrete scales can easily show
+missing values, and do so by default. If you want to remove missing values
+from a discrete scale, specify \code{na.translate = FALSE}.}
+  \item{na.value}{If \code{na.translate = TRUE}, what value aesthetic
+value should missing be displayed as? Does not apply to position scales
+where \code{NA} is always placed at the far right.}
+  \item{scale_name}{The name of the scale}
+  \item{name}{The name of the scale. Used as the axis or legend title. If
+\code{waiver()}, the default, the name of the scale is taken from the first
+mapping used for that aesthetic. If \code{NULL}, the legend title will be
+omitted.}
+  \item{labels}{One of:
+\itemize{
+\item \code{NULL} for no labels
+\item \code{waiver()} for the default labels computed by the
+transformation object
+\item A character vector giving labels (must be same length as \code{breaks})
+\item A function that takes the breaks as input and returns labels
+as output
+}}
+  \item{guide}{A function used to create a guide or its name. See
+\code{\link[=guides]{guides()}} for more info.}
+  \item{super}{The super class to use for the constructed scale}
+}}
 }
 \description{
-These functions allow you to specify your own set of mappings from levels in the
-data to aesthetic values.
+brickr counterpart to \code{ggplot2::scale_fill_discrete()} to map bar colors to the palette of LEGO mold colors.
 }
-\details{
-The functions \code{scale_colour_manual()}, \code{scale_fill_manual()}, \code{scale_size_manual()},
-etc. work on the aesthetics specified in the scale name: \code{colour}, \code{fill}, \code{size},
-etc. However, the functions \code{scale_colour_manual()} and \code{scale_fill_manual()} also
-have an optional \code{aesthetics} argument that can be used to define both \code{colour} and
-\code{fill} aesthetic mappings via a single function call (see examples). The function
-\code{scale_discrete_manual()} is a generic scale that can work with any aesthetic or set
-of aesthetics provided via the \code{aesthetics} argument.
-}
-\section{Color Blindness}{
-
-Many color palettes derived from RGB combinations (like the "rainbow" color
-palette) are not suitable to support all viewers, especially those with
-color vision deficiencies. Using \code{viridis} type, which is perceptually
-uniform in both colour and black-and-white display is an easy option to
-ensure good perceptive properties of your visulizations.
-The colorspace package offers functionalities
-\itemize{
-\item to generate color palettes with good perceptive properties,
-\item to analyse a given color palette, like emulating color blindness,
-\item and to modify a given color palette for better perceptivity.
-}
-
-For more information on color vision deficiencies and suitable color choices
-see the \href{https://arxiv.org/abs/1903.06490}{paper on the colorspace package}
-and references therein.
-}
-
 \examples{
-p <- ggplot(mtcars, aes(mpg, wt)) +
-  geom_point(aes(colour = factor(cyl)))
-p + scale_colour_manual(values = c("red", "blue", "green"))
+df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+p <- ggplot(df, aes(trt, outcome)) +
+  geom_brick_col(aes(fill = trt)) +
+  coord_brick()
+  
+p  + scale_fill_brick()
+
+#Select a brick_theme and use with theme_brick()
+tm <- "hp"
+p  + 
+ scale_fill_brick(tm) + 
+ theme_brick(tm)
 }

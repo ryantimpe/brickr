@@ -2,12 +2,42 @@
 % Please edit documentation in R/coord_brick.R
 \name{coord_brick}
 \alias{coord_brick}
-\title{Cartesian coordinates with fixed "aspect ratio"}
+\alias{coord_brick_flip}
+\title{Cartesian coordinates for bricks}
 \usage{
 coord_brick(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
+
+coord_brick_flip(xlim = NULL, ylim = NULL, expand = TRUE,
+  clip = "on")
+}
+\arguments{
+\item{xlim}{Limits for the x and y axes.}
+
+\item{ylim}{Limits for the x and y axes.}
+
+\item{expand}{If \code{TRUE}, the default, adds a small expansion factor to
+the limits to ensure that data and axes don't overlap. If \code{FALSE},
+limits are taken exactly from the data or \code{xlim}/\code{ylim}.}
+
+\item{clip}{Should drawing be clipped to the extent of the plot panel? A
+setting of \code{"on"} (the default) means yes, and a setting of \code{"off"}
+means no. In most cases, the default of \code{"on"} should not be changed,
+as setting \code{clip = "off"} can cause unexpected results. It allows
+drawing of data points anywhere on the plot, including in the plot margins. If
+limits are set via \code{xlim} and \code{ylim} and some data points fall outside those
+limits, then those data points may show up in places such as the axes, the
+legend, the plot title, or the plot margins.}
 }
 \description{
-A fixed scale coordinate system forces a specified ratio between the
-physical representation of data units on the axes. The ratio represents the
-number of units on the y-axis equivalent to one unit on the x-axis.
+A fixed scale coordinate system that ensures correct brick proportions are maintained regardless of device size.
+Use \code{coord_brick_flip()} for horizontal bars.
+}
+\examples{
+#geom_brick_col should be used in conjunction with other brickr charting functions, especially coord_brick.
+df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+ggplot(df, aes(trt, outcome)) +
+  geom_brick_col(aes(fill = trt)) +
+  coord_brick()
+  
+ #horizontal bars
 }

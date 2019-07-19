@@ -1,10 +1,19 @@
-#' Cartesian coordinates with fixed "aspect ratio"
+#' Cartesian coordinates for bricks
 #'
-#' A fixed scale coordinate system forces a specified ratio between the
-#' physical representation of data units on the axes. The ratio represents the
-#' number of units on the y-axis equivalent to one unit on the x-axis.
+#' A fixed scale coordinate system that ensures correct brick proportions are maintained regardless of device size. 
+#' Use \code{coord_brick_flip()} for horizontal bars.
 #'
+#' @inheritParams ggplot2::coord_fixed
+#' @examples
+#' #geom_brick_col should be used in conjunction with other brickr charting functions, especially coord_brick.
+#' df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+#' ggplot(df, aes(trt, outcome)) +
+#'   geom_brick_col(aes(fill = trt)) +
+#'   coord_brick()
+#'   
+#'  #horizontal bars
 #' @export
+#' @rdname coord_brick
 coord_brick <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
   ggproto(NULL, CoordBrick,
           limits = list(x = xlim, y = ylim),
@@ -13,13 +22,8 @@ coord_brick <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
   )
 }
 
-#' Flipped Cartesian coordinates with fixed "aspect ratio"
-#'
-#' A fixed scale coordinate system forces a specified ratio between the
-#' physical representation of data units on the axes. The ratio represents the
-#' number of units on the y-axis equivalent to one unit on the x-axis. X- and y- axes are flipped.
-#'
 #' @export
+#' @rdname coord_brick
 coord_brick_flip <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
   ggproto(NULL, CoordBrickFlip,
           limits = list(x = xlim, y = ylim),

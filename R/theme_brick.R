@@ -1,19 +1,12 @@
-#' Modify components of a theme
-#'
-#' Themes are a powerful way to customize the non-data components of your
-#' plots: i.e. titles, labels, fonts, background, gridlines, and legends.
-#' Themes can be used to give plots a consistent customized look.
-#' Modify a single plot's theme using `theme()`; see [theme_update()] if
-#' you want modify the active theme, to affect all subsequent plots. Theme
-#' elements are documented together according to inheritance, read more
-#' about theme inheritance below.
-#'
+#' Brick color themes
+
 #'@export
 
 theme_brick <- function(brick_theme = "classic"){
   if(!(brick_theme %in% brickr_themes$theme)){
     warning(paste0("Defaulting theme_brick() to 'classic'. Use a brick_theme included in brickr:\n",
                    paste(unique(brickr_themes$theme), collapse = ", "))) 
+    brick_theme <- "classic"
   }
   
   values <- brickr_themes[brickr_themes$theme == brick_theme &
