@@ -1,11 +1,13 @@
 #' @export
-#' @rdname geom_brick_rect
+#' @rdname brickr-ggproto
 draw_key_brick <- function(data, params, size) {
   
   #Outline and text for dark colors
-  data$color_intensity <- as.numeric(colSums(col2rgb(data$fill)))
-  data$text_alpha <- ifelse(data$color_intensity <= 300, 0.3, 0.3)
-  data$text_col <- ifelse(data$color_intensity <= 300, "#CCCCCC", "#333333")
+  color_lum <- as.data.frame(t(col2rgb(data$fill)/255))
+  data$color_intensity <- 0.299*color_lum$red + 0.587*color_lum$green + 0.114*color_lum$blue
+  
+  data$text_alpha <- ifelse(data$color_intensity <= thres_brick_lum(), 0.3, 0.3)
+  data$text_col <- ifelse(data$color_intensity <= thres_brick_lum(), "#CCCCCC", "#333333")
 
   grid::grobTree(
     grid::rectGrob(gp = grid::gpar(col = alpha(data$colour %||%  "#333333", 0.3),

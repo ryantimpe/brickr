@@ -60,32 +60,3 @@ legoize <- function(image_list, color_table = lego_colors, theme = "default", co
   return(in_list)
   
 }
-
-#' Display a table and plot of possible brick colors & their ID numbers
-#' @param .names_only Return an array of the 39 brick color names. Does not plot.
-#' @return A table and ggplot of brick colors & ID numbers.
-#' @export 
-#'
-display_colors <- function(.names_only = FALSE){
-  if(.names_only){
-    return(lego_colors$Color)
-  }
-  message("Use View(lego_colors) to see these in a table format.")
-  lego_colors %>% 
-    dplyr::mutate(Label = paste0(brickrID, "\n", Color)) %>% 
-    ggplot2::ggplot(ggplot2::aes(x = brickrID %% 6, y = (6 - (brickrID %/% 6)))) +
-    ggplot2::geom_tile(ggplot2::aes(fill = hex),color = "white", size = 2) +
-    ggplot2::scale_fill_identity() +
-    ggplot2::geom_label(ggplot2::aes(label = Label)) +
-    ggplot2::labs(title = "Brick Colors by {brickr} ID# and LEGO Name",
-                  subtilte = "See included data frame 'lego_colors'") +
-    ggplot2::theme_minimal() +
-    ggplot2::theme( panel.background = ggplot2::element_rect(fill = "#7EC0EE"),
-                    strip.background = ggplot2::element_rect(fill = "#F7F18D"),
-                    strip.text = ggplot2::element_text(color = "#333333", face = "bold"),
-                    axis.line = ggplot2::element_blank(),
-                    axis.title.x = ggplot2::element_blank(),
-                    axis.text.x = ggplot2::element_blank(),
-                    axis.title.y = ggplot2::element_blank(),
-                    axis.text.y = ggplot2::element_blank())
-}

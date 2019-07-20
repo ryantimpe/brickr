@@ -73,7 +73,7 @@ geom_brick_point <- function(mapping = NULL, data = NULL,
 #' @rdname brickr-ggproto
 GeomStud <- ggproto("GeomStud", Geom,
                     required_aes = c("x", "y"),
-                    default_aes = aes(colour = "#333333", fill = "#C4281B", size = 1, linetype = 1,
+                    default_aes = aes(colour = "#333333", fill = "#B40000", size = 1, linetype = 1,
                                       alpha = NA),
                     
                     draw_panel = function(data, panel_params, coord, na.rm = FALSE, 

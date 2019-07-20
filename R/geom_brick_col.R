@@ -63,7 +63,7 @@ geom_brick_col <- function(mapping = NULL, data = NULL,
 #' @export
 #' @include geom_brick.R
 GeomBrickCol <- ggproto("GeomCol", GeomBrick,
-                        default_aes = aes(colour = "#333333", fill = "#C4281B", size = 0.25, linetype = 1,
+                        default_aes = aes(colour = "#333333", fill = "#B40000", size = 0.25, linetype = 1,
                                           alpha = NA, label = "brickr",
                                           angle = 0, family = "", fontface = 1, lineheight = 1.2),
                         required_aes = c("x", "y"),
@@ -102,7 +102,8 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                                             colour = data$colour[1], alpha = data$alpha[1])
                             
                             #Reverse calc for flipped
-                            if(coord$is_linear() == "flipped"){
+
+                            if(!is.null(coord$is_flipped) && coord$is_flipped()){
                               coords_rect <- flip_coords(coords_rect)
                             }
                             
@@ -168,11 +169,15 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             # test_coords_rect4 <<- coords_rect
                             
                             #Brighter colors for darker bricks
-                            coords_rect$color_intensity <- as.numeric(colSums(col2rgb(coords_rect$fill)))
-                            coords_rect$outline_col <- ifelse(coords_rect$color_intensity <= 300, "#CCCCCC", "#333333")
+                            #Calculate brightness of color
+                              # https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
+                            color_lum <- as.data.frame(t(col2rgb(coords_rect$fill)/255))
+                            coords_rect$color_intensity <- 0.299*color_lum$red + 0.587*color_lum$green + 0.114*color_lum$blue
+
+                            coords_rect$outline_col <- ifelse(coords_rect$color_intensity <= thres_brick_lum(), "#CCCCCC", "#333333")
                             
                             #Un-Reverse calc for flipped coords
-                            if(coord$is_linear() == "flipped"){
+                            if(!is.null(coord$is_flipped) && coord$is_flipped()){
                               coords_rect <- flip_coords(coords_rect)
                             }
                             
@@ -198,7 +203,7 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             # coords_knobs0 <<- coords
                             
                             #Reverse calc for flipped
-                            if(coord$is_linear() == "flipped"){
+                            if(!is.null(coord$is_flipped) && coord$is_flipped()){
                               coords <- flip_coords(coords)
                             }
                             
@@ -231,12 +236,14 @@ GeomBrickCol <- ggproto("GeomCol", GeomBrick,
                             # coords_knobs1 <<- coords_knobs
                             
                             #Outline and text for dark colors
-                            coords_knobs$color_intensity <- as.numeric(colSums(col2rgb(coords_knobs$fill)))
-                            coords_knobs$text_alpha <- ifelse(coords_knobs$color_intensity <= 300, 0.3, 0.3)
-                            coords_knobs$text_col <- ifelse(coords_knobs$color_intensity <= 300, "#CCCCCC", "#333333")
+                            color_lum <- as.data.frame(t(col2rgb(coords_knobs$fill)/255))
+                            coords_knobs$color_intensity <- 0.299*color_lum$red + 0.587*color_lum$green + 0.114*color_lum$blue
+                            
+                            coords_knobs$text_alpha <- ifelse(coords_knobs$color_intensity <= thres_brick_lum(), 0.3, 0.3)
+                            coords_knobs$text_col <- ifelse(coords_knobs$color_intensity <= thres_brick_lum(), "#CCCCCC", "#333333")
                             
                             #Un-Reverse calc for flipped
-                            if(coord$is_linear() == "flipped"){
+                            if(!is.null(coord$is_flipped) && coord$is_flipped()){
                               coords_knobs <- flip_coords_xy(coords_knobs)
                             }
                             
@@ -332,4 +339,8 @@ flip_coords_xy <- function(dat){
   dat$z <- NULL
   
   return(dat)
+}
+
+thres_brick_lum <- function(){
+  return(0.4)
 }

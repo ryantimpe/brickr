@@ -1,6 +1,7 @@
 # brickr 0.1.0.0000
 
 * **Breaking:** Data "lego_colors.rda" has been updated with more accurate RGB values and new `brickrID` numbers. This will impact previously created mosaics and 3D models.
+* **Breaking:** Pretty much every function name.
 
 **Mosaics**
 

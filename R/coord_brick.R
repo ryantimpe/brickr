@@ -12,6 +12,10 @@
 #'   coord_brick()
 #'   
 #'  #horizontal bars
+#' ggplot(df, aes(trt, outcome)) +
+#'   geom_brick_col(aes(fill = trt)) +
+#'   coord_brick_flip()
+#'   
 #' @export
 #' @rdname coord_brick
 coord_brick <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
@@ -36,7 +40,7 @@ coord_brick_flip <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on
 #' @usage NULL
 #' @export
 CoordBrick <- ggproto("CoordBrick", CoordCartesian,
-                      # is_free = function() FALSE,
+                      is_free = function() FALSE,
                       is_flipped = function() FALSE,
                       aspect = function(self, ranges) {
                         1
@@ -47,7 +51,7 @@ CoordBrick <- ggproto("CoordBrick", CoordCartesian,
 #' @export
 CoordBrickFlip <- ggproto("CoordBrickFlip", CoordCartesian,
                           
-                     is_linear = function() "flipped",
+                     is_flipped = function() TRUE,
                      
                      transform = function(data, panel_params) {
                        data <- ggplot2:::flip_labels(data)

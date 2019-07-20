@@ -6,7 +6,7 @@
 geom_brick_rect <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
-                            label = "LEGO", simplified_threshold = 24*24,
+                            label = "brickr", simplified_threshold = 24*24, label_scale = 1,
                             linejoin = "mitre",
                             na.rm = FALSE,
                             show.legend = NA,
@@ -22,6 +22,7 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
     params = list(
       linejoin = linejoin,
       label = label,
+      label_scale = label_scale,
       na.rm = na.rm,
       simplified_threshold = simplified_threshold,
       ...
@@ -40,8 +41,8 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
 #' @usage NULL
 #' @export
 GeomBrick <- ggproto("GeomBrick", Geom,
-                     default_aes = aes(colour = "#333333", fill = "#C4281B", size = 0.5, linetype = 1,
-                                       alpha = NA, label = "LEGO",
+                     default_aes = aes(colour = "#333333", fill = "#B40000", size = 0.5, linetype = 1,
+                                       alpha = NA, label = "brickr", label_scale = 1,
                                        angle = 0, family = "", fontface = 1, lineheight = 1.2),
                      
                      required_aes = c("x", "y"),
@@ -52,7 +53,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      },
                      
                      draw_panel = function(self, data, panel_params, coord, linejoin = "mitre", 
-                                           simplified_threshold = 24*24) {
+                                           simplified_threshold = 24*24, label_scale = 1) {
 
                        #This happens to EACH panel
                        if (!coord$is_linear()) {
@@ -66,8 +67,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                            data$Level <- as.numeric(data$PANEL)
                            
                            if(is.null(data$fill)){
-                             data$Lego_name <- "#C4281B"
-                             data$Lego_color <- "#C4281B"
+                             data$Lego_name <- "#B40000"
+                             data$Lego_color <- "#B40000"
                            }else{
                              data$Lego_name <- data$fill
                              data$Lego_color <- data$fill 
@@ -121,9 +122,11 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                                                                      function(y) y - y_size*(5/8)*(1/2)*(1/4))
                          
                          #Outline and text for dark colors
-                         coords$color_intensity <- as.numeric(colSums(col2rgb(coords$fill)))
-                         coords$text_alpha <- ifelse(coords$color_intensity <= 300, 0.2, 0.2)
-                         coords$text_col <- ifelse(coords$color_intensity <= 300, "#CCCCCC", "#333333")
+                         color_lum <- as.data.frame(t(col2rgb(coords$fill)/255))
+                         coords$color_intensity <- 0.299*color_lum$red + 0.587*color_lum$green + 0.114*color_lum$blue
+                         
+                         coords$text_alpha <- ifelse(coords$color_intensity <= thres_brick_lum(), 0.3, 0.3)
+                         coords$text_col <- ifelse(coords$color_intensity <= thres_brick_lum(), "#CCCCCC", "#333333")
 
                          gm_knob_shadow <- grid::circleGrob(
                            coords_nudge$x,
@@ -154,7 +157,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          #Text ----
                          #Don't draw if mosaic is larger than threshold size
                          n <- nrow(data)
-                         if (n > simplified_threshold ) {
+                         if (n > simplified_threshold | data$label[1] == "") {
                            gm_knob_text <- grid::nullGrob()
                           } else {
                             lab <- data$label
@@ -178,7 +181,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               gp = grid::gpar(
                                 col = alpha(coords$text_col, coords$text_alpha),
                                 fontsize = fs,
-                                cex = (3/8) * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
+                                cex = label_scale * (3/8) * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
                                 fontfamily = data$family,
                                 fontface = "bold",
                                 lineheight = data$lineheight

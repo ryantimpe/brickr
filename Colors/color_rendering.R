@@ -19,6 +19,9 @@ lego_colors <- color_df %>%
   mutate_at(vars(R_lego, G_lego, B_lego), list(~./255)) %>% 
   arrange(Palette, LEGONo) %>% 
   mutate(brickrID = row_number()) %>% 
-  select(brickrID, Color, LEGONo, Palette, everything())
+  select(brickrID, Color, LEGONo, Palette, everything()) %>% 
+  #Calculate brightness of color
+  # https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
+  mutate(lum = 0.299*R_lego + 0.587*G_lego + 0.114*B_lego)
 
 usethis::use_data(lego_colors, overwrite = T)

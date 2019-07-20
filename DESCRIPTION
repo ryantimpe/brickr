@@ -29,6 +29,7 @@ Collate:
     'bricks_from_data.R'
     'bricks_to_3d.R'
     'collect_bricks.R'
+    'colors-and-themes.R'
     'coord_brick.R'
     'draw_key.R'
     'geom_brick.R'

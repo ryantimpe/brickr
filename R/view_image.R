@@ -5,26 +5,20 @@
 #' @export 
 #'
 
-display_set <- function(image_list, title=NULL){
+build_mosaic <- function(image_list, title=NULL){
   in_list <- image_list
   image <- in_list$Img_bricks
   type <- in_list$mosaic_type
   
   coord_x <- c(min(image$xmin)+0.5, max(image$xmax)-0.5)
   coord_y <- c(min(image$ymin)+0.5, max(image$ymax)-0.5)
-
-  #FLat mosaics use the new geom_brick_rect, which looks for individual x and ys out of $Img_lego
-  if(type == "flat"){
-    img <- ggplot2::ggplot(in_list$Img_lego, ggplot2::aes(x=x, y=y))  +
-      geom_brick_rect(ggplot2::aes(fill = Lego_color), color = "#333333")+
-      ggplot2::scale_fill_identity() + 
-      ggplot2::coord_fixed(expand = 0.5) 
-  } else {
-    img <- ggplot2::ggplot(image) +
-      gplot2::geom_rect(ggplot2::aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
-                                   fill = Lego_color), color = "#333333")
-      ggplot2::coord_fixed(ratio = 6/5, expand = FALSE)
-  }
+  
+  if(type == "stacked") stop("Stacked mosaics have been removed from brickr. Only flat / 'knobs-up' mosaics are supported.")
+  
+  img <- ggplot2::ggplot(in_list$Img_lego, ggplot2::aes(x=x, y=y))  +
+    geom_brick_rect(ggplot2::aes(fill = Lego_color), color = "#333333")+
+    ggplot2::scale_fill_identity() + 
+    ggplot2::coord_fixed(expand = 0.5) 
   
   img <- img +
     ggplot2::labs(title = title) +
@@ -33,6 +27,14 @@ display_set <- function(image_list, title=NULL){
   return(img)
 } 
 
+#' @export
+#' @rdname build_mosaic
+
+display_set <- function(...){
+  warning("display_set() is deprecated. Please use build_mosaic()")
+  build_mosaic(...)
+}
+
 #' Create instruction manual for 2D image mosaics
 #'
 #' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.
@@ -40,7 +42,7 @@ display_set <- function(image_list, title=NULL){
 #' @export 
 #'
 
-generate_instructions <- function(image_list, num_steps=6) {
+build_instructions <- function(image_list, num_steps=6) {
   in_list <- image_list
   image <- in_list$Img_bricks
   type <- in_list$mosaic_type
@@ -75,7 +77,7 @@ generate_instructions <- function(image_list, num_steps=6) {
     dplyr::bind_rows() %>% 
     ggplot2::ggplot() +
     ggplot2::geom_rect(ggplot2::aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
-                       fill = Lego_color), color = "#333333") +
+                                    fill = Lego_color), color = "#333333") +
     ggplot2::scale_fill_identity() +
     ggplot2::coord_fixed(ratio = coord_ratio, expand = FALSE) +
     ggplot2::facet_wrap(~Step) +
@@ -88,4 +90,12 @@ generate_instructions <- function(image_list, num_steps=6) {
                     axis.text.x = ggplot2::element_blank(),
                     axis.title.y = ggplot2::element_blank(),
                     axis.text.y = ggplot2::element_blank())
+}
+
+#' @export
+#' @rdname build_instructions
+
+generate_instructions <- function(...){
+  warning("generate_instructions() is deprecated. Please use build_instructions()")
+  build_instructions(...)
 }
