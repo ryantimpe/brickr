@@ -23,7 +23,9 @@ brick_colors <- function(.names_only = FALSE){
                                  levels = gsub(" ", "\n", lego_colors$Color))) %>% 
     ggplot2::ggplot(aes(x=x, y=y, group=color)) +
     ggplot2::labs(title = "Brick colors available in {brickr}") +
-    geom_brick_rect(aes(fill = color_hex), label_scale = 0.1) +
+    geom_brick_rect(aes(fill = color_hex), label_scale = 0.1, 
+                    #Including the use_bricks inputs greatly increases the speed of this.
+                    use_bricks = c("2x2")) +
     ggplot2::coord_fixed(x=c(0.5, 2.5), y=c(0.5, 2.5)) +
     ggplot2::scale_fill_identity() +
     ggplot2::facet_wrap(~color, ncol = 9) +

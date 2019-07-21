@@ -7,6 +7,7 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
                             label = "brickr", simplified_threshold = 24*24, label_scale = 1,
+                            use_bricks = NULL,
                             linejoin = "mitre",
                             na.rm = FALSE,
                             show.legend = NA,
@@ -23,6 +24,7 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
       linejoin = linejoin,
       label = label,
       label_scale = label_scale,
+      use_bricks = use_bricks,
       na.rm = na.rm,
       simplified_threshold = simplified_threshold,
       ...
@@ -53,7 +55,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                      },
                      
                      draw_panel = function(self, data, panel_params, coord, linejoin = "mitre", 
-                                           simplified_threshold = 24*24, label_scale = 1) {
+                                           simplified_threshold = 24*24, label_scale = 1,
+                                           use_bricks = use_bricks) {
 
                        #This happens to EACH panel
                        if (!coord$is_linear()) {
@@ -74,7 +77,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                              data$Lego_color <- data$fill 
                            }
                            
-                           dat <- collect_bricks(list(Img_lego = data))$Img_bricks
+                           dat <- collect_bricks(list(Img_lego = data), use_bricks = use_bricks)$Img_bricks
                            dat <- transform(dat,
                                             PANEL = Level, Level = NULL,
                                             fill = Lego_color)
