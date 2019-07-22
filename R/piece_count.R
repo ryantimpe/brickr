@@ -25,7 +25,7 @@ display_pieces <- function(image_list){
   in_list <- image_list
   pcs <- in_list$pieces
   
-  if(in_list$mosaic_type == "flat"){
+
     pcs_coords <- dplyr::tibble(
       Brick_size = c("1 x 1", "2 x 1", "3 x 1", "4 x 1", "2 x 2", "4 x 2"),
       xmin = c(0, 0, 0, 0, 6, 6),
@@ -33,15 +33,7 @@ display_pieces <- function(image_list){
       ymin = c(0, 2, 4, 6, 0, 3),
       ymax = c(1, 3, 5, 7, 2, 7)
     ) 
-  } else {
-    pcs_coords <- dplyr::tibble(
-      Brick_size = c("1 x 2", "2 x 2", "3 x 2", "4 x 2"),
-      xmin = c(0, 5, 5, 0),
-      xmax = c(2, 7, 7, 2),
-      ymin = c(0, 0, 3, 2),
-      ymax = c(1, 2, 6, 6)
-    ) 
-  }
+
   #This function creates nodes in each brick for stud placement
   pcs_coords <- pcs_coords %>% 
     dplyr::mutate(studs = purrr::pmap(list(xmin, xmax, ymin, ymax), function(a, b, c, d){
