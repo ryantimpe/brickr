@@ -6,7 +6,7 @@
 \usage{
 geom_brick_rect(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", ..., label = "brickr",
-  simplified_threshold = 24 * 24, label_scale = 1,
+  simplified_threshold = 24 * 24, label_scale = 1, use_bricks = NULL,
   linejoin = "mitre", na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE)
 }

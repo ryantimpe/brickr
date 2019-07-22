@@ -14,7 +14,7 @@
 \alias{preDrawDetails.resizingTextGrob}
 \alias{postDrawDetails.resizingTextGrob}
 \title{GeomBrick}
-\format{An object of class \code{CoordBrick} (inherits from \code{CoordCartesian}, \code{Coord}, \code{ggproto}, \code{gg}) of length 3.}
+\format{An object of class \code{CoordBrick} (inherits from \code{CoordCartesian}, \code{Coord}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
 CoordBrickFlip
 

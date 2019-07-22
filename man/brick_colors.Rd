@@ -3,18 +3,25 @@
 \name{brick_colors}
 \alias{brick_colors}
 \alias{display_colors}
-\title{Display a table and plot of possible brick colors & their ID numbers}
+\title{Available brick colors}
 \usage{
 brick_colors(.names_only = FALSE)
 
 display_colors(...)
 }
 \arguments{
-\item{.names_only}{Return an array of the 39 brick color names. Does not plot.}
+\item{.names_only}{Return an array of the 41 brick color names. Does not plot.}
 }
 \value{
 A table and ggplot of brick colors & ID numbers.
 }
 \description{
-Display a table and plot of possible brick colors & their ID numbers
+Generates a plot of available brick colors. Use .names_only = TRUE to get a list of color names.
+}
+\examples{
+#Generate plot of colors
+brick_colors()
+
+#Print list of colors
+brick_colors(TRUE)
 }

@@ -40,4 +40,8 @@ ggplot(df, aes(trt, outcome)) +
   coord_brick()
   
  #horizontal bars
+ggplot(df, aes(trt, outcome)) +
+  geom_brick_col(aes(fill = trt)) +
+  coord_brick_flip()
+  
 }
