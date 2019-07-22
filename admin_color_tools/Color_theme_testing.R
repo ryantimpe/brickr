@@ -37,7 +37,7 @@ for(i in seq_along(theme_list_for_loop)){
   }
     
   
-  ggsave(paste0("Colors/demos/img", i+1, ".png"), plot = p, device = "png", width = 7, height = 5)
+  ggsave(paste0("admin_color_tools/demos/img", i+1, ".png"), plot = p, device = "png", width = 7, height = 5)
 }
 # 
 # movie_input <- list.files(pattern = "demo")

@@ -1,6 +1,6 @@
 library(tidyverse)
 
-raw <- readxl::read_xlsx("Colors/color_themes.xlsx")
+raw <- readxl::read_xlsx("admin_color_tools/color_themes.xlsx")
 
 themes <- raw[, 1:(which(grepl("..", names(raw), fixed = T))[1]-1)]
 

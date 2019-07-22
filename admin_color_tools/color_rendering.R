@@ -6,7 +6,7 @@ rgb2hex <- function(r,g,b) rgb(r, g, b, maxColorValue = 255)
 
 names(brickr::lego_colors)
 
-color_df <- readxl::read_xlsx("Colors/Colors_Master.xlsx")
+color_df <- readxl::read_xlsx("admin_color_tools/Colors_Master.xlsx")
 names(color_df)
 
 lego_colors <- color_df %>% 
