@@ -77,7 +77,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                              data$Lego_color <- data$fill 
                            }
                            
-                           dat <- collect_bricks(list(Img_lego = data), use_bricks = use_bricks)$Img_bricks
+                           dat <- collect_bricks(list(Img_lego = data), 
+                                                 use_bricks = use_bricks)$Img_bricks
                            dat <- transform(dat,
                                             PANEL = Level, Level = NULL,
                                             fill = Lego_color)
@@ -201,7 +202,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                        }
                      },
                      
-                     draw_key = draw_key_polygon
+                     draw_key = draw_key_brick
 )
 
 

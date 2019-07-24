@@ -97,7 +97,8 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
   
   #Return an object from collect_bricks()
   return(
-    list(Img_lego =  brick_set) %>% collect_bricks
+    list(Img_lego =  brick_set,
+         brickr_object = "3dmodel") %>% collect_bricks
   )
 }
 
@@ -231,6 +232,7 @@ bricks_from_coords <- function(coord_table, color_guide = lego_colors,
   
   #Return an object from collect_bricks()
   return(
-    list(Img_lego =  brick_set) %>% collect_bricks
+    list(Img_lego =  brick_set,
+         brickr_object = "3dmodel") %>% collect_bricks
   )
 }

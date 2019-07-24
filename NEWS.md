@@ -1,7 +1,8 @@
 # brickr 0.1.0.0000
 
+* **Breaking:** Pretty much *EVERY* function. Seriously, check out the README and start fresh.
+
 * **Breaking:** Data "lego_colors.rda" has been updated with more accurate RGB values and new `brickrID` numbers. This will impact previously created mosaics and 3D models.
-* **Breaking:** Pretty much every function name.
 
 **Mosaics**
 
@@ -17,10 +18,11 @@
 
 * `geom_brick_col` for bar charts in the shape of bricks. Negative values are fine, but `position = stack` is not available.
 * `coord_brick` to prevent chart brick distortion. `coord_brick_flip` for horizontal bars.
+* `scale_fill_brick` and `theme_brick` for different LEGO color options.
 
 ### TO DO
 
-* LEGO color themes
+* README for 0.1.0
 * Negative bricks are "underside"
 * bricks_from_models
 * DOCUMENTATION

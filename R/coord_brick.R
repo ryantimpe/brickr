@@ -37,8 +37,8 @@ coord_brick_flip <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on
 }
 
 #' @rdname brickr-ggproto
+#' @format NULL
 #' @usage NULL
-#' @export
 CoordBrick <- ggproto("CoordBrick", CoordCartesian,
                       is_free = function() FALSE,
                       is_flipped = function() FALSE,
@@ -48,7 +48,8 @@ CoordBrick <- ggproto("CoordBrick", CoordCartesian,
 )
 
 #' @rdname brickr-ggproto
-#' @export
+#' @format NULL
+#' @usage NULL
 CoordBrickFlip <- ggproto("CoordBrickFlip", CoordCartesian,
                           
                      is_flipped = function() TRUE,

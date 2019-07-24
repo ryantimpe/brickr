@@ -60,9 +60,8 @@ geom_brick_col <- function(mapping = NULL, data = NULL,
 #' @rdname brickr-ggproto
 #' @format NULL
 #' @usage NULL
-#' @export
-#' @include geom_brick.R
-GeomBrickCol <- ggproto("GeomCol", GeomBrick,
+
+GeomBrickCol <- ggproto("GeomBrickCol", GeomRect,
                         default_aes = aes(colour = "#333333", fill = "#B40000", size = 0.25, linetype = 1,
                                           alpha = NA, label = "brickr",
                                           angle = 0, family = "", fontface = 1, lineheight = 1.2),
