@@ -1,4 +1,4 @@
-# brickr 0.1.0.0000
+# brickr 0.1.1.0000
 
 * **Breaking:** Pretty much *EVERY* function. Seriously, check out the README and start fresh.
 
@@ -7,6 +7,7 @@
 **Mosaics**
 
 * New rendering of mosaics in ggplot2. Includes embossed text with custom labels.
+* Color_palette allows option to choose brick colors by rarity. 'universal' (most common), 'generic', and 'special' (least common).
 * New color matching options to convert image to available brick colors. Previous option still available, but results will look different due to changed RGB values.
 * Updated brick collection algorithm to allow for custom brick input.
 

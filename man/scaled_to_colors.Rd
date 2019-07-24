@@ -6,15 +6,17 @@
 \arguments{
 \item{image_list}{List output from scale_image(). Contains an element  \code{Img_scaled}.}
 
-\item{color_table}{Defaults to \code{lego_colors}. Data frame of brick colors to map onto image. Must contain Name and R, G, B channels. See attached data  \code{lego_colors} as examples.}
-
 \item{method}{The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
 'brickr_classic' is an explicit euclidean distance formula, but yield different results than 'euclidean' in {farver}.
 See \code{farver::compare_colour}.}
 
-\item{theme}{Theme of brick colors to use. Set to \code{"bw"} for grayscale mosaics.}
+\item{color_table}{Defaults to \code{lego_colors}. Data frame of brick colors to map onto image. Must contain Name and R, G, B channels.
+See attached data  \code{lego_colors} as examples.}
 
-\item{contrast}{For \code{theme = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.}
+\item{color_palette}{Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
+Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.}
+
+\item{contrast}{For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.}
 }
 \value{
 A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
