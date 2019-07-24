@@ -1,6 +1,6 @@
 Package: brickr
 Title: Create Simulated LEGO Models from Images or Data Frames
-Version: 0.1.0.9004
+Version: 0.1.0.9006
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -17,7 +17,8 @@ Imports:
     tidyr,
     purrr,
     ggplot2,
-    scales
+    scales,
+    farver
 Suggests: 
     rayshader
 Roxygen: list(markdown = TRUE)

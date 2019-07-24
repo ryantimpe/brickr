@@ -8,6 +8,10 @@
 
 \item{color_table}{Defaults to \code{lego_colors}. Data frame of brick colors to map onto image. Must contain Name and R, G, B channels. See attached data  \code{lego_colors} as examples.}
 
+\item{method}{The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
+'brickr_classic' is an explicit euclidean distance formula, but yield different results than 'euclidean' in {farver}.
+See \code{farver::compare_colour}.}
+
 \item{theme}{Theme of brick colors to use. Set to \code{"bw"} for grayscale mosaics.}
 
 \item{contrast}{For \code{theme = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.}

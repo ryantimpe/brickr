@@ -7,6 +7,7 @@
 **Mosaics**
 
 * New rendering of mosaics in ggplot2. Includes embossed text with custom labels.
+* New color matching options to convert image to available brick colors. Previous option still available, but results will look different due to changed RGB values.
 * Updated brick collection algorithm to allow for custom brick input.
 
 **3D Models**

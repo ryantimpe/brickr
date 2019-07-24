@@ -84,26 +84,52 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #'
 #' @param image_list List output from scale_image(). Contains an element  \code{Img_scaled}.
 #' @param color_table Defaults to \code{lego_colors}. Data frame of brick colors to map onto image. Must contain Name and R, G, B channels. See attached data  \code{lego_colors} as examples.
+#' @param method The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'. 
+#' 'brickr_classic' is an explicit euclidean distance formula, but yield different results than 'euclidean' in {farver}. 
+#' See \code{farver::compare_colour}.
 #' @param theme Theme of brick colors to use. Set to \code{"bw"} for grayscale mosaics.
 #' @param contrast For \code{theme = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
 #' @format NULL
 #' @usage NULL
 #' @return A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
 #' @export
-scaled_to_colors <- function(image_list, color_table = lego_colors, theme = "default", contrast = 1){
+scaled_to_colors <- function(image_list, color_table = lego_colors, method = "cei94",
+                             theme = "default", contrast = 1){
   in_list <- image_list
   
   if(theme == "default"){
     #Speed up calc by round pixel to nearest 1/20 & only calculating unique
-    mosaic_colors <- in_list$Img_scaled %>% 
-      dplyr::mutate_at(dplyr::vars(R, G, B), dplyr::funs(round(.*20)/20)) %>% 
+    mosaic_base <- in_list$Img_scaled %>% 
+      dplyr::mutate_at(dplyr::vars(R, G, B), list(~round(.*20)/20)) %>% 
       dplyr::select(R, G, B) %>% 
-      dplyr::distinct() %>% 
-      dplyr::mutate(lego = purrr::pmap(list(R, G, B), convert_to_match_color, color_table)) %>% 
-      tidyr::unnest(lego)
+      dplyr::distinct()
+    
+    #I don't like the compare_color results for "euclidean"... use manual way ----
+    if(method == "brickr_classic"){
+      mosaic_colors <- mosaic_base %>% 
+        dplyr::mutate(lego = purrr::pmap(list(R, G, B), convert_to_match_color, color_table)) %>% 
+        tidyr::unnest(lego)
+      
+    } else { #Farver ----
+      mosaic_colors <- mosaic_base %>% 
+        dplyr::mutate(rgb = purrr::pmap(list(R, G, B), function(R, G, B){
+          cc <- matrix(c(R, G, B), ncol = 3)
+          dstncs <- farver::compare_colour(from=cc, to=color_table[, c('R_lego', 'G_lego', 'B_lego')], 
+                                           from_space='rgb', to_space = 'rgb', method=method)
+          
+          sel_color <- as.character(color_table[which.min(dstncs), "Color"])[1]
+          
+          color_table %>% 
+            dplyr::filter(Color == sel_color) %>% 
+            dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego)) %>% 
+            dplyr::select(Lego_name = Color, Lego_color)
+        })) %>% 
+        tidyr::unnest(rgb)
+      
+    }
     
     img <- in_list$Img_scaled %>% 
-      dplyr::mutate_at(dplyr::vars(R, G, B), dplyr::funs(round(.*20)/20)) %>%
+      dplyr::mutate_at(dplyr::vars(R, G, B), list(~round(.*20)/20)) %>%
       dplyr::left_join(mosaic_colors, by = c("R", "G", "B"))
     
   } else if (theme == "bw"){
@@ -114,7 +140,7 @@ scaled_to_colors <- function(image_list, color_table = lego_colors, theme = "def
       dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego))
     
     img <- in_list$Img_scaled %>% 
-      dplyr::mutate(shade = (R+G+B)/3,
+      dplyr::mutate(shade = (0.299*R+0.587*G+0.114*B)/3,
                     shade = shade ^ contrast) %>% 
       dplyr::mutate(shade_bw = as.numeric(as.factor(cut(shade, 4)))) %>% 
       dplyr::mutate(Lego_name = bw_colors$Color[shade_bw],
@@ -138,4 +164,3 @@ convert_to_match_color <- function(R, G, B, dat_color){
     dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego)) %>% 
     dplyr::select(Lego_name = Color, Lego_color)
 }
-
