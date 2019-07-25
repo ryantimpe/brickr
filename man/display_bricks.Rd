@@ -4,16 +4,18 @@
 \alias{display_bricks}
 \title{Build 3D brick model with rayshader.}
 \usage{
-display_bricks(brick_list, view_levels = NULL, brick_res = "sd",
-  solidcolor = "#a3a2a4", ...)
+display_bricks(brick_list, brick_type = "brick", brick_res = "sd",
+  view_levels = NULL, solidcolor = "#a3a2a4", ...)
 }
 \arguments{
 \item{brick_list}{List output from collect_bricks(). Contains an element \code{Img_lego}.}
 
-\item{view_levels}{Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.}
+\item{brick_type}{Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.}
 
 \item{brick_res}{Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px.
 Enter a value for a custom resolution. High resolutions take longer to render.}
+
+\item{view_levels}{Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.}
 
 \item{solidcolor}{Hex color of mosaic base. Only renders on bottom.}
 

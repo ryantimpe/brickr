@@ -1,13 +1,14 @@
 #' Helper function to convert a level from a 3D model into a rayshader-friendly object.
 #'
 #' @param brick_list List output from table_to_bricks(). Contains an element \code{Img_lego}.
+#' @param brick_type Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.
 #' @param lev z-level of 3D model
 #' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 
 #' Enter a value for a custom resolution. High resolutions take longer to render.
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 #' @export 
 #'
-layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
+layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res = "sd"){
   #Get previous data
   in_list <- brick_list
   
@@ -17,8 +18,14 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
   img_lego <- in_list$Img_lego %>% 
     dplyr::filter(Level == lev)
   
+  if(brick_type == 'plate'){
+    brick_depth = 1L
+  } else {
+    brick_depth = 3L
+  }
+  
   #Increment elevation - a brick is 3 plates tall
-  up_el = (lev-1)*3 
+  up_el = (lev-1)*brick_depth
   
   #Number of 'pixels' on a side of a single-stud brick. Set by brick_res.
   if(is.numeric(brick_res)){
@@ -58,7 +65,7 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
     dplyr::left_join(lego_colors %>% dplyr::select(Lego_name = Color, R_lego, G_lego, B_lego), 
                      by = "Lego_name") %>% 
     #Round elevation to nearest 1/height
-    dplyr::mutate(elevation = ifelse(is.na(brick_name),NA, 3 + up_el),
+    dplyr::mutate(elevation = ifelse(is.na(brick_name),NA, brick_depth + up_el),
                   elevation = ifelse(is.na(Lego_name),NA, elevation)) %>% 
     #Create the edges of bricks... Brick base begins at 0.01 to avoid complete overlap with previous brick
     dplyr::group_by(brick_name) %>% 
@@ -103,7 +110,9 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
     # The higher the resolution, the dark this should be
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
                      list(~ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), 
-                                  .*0.9*((15/ex_size)^(1/2)), .))) %>% 
+                                  . - 0.1, .))) %>% 
+    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
+                     list(~ifelse(. < 0, 0, .))) %>% 
     dplyr::ungroup()
   
   lego_hillshade_m[,,1] <- lego_expand_color %>% 
@@ -137,6 +146,7 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
 #' Build 3D brick model with rayshader.
 #'
 #' @param brick_list List output from collect_bricks(). Contains an element \code{Img_lego}.
+#' @param brick_type Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.
 #' @param view_levels Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.
 #' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 
 #' Enter a value for a custom resolution. High resolutions take longer to render.
@@ -145,8 +155,8 @@ layer_from_bricks <- function(brick_list, lev=1, brick_res = "sd"){
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @export 
 #'
-display_bricks <- function(brick_list, view_levels = NULL, brick_res = "sd",
-                           solidcolor = "#a3a2a4", ...){
+display_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",
+                           view_levels = NULL, solidcolor = "#a3a2a4", ...){
   #Requires Rayshader
   if (!requireNamespace("rayshader", quietly = TRUE)) {
     stop("Package \"rayshader\" needed for this function to work. Please install it.",
@@ -165,7 +175,7 @@ display_bricks <- function(brick_list, view_levels = NULL, brick_res = "sd",
   }
   
   for(ii in view_levels){
-    brick_layer <- brick_list %>% layer_from_bricks(ii, brick_res = brick_res)
+    brick_layer <- brick_list %>% layer_from_bricks(ii, brick_type = brick_type, brick_res = brick_res)
     
     brick_layer$`threed_hillshade`%>%
       rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167*(15/brick_layer$`brick_resolution`), 

@@ -24,7 +24,8 @@
 
 ### TO DO
 
-* README for 0.1.0
+* README for 0.1.1
+* ggplot - continuous scale
 * Negative bricks are "underside"
 * bricks_from_models
 * DOCUMENTATION
@@ -38,6 +39,8 @@
 
 * Added `bricks_from_excel()` as a way to decrease the starting cost of using brickr. 
 * See [https://github.com/ryantimpe/brickr_toybox](https://github.com/ryantimpe/brickr_toybox)
+
+----
 
 # brickr 0.0.0.9150
 

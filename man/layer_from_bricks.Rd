@@ -4,10 +4,13 @@
 \alias{layer_from_bricks}
 \title{Helper function to convert a level from a 3D model into a rayshader-friendly object.}
 \usage{
-layer_from_bricks(brick_list, lev = 1, brick_res = "sd")
+layer_from_bricks(brick_list, brick_type = "brick", lev = 1,
+  brick_res = "sd")
 }
 \arguments{
 \item{brick_list}{List output from table_to_bricks(). Contains an element \code{Img_lego}.}
+
+\item{brick_type}{Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.}
 
 \item{lev}{z-level of 3D model}
 
