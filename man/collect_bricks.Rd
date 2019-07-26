@@ -4,14 +4,12 @@
 \alias{collect_bricks}
 \title{Collect legoize image from individual bricks into grouped bricks.}
 \usage{
-collect_bricks(image_list, use_bricks = NULL, mosaic_type = NULL)
+collect_bricks(image_list, use_bricks = NULL)
 }
 \arguments{
 \item{image_list}{List output from legoize(). Contains an element  \code{Img_lego}.}
 
 \item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.}
-
-\item{mosaic_type}{DEPRECATED. All mosaics are "flat" or knobs-up.}
 }
 \value{
 A list with element \code{Img_bricks} containing a data frame of the x- & y-coordinates, R, G, B channels, and brick ID. Other helper elements.

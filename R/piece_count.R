@@ -21,7 +21,7 @@ table_pieces <- function(image_list){
 #' @export 
 #'
 
-display_pieces <- function(image_list){
+build_pieces <- function(image_list){
   in_list <- image_list
   pcs <- in_list$pieces
   

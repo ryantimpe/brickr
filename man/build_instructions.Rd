@@ -2,12 +2,9 @@
 % Please edit documentation in R/view_image.R
 \name{build_instructions}
 \alias{build_instructions}
-\alias{generate_instructions}
 \title{Create instruction manual for 2D image mosaics}
 \usage{
 build_instructions(image_list, num_steps = 6)
-
-generate_instructions(...)
 }
 \arguments{
 \item{image_list}{List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.}

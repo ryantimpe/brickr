@@ -2,12 +2,9 @@
 % Please edit documentation in R/view_image.R
 \name{build_mosaic}
 \alias{build_mosaic}
-\alias{display_set}
 \title{Display 2D mosaic output as a plot image}
 \usage{
 build_mosaic(image_list, title = NULL)
-
-display_set(...)
 }
 \arguments{
 \item{image_list}{List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.}

@@ -28,7 +28,6 @@
 
 * README for 0.1.1
 * ggplot - continuous scale
-* 3D Mosaics are layered models that could be built
 * 3D model instructions... level by level
 * DOCUMENTATION
 * Website

@@ -27,14 +27,6 @@ build_mosaic <- function(image_list, title=NULL){
   return(img)
 } 
 
-#' @export
-#' @rdname build_mosaic
-
-display_set <- function(...){
-  warning("display_set() is deprecated. Please use build_mosaic()")
-  build_mosaic(...)
-}
-
 #' Create instruction manual for 2D image mosaics
 #'
 #' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.
@@ -90,12 +82,4 @@ build_instructions <- function(image_list, num_steps=6) {
                     axis.text.x = ggplot2::element_blank(),
                     axis.title.y = ggplot2::element_blank(),
                     axis.text.y = ggplot2::element_blank())
-}
-
-#' @export
-#' @rdname build_instructions
-
-generate_instructions <- function(...){
-  warning("generate_instructions() is deprecated. Please use build_instructions()")
-  build_instructions(...)
 }
