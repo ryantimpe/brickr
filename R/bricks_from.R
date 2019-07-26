@@ -36,9 +36,9 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
     if(ncol(color_guide) < 2){stop(color_guide_error_msg)}
     if(!(".value" %in% names(color_guide)) | !("Color" %in% names(color_guide))){stop(color_guide_error_msg)}
     
-    if(!all(color_guide$Color %in% display_colors(.names_only = TRUE))){
-      stop(paste("At least one color name supplied does not match allowed brick color names. See display_colors().\n\n",
-                    paste(color_guide$Color[!(color_guide$Color %in% display_colors(.names_only = TRUE))],collapse = ", ")
+    if(!all(color_guide$Color %in% build_colors(.names_only = TRUE))){
+      stop(paste("At least one color name supplied does not match allowed brick color names. See build_colors().\n\n",
+                    paste(color_guide$Color[!(color_guide$Color %in% build_colors(.names_only = TRUE))],collapse = ", ")
                     ))
       
     }
@@ -155,7 +155,7 @@ bricks_from_excel <- function(excel_table, repeat_levels = 1,
 
 #' Convert a data frame with x, y, & z coordinates & Color into bricks for 3D Model
 #'
-#' @param coord_table A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{display_colors()}.
+#' @param coord_table A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{build_colors()}.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
 #' @param increment_x Default '0'. Use in animations. Shift x dimension by an integer.
@@ -181,7 +181,7 @@ bricks_from_coords <- function(coord_table, color_guide = lego_colors,
   names(bricks_raw)[tolower(names(bricks_raw)) == "color"] <- "Color"
   
   if(!all(c("x", "y", "z", "Color") %in% names(bricks_raw))){
-    stop("Input 'coord_table' must include the columns x, y, z, and Color. z should be >1. Color uses offical brick color names. See display_colors().")
+    stop("Input 'coord_table' must include the columns x, y, z, and Color. z should be >1. Color uses offical brick color names. See build_colors().")
   }
   
   #x, y, z, must be whole numbers and unique

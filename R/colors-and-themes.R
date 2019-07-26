@@ -5,13 +5,13 @@
 #' @return A table and ggplot of brick colors & ID numbers.
 #' @examples 
 #' #Generate plot of colors
-#' brick_colors()
+#' build_colors()
 #' 
 #' #Print list of colors
-#' brick_colors(TRUE)
+#' build_colors(TRUE)
 #' @export 
 #'
-brick_colors <- function(.names_only = FALSE){
+build_colors <- function(.names_only = FALSE){
   if(.names_only){
     return(lego_colors$Color)
   }
@@ -33,14 +33,6 @@ brick_colors <- function(.names_only = FALSE){
   
 }
 
-#' @export
-#' @rdname brick_colors
-#' 
-display_colors <- function(...){
-  warning("display_colors() is deprecated. Please use brick_colors()")
-  brick_colors(...)
-}
-
 #' Available brick themes for scale_fill_brick()
 #' 
 #' Generates a plot of available brick themes.
@@ -49,14 +41,14 @@ display_colors <- function(...){
 #' @return A table and ggplot of brick colors & ID numbers.
 #' @examples 
 #' #Generate plot of themes
-#' brick_themes()
-#' brick_themes(c("ducks", "ocean", "space"))
+#' build_themes()
+#' build_themes(c("ducks", "ocean", "space"))
 #' 
 #' #Print list of themes
-#' brick_themes(.names_only = TRUE)
+#' build_themes(.names_only = TRUE)
 #' @export 
 #'
-brick_themes <- function(show_themes = "all", .names_only = FALSE){
+build_themes <- function(show_themes = "all", .names_only = FALSE){
   if(.names_only){
     return(unique(brickr_themes$theme))
   }

@@ -1,13 +1,13 @@
-LEGO Mosaics in R
+The LEGO® System in R
 ================
 
 # brickr <img src='man/figures/logo.png' align="right" height="138" />
 
-<!-- <!-- badges: start -->
+<!--   <!-- badges: start -->
 
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-<!-- <!-- badges: end -->
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+<!--   <!-- badges: end -->
 
 ## Overview
 
@@ -16,15 +16,18 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The package is divided into 3 separate systems:
 
-  - **Mosaics**: Convert image files into mosaics that could be built
-    using LEGO® bricks.
-  - **3D Models**: Build 3D LEGO® models from simple data formats &
-    [rayshader](https://www.rayshader.com/).
-  - **Charts**: A [ggplot2](https://ggplot2.tidyverse.org/) extension to
-    generate plots that resemble LEGO® bricks.
+  - [**Mosaics**](#mosaics): Convert image files into mosaics that could
+    be built using LEGO® bricks.
+  - [**3D Models**](#3d-models): Build 3D LEGO® models from simple data
+    formats & [rayshader](https://www.rayshader.com/).
+  - [**Charts**](#charts): A [ggplot2](https://ggplot2.tidyverse.org/)
+    extension to generate plots that resemble LEGO® bricks.
 
 brickr also includes tools help users create the Mosaics and 3D model
 output using real LEGO® elements.
+
+*brickr is developed using publicly available information about LEGO®
+products and is not officially affliated with The LEGO Group*
 
 ## Installation
 
@@ -78,35 +81,34 @@ graphical output from a {brickr} list object from other functions.
 
 ## 3D Models
 
-Currently, 3D models can be built from one of two data input formats:
-`bricks_from_table()` or `bricks_from_coords()`.
+The `bricks_from_*` series of functions creates 3D models of LEGO bricks
+from a variety of input formats. These models are rendered using [Tyler
+Morgan-Wall](https://twitter.com/tylermorganwall)’s
+[rayshader](https://www.rayshader.com/) package.
 
-**These functions are very experimental and will change. Better
-documentation will be released soon.**
-
-  - `bricks_from_table()` converts a matrix-shaped table of integers
-    into LEGO bricks. For simple models, this table can be made manually
-    using `data.frame()` or `tibble::tribble()`. For more advanced
-    models, it’s recommended you use MS Excel or a .csv file. The
-    left-most column in the table is associated with the Level or z-axis
-    of the model. The function by default converts this to numeric for
-    you. Each other column is an x-coordinate and each row is a
-    y-coordinate. More flexible inputs will be available in a future
-    release.
-
-  - `bricks_from_excel()` is a wrapper function to more easily build
+  - `bricks_from_table()` & `bricks_from_excel()` convert a
+    matrix-shaped table of integers into LEGO bricks. For simple models,
+    this table can be made manually using `data.frame()` or
+    `tibble::tribble()`. For more advanced models, it’s recommended you
+    use MS Excel or a .csv file. The left-most column in the table is
+    associated with the Level or z-axis of the model.
+    `bricks_from_excel()` is a wrapper function to more easily build
     models designed using a Microsoft Excel template. Please see this
     repo: [brickr toybox](https://github.com/ryantimpe/brickr_toybox).
 
   - `bricks_from_coords()` takes a data frame with `x`, `y`, & `z`
     integer values, and `Color` columns, where each combination of x, y,
     & z is a point in 3-dimensional space. Color must be an official
-    LEGO color name from `display_colors()`. This format is much more
+    LEGO color name from `build_colors()`. This format is much more
     flexible than `bricks_from_table()` and allows the programatic
     development of 3D models.
 
-Pass the output from any `bricks_from_*()` function to
-`display_bricks()` to see the 3D model.
+\-`bricks_from_mosaic()` & `bricks_from_image()` convert a 2D
+[mosaic](#mosaics) object or an image into 3D LEGO models, respectively.
+
+Pass the output from any `bricks_from_*()` function to `build_bricks()`
+to see the 3D model. The `brick_res` option allows for higher resolution
+bricks in ‘hd’ or ‘uhd’, which will take longer to render.
 
 ``` r
 library(brickr)
@@ -114,105 +116,27 @@ library(brickr)
 #This is a brick
 brick <- data.frame(
   Level="A",
-  X1 = rep(1,4),
-  X2 = rep(1,4)
+  X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
+  X2 = rep(3,4)
 )
 
-brick
-```
-
-    ##   Level X1 X2
-    ## 1     A  1  1
-    ## 2     A  1  1
-    ## 3     A  1  1
-    ## 4     A  1  1
-
-``` r
 brick %>% 
   bricks_from_table() %>% 
-  build_bricks()
+  build_bricks(brick_res = "uhd")
 
 rayshader::render_snapshot()
 ```
 
 ![](README_files/figure-gfm/bricks_1-1.png)<!-- -->
 
-### Brick Colors
-
-There are 2 ways to assign the color of the bricks. The
-`display_colors()` function helps with ID numbers and names
-
-  - Use the `brickrID` value instead of ‘1’ in the model input table.
-    Values of ‘0’ are blank spaces.
-
-  - Create a table of color assignments and pass this to
-    `bricks_from_table()`
-
-<!-- end list -->
-
-``` r
-brick_colors <- data.frame(
-  .value = 1,
-  Color = "Bright blue"
-)
-
-brick %>% 
-  bricks_from_table(brick_colors) %>% 
-  build_bricks()
-
-rayshader::render_snapshot()
-```
-
-![](README_files/figure-gfm/bricks_2-1.png)<!-- -->
-
 ### Stacking bricks
 
-The Level column in the input table determines the height of the bricks.
-`bricks_from_table()` will convert alphanumeric levels into a z
+The Level column in the input table determines the elevation of the
+bricks. `bricks_from_table()` will convert alphanumeric levels into a z
 coordinate.
 
-``` r
-# A is the bottom Level, B is the top
-brick <- data.frame(
-  Level= c(rep("A",4), rep("B",4)),
-  X1 = rep(1,4),
-  X2 = rep(1,4)
-)
-
-brick %>% 
-  bricks_from_table(brick_colors) %>% 
-  build_bricks()
-
-rayshader::render_snapshot()
-```
-
-![](README_files/figure-gfm/bricks_3-1.png)<!-- -->
-
-The same process works with many levels
-
-``` r
-#You can stack many bricks ----
-brick <- data.frame(
-  Level="A",
-  X1 = rep(1,4),
-  X2 = rep(1,4)
-)
-
-#... And they can all be different colors ----
-1:10 %>% 
-  purrr::map_df(~dplyr::mutate(brick, Level = LETTERS[.x], X1 = .x, X2 = .x)) %>% 
-  bricks_from_table() %>% 
-  build_bricks()
-
-rayshader::render_snapshot()
-```
-
-![](README_files/figure-gfm/bricks_4-1.png)<!-- -->
-
-# Full Models
-
 For larger models, use `tibble::tribble()` to more easily visualize the
-model. For very large models, use MS Excel.
+model. For very large models, use a csv or Excel.
 
 ``` r
 my_first_model <- tibble::tribble(
@@ -247,7 +171,7 @@ brick_colors <- tibble::tribble(
   
 my_first_model %>% 
   bricks_from_table(brick_colors) %>% 
-  build_bricks(theta = 210)
+  build_bricks(theta = 210, brick_res = "hd")
 
 rayshader::render_snapshot()
 ```
@@ -304,14 +228,55 @@ be found at the links below.
   - [**brickr toybox**](https://github.com/ryantimpe/brickr_toybox) repo
     for tools and resources to get started.
 
-## LEGO Mosaics IRL
+## Charts
 
-Additional functions assist in the translation from the LEGO mosaic
-image into a real LEGO set.
+brickr includes some elements for a [ggplot2]() extensions to convert
+ggplot bar charts into bricks and LEGO themes. The main function is
+`geom_brick_col()`, which is the brickr equivalent of `geom_col()`.
+Additional functions are highly recommended to ensure that proper the
+chart is rendered in the proper functions and proportions.
+
+``` r
+df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+
+#For official LEGO colors, use with scale_fill_brick and theme_brick.
+ggplot(df, aes(trt, outcome)) +
+  geom_brick_col(aes(fill = trt)) +
+  scale_fill_brick() +
+  coord_brick() +
+  theme_brick()
+```
+
+![](README_files/figure-gfm/geom_brick-1.png)<!-- -->
+
+Both `scale_fill_brick()` and `theme_brick()` take an input
+‘brick\_theme’, which ensures all colors match offical LEGO brick
+colors. See `build_themes()` for a sample of all available brick
+theme.
+
+``` r
+df <- data.frame(trt = letters[1:6], outcome = rnorm(6, mean = 5, sd = 2))
+
+use_theme <- "hp"
+
+ggplot(df, aes(trt, outcome)) +
+  geom_brick_col(aes(fill = trt), two_knob = F) +
+  scale_fill_brick(use_theme) +
+  coord_brick_flip() +
+  theme_brick(use_theme) +
+  theme(legend.position = "none")
+```
+
+![](README_files/figure-gfm/geom_brick2-1.png)<!-- -->
+
+## IRL
+
+Additional functions assist in the translation of brickr objects into
+actual LEGO bricks.
 
 ### Instructions
 
-Use `generate_instructions()` to break the LEGO mosaic image into
+Use `build_instructions()` to break the mosaics and 3D models into
 easier-to-read steps for building the set. This defaults to 6 steps, but
 passing any integer value will generate that many steps.
 
@@ -323,7 +288,7 @@ mosaic1 %>% build_instructions(9)
 
 ### Piece list and count
 
-Use `display_pieces()` to generate a graphic and count of all required
+Use `build_pieces()` to generate a graphic and count of all required
 plates or bricks (for stacked mosaics). These are sorted by color and
 size for easy purchase on LEGO.com’s
 [Pick-a-Brick](https://shop.lego.com/en-US/Pick-a-Brick) section using
