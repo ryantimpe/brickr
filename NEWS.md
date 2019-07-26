@@ -10,10 +10,12 @@
 * Color_palette allows option to choose brick colors by rarity. 'universal' (most common), 'generic', and 'special' (least common).
 * New color matching options to convert image to available brick colors. Previous option still available, but results will look different due to changed RGB values.
 * Updated brick collection algorithm to allow for custom brick input.
+* 3D mosaics have been rewritten as 3D models using plates with `bricks_from_mosaic()`.
 
 **3D Models**
 
 * `brick_res` input options to render models in higher definition ('sd', 'hd', 'uhd')
+* Option to use plates rather than bricks. Combining the two involves some hacking.
 * Updated brick collection algorithm staggers bricks over layer, though still prioritizes larger bricks.
 
 **ggplot Extension**
@@ -26,12 +28,17 @@
 
 * README for 0.1.1
 * ggplot - continuous scale
-* Negative bricks are "underside"
-* bricks_from_models
+* 3D Mosaics are layered models that could be built
+* 3D model instructions... level by level
 * DOCUMENTATION
 * Website
 * Check()
 * CRAN!
+
+### TO DO for a future update 
+
+* Negative bricks are "underside"
+* bricks_from_models
 
 ----
 

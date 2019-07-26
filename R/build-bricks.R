@@ -6,8 +6,7 @@
 #' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 
 #' Enter a value for a custom resolution. High resolutions take longer to render.
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
-#' @export 
-#'
+
 layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res = "sd"){
   #Get previous data
   in_list <- brick_list
@@ -155,7 +154,7 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @export 
 #'
-display_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",
+build_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",
                            view_levels = NULL, solidcolor = "#a3a2a4", ...){
   #Requires Rayshader
   if (!requireNamespace("rayshader", quietly = TRUE)) {
@@ -169,11 +168,10 @@ display_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",
   BrickIDs <- in_list$ID_bricks
   img_lego <- in_list$Img_lego 
   
-  
   if(is.null(view_levels)){
     view_levels <- unique(img_lego$Level)
   }
-  
+
   for(ii in view_levels){
     brick_layer <- brick_list %>% layer_from_bricks(ii, brick_type = brick_type, brick_res = brick_res)
     
