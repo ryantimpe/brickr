@@ -26,12 +26,17 @@
 
 ### TO DO
 
-* README for 0.1.1
 * ggplot - continuous scale
+* Mosaic [dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering)
 * 3D model instructions... level by level
-* DOCUMENTATION
+* Vignettes
+    - Mosaics
+    - 3D models from tables
+    - 3D models from coords
+    - ggplot
+    - IRL
 * Website
-* Check()
+* Check() breaks at the size check
 * CRAN!
 
 ### TO DO for a future update 

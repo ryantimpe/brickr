@@ -90,6 +90,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' See attached data  \code{lego_colors} as examples.
 #' @param color_palette Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
 #' Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
+#' @param dithering Improves color of mosaic, but most bricks become 1x1s.
 #' @param contrast For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
 #' @format NULL
 #' @usage NULL
@@ -98,6 +99,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 scaled_to_colors <- function(image_list, method = "cie94", 
                              color_table = NULL,
                              color_palette = c("universal", "generic", "special"), 
+                             dithering = FALSE,
                              contrast = 1){
   in_list <- image_list
   
@@ -108,21 +110,50 @@ scaled_to_colors <- function(image_list, method = "cie94",
     brick_table <- color_table
   }
   
+  #Set up color palette... used standard way or with Dithering
+  if(any(c("universal", "generic", "special") %in% color_palette)){
+    brick_table <- brick_table %>% 
+      dplyr::filter(tolower(Palette) %in% color_palette)
+  } else {
+    #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
+    brick_table <- lego_colors  %>% 
+      dplyr::filter(Color %in% c("White", "Black", "Medium stone grey", "Dark stone grey")) %>% 
+      dplyr::arrange((R_lego + G_lego + B_lego)) %>% 
+      dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego))
+  }
+  
+  #Standard or dithering
+  if(!dithering){
+    img <- convert_color_to_brick_standard(in_list$Img_scaled, color_table, brick_table, 
+                                            color_palette, method)
+  } else {
+    img <- convert_color_to_brick_dithering(in_list$Img_scaled, color_table, brick_table, 
+                                            color_palette, method)
+  }
+
+  #Return output....
+  in_list[["Img_lego"]] <- img %>% 
+    dplyr::mutate(Level = 1)
+  
+  in_list[["brickr_object"]] <- "mosaic"
+  
+  return(in_list)
+  
+}
+
+convert_color_to_brick_standard <- function(img_object, color_table, brick_table, color_palette, method){
   #Standard bricks ----
   # Two condition... not-supplied color_table & standard palette - or - a supplied color_table
   if((is.null(color_table) & any(c("universal", "generic", "special") %in% color_palette)) |
      !is.null(color_table)){
     
-    brick_table <- brick_table %>% 
-      dplyr::filter(tolower(Palette) %in% color_palette)
-      
     #Speed up calc by round pixel to nearest 1/20 & only calculating unique
-    mosaic_base <- in_list$Img_scaled %>% 
+    mosaic_base <- img_object %>% 
       dplyr::mutate_at(dplyr::vars(R, G, B), list(~round(.*20)/20)) %>% 
       dplyr::select(R, G, B) %>% 
       dplyr::distinct()
     
-    #I don't like the compare_color results for "euclidean"... use manual way ----
+    #Match colors either the old way or with Farver ----
     if(method == "brickr_classic"){
       mosaic_colors <- mosaic_base %>% 
         dplyr::mutate(lego = purrr::pmap(list(R, G, B), convert_to_match_color, brick_table)) %>% 
@@ -143,40 +174,103 @@ scaled_to_colors <- function(image_list, method = "cie94",
             dplyr::select(Lego_name = Color, Lego_color)
         })) %>% 
         tidyr::unnest(rgb)
-      
     }
     
-    img <- in_list$Img_scaled %>% 
+    img <- img_object %>% 
       dplyr::mutate_at(dplyr::vars(R, G, B), list(~round(.*20)/20)) %>%
       dplyr::left_join(mosaic_colors, by = c("R", "G", "B"))
     
-  } else if ("bw" %in% color_palette){
-    #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
-    bw_colors <- lego_colors  %>% 
-      dplyr::filter(Color %in% c("White", "Black", "Medium stone grey", "Dark stone grey")) %>% 
-      dplyr::arrange((R_lego + G_lego + B_lego)) %>% 
-      dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego))
+    return(img)
     
-    img <- in_list$Img_scaled %>% 
+  } else if ("bw" %in% color_palette){
+    
+    img <- img_object %>% 
       dplyr::mutate(shade = (0.299*R+0.587*G+0.114*B)/3,
                     shade = shade ^ contrast) %>% 
       dplyr::mutate(shade_bw = as.numeric(as.factor(cut(shade, 4)))) %>% 
-      dplyr::mutate(Lego_name = bw_colors$Color[shade_bw],
-                    Lego_color = bw_colors$Lego_color[shade_bw]) %>% 
+      dplyr::mutate(Lego_name = brick_table$Color[shade_bw],
+                    Lego_color = brick_table$Lego_color[shade_bw]) %>% 
       dplyr::select(-dplyr::starts_with("shade"))
+    
+    return(img)
     
   } else {
     stop("Either you must supply a color_table or use an accepted color_palette: 
        a combination of ('universal', 'generic', and/or 'special') - or- 'bw'")
   }
-  
-  in_list[["Img_lego"]] <- img %>% 
-    dplyr::mutate(Level = 1)
-  
-  in_list[["brickr_object"]] <- "mosaic"
-  
-  return(in_list)
-  
+}
+
+convert_color_to_brick_dithering <- function(img_object, color_table, brick_table, color_palette, method){
+  #Standard bricks ----
+  # Two condition... not-supplied color_table & standard palette - or - a supplied color_table
+  if((is.null(color_table) & any(c("universal", "generic", "special", "bw") %in% color_palette)) |
+     !is.null(color_table)){
+    
+    #Speed up calc by round pixel to nearest 1/20 & only calculating unique
+    mosaic_base <- img_object
+    
+    #Ignore brickr_classic for now
+    if(method == "brickr_classic") {
+      method <- "cie94"
+    }
+    
+    for(yy in unique(mosaic_base$y)){
+      for(xx in unique(mosaic_base$x)){
+        dstncs <- mosaic_base[mosaic_base$x == xx & mosaic_base$y == yy, c("R", "G", "B")] %>% 
+          as.matrix(ncol = 3) %>% 
+          farver::compare_colour(to=brick_table[, c('R_lego', 'G_lego', 'B_lego')], 
+                                 from_space='rgb', to_space = 'rgb', method=method)
+        
+        #Assign LEGO color for this cell
+        mosaic_base[mosaic_base$x == xx & mosaic_base$y == yy, c("Lego_name", "Lego_color")] <- 
+          brick_table[which.min(dstncs),  c("Color", "hex")]
+        
+        #Difference in color
+        dith_diff <- mosaic_base[mosaic_base$x == xx & mosaic_base$y == yy,  c("R", "G", "B")] - 
+          brick_table[which.min(dstncs),  c("R_lego", "G_lego", "B_lego")]
+        
+        #Update color of surrounding pixels.. if pixel exists
+        if(xx < max(mosaic_base$x)){
+          xs <- 1; ys <- 0;
+          mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] <-
+            mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] + (7/16)*dith_diff
+        }
+        
+        if(yy > min(mosaic_base$y)){
+          xs <- 0; ys <- -1;
+          mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] <-
+            mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] + (5/16)*dith_diff
+        }
+        
+        if(xx > min(mosaic_base$x) & yy > min(mosaic_base$y)){
+          xs <- -1; ys <- -1;
+          mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] <-
+            mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] + (3/16)*dith_diff
+        }
+        
+        if(xx < max(mosaic_base$x) & yy > min(mosaic_base$y)){
+          xs <- 1; ys <- -1;
+          mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] <-
+            mosaic_base[(mosaic_base$x == (xx+xs)) & (mosaic_base$y == (yy+ys)),  c("R", "G", "B")] + (1/16)*dith_diff
+        }
+        
+        #Ensure RGBs [0,1]
+        mosaic_base[mosaic_base$R > 1, "R"] <- 1
+        mosaic_base[mosaic_base$G > 1, "G"] <- 1
+        mosaic_base[mosaic_base$B > 1, "B"] <- 1
+        
+        mosaic_base[mosaic_base$R < 0, "R"] <- 0
+        mosaic_base[mosaic_base$G < 0, "R"] <- 0
+        mosaic_base[mosaic_base$B < 0, "R"] <- 0
+      }
+    }
+
+    return(mosaic_base)
+    
+  } else {
+    stop("Either you must supply a color_table or use an accepted color_palette: 
+       a combination of ('universal', 'generic', and/or 'special') - or- 'bw'")
+  }
 }
 
 convert_to_match_color <- function(R, G, B, dat_color){
