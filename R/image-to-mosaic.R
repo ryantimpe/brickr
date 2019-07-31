@@ -12,6 +12,7 @@
 #' @param color_palette Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
 #' Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
+#' @param dithering Improves color of large, photo-realistic mosaics. 
 #' @param brightness A value >1 will increase the brightness of the image while a positive value <1 will decrease the brightness.
 #' @param warhol Array of values \code{c(1, 2, 3)} associated with R, G, B color channels. Swap values in array to swap color channels for a fun visual effect.
 #' @param contrast For \code{theme = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
@@ -20,13 +21,16 @@
 #'
 image_to_mosaic <- function(img, img_size = 48, color_table = NULL,
                             method = "cie94", 
-                            color_palette = c("universal", "generic", "special"), contrast = 1, 
+                            color_palette = c("universal", "generic", "special"), 
+                            dithering = FALSE, contrast = 1, 
                             use_bricks = NULL, 
                             brightness = 1, warhol = 1:3){
   
   in_list <- img %>% 
     image_to_scaled(img_size = img_size, brightness = brightness, warhol = warhol) %>% 
-    scaled_to_colors(method = method, color_table = color_table, color_palette = color_palette, contrast = contrast) %>% 
+    scaled_to_colors(method = method, 
+                     color_table = color_table, color_palette = color_palette, 
+                     dithering = dithering, contrast = contrast) %>% 
     collect_bricks(use_bricks = use_bricks)
   
   return(in_list)

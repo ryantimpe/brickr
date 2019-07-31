@@ -6,8 +6,8 @@
 \usage{
 image_to_mosaic(img, img_size = 48, color_table = NULL,
   method = "cie94", color_palette = c("universal", "generic",
-  "special"), contrast = 1, use_bricks = NULL, brightness = 1,
-  warhol = 1:3)
+  "special"), dithering = FALSE, contrast = 1, use_bricks = NULL,
+  brightness = 1, warhol = 1:3)
 }
 \arguments{
 \item{img}{Image to convert into mosaic. Usually from \code{jpeg::readJPEG()} or \code{png::readPNG()}.}
@@ -24,6 +24,8 @@ See \code{farver::compare_colour}.}
 
 \item{color_palette}{Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
 Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.}
+
+\item{dithering}{Improves color of large, photo-realistic mosaics.}
 
 \item{contrast}{For \code{theme = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.}
 

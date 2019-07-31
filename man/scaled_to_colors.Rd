@@ -16,6 +16,8 @@ See attached data  \code{lego_colors} as examples.}
 \item{color_palette}{Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
 Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.}
 
+\item{dithering}{Improves color of large, photo-realistic mosaics.}
+
 \item{contrast}{For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.}
 }
 \value{

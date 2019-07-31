@@ -90,7 +90,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' See attached data  \code{lego_colors} as examples.
 #' @param color_palette Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
 #' Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
-#' @param dithering Improves color of mosaic, but most bricks become 1x1s.
+#' @param dithering Improves color of large, photo-realistic mosaics. 
 #' @param contrast For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
 #' @format NULL
 #' @usage NULL
