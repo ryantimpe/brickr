@@ -125,7 +125,7 @@ scaled_to_colors <- function(image_list, method = "cie94",
   #Standard or dithering
   if(!dithering){
     img <- convert_color_to_brick_standard(in_list$Img_scaled, color_table, brick_table, 
-                                            color_palette, method)
+                                            color_palette, method, contrast)
   } else {
     img <- convert_color_to_brick_dithering(in_list$Img_scaled, color_table, brick_table, 
                                             color_palette, method)
@@ -141,7 +141,7 @@ scaled_to_colors <- function(image_list, method = "cie94",
   
 }
 
-convert_color_to_brick_standard <- function(img_object, color_table, brick_table, color_palette, method){
+convert_color_to_brick_standard <- function(img_object, color_table, brick_table, color_palette, method, contrast){
   #Standard bricks ----
   # Two condition... not-supplied color_table & standard palette - or - a supplied color_table
   if((is.null(color_table) & any(c("universal", "generic", "special") %in% color_palette)) |
@@ -228,6 +228,8 @@ convert_color_to_brick_dithering <- function(img_object, color_table, brick_tabl
         #Difference in color
         dith_diff <- mosaic_base[mosaic_base$x == xx & mosaic_base$y == yy,  c("R", "G", "B")] - 
           brick_table[which.min(dstncs),  c("R_lego", "G_lego", "B_lego")]
+        
+        # dith_diff <- dith_diff*c(0.299, 0.587, 0.114)
         
         #Update color of surrounding pixels.. if pixel exists
         if(xx < max(mosaic_base$x)){

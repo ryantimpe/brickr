@@ -20,7 +20,9 @@ Imports:
     scales,
     farver
 Suggests: 
-    rayshader
+    rayshader,
+    knitr,
+    rmarkdown
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 URL: https://github.com/ryantimpe/brickr
@@ -45,3 +47,4 @@ Collate:
     'theme_brick.R'
     'utils-pipe.R'
     'view_image.R'
+VignetteBuilder: knitr
