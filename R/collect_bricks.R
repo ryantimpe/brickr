@@ -60,7 +60,8 @@ collect_bricks <- function(image_list, use_bricks = NULL){
         dplyr::mutate(brick_name = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == (xx*yy),
                                           paste0("brick_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
         dplyr::ungroup() %>% 
-        dplyr::select(-xg, -yg)
+        dplyr::select(-xg, -yg) %>% 
+        dplyr::filter(!is.na(Lego_name))
       
     }
     )
