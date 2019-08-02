@@ -214,6 +214,9 @@ convert_color_to_brick_dithering <- function(img_object, color_table, brick_tabl
       method <- "cie94"
     }
     
+    mosaic_base$Lego_color <- NA
+    mosaic_base$Lego_name  <- NA
+    
     for(yy in unique(mosaic_base$y)){
       for(xx in unique(mosaic_base$x)){
         dstncs <- mosaic_base[mosaic_base$x == xx & mosaic_base$y == yy, c("R", "G", "B")] %>% 
