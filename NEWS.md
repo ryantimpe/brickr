@@ -9,13 +9,16 @@
 * New rendering of mosaics in ggplot2. Includes embossed text with custom labels.
 * Color_palette allows option to choose brick colors by rarity. 'universal' (most common), 'generic', and 'special' (least common).
 * New color matching options to convert image to available brick colors. Previous option still available, but results will look different due to changed RGB values.
+* Color [dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering) option for large, photo-realistic mosaics.
 * Updated brick collection algorithm to allow for custom brick input.
 * 3D mosaics have been rewritten as 3D models using plates with `bricks_from_mosaic()`.
 
 **3D Models**
 
 * `brick_res` input options to render models in higher definition ('sd', 'hd', 'uhd')
+* `bricks_from_rayshader()` to render LEGO models from rayshader plot_3d() input.
 * Option to use plates rather than bricks. Combining the two involves some hacking.
+* Updated brick collection algorithm to allow for custom brick input.
 * Updated brick collection algorithm staggers bricks over layer, though still prioritizes larger bricks.
 
 **ggplot Extension**
@@ -27,12 +30,13 @@
 ### TO DO
 
 * ggplot - continuous scale
-* Mosaic [dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering)
+
 * 3D model instructions... level by level
 * Vignettes
     - Mosaics
     - 3D models from tables
     - 3D models from coords
+    - 3D modesl from mosaics + rayshader
     - ggplot
     - IRL
 * Website

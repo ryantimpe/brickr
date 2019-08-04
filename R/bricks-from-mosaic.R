@@ -1,7 +1,7 @@
 #' Convert image output from scale_image() to bricks
 #'
 #' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element \code{Img_lego}.
-#' @param mosaic_height Maximum height of 3D mosiacs in LEGO plates. 3 plates = 1 brick. This is also the maximum # of distinct elevations.
+#' @param mosaic_height Number of layers in the 3D image.
 #' @param highest_el Brick height is determined by brightness of color. Use \code{highest_el = 'dark'} for darkest bricks to have \code{mosaic_height}.
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 #' @export 
