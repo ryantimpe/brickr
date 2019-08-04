@@ -2,3 +2,6 @@
 ^LEGOMosaics\.Rproj$
 ^\.Rproj\.user$
 admin_color_tools
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -76,7 +76,7 @@ The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a 
 
 - `bricks_from_coords()` takes a data frame with `x`, `y`, & `z` integer values, and `Color` columns, where each combination of x, y, & z is a point in 3-dimensional space. Color must be an official LEGO color name from `build_colors()`. This format is much more flexible than `bricks_from_table()` and allows the programmatic development of 3D models.
 
--`bricks_from_mosaic()` & `bricks_from_image()` convert a 2D [mosaic](#mosaics) object or an image into 3D LEGO models, respectively.
+-`bricks_from_mosaic()` converts a 2D [mosaic](#mosaics) object from an image into 3D LEGO models, respectively. `bricks_from_rayshader()` creates a LEGO model from the same input as `rayshader::plot_3d()`.
 
 Pass the output from any `bricks_from_*()` function to `build_bricks()` to see the 3D model. The `brick_res` option allows for higher resolution bricks in 'hd' or 'uhd', which will take longer to render.
 
