@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -132,7 +132,9 @@
 <li><p><strong>Breaking:</strong> Pretty much <em>EVERY</em> function. Seriously, check out the README and start fresh.</p></li>
 <li><p><strong>Breaking:</strong> Data “lego_colors.rda” has been updated with more accurate RGB values and new <code>brickrID</code> numbers. This will impact previously created mosaics and 3D models.</p></li>
 </ul>
-<p><strong>Mosaics</strong></p>
+<div id="mosaics" class="section level2">
+<h2 class="hasAnchor">
+<a href="#mosaics" class="anchor"></a>Mosaics</h2>
 <ul>
 <li>New rendering of mosaics in ggplot2. Includes embossed text with custom labels.</li>
 <li>Color_palette allows option to choose brick colors by rarity. ‘universal’ (most common), ‘generic’, and ‘special’ (least common).</li>
@@ -141,7 +143,10 @@
 <li>Updated brick collection algorithm to allow for custom brick input.</li>
 <li>3D mosaics have been rewritten as 3D models using plates with <code><a href="../reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code>.</li>
 </ul>
-<p><strong>3D Models</strong></p>
+</div>
+<div id="3d-models" class="section level2">
+<h2 class="hasAnchor">
+<a href="<a href='https://github.com/ryantimpe/brickr/issues/3'>#3</a>d-models" class="anchor"></a>3D Models</h2>
 <ul>
 <li>
 <code>brick_res</code> input options to render models in higher definition (‘sd’, ‘hd’, ‘uhd’)</li>
@@ -151,7 +156,10 @@
 <li>Updated brick collection algorithm to allow for custom brick input.</li>
 <li>Updated brick collection algorithm staggers bricks over layer, though still prioritizes larger bricks.</li>
 </ul>
-<p><strong>ggplot Extension</strong></p>
+</div>
+<div id="ggplot-extension" class="section level2">
+<h2 class="hasAnchor">
+<a href="#ggplot-extension" class="anchor"></a>ggplot Extension</h2>
 <ul>
 <li>
 <code>geom_brick_col</code> for bar charts in the shape of bricks. Negative values are fine, but <code>position = stack</code> is not available.</li>
@@ -160,9 +168,10 @@
 <li>
 <code>scale_fill_brick</code> and <code>theme_brick</code> for different LEGO color options.</li>
 </ul>
-<div id="to-do" class="section level3">
-<h3 class="hasAnchor">
-<a href="#to-do" class="anchor"></a>TO DO</h3>
+</div>
+<div id="to-do" class="section level2">
+<h2 class="hasAnchor">
+<a href="#to-do" class="anchor"></a>TO DO</h2>
 <ul>
 <li><p>ggplot - continuous scale</p></li>
 <li>3D model instructions… level by level</li>
@@ -177,16 +186,16 @@
 </ul>
 </li>
 <li>Website</li>
-<li>Check() breaks at the size check</li>
-<li><p>CRAN!</p></li>
+<li><p>Check() breaks at the size check</p></li>
 </ul>
 </div>
-<div id="to-do-for-a-future-update" class="section level3">
-<h3 class="hasAnchor">
-<a href="#to-do-for-a-future-update" class="anchor"></a>TO DO for a future update</h3>
+<div id="to-do-in-the-future" class="section level2">
+<h2 class="hasAnchor">
+<a href="#to-do-in-the-future" class="anchor"></a>TO DO in the future</h2>
 <ul>
 <li>Negative bricks are “underside”</li>
 <li>bricks_from_models</li>
+<li>CRAN!</li>
 </ul>
 <hr>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Color scales for bricks — scale_fill_brick • brickr</title>
+<title>Color scales for bricks - ggplot2 extension — scale_fill_brick • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,7 @@
 
 
 
-<meta property="og:title" content="Color scales for bricks — scale_fill_brick" />
+<meta property="og:title" content="Color scales for bricks - ggplot2 extension — scale_fill_brick" />
 
 <meta property="og:description" content="brickr counterpart to ggplot2::scale_fill_discrete() to map bar colors to the palette of LEGO mold colors." />
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -123,8 +123,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Color scales for bricks</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/scale_brick.R'><code>R/scale_brick.R</code></a></small>
+    <h1>Color scales for bricks - ggplot2 extension</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/scale-brick.R'><code>R/scale-brick.R</code></a></small>
     <div class="hidden name"><code>scale_fill_brick.Rd</code></div>
     </div>
 
@@ -144,7 +144,7 @@
       <td><p>Color palette for bricks. Same as <code><a href='theme_brick.html'>brickr::theme_brick()</a></code>. Options include:
 <code><a href='https://www.rdocumentation.org/packages/base/topics/c'> c("classic", "hp", "sw_light", "sw_dark", "friends", "elves", 
 "ninja", "classy", "city", "ocean", "movie", "space", 
-"jurassic", "duplo", "superhero",
+"jurassic", "duplo", "superhero", "80s",
  "rainbow7", "rainbow13", "doublerainbow", "blue")</a></code>.</p></td>
     </tr>
     <tr>
@@ -199,7 +199,7 @@ as output</p></li>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2.3</span>, <span class='fl'>1.9</span>, <span class='fl'>3.2</span>))
 <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>ggplot</span>(<span class='no'>df</span>, <span class='fu'>aes</span>(<span class='no'>trt</span>, <span class='no'>outcome</span>)) +
   <span class='fu'><a href='geom_brick_col.html'>geom_brick_col</a></span>(<span class='fu'>aes</span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>trt</span>)) +
-  <span class='fu'><a href='coord_brick.html'>coord_brick</a></span>()
+  <span class='fu'><a href='coord-brick.html'>coord_brick</a></span>()
 
 <span class='no'>p</span>  + <span class='fu'>scale_fill_brick</span>()</div><div class='img'><img src='scale_fill_brick-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Select a brick_theme and use with theme_brick()</span>

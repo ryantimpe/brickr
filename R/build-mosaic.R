@@ -1,4 +1,4 @@
-#' Display 2D mosaic output as a plot image
+#' Display 2D LEGO mosaic as a plot image
 #'
 #' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.
 #' @param title Optional title to include above plotted mosaic.
@@ -58,11 +58,7 @@ build_instructions <- function(image_list, num_steps=6) {
   }
   
   #Ratio of the "pixels" is different for flat or stacked bricks
-  if(type == "flat"){
-    coord_ratio <- 1
-  } else {
-    coord_ratio <- 6/5
-  }
+  coord_ratio <- 1
   
   1:num_steps %>% 
     purrr::map(create_steps, num_steps) %>% 

@@ -1,11 +1,9 @@
-
-#' Collect legoize image from individual bricks into grouped bricks.
+#' Consolidate 1x1 bricks into larger ones of the same color. Internal function.
 #'
 #' @param image_list List output from legoize(). Contains an element  \code{Img_lego}.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @return A list with element \code{Img_bricks} containing a data frame of the x- & y-coordinates, R, G, B channels, and brick ID. Other helper elements.
-#' @export 
-#'
+
 collect_bricks <- function(image_list, use_bricks = NULL){
 
   in_list <- image_list

@@ -2,13 +2,13 @@
 % Please edit documentation in R/build-bricks.R
 \name{layer_from_bricks}
 \alias{layer_from_bricks}
-\title{Helper function to convert a level from a 3D model into a rayshader-friendly object.}
+\title{Display a brickr object as a 3D model}
 \usage{
 layer_from_bricks(brick_list, brick_type = "brick", lev = 1,
   brick_res = "sd")
 }
 \arguments{
-\item{brick_list}{List output from table_to_bricks(). Contains an element \code{Img_lego}.}
+\item{brick_list}{A 3D brickr object from a bricks_from_*() function..}
 
 \item{brick_type}{Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.}
 
@@ -21,5 +21,5 @@ Enter a value for a custom resolution. High resolutions take longer to render.}
 A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 }
 \description{
-Helper function to convert a level from a 3D model into a rayshader-friendly object.
+Display a brickr object as a 3D model
 }

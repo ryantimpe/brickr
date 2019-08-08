@@ -1,22 +1,20 @@
-#' Convert image output from scale_image() to bricks
+#' Convert a 2D LEGO mosaic into a brickr 3D object
 #'
-#' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element \code{Img_lego}.
+#' @param mosaic_list List output from collect_bricks() or image_to_bricks(). Contains an element \code{Img_lego}.
 #' @param mosaic_height Number of layers in the 3D image.
 #' @param highest_el Brick height is determined by brightness of color. Use \code{highest_el = 'dark'} for darkest bricks to have \code{mosaic_height}.
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 #' @export 
 #'
-bricks_from_mosaic <- function(image_list, mosaic_height = 6, highest_el = "light"){
+bricks_from_mosaic <- function(mosaic_list, mosaic_height = 6, highest_el = "light"){
 
   #Get previous data
-  in_list <- image_list
-  
-  if(in_list$mosaic_type != "flat")stop("3D mosaics can only be generated with 'flat' mosaics. Set this input in the 'collect_bricks' function.")
-  
+  in_list <- mosaic_list
+
   BrickIDs <- in_list$ID_bricks
   img_lego <- in_list$Img_lego
   
-  img_sorted_by_lum <- image_list$Img_lego %>% 
+  img_sorted_by_lum <- mosaic_list$Img_lego %>% 
     dplyr::left_join(lego_colors %>% dplyr::select(Lego_name = Color, lum), by = "Lego_name") %>% 
     dplyr::mutate(Level = as.numeric(as.factor(cut(lum, mosaic_height)))) %>% 
     dplyr::do(

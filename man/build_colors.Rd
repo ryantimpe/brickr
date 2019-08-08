@@ -2,7 +2,7 @@
 % Please edit documentation in R/colors-and-themes.R
 \name{build_colors}
 \alias{build_colors}
-\title{Available brick colors}
+\title{Dispaly available brick colors}
 \usage{
 build_colors(.names_only = FALSE)
 }

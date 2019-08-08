@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -106,12 +106,12 @@
 <a class="sourceLine" id="cb1-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>()</a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
 <a class="sourceLine" id="cb1-4" title="4">mosaic <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>()</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/g1-1.png" width="700"></p>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/g1-1.png" width="700"></p>
 <p>The default is to create a mosaic with 48 knobs (brick studs) on each side. Change this using the <code>img_size</code> input. A single value will create a square mosaic, while an array of two values represent the width and length.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(<span class="st">"../Images/mf_unicorn.PNG"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="dt">img_size =</span> <span class="dv">32</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>()</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/g2-1.png" width="700"></p>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/g2-1.png" width="700"></p>
 </div>
 <div id="colors" class="section level2">
 <h2 class="hasAnchor">
@@ -144,7 +144,7 @@
 <a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>(<span class="dt">title =</span> <span class="st">"universal"</span>)</a>
 <a class="sourceLine" id="cb3-8" title="8"></a>
 <a class="sourceLine" id="cb3-9" title="9">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p1, p2, <span class="dt">layout_matrix =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>))</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/c_palettes-1.png" width="576"></p>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/c_palettes-1.png" width="576"></p>
 </div>
 <div id="grayscale" class="section level4">
 <h4 class="hasAnchor">
@@ -153,7 +153,7 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(<span class="st">"../Images/mf_unicorn.PNG"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="dv">32</span>, <span class="dt">color_palette =</span> <span class="st">'bw'</span>, <span class="dt">contrast =</span> <span class="fl">1.1</span>)<span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>()</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/c_bw-1.png" width="700"></p>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/c_bw-1.png" width="700"></p>
 </div>
 <div id="custom-color-palettes" class="section level4">
 <h4 class="hasAnchor">
@@ -166,7 +166,7 @@
 <a class="sourceLine" id="cb5-5" title="5">png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(<span class="st">"../Images/mf_unicorn.PNG"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-6" title="6"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="dv">32</span>, <span class="dt">color_table =</span> lego_colors_wo_blue)<span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-7" title="7"><span class="st">  </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>(<span class="dt">title =</span> <span class="st">"Mosaic without blue or azur"</span>)</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/c_custom-1.png" width="700"></p>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/c_custom-1.png" width="700"></p>
 </div>
 </div>
 <div id="color-matching" class="section level3">
@@ -180,7 +180,7 @@
 <a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>(<span class="dt">title =</span> .x )) -&gt;<span class="st"> </span>mosaics_by_method</a>
 <a class="sourceLine" id="cb6-5" title="5"></a>
 <a class="sourceLine" id="cb6-6" title="6">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(<span class="dt">grobs =</span> mosaics_by_method, <span class="dt">layout_matrix =</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>),<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>,<span class="dv">4</span>)))</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/c_methods-1.png" width="480"></p>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/c_methods-1.png" width="480"></p>
 </div>
 <div id="dithering" class="section level3">
 <h3 class="hasAnchor">
@@ -192,31 +192,26 @@
 <a class="sourceLine" id="cb7-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>(<span class="dt">title =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"dithering ="</span>, .x))) -&gt;<span class="st"> </span>mosaics_by_dither</a>
 <a class="sourceLine" id="cb7-5" title="5"></a>
 <a class="sourceLine" id="cb7-6" title="6">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(<span class="dt">grobs =</span> mosaics_by_dither, <span class="dt">layout_matrix =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>))</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/c_dither-1.png" width="576"></p>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/c_dither-1.png" width="576"></p>
 </div>
 <div id="other-color-options" class="section level3">
 <h3 class="hasAnchor">
 <a href="#other-color-options" class="anchor"></a>Other color options</h3>
 <p>The input <code>brightness</code> can be used to scale up or down the RGB values of the image before color matching. The default is 1.</p>
-<p>Use the <code>warhol</code> input to swap the R, G, or B channels in the original image. This can be used to create pop-art style mosaics.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(<span class="st">"../Images/mf_unicorn.PNG"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="dv">32</span>, <span class="dt">brightness =</span> <span class="fl">0.9</span>, <span class="dt">warhol =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>))<span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>()</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/c_other-1.png" width="700"></p>
 </div>
 </div>
 <div id="d-mosaics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#d-mosaics" class="anchor"></a>3D Mosaics</h2>
 <p>With <a href="https://www.rayshader.com/">rayshader</a> installed, passing the mosaic object to <code><a href="../reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> will render a 3D object, stacking layers of bricks on each other to create an elevated mosaic. By default, the lightest color bricks will be on top, but this can be changed using the <code>highest_el = 'dark'</code> option.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(<span class="st">"../Images/mf_unicorn.PNG"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="dv">32</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/bricks_from_mosaic.html">bricks_from_mosaic</a></span>(<span class="dt">highest_el =</span> <span class="st">"dark"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>(<span class="dt">brick_type =</span> <span class="st">"plate"</span>)</a>
-<a class="sourceLine" id="cb9-5" title="5"></a>
-<a class="sourceLine" id="cb9-6" title="6">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_camera">render_camera</a></span>(<span class="dt">theta =</span> <span class="dv">15</span>)</a>
-<a class="sourceLine" id="cb9-7" title="7">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="mosaics_files/figure-html/c_threed-1.png" width="700"></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(<span class="st">"../Images/mf_unicorn.PNG"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="dv">32</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/bricks_from_mosaic.html">bricks_from_mosaic</a></span>(<span class="dt">highest_el =</span> <span class="st">"dark"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>(<span class="dt">brick_type =</span> <span class="st">"plate"</span>)</a>
+<a class="sourceLine" id="cb8-5" title="5"></a>
+<a class="sourceLine" id="cb8-6" title="6">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_camera">render_camera</a></span>(<span class="dt">theta =</span> <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb8-7" title="7">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/mosaics_files/figure-html/c_threed-1.png" width="700"></p>
 </div>
   </div>
 

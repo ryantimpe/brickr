@@ -1,7 +1,11 @@
 #' ggplot2 Bar Charts as Bricks
 #'
 #' `geom_rect`, except bars look like LEGO(R) bricks.
-#'
+#' @inheritParams ggplot2::geom_rect
+#' @param label Character string to include as embossed text inside brick knobs. Maximum 6 characters.
+#' @param label_scale Scale text size of label as a percentage. 
+#' @param simplified_threshold Maximum number of knobs on the plot before embossed label is suppressed.
+#' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @export
 geom_brick_rect <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
@@ -41,7 +45,6 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
 #' @rdname brickr-ggproto
 #' @format NULL
 #' @usage NULL
-#' @export
 GeomBrick <- ggproto("GeomBrick", Geom,
                      default_aes = aes(colour = "#333333", fill = "#B40000", size = 0.5, linetype = 1,
                                        alpha = NA, label = "brickr", label_scale = 1,

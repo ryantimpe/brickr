@@ -1,4 +1,4 @@
-#' Cartesian coordinates for bricks
+#' Cartesian coordinates for bricks - ggplot2 extension
 #'
 #' A fixed scale coordinate system that ensures correct brick proportions are maintained regardless of device size. 
 #' Use \code{coord_brick_flip()} for horizontal bars.
@@ -17,7 +17,7 @@
 #'   coord_brick_flip()
 #'   
 #' @export
-#' @rdname coord_brick
+#' @rdname coord-brick
 coord_brick <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
   ggproto(NULL, CoordBrick,
           limits = list(x = xlim, y = ylim),
@@ -27,7 +27,7 @@ coord_brick <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
 }
 
 #' @export
-#' @rdname coord_brick
+#' @rdname coord-brick
 coord_brick_flip <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
   ggproto(NULL, CoordBrickFlip,
           limits = list(x = xlim, y = ylim),

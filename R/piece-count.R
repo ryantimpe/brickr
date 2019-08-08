@@ -5,7 +5,7 @@
 #' @export 
 #'
 
-table_pieces <- function(image_list){
+build_pieces_table <- function(image_list){
   pcs <- image_list$pieces
   
   pcs %>% 
@@ -49,14 +49,9 @@ build_pieces <- function(image_list){
                                          "White"))) %>% 
     dplyr::left_join(pcs_coords, by = "Brick_size")
   
-  if(in_list$mosaic_type == "flat"){
     coord_xlim <- c(-0.5, 10)
     facet_cols <- 5
-  } else {
-    coord_xlim <- c(-0.5, 9)
-    facet_cols <- 6
-  }
-  
+
   pcs2 %>% 
     ggplot2::ggplot() +
     ggplot2::geom_rect(ggplot2::aes(xmin=xmin, xmax=xmax, ymin=-ymin, ymax=-ymax,

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate required bricks as a data frame. — table_pieces • brickr</title>
+<title>Cartesian coordinates for bricks - ggplot2 extension — coord_brick • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,10 @@
 
 
 
-<meta property="og:title" content="Generate required bricks as a data frame. — table_pieces" />
+<meta property="og:title" content="Cartesian coordinates for bricks - ggplot2 extension — coord_brick" />
 
-<meta property="og:description" content="Generate required bricks as a data frame." />
+<meta property="og:description" content="A fixed scale coordinate system that ensures correct brick proportions are maintained regardless of device size.
+Use coord_brick_flip() for horizontal bars." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -123,41 +124,73 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate required bricks as a data frame.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/piece_count.R'><code>R/piece_count.R</code></a></small>
-    <div class="hidden name"><code>table_pieces.Rd</code></div>
+    <h1>Cartesian coordinates for bricks - ggplot2 extension</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/coord-brick.R'><code>R/coord-brick.R</code></a></small>
+    <div class="hidden name"><code>coord-brick.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Generate required bricks as a data frame.</p>
+    <p>A fixed scale coordinate system that ensures correct brick proportions are maintained regardless of device size.
+Use <code>coord_brick_flip()</code> for horizontal bars.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>table_pieces</span>(<span class='no'>image_list</span>)</pre>
+    <pre class="usage"><span class='fu'>coord_brick</span>(<span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"on"</span>)
+
+<span class='fu'>coord_brick_flip</span>(<span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"on"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>image_list</th>
-      <td><p>List output from collect_bricks() or image_to_bricks(). Contains an element  <code>Img_lego</code>.</p></td>
+      <th>xlim</th>
+      <td><p>Limits for the x and y axes.</p></td>
+    </tr>
+    <tr>
+      <th>ylim</th>
+      <td><p>Limits for the x and y axes.</p></td>
+    </tr>
+    <tr>
+      <th>expand</th>
+      <td><p>If <code>TRUE</code>, the default, adds a small expansion factor to
+the limits to ensure that data and axes don't overlap. If <code>FALSE</code>,
+limits are taken exactly from the data or <code>xlim</code>/<code>ylim</code>.</p></td>
+    </tr>
+    <tr>
+      <th>clip</th>
+      <td><p>Should drawing be clipped to the extent of the plot panel? A
+setting of <code>"on"</code> (the default) means yes, and a setting of <code>"off"</code>
+means no. In most cases, the default of <code>"on"</code> should not be changed,
+as setting <code>clip = "off"</code> can cause unexpected results. It allows
+drawing of data points anywhere on the plot, including in the plot margins. If
+limits are set via <code>xlim</code> and <code>ylim</code> and some data points fall outside those
+limits, then those data points may show up in places such as the axes, the
+legend, the plot title, or the plot margins.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame of piece counts by LEGO color name and size.</p>
-    
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>#geom_brick_col should be used in conjunction with other brickr charting functions, especially coord_brick.</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2.3</span>, <span class='fl'>1.9</span>, <span class='fl'>3.2</span>))
+<span class='fu'>ggplot</span>(<span class='no'>df</span>, <span class='fu'>aes</span>(<span class='no'>trt</span>, <span class='no'>outcome</span>)) +
+  <span class='fu'><a href='geom_brick_col.html'>geom_brick_col</a></span>(<span class='fu'>aes</span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>trt</span>)) +
+  <span class='fu'>coord_brick</span>()</div><div class='img'><img src='coord-brick-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ <span class='co'>#horizontal bars</span>
+<span class='fu'>ggplot</span>(<span class='no'>df</span>, <span class='fu'>aes</span>(<span class='no'>trt</span>, <span class='no'>outcome</span>)) +
+  <span class='fu'><a href='geom_brick_col.html'>geom_brick_col</a></span>(<span class='fu'>aes</span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>trt</span>)) +
+  <span class='fu'>coord_brick_flip</span>()</div><div class='img'><img src='coord-brick-2.png' alt='' width='700' height='433' /></div><div class='input'>  
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

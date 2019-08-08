@@ -1,6 +1,6 @@
-#' Helper function to convert a level from a 3D model into a rayshader-friendly object.
+#' Display a brickr object as a 3D model
 #'
-#' @param brick_list List output from table_to_bricks(). Contains an element \code{Img_lego}.
+#' @param brick_list A 3D brickr object from a bricks_from_*() function..
 #' @param brick_type Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.
 #' @param lev z-level of 3D model
 #' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 

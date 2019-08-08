@@ -73,7 +73,7 @@ Bar height is determined by values in the data using the y aesthetic. With the e
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -229,12 +229,12 @@ the default plot specification, e.g. <code>borders()</code>.</p></td>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2.3</span>, <span class='fl'>1.9</span>, <span class='fl'>3.2</span>))
 <span class='fu'>ggplot</span>(<span class='no'>df</span>, <span class='fu'>aes</span>(<span class='no'>trt</span>, <span class='no'>outcome</span>)) +
   <span class='fu'>geom_brick_col</span>() +
-  <span class='fu'><a href='coord_brick.html'>coord_brick</a></span>()</div><div class='img'><img src='geom_brick_col-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='coord-brick.html'>coord_brick</a></span>()</div><div class='img'><img src='geom_brick_col-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#For official LEGO colors, use with scale_fill_brick and theme_brick.</span>
 <span class='fu'>ggplot</span>(<span class='no'>df</span>, <span class='fu'>aes</span>(<span class='no'>trt</span>, <span class='no'>outcome</span>)) +
   <span class='fu'>geom_brick_col</span>(<span class='fu'>aes</span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>trt</span>)) +
   <span class='fu'><a href='scale_fill_brick.html'>scale_fill_brick</a></span>() +
-  <span class='fu'><a href='coord_brick.html'>coord_brick</a></span>() +
+  <span class='fu'><a href='coord-brick.html'>coord_brick</a></span>() +
   <span class='fu'><a href='theme_brick.html'>theme_brick</a></span>()</div><div class='img'><img src='geom_brick_col-2.png' alt='' width='700' height='433' /></div><div class='input'>  
 </div></pre>
   </div>

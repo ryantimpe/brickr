@@ -1,4 +1,4 @@
-#' Color scales for bricks
+#' Color scales for bricks - ggplot2 extension
 #'
 #' brickr counterpart to \code{ggplot2::scale_fill_discrete()} to map bar colors to the palette of LEGO mold colors.
 #'
@@ -6,7 +6,7 @@
 #' @param brick_theme Color palette for bricks. Same as \code{brickr::theme_brick()}. Options include: 
 #' \code{ c("classic", "hp", "sw_light", "sw_dark", "friends", "elves", 
 #' "ninja", "classy", "city", "ocean", "movie", "space", 
-#' "jurassic", "duplo", "superhero",
+#' "jurassic", "duplo", "superhero", "80s",
 #'  "rainbow7", "rainbow13", "doublerainbow", "blue")}.
 #' @examples
 #' df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))

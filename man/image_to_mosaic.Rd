@@ -2,7 +2,7 @@
 % Please edit documentation in R/image-to-mosaic.R
 \name{image_to_mosaic}
 \alias{image_to_mosaic}
-\title{Convert image raster array to a LEGO-esque mosaic. Wrapper function.}
+\title{Create a 2D LEGO mosaic from an image array}
 \usage{
 image_to_mosaic(img, img_size = 48, color_table = NULL,
   method = "cie94", color_palette = c("universal", "generic",
@@ -39,5 +39,5 @@ Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
 A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
 }
 \description{
-Convert image raster array to a LEGO-esque mosaic. Wrapper function.
+Create a 2D LEGO mosaic from an image array
 }

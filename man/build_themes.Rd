@@ -2,7 +2,7 @@
 % Please edit documentation in R/colors-and-themes.R
 \name{build_themes}
 \alias{build_themes}
-\title{Available brick themes for scale_fill_brick()}
+\title{Display available brick themes for ggplot feature scale_fill_brick()}
 \usage{
 build_themes(show_themes = "all", .names_only = FALSE)
 }

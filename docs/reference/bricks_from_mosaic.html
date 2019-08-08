@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert image output from scale_image() to bricks — bricks_from_mosaic • brickr</title>
+<title>Convert a 2D LEGO mosaic into a brickr 3D object — bricks_from_mosaic • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,9 @@
 
 
 
-<meta property="og:title" content="Convert image output from scale_image() to bricks — bricks_from_mosaic" />
+<meta property="og:title" content="Convert a 2D LEGO mosaic into a brickr 3D object — bricks_from_mosaic" />
 
-<meta property="og:description" content="Convert image output from scale_image() to bricks" />
+<meta property="og:description" content="Convert a 2D LEGO mosaic into a brickr 3D object" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -123,24 +123,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert image output from scale_image() to bricks</h1>
+    <h1>Convert a 2D LEGO mosaic into a brickr 3D object</h1>
     <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/bricks-from-mosaic.R'><code>R/bricks-from-mosaic.R</code></a></small>
     <div class="hidden name"><code>bricks_from_mosaic.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Convert image output from scale_image() to bricks</p>
+    <p>Convert a 2D LEGO mosaic into a brickr 3D object</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>bricks_from_mosaic</span>(<span class='no'>image_list</span>, <span class='kw'>mosaic_height</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>highest_el</span> <span class='kw'>=</span> <span class='st'>"light"</span>)</pre>
+    <pre class="usage"><span class='fu'>bricks_from_mosaic</span>(<span class='no'>mosaic_list</span>, <span class='kw'>mosaic_height</span> <span class='kw'>=</span> <span class='fl'>6</span>,
+  <span class='kw'>highest_el</span> <span class='kw'>=</span> <span class='st'>"light"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>image_list</th>
+      <th>mosaic_list</th>
       <td><p>List output from collect_bricks() or image_to_bricks(). Contains an element <code>Img_lego</code>.</p></td>
     </tr>
     <tr>

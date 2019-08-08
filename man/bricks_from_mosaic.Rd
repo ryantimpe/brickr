@@ -2,12 +2,13 @@
 % Please edit documentation in R/bricks-from-mosaic.R
 \name{bricks_from_mosaic}
 \alias{bricks_from_mosaic}
-\title{Convert image output from scale_image() to bricks}
+\title{Convert a 2D LEGO mosaic into a brickr 3D object}
 \usage{
-bricks_from_mosaic(image_list, mosaic_height = 6, highest_el = "light")
+bricks_from_mosaic(mosaic_list, mosaic_height = 6,
+  highest_el = "light")
 }
 \arguments{
-\item{image_list}{List output from collect_bricks() or image_to_bricks(). Contains an element \code{Img_lego}.}
+\item{mosaic_list}{List output from collect_bricks() or image_to_bricks(). Contains an element \code{Img_lego}.}
 
 \item{mosaic_height}{Number of layers in the 3D image.}
 
@@ -17,5 +18,5 @@ bricks_from_mosaic(image_list, mosaic_height = 6, highest_el = "light")
 A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 }
 \description{
-Convert image output from scale_image() to bricks
+Convert a 2D LEGO mosaic into a brickr 3D object
 }

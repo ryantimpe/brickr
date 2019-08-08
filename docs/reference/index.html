@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@
       <tr>
         
         <td>
-          <p><code><a href="brickr-ggproto.html">draw_key_brick()</a></code> <code><a href="brickr-ggproto.html">GeomStud</a></code> <code><a href="brickr-ggproto.html">resizingTextGrob()</a></code> <code><a href="brickr-ggproto.html">drawDetails.resizingTextGrob()</a></code> <code><a href="brickr-ggproto.html">preDrawDetails.resizingTextGrob()</a></code> <code><a href="brickr-ggproto.html">postDrawDetails.resizingTextGrob()</a></code> </p>
+          <p><code><a href="brickr-ggproto.html">draw_key_brick()</a></code> </p>
         </td>
         <td><p>GeomBrick</p></td>
       </tr><tr>
@@ -150,31 +150,31 @@
         <td>
           <p><code><a href="bricks_from_coords.html">bricks_from_coords()</a></code> </p>
         </td>
-        <td><p>Convert a data frame with x, y, &amp; z coordinates &amp; Color into bricks for 3D Model</p></td>
+        <td><p>Convert a data frame with x, y, z &amp; Color columns into a brickr 3D object</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="bricks_from_excel.html">bricks_from_excel()</a></code> </p>
         </td>
-        <td><p>Convert an Excel brickr template into a 3D model. https://github.com/ryantimpe/brickr_toybox</p></td>
+        <td><p>Convert an Excel brickr template into a brickr 3D object</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="bricks_from_mosaic.html">bricks_from_mosaic()</a></code> </p>
         </td>
-        <td><p>Convert image output from scale_image() to bricks</p></td>
+        <td><p>Convert a 2D LEGO mosaic into a brickr 3D object</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="bricks_from_rayshader.html">bricks_from_rayshader()</a></code> </p>
         </td>
-        <td><p>Convert image output from scale_image() to bricks</p></td>
+        <td><p>Build a brickr 3D object from rayshader hillshade &amp; heightmap matrices</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="bricks_from_table.html">bricks_from_table()</a></code> </p>
         </td>
-        <td><p>Convert a data frame in 3D matrix format into bricks for 3D Model</p></td>
+        <td><p>Convert a matrix table into a brickr 3D object</p></td>
       </tr><tr>
         
         <td>
@@ -186,7 +186,7 @@
         <td>
           <p><code><a href="build_colors.html">build_colors()</a></code> </p>
         </td>
-        <td><p>Available brick colors</p></td>
+        <td><p>Dispaly available brick colors</p></td>
       </tr><tr>
         
         <td>
@@ -198,7 +198,7 @@
         <td>
           <p><code><a href="build_mosaic.html">build_mosaic()</a></code> </p>
         </td>
-        <td><p>Display 2D mosaic output as a plot image</p></td>
+        <td><p>Display 2D LEGO mosaic as a plot image</p></td>
       </tr><tr>
         
         <td>
@@ -208,33 +208,33 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="build_pieces_table.html">build_pieces_table()</a></code> </p>
+        </td>
+        <td><p>Generate required bricks as a data frame.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="build_themes.html">build_themes()</a></code> </p>
         </td>
-        <td><p>Available brick themes for scale_fill_brick()</p></td>
+        <td><p>Display available brick themes for ggplot feature scale_fill_brick()</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="collect_bricks.html">collect_bricks()</a></code> </p>
         </td>
-        <td><p>Collect legoize image from individual bricks into grouped bricks.</p></td>
+        <td><p>Consolidate 1x1 bricks into larger ones of the same color. Internal function.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="coord_brick.html">coord_brick()</a></code> <code><a href="coord_brick.html">coord_brick_flip()</a></code> </p>
+          <p><code><a href="coord-brick.html">coord_brick()</a></code> <code><a href="coord-brick.html">coord_brick_flip()</a></code> </p>
         </td>
-        <td><p>Cartesian coordinates for bricks</p></td>
+        <td><p>Cartesian coordinates for bricks - ggplot2 extension</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="geom_brick_col.html">geom_brick_col()</a></code> </p>
         </td>
         <td><p>Bar charts with bricks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geom_brick_point.html">geom_brick_point()</a></code> </p>
-        </td>
-        <td><p>ggplot2 Points, as Bricks</p></td>
       </tr><tr>
         
         <td>
@@ -246,19 +246,19 @@
         <td>
           <p><code><a href="image_to_mosaic.html">image_to_mosaic()</a></code> </p>
         </td>
-        <td><p>Convert image raster array to a LEGO-esque mosaic. Wrapper function.</p></td>
+        <td><p>Create a 2D LEGO mosaic from an image array</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="image_to_scaled.html">image_to_scaled</a></code> </p>
         </td>
-        <td><p>Scale an image raster array to a small number of pixels. Process into a data frame.</p></td>
+        <td><p>Scale an image raster array to a small number of pixels. Process into a data frame. Internal function.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="layer_from_bricks.html">layer_from_bricks()</a></code> </p>
         </td>
-        <td><p>Helper function to convert a level from a 3D model into a rayshader-friendly object.</p></td>
+        <td><p>Display a brickr object as a 3D model</p></td>
       </tr><tr>
         
         <td>
@@ -270,19 +270,13 @@
         <td>
           <p><code><a href="scale_fill_brick.html">scale_fill_brick()</a></code> </p>
         </td>
-        <td><p>Color scales for bricks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="table_pieces.html">table_pieces()</a></code> </p>
-        </td>
-        <td><p>Generate required bricks as a data frame.</p></td>
+        <td><p>Color scales for bricks - ggplot2 extension</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="theme_brick.html">theme_brick()</a></code> </p>
         </td>
-        <td><p>Brick color themes</p></td>
+        <td><p>Brick color themes - ggplot2 extension</p></td>
       </tr>
     </tbody>
     </table>

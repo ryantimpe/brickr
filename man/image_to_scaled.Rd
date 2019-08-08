@@ -2,7 +2,7 @@
 % Please edit documentation in R/image-to-prep-mosaic.R
 \name{image_to_scaled}
 \alias{image_to_scaled}
-\title{Scale an image raster array to a small number of pixels. Process into a data frame.}
+\title{Scale an image raster array to a small number of pixels. Process into a data frame. Internal function.}
 \arguments{
 \item{image}{A raster array from an image.}
 
@@ -17,5 +17,5 @@ Use an array of two values for a rectangular image \code{c(width, height)}.}
 A list with element \code{Img_scaled} containing a data frame of the x- & y-coordinates, R, G, B channels, and hex color of each brick (pixel).
 }
 \description{
-Scale an image raster array to a small number of pixels. Process into a data frame.
+Scale an image raster array to a small number of pixels. Process into a data frame. Internal function.
 }

@@ -1,5 +1,10 @@
-#' Brick color themes
-
+#' Brick color themes - ggplot2 extension
+#' 
+#' @param brick_theme Color palette for bricks. Same as \code{brickr::theme_brick()}. Options include: 
+#' \code{ c("classic", "hp", "sw_light", "sw_dark", "friends", "elves", 
+#' "ninja", "classy", "city", "ocean", "movie", "space", 
+#' "jurassic", "duplo", "superhero", "80s",
+#' "rainbow7", "rainbow13", "doublerainbow", "blue")}.
 #'@export
 
 theme_brick <- function(brick_theme = "classic"){

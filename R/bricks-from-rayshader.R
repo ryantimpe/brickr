@@ -1,4 +1,4 @@
-#' Convert image output from scale_image() to bricks
+#' Build a brickr 3D object from rayshader hillshade & heightmap matrices
 #'
 #' @param hillshade Same as \code{rayshader::plot_3d()}. Hillshade/image to be added to 3D surface map.
 #' @param heightmap Same as \code{rayshader::plot_3d()}. A two-dimensional matrix, where each entry in the matrix is the elevation at that point. All points are assumed to be evenly spaced.

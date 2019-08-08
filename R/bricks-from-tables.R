@@ -1,4 +1,4 @@
-#' Convert a data frame in 3D matrix format into bricks for 3D Model
+#' Convert a matrix table into a brickr 3D object
 #'
 #' @param matrix_table A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
@@ -102,7 +102,7 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
   )
 }
 
-#' Convert an Excel {brickr} template into a 3D model. https://github.com/ryantimpe/brickr_toybox
+#' Convert an Excel {brickr} template into a brickr 3D object
 #' @param excel_table Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.
 #' @param repeat_levels How many times to repeat a level. Can save time in model planning. Default is 1.
 #' @inheritParams bricks_from_table
@@ -153,7 +153,7 @@ bricks_from_excel <- function(excel_table, repeat_levels = 1,
   return(brickr_out)
 }
 
-#' Convert a data frame with x, y, & z coordinates & Color into bricks for 3D Model
+#' Convert a data frame with x, y, z & Color columns into a brickr 3D object
 #'
 #' @param coord_table A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{build_colors()}.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.

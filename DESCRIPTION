@@ -1,6 +1,6 @@
 Package: brickr
 Title: Tools to emulate the LEGO&reg; System in R
-Version: 0.1.0.9009
+Version: 0.1.0.9011
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -30,24 +30,21 @@ RoxygenNote: 6.1.1
 URL: https://github.com/ryantimpe/brickr
 BugReports: https://github.com/ryantimpe/brickr/issues
 Collate: 
-    'bricks_from.R'
-    'bricks_from_data.R'
     'bricks-from-mosaic.R'
     'bricks-from-rayshader.R'
+    'bricks-from-tables.R'
     'build-bricks.R'
-    'collect_bricks.R'
+    'build-mosaic.R'
+    'collect-bricks.R'
     'colors-and-themes.R'
-    'coord_brick.R'
-    'draw_key.R'
+    'coord-brick.R'
+    'draw-key.R'
     'geom-brick-col.R'
-    'geom-brick-point.R'
     'geom-brick-rect.R'
     'image-to-mosaic.R'
     'image-to-prep-mosaic.R'
-    'piece_count.R'
-    'resizing_text_grob.R'
-    'scale_brick.R'
-    'theme_brick.R'
+    'piece-count.R'
+    'scale-brick.R'
+    'theme-brick.R'
     'utils-pipe.R'
-    'view_image.R'
 VignetteBuilder: knitr

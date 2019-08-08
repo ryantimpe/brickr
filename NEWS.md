@@ -4,7 +4,7 @@
 
 * **Breaking:** Data "lego_colors.rda" has been updated with more accurate RGB values and new `brickrID` numbers. This will impact previously created mosaics and 3D models.
 
-**Mosaics**
+## Mosaics
 
 * New rendering of mosaics in ggplot2. Includes embossed text with custom labels.
 * Color_palette allows option to choose brick colors by rarity. 'universal' (most common), 'generic', and 'special' (least common).
@@ -13,7 +13,7 @@
 * Updated brick collection algorithm to allow for custom brick input.
 * 3D mosaics have been rewritten as 3D models using plates with `bricks_from_mosaic()`.
 
-**3D Models**
+## 3D Models
 
 * `brick_res` input options to render models in higher definition ('sd', 'hd', 'uhd')
 * `bricks_from_rayshader()` to render LEGO models from rayshader plot_3d() input.
@@ -21,13 +21,13 @@
 * Updated brick collection algorithm to allow for custom brick input.
 * Updated brick collection algorithm staggers bricks over layer, though still prioritizes larger bricks.
 
-**ggplot Extension**
+## ggplot Extension
 
 * `geom_brick_col` for bar charts in the shape of bricks. Negative values are fine, but `position = stack` is not available.
 * `coord_brick` to prevent chart brick distortion. `coord_brick_flip` for horizontal bars.
 * `scale_fill_brick` and `theme_brick` for different LEGO color options.
 
-### TO DO
+## TO DO
 
 * ggplot - continuous scale
 
@@ -41,12 +41,12 @@
     - IRL
 * Website
 * Check() breaks at the size check
-* CRAN!
 
-### TO DO for a future update 
+## TO DO in the future 
 
 * Negative bricks are "underside"
 * bricks_from_models
+* CRAN!
 
 ----
 

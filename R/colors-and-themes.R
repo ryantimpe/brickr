@@ -1,6 +1,7 @@
-#' Available brick colors
+#' Dispaly available brick colors
 #' 
 #' Generates a plot of available brick colors. Use .names_only = TRUE to get a list of color names.
+#' 
 #' @param .names_only Return an array of the 41 brick color names. Does not plot.
 #' @return A table and ggplot of brick colors & ID numbers.
 #' @examples 
@@ -10,7 +11,7 @@
 #' #Print list of colors
 #' build_colors(TRUE)
 #' @export 
-#'
+
 build_colors <- function(.names_only = FALSE){
   if(.names_only){
     return(lego_colors$Color)
@@ -33,7 +34,7 @@ build_colors <- function(.names_only = FALSE){
   
 }
 
-#' Available brick themes for scale_fill_brick()
+#' Display available brick themes for ggplot feature scale_fill_brick()
 #' 
 #' Generates a plot of available brick themes.
 #' @param show_theme Defaults to "all". Pass an array of theme names to only plot a subset.

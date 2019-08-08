@@ -1,5 +1,4 @@
-
-#' Convert image raster array to a LEGO-esque mosaic. Wrapper function.
+#' Create a 2D LEGO mosaic from an image array
 #'
 #' @param img Image to convert into mosaic. Usually from \code{jpeg::readJPEG()} or \code{png::readPNG()}.
 #' @param img_size Size of output image in pixel, where one pixel = one 'brick'. Use a single value (e.g. \code{48}) for a square image with 48 pixels on each side. 

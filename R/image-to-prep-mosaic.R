@@ -1,4 +1,4 @@
-#' Scale an image raster array to a small number of pixels. Process into a data frame.
+#' Scale an image raster array to a small number of pixels. Process into a data frame. Internal function.
 #'
 #' @param image A raster array from an image.
 #' @param img_size Size of output image in pixel, where one pixel = one 'brick'. Use a single value (e.g. \code{48}) for a square image with 48 pixels on each side. 
@@ -8,7 +8,6 @@
 #' @format NULL
 #' @usage NULL
 #' @return A list with element \code{Img_scaled} containing a data frame of the x- & y-coordinates, R, G, B channels, and hex color of each brick (pixel).
-#' @export
 #' 
 image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
   
@@ -95,7 +94,6 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' @format NULL
 #' @usage NULL
 #' @return A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
-#' @export
 scaled_to_colors <- function(image_list, method = "cie94", 
                              color_table = NULL,
                              color_palette = c("universal", "generic", "special"), 

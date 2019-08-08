@@ -2,7 +2,7 @@
 % Please edit documentation in R/bricks-from-rayshader.R
 \name{bricks_from_rayshader}
 \alias{bricks_from_rayshader}
-\title{Convert image output from scale_image() to bricks}
+\title{Build a brickr 3D object from rayshader hillshade & heightmap matrices}
 \usage{
 bricks_from_rayshader(hillshade, heightmap, max_height = 12,
   img_size = 48)
@@ -21,5 +21,5 @@ Use an array of two values for a rectangular image \code{c(width, height)}.}
 A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
 }
 \description{
-Convert image output from scale_image() to bricks
+Build a brickr 3D object from rayshader hillshade & heightmap matrices
 }

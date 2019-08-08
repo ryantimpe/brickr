@@ -130,14 +130,6 @@ gridExtra::grid.arrange(grobs = mosaics_by_dither, layout_matrix = matrix(c(1,2)
 
 The input `brightness` can be used to scale up or down the RGB values of the image before color matching. The default is 1.
 
-Use the `warhol` input to swap the R, G, or B channels in the original image. This can be used to create pop-art style mosaics.
-
-```{r c_other}
-png::readPNG("../Images/mf_unicorn.PNG") %>% 
-  image_to_mosaic(32, brightness = 0.9, warhol = c(2, 3, 1))%>% 
-  build_mosaic()
-```
-
 ## 3D Mosaics
 
 With [rayshader](https://www.rayshader.com/) installed, passing the mosaic object to `bricks_from_mosaic()` will render a 3D object, stacking layers of bricks on each other to create an elevated mosaic. By default, the lightest color bricks will be on top, but this can be changed using the `highest_el = 'dark'` option.

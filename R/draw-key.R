@@ -1,4 +1,3 @@
-#' @export
 #' @rdname brickr-ggproto
 draw_key_brick <- function(data, params, size) {
   
