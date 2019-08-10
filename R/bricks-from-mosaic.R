@@ -4,6 +4,7 @@
 #' @param mosaic_height Number of layers in the 3D image.
 #' @param highest_el Brick height is determined by brightness of color. Use \code{highest_el = 'dark'} for darkest bricks to have \code{mosaic_height}.
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
+#' @family 3D Models
 #' @export 
 #'
 bricks_from_mosaic <- function(mosaic_list, mosaic_height = 6, highest_el = "light"){

@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom-brick-col.R
 \name{geom_brick_col}
 \alias{geom_brick_col}
-\title{Bar charts with bricks}
+\title{Bar charts with bricks - ggplot2 extension}
 \usage{
 geom_brick_col(mapping = NULL, data = NULL, position = "dodge",
   two_knob = TRUE, split_bricks = TRUE, min_radius_for_text = 0.02,
@@ -81,5 +81,10 @@ ggplot(df, aes(trt, outcome)) +
   scale_fill_brick() +
   coord_brick() +
   theme_brick()
-  
 }
+\seealso{
+Other Graphs: \code{\link{coord_brick}},
+  \code{\link{geom_brick_rect}},
+  \code{\link{scale_fill_brick}}, \code{\link{theme_brick}}
+}
+\concept{Graphs}

@@ -16,6 +16,7 @@
 #' @param warhol Array of values \code{c(1, 2, 3)} associated with R, G, B color channels. Swap values in array to swap color channels for a fun visual effect.
 #' @param contrast For \code{theme = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
 #' @return A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
+#' @family Mosaics
 #' @export 
 #'
 image_to_mosaic <- function(img, img_size = 48, color_table = NULL,

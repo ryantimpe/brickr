@@ -1,9 +1,9 @@
 #' Generate required bricks as a data frame.
 #'
-#' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.
+#' @param image_list Mosaic output from image_to_mosaic().
 #' @return Data frame of piece counts by LEGO color name and size. 
+#' @family Resources
 #' @export 
-#'
 
 build_pieces_table <- function(image_list){
   pcs <- image_list$pieces
@@ -16,8 +16,9 @@ build_pieces_table <- function(image_list){
 
 #' Graphically display required bricks.
 #'
-#' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.
+#' @param image_list Mosaic output from image_to_mosaic().
 #' @return Plot object of required bricks by color and size. 
+#' @family Resources
 #' @export 
 #'
 

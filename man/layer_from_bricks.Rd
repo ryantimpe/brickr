@@ -10,16 +10,22 @@ layer_from_bricks(brick_list, brick_type = "brick", lev = 1,
 \arguments{
 \item{brick_list}{A 3D brickr object from a bricks_from_*() function..}
 
-\item{brick_type}{Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.}
+\item{brick_type}{Type of brick to use. Default is 'brick'. Other option is
+'plate', which is 1/3 the height of a brick.}
 
 \item{lev}{z-level of 3D model}
 
-\item{brick_res}{Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px.
-Enter a value for a custom resolution. High resolutions take longer to render.}
+\item{brick_res}{Resolution, expressed at number of pixels on one side of a
+1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd'
+for 60px. Enter a value for a custom resolution. High resolutions take
+longer to render.}
 }
 \value{
-A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
+A list with elements \code{threed_elevation} and
+\code{threed_hillshade} to created 3D mosiacs with the \code{rayshader}
+package.
 }
 \description{
 Display a brickr object as a 3D model
 }
+\keyword{internal}

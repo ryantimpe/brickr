@@ -12,6 +12,7 @@
 #' @param exclude_color Numeric array of color ID numbers to exclude.
 #' @param exclude_level Numeric array of Level/z dimensions to exclude.
 #' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+#' @family 3D Models
 #' @export 
 #'
 bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level = TRUE,
@@ -107,6 +108,7 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
 #' @param repeat_levels How many times to repeat a level. Can save time in model planning. Default is 1.
 #' @inheritParams bricks_from_table
 #' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+#' @family 3D Models
 #' @export 
 #'
 bricks_from_excel <- function(excel_table, repeat_levels = 1,
@@ -165,6 +167,7 @@ bricks_from_excel <- function(excel_table, repeat_levels = 1,
 #' @param exclude_color Numeric array of color ID numbers to exclude.
 #' @param exclude_level Numeric array of Level/z dimensions to exclude.
 #' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+#' @family 3D Models
 #' @export 
 #'
 bricks_from_coords <- function(coord_table, color_guide = lego_colors,

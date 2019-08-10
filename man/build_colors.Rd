@@ -2,7 +2,7 @@
 % Please edit documentation in R/colors-and-themes.R
 \name{build_colors}
 \alias{build_colors}
-\title{Dispaly available brick colors}
+\title{Display available brick colors}
 \usage{
 build_colors(.names_only = FALSE)
 }
@@ -22,3 +22,8 @@ build_colors()
 #Print list of colors
 build_colors(TRUE)
 }
+\seealso{
+Other Resources: \code{\link{build_pieces_table}},
+  \code{\link{build_pieces}}, \code{\link{build_themes}}
+}
+\concept{Resources}

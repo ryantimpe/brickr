@@ -16,3 +16,4 @@ draw_key_brick(data, params, size)
 ggproto for brickr geoms
 }
 \keyword{datasets}
+\keyword{internal}

@@ -14,3 +14,8 @@ build_mosaic(image_list, title = NULL)
 \description{
 Display 2D LEGO mosaic as a plot image
 }
+\seealso{
+Other Mosaics: \code{\link{build_instructions}},
+  \code{\link{image_to_mosaic}}
+}
+\concept{Mosaics}

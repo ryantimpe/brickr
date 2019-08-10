@@ -1,11 +1,17 @@
 #' Display a brickr object as a 3D model
 #'
 #' @param brick_list A 3D brickr object from a bricks_from_*() function..
-#' @param brick_type Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.
+#' @param brick_type Type of brick to use. Default is 'brick'. Other option is
+#'   'plate', which is 1/3 the height of a brick.
 #' @param lev z-level of 3D model
-#' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 
-#' Enter a value for a custom resolution. High resolutions take longer to render.
-#' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
+#' @param brick_res Resolution, expressed at number of pixels on one side of a
+#'   1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd'
+#'   for 60px. Enter a value for a custom resolution. High resolutions take
+#'   longer to render.
+#' @return A list with elements \code{threed_elevation} and
+#'   \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader}
+#'   package.
+#' @keywords internal
 
 layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res = "sd"){
   #Get previous data
@@ -152,6 +158,7 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
 #' @param solidcolor Hex color of mosaic base. Only renders on bottom.
 #' @param ... All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.
 #' @return 3D brick model rendered in the 'rgl' package.
+#' @family 3D Models
 #' @export 
 #'
 build_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",

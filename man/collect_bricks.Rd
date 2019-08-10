@@ -17,3 +17,4 @@ A list with element \code{Img_bricks} containing a data frame of the x- & y-coor
 \description{
 Consolidate 1x1 bricks into larger ones of the same color. Internal function.
 }
+\keyword{internal}

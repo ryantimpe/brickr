@@ -19,7 +19,7 @@
 <meta property="og:description" content="
     Generate digital LEGO-esque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. 
     Build 3D models using data frames with rayshader. Create brick bar charts with ggplot2.">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="http://brickr.org/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -62,6 +62,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/graphs.html">ggplot with brickr</a>
+    </li>
+    <li>
       <a href="articles/mosaics.html">Mosaics with brickr</a>
     </li>
   </ul>
@@ -258,7 +261,7 @@
 <div id="charts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#charts" class="anchor"></a>Charts</h2>
-<p>brickr includes some elements for a <a href="">ggplot2</a> extensions to convert ggplot bar charts into bricks and LEGO themes. The main function is <code><a href="reference/geom_brick_col.html">geom_brick_col()</a></code>, which is the brickr equivalent of <code>geom_col()</code>. Additional functions are highly recommended to ensure that proper the chart is rendered in the proper functions and proportions.</p>
+<p>brickr includes functions to render <a href="https://ggplot2.tidyverse.org/">ggplot2</a> bar charts as bricks with LEGO color themes. The main function is <code><a href="reference/geom_brick_col.html">geom_brick_col()</a></code>, which is the brickr equivalent of <code>geom_col()</code>. Additional functions are highly recommended to ensure that proper the chart is rendered in the proper functions and proportions.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">trt =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>), <span class="dt">outcome =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">2.3</span>, <span class="fl">1.9</span>, <span class="fl">3.2</span>))</a>
 <a class="sourceLine" id="cb6-2" title="2"></a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="co">#For official LEGO colors, use with scale_fill_brick and theme_brick.</span></a>

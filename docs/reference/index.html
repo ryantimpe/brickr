@@ -39,7 +39,7 @@
 
 <meta property="og:title" content="Function reference" />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -93,6 +93,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/graphs.html">ggplot with brickr</a>
+    </li>
+    <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
     </li>
   </ul>
@@ -135,17 +138,31 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-mosaics" class="hasAnchor"><a href="#section-mosaics" class="anchor"></a>Mosaics</h2>
+          <p class="section-desc"><p>Create a LEGO mosaic from an image</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="brickr-ggproto.html">draw_key_brick()</a></code> </p>
+          <p><code><a href="build_mosaic.html">build_mosaic()</a></code> </p>
         </td>
-        <td><p>GeomBrick</p></td>
+        <td><p>Display 2D LEGO mosaic as a plot image</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="image_to_mosaic.html">image_to_mosaic()</a></code> </p>
+        </td>
+        <td><p>Create a 2D LEGO mosaic from an image array</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section--d-models" class="hasAnchor"><a href="#section--d-models" class="anchor"></a>3D Models</h2>
+          <p class="section-desc"><p>Build 3D models from various inputs</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="bricks_from_coords.html">bricks_from_coords()</a></code> </p>
@@ -181,24 +198,64 @@
           <p><code><a href="build_bricks.html">build_bricks()</a></code> </p>
         </td>
         <td><p>Build 3D brick model with rayshader.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-ggplot-extension" class="hasAnchor"><a href="#section-ggplot-extension" class="anchor"></a>ggplot Extension</h2>
+          <p class="section-desc"><p>Brick bar charts in ggplot</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="coord-brick.html">coord_brick()</a></code> <code><a href="coord-brick.html">coord_brick_flip()</a></code> </p>
+        </td>
+        <td><p>Cartesian coordinates for bricks - ggplot2 extension</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="geom_brick_col.html">geom_brick_col()</a></code> </p>
+        </td>
+        <td><p>Bar charts with bricks - ggplot2 extension</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geom_brick_rect.html">geom_brick_rect()</a></code> </p>
+        </td>
+        <td><p>Tile charts as Bricks - ggplot2 extension</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="scale_fill_brick.html">scale_fill_brick()</a></code> </p>
+        </td>
+        <td><p>Color scales for bricks - ggplot2 extension</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="theme_brick.html">theme_brick()</a></code> </p>
+        </td>
+        <td><p>Brick color themes - ggplot2 extension</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-bricks-irl" class="hasAnchor"><a href="#section-bricks-irl" class="anchor"></a>Bricks IRL</h2>
+          <p class="section-desc"><p>Helper functions to create bricks and build them IRL.</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="build_colors.html">build_colors()</a></code> </p>
         </td>
-        <td><p>Dispaly available brick colors</p></td>
+        <td><p>Display available brick colors</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="build_instructions.html">build_instructions()</a></code> </p>
         </td>
         <td><p>Create instruction manual for 2D image mosaics</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="build_mosaic.html">build_mosaic()</a></code> </p>
-        </td>
-        <td><p>Display 2D LEGO mosaic as a plot image</p></td>
       </tr><tr>
         
         <td>
@@ -217,66 +274,6 @@
           <p><code><a href="build_themes.html">build_themes()</a></code> </p>
         </td>
         <td><p>Display available brick themes for ggplot feature scale_fill_brick()</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="collect_bricks.html">collect_bricks()</a></code> </p>
-        </td>
-        <td><p>Consolidate 1x1 bricks into larger ones of the same color. Internal function.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="coord-brick.html">coord_brick()</a></code> <code><a href="coord-brick.html">coord_brick_flip()</a></code> </p>
-        </td>
-        <td><p>Cartesian coordinates for bricks - ggplot2 extension</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geom_brick_col.html">geom_brick_col()</a></code> </p>
-        </td>
-        <td><p>Bar charts with bricks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geom_brick_rect.html">geom_brick_rect()</a></code> </p>
-        </td>
-        <td><p>ggplot2 Bar Charts as Bricks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="image_to_mosaic.html">image_to_mosaic()</a></code> </p>
-        </td>
-        <td><p>Create a 2D LEGO mosaic from an image array</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="image_to_scaled.html">image_to_scaled</a></code> </p>
-        </td>
-        <td><p>Scale an image raster array to a small number of pixels. Process into a data frame. Internal function.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="layer_from_bricks.html">layer_from_bricks()</a></code> </p>
-        </td>
-        <td><p>Display a brickr object as a 3D model</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaled_to_colors.html">scaled_to_colors</a></code> </p>
-        </td>
-        <td><p>Convert image output from scale_image() to bricks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_fill_brick.html">scale_fill_brick()</a></code> </p>
-        </td>
-        <td><p>Color scales for bricks - ggplot2 extension</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_brick.html">theme_brick()</a></code> </p>
-        </td>
-        <td><p>Brick color themes - ggplot2 extension</p></td>
       </tr>
     </tbody>
     </table>
@@ -285,7 +282,10 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-mosaics">Mosaics</a></li>
+      <li><a href="#section--d-models">3D Models</a></li>
+      <li><a href="#section-ggplot-extension">ggplot Extension</a></li>
+      <li><a href="#section-bricks-irl">Bricks IRL</a></li>
     </ul>
   </div>
 </div>

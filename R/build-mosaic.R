@@ -2,6 +2,7 @@
 #'
 #' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.
 #' @param title Optional title to include above plotted mosaic.
+#' @family Mosaics
 #' @export 
 #'
 
@@ -29,8 +30,9 @@ build_mosaic <- function(image_list, title=NULL){
 
 #' Create instruction manual for 2D image mosaics
 #'
-#' @param image_list List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.
+#' @param image_list Mosaic object from image_to_mosaic().
 #' @param num_steps Number of discrete steps in instruction manual
+#' @family Mosaics
 #' @export 
 #'
 

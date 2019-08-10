@@ -43,5 +43,10 @@ ggplot(df, aes(trt, outcome)) +
 ggplot(df, aes(trt, outcome)) +
   geom_brick_col(aes(fill = trt)) +
   coord_brick_flip()
-  
 }
+\seealso{
+Other Graphs: \code{\link{geom_brick_col}},
+  \code{\link{geom_brick_rect}},
+  \code{\link{scale_fill_brick}}, \code{\link{theme_brick}}
+}
+\concept{Graphs}

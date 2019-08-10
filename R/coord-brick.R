@@ -15,7 +15,7 @@
 #' ggplot(df, aes(trt, outcome)) +
 #'   geom_brick_col(aes(fill = trt)) +
 #'   coord_brick_flip()
-#'   
+#' @family Graphs
 #' @export
 #' @rdname coord-brick
 coord_brick <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {

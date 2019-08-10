@@ -8,7 +8,7 @@
 #' @format NULL
 #' @usage NULL
 #' @return A list with element \code{Img_scaled} containing a data frame of the x- & y-coordinates, R, G, B channels, and hex color of each brick (pixel).
-#' 
+#' @keywords internal
 image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
   
   #Adjust brightness. Max channel value is 1
@@ -36,6 +36,19 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
     tidyr::gather(x, value, -y, -channel) %>% 
     dplyr::mutate(x = as.numeric(gsub("V", "", x))) %>% 
     tidyr::spread(channel, value)
+  
+  #If png, drop the transparent bricks
+  if(dim(image_b)[3] == 4){
+    transparent <- as.data.frame(image_b[, , 4]) %>% 
+      dplyr::mutate(y=dplyr::row_number(), channel = "Tr") %>% 
+      tidyr::gather(x, value, -y, -channel) %>% 
+      dplyr::mutate(x = as.numeric(gsub("V", "", x))) %>% 
+      tidyr::spread(channel, value) %>% 
+      dplyr::filter(Tr < 1)
+    
+    img <- img %>% 
+      dplyr::anti_join(transparent, by = c("y", "x"))
+  }
   
   #Wide or tall image? Shortest side should be `img_size` pixels
   if(max(img$x) > max(img$y)){
@@ -93,6 +106,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' @param contrast For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
 #' @format NULL
 #' @usage NULL
+#' @keywords internal
 #' @return A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
 scaled_to_colors <- function(image_list, method = "cie94", 
                              color_table = NULL,
@@ -123,12 +137,12 @@ scaled_to_colors <- function(image_list, method = "cie94",
   #Standard or dithering
   if(!dithering){
     img <- convert_color_to_brick_standard(in_list$Img_scaled, color_table, brick_table, 
-                                            color_palette, method, contrast)
+                                           color_palette, method, contrast)
   } else {
     img <- convert_color_to_brick_dithering(in_list$Img_scaled, color_table, brick_table, 
                                             color_palette, method)
   }
-
+  
   #Return output....
   in_list[["Img_lego"]] <- img %>% 
     dplyr::mutate(Level = 1)
@@ -267,7 +281,7 @@ convert_color_to_brick_dithering <- function(img_object, color_table, brick_tabl
         mosaic_base[mosaic_base$B < 0, "R"] <- 0
       }
     }
-
+    
     return(mosaic_base)
     
   } else {

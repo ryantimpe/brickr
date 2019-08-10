@@ -7,10 +7,15 @@
 build_instructions(image_list, num_steps = 6)
 }
 \arguments{
-\item{image_list}{List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.}
+\item{image_list}{Mosaic object from image_to_mosaic().}
 
 \item{num_steps}{Number of discrete steps in instruction manual}
 }
 \description{
 Create instruction manual for 2D image mosaics
 }
+\seealso{
+Other Mosaics: \code{\link{build_mosaic}},
+  \code{\link{image_to_mosaic}}
+}
+\concept{Mosaics}

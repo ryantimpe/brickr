@@ -189,7 +189,7 @@ More examples using `bricks_from_table()` and `bricks_from_coords()` can be foun
   
 ## Charts
 
-brickr includes some elements for a [ggplot2]() extensions to convert ggplot bar charts into bricks and LEGO themes. The main function is `geom_brick_col()`, which is the brickr equivalent of `geom_col()`. Additional functions are highly recommended to ensure that proper the chart is rendered in the proper functions and proportions.
+brickr includes functions to render [ggplot2](https://ggplot2.tidyverse.org/) bar charts as bricks with LEGO color themes. The main function is `geom_brick_col()`, which is the brickr equivalent of `geom_col()`. Additional functions are highly recommended to ensure that proper the chart is rendered in the proper functions and proportions.
 
 ```{r geom_brick, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))

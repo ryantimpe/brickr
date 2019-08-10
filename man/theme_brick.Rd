@@ -16,3 +16,10 @@ theme_brick(brick_theme = "classic")
 \description{
 Brick color themes - ggplot2 extension
 }
+\seealso{
+Other Graphs: \code{\link{coord_brick}},
+  \code{\link{geom_brick_col}},
+  \code{\link{geom_brick_rect}},
+  \code{\link{scale_fill_brick}}
+}
+\concept{Graphs}

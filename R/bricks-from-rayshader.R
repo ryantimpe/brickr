@@ -6,6 +6,7 @@
 #' Use an array of two values for a rectangular image \code{c(width, height)}.
 #' @param max_height Maximum height of plot in LEGO bricks or plates. 
 #' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
+#' @family 3D Models
 #' @export 
 #'
 bricks_from_rayshader <- function(hillshade, heightmap, max_height = 12, img_size = 48){

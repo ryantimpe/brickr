@@ -74,3 +74,9 @@ p  +
  scale_fill_brick(tm) + 
  theme_brick(tm)
 }
+\seealso{
+Other Graphs: \code{\link{coord_brick}},
+  \code{\link{geom_brick_col}},
+  \code{\link{geom_brick_rect}}, \code{\link{theme_brick}}
+}
+\concept{Graphs}

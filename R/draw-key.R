@@ -1,4 +1,5 @@
 #' @rdname brickr-ggproto
+#' @keywords internal
 draw_key_brick <- function(data, params, size) {
   
   #Outline and text for dark colors

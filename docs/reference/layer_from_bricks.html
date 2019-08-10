@@ -41,7 +41,7 @@
 
 <meta property="og:description" content="Display a brickr object as a 3D model" />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -95,6 +95,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/graphs.html">ggplot with brickr</a>
+    </li>
+    <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
     </li>
   </ul>
@@ -146,7 +149,8 @@
     </tr>
     <tr>
       <th>brick_type</th>
-      <td><p>Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.</p></td>
+      <td><p>Type of brick to use. Default is 'brick'. Other option is
+'plate', which is 1/3 the height of a brick.</p></td>
     </tr>
     <tr>
       <th>lev</th>
@@ -154,14 +158,18 @@
     </tr>
     <tr>
       <th>brick_res</th>
-      <td><p>Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px.
-Enter a value for a custom resolution. High resolutions take longer to render.</p></td>
+      <td><p>Resolution, expressed at number of pixels on one side of a
+1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd'
+for 60px. Enter a value for a custom resolution. High resolutions take
+longer to render.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with elements <code>threed_elevation</code> and <code>threed_hillshade</code> to created 3D mosiacs with the <code>rayshader</code> package.</p>
+    <p>A list with elements <code>threed_elevation</code> and
+<code>threed_hillshade</code> to created 3D mosiacs with the <code>rayshader</code>
+package.</p>
     
 
   </div>

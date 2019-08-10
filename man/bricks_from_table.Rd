@@ -38,3 +38,11 @@ A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 \description{
 Convert a matrix table into a brickr 3D object
 }
+\seealso{
+Other 3D Models: \code{\link{bricks_from_coords}},
+  \code{\link{bricks_from_excel}},
+  \code{\link{bricks_from_mosaic}},
+  \code{\link{bricks_from_rayshader}},
+  \code{\link{build_bricks}}
+}
+\concept{3D Models}

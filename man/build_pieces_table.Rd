@@ -7,7 +7,7 @@
 build_pieces_table(image_list)
 }
 \arguments{
-\item{image_list}{List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.}
+\item{image_list}{Mosaic output from image_to_mosaic().}
 }
 \value{
 Data frame of piece counts by LEGO color name and size.
@@ -15,3 +15,8 @@ Data frame of piece counts by LEGO color name and size.
 \description{
 Generate required bricks as a data frame.
 }
+\seealso{
+Other Resources: \code{\link{build_colors}},
+  \code{\link{build_pieces}}, \code{\link{build_themes}}
+}
+\concept{Resources}

@@ -26,3 +26,4 @@ A list with element \code{Img_lego} containing a data frame of the x- & y-coordi
 \description{
 Convert image output from scale_image() to bricks
 }
+\keyword{internal}

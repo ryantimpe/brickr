@@ -1,4 +1,4 @@
-#' Bar charts with bricks
+#' Bar charts with bricks - ggplot2 extension
 #' 
 #' `geom_brick_col()` is the \code{brickr} version of `ggplot2::geom_col()`. 
 #' Bar height is determined by values in the data using the \code{y} aesthetic. With the exception of \code{fill}, aesthetics available in `ggplot2::geom_col()` are generally not enabled here.
@@ -25,7 +25,7 @@
 #'   scale_fill_brick() +
 #'   coord_brick() +
 #'   theme_brick()
-#'   
+#' @family Graphs
 #' @export
 
 geom_brick_col <- function(mapping = NULL, data = NULL,
@@ -47,6 +47,7 @@ geom_brick_col <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       width = width,
+      label = label,
       two_knob = two_knob, 
       split_bricks = split_bricks,
       min_radius_for_text = min_radius_for_text,
@@ -85,7 +86,7 @@ GeomBrickCol <- ggproto("GeomBrickCol", GeomRect,
                         },
                         
                         draw_panel = function(self, data, panel_params, coord, linejoin = "mitre", 
-                                              min_radius_for_text = 0.02, width=NULL, 
+                                              min_radius_for_text = 0.02, width=NULL, label = "brickr",
                                               two_knob = TRUE, split_bricks = TRUE, label_scale =1) {
                           
                           #This happens to EACH panel

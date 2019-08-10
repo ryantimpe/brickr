@@ -5,7 +5,8 @@
 #' "ninja", "classy", "city", "ocean", "movie", "space", 
 #' "jurassic", "duplo", "superhero", "80s",
 #' "rainbow7", "rainbow13", "doublerainbow", "blue")}.
-#'@export
+#' @family Graphs
+#' @export
 
 theme_brick <- function(brick_theme = "classic"){
   if(!(brick_theme %in% brickr_themes$theme)){

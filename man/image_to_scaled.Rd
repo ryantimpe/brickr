@@ -19,3 +19,4 @@ A list with element \code{Img_scaled} containing a data frame of the x- & y-coor
 \description{
 Scale an image raster array to a small number of pixels. Process into a data frame. Internal function.
 }
+\keyword{internal}

@@ -7,7 +7,7 @@
 build_pieces(image_list)
 }
 \arguments{
-\item{image_list}{List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.}
+\item{image_list}{Mosaic output from image_to_mosaic().}
 }
 \value{
 Plot object of required bricks by color and size.
@@ -15,3 +15,9 @@ Plot object of required bricks by color and size.
 \description{
 Graphically display required bricks.
 }
+\seealso{
+Other Resources: \code{\link{build_colors}},
+  \code{\link{build_pieces_table}},
+  \code{\link{build_themes}}
+}
+\concept{Resources}

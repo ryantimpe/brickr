@@ -20,3 +20,11 @@ A list with elements \code{threed_elevation} and \code{threed_hillshade} to crea
 \description{
 Convert a 2D LEGO mosaic into a brickr 3D object
 }
+\seealso{
+Other 3D Models: \code{\link{bricks_from_coords}},
+  \code{\link{bricks_from_excel}},
+  \code{\link{bricks_from_rayshader}},
+  \code{\link{bricks_from_table}},
+  \code{\link{build_bricks}}
+}
+\concept{3D Models}

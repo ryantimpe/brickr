@@ -27,3 +27,11 @@ Enter a value for a custom resolution. High resolutions take longer to render.}
 \description{
 Build 3D brick model with rayshader.
 }
+\seealso{
+Other 3D Models: \code{\link{bricks_from_coords}},
+  \code{\link{bricks_from_excel}},
+  \code{\link{bricks_from_mosaic}},
+  \code{\link{bricks_from_rayshader}},
+  \code{\link{bricks_from_table}}
+}
+\concept{3D Models}

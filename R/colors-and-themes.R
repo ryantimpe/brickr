@@ -1,4 +1,4 @@
-#' Dispaly available brick colors
+#' Display available brick colors
 #' 
 #' Generates a plot of available brick colors. Use .names_only = TRUE to get a list of color names.
 #' 
@@ -10,6 +10,7 @@
 #' 
 #' #Print list of colors
 #' build_colors(TRUE)
+#' @family Resources
 #' @export 
 
 build_colors <- function(.names_only = FALSE){
@@ -47,8 +48,9 @@ build_colors <- function(.names_only = FALSE){
 #' 
 #' #Print list of themes
 #' build_themes(.names_only = TRUE)
+#' @family Resources
 #' @export 
-#'
+
 build_themes <- function(show_themes = "all", .names_only = FALSE){
   if(.names_only){
     return(unique(brickr_themes$theme))

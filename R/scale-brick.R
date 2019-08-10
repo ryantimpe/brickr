@@ -21,6 +21,7 @@
 #' p  + 
 #'  scale_fill_brick(tm) + 
 #'  theme_brick(tm)
+#' @family Graphs
 #' @export
 
 scale_fill_brick <- function(brick_theme = "classic", ...) {
