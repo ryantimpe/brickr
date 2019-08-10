@@ -27,4 +27,3 @@ reference:
     - build_instructions
     - starts_with("build_pieces")
     - build_themes
-    

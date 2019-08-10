@@ -75,7 +75,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
     dplyr::select(-x, -y) %>% 
     dplyr::group_by(y = ceiling(y_scaled), x = ceiling(x_scaled)) %>% 
     #Get average R, G, B and convert it to hexcolor
-    dplyr::summarize_at(dplyr::vars(R, G, B), dplyr::funs(mean(.))) %>% 
+    dplyr::summarize_at(dplyr::vars(R, G, B), mean) %>% 
     dplyr::rowwise() %>% 
     dplyr::mutate(color = rgb(R, G, B)) %>% 
     dplyr::ungroup() %>% 
