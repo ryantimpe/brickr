@@ -4,11 +4,12 @@
 
 * **Breaking:** Data "lego_colors.rda" has been updated with more accurate RGB values and new `brickrID` numbers. This will impact previously created mosaics and 3D models.
 
-## Documentations
+## Documentation
 
 * pkgdown site
 * Vignettes:
     - Mosaics
+    - ggplot extension
 
 ## Mosaics
 
@@ -42,7 +43,6 @@
     - 3D models from tables
     - 3D models from coords
     - 3D modesl from mosaics + rayshader
-    - ggplot
     - IRL
 * Website
 * Check() breaks at the size check

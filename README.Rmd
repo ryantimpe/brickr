@@ -18,7 +18,7 @@ library(tidyverse)
 
 # brickr <img src='man/figures/logo.png' align="right" height="138" />
 <!--   <!-- badges: start -->
-  [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+  [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!--   <!-- badges: end -->
 
 ## Overview
@@ -32,6 +32,14 @@ The package is divided into 3 separate systems:
   
 brickr also includes tools help users create the Mosaics and 3D model output using real LEGO&reg; elements.
 
+### What's the point?
+
+The goal of {brickr} is to provide a series of tools to integrate the LEGO&reg; system with R by:
+
+  - Enhancing a real world building experience with mosaics, generated instructions, and piece counts.
+  - Generating interest in R and coding for new audiences with easy-to-create 3D models.
+  - or just embracing pure novelty.
+  
 *brickr is developed using publicly available information about LEGO&reg; products and is not officially affiliated with The LEGO Group*
 
 ## Installation
@@ -94,10 +102,7 @@ brick %>%
   bricks_from_table() %>% 
   build_bricks(brick_res = "uhd")
 
-rayshader::render_snapshot()
-```
-```{r, echo=FALSE}
- rgl::rgl.clear()
+rayshader::render_snapshot( clear = TRUE)
 ```
 
 ### Stacking bricks
@@ -141,10 +146,7 @@ my_first_model %>%
   bricks_from_table(brick_colors) %>% 
   build_bricks(theta = 210, brick_res = "hd")
 
-rayshader::render_snapshot()
-```
-```{r, echo=FALSE}
- rgl::rgl.clear()
+rayshader::render_snapshot(clear = TRUE)
 ```
 
 ### Programmatically build models

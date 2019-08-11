@@ -6,7 +6,7 @@ The LEGO® System in R
 <!--   <!-- badges: start -->
 
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!--   <!-- badges: end -->
 
 ## Overview
@@ -26,8 +26,19 @@ The package is divided into 3 separate systems:
 brickr also includes tools help users create the Mosaics and 3D model
 output using real LEGO® elements.
 
+### What’s the point?
+
+The goal of {brickr} is to provide a series of tools to integrate the
+LEGO® system with R by:
+
+  - Enhancing a real world building experience with mosaics, generated
+    instructions, and piece counts.
+  - Generating interest in R and coding for new audiences with
+    easy-to-create 3D models.
+  - or just embracing pure novelty.
+
 *brickr is developed using publicly available information about LEGO®
-products and is not officially affliated with The LEGO Group*
+products and is not officially affiliated with The LEGO Group*
 
 ## Installation
 
@@ -100,11 +111,12 @@ Morgan-Wall](https://twitter.com/tylermorganwall)’s
     integer values, and `Color` columns, where each combination of x, y,
     & z is a point in 3-dimensional space. Color must be an official
     LEGO color name from `build_colors()`. This format is much more
-    flexible than `bricks_from_table()` and allows the programatic
+    flexible than `bricks_from_table()` and allows the programmatic
     development of 3D models.
 
-\-`bricks_from_mosaic()` & `bricks_from_image()` convert a 2D
-[mosaic](#mosaics) object or an image into 3D LEGO models, respectively.
+\-`bricks_from_mosaic()` converts a 2D [mosaic](#mosaics) object from an
+image into 3D LEGO models, respectively. `bricks_from_rayshader()`
+creates a LEGO model from the same input as `rayshader::plot_3d()`.
 
 Pass the output from any `bricks_from_*()` function to `build_bricks()`
 to see the 3D model. The `brick_res` option allows for higher resolution
@@ -230,11 +242,12 @@ be found at the links below.
 
 ## Charts
 
-brickr includes some elements for a [ggplot2]() extensions to convert
-ggplot bar charts into bricks and LEGO themes. The main function is
-`geom_brick_col()`, which is the brickr equivalent of `geom_col()`.
-Additional functions are highly recommended to ensure that proper the
-chart is rendered in the proper functions and proportions.
+brickr includes functions to render
+[ggplot2](https://ggplot2.tidyverse.org/) bar charts as bricks with LEGO
+color themes. The main function is `geom_brick_col()`, which is the
+brickr equivalent of `geom_col()`. Additional functions are highly
+recommended to ensure that proper the chart is rendered in the proper
+functions and proportions.
 
 ``` r
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
@@ -250,7 +263,7 @@ ggplot(df, aes(trt, outcome)) +
 ![](README_files/figure-gfm/geom_brick-1.png)<!-- -->
 
 Both `scale_fill_brick()` and `theme_brick()` take an input
-‘brick\_theme’, which ensures all colors match offical LEGO brick
+‘brick\_theme’, which ensures all colors match official LEGO brick
 colors. See `build_themes()` for a sample of all available brick
 theme.
 
