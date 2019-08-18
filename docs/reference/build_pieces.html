@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Graphically display required bricks. — build_pieces • brickr</title>
+<title>Display bricks required to build model or mosaic. — build_pieces • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,9 @@
 
 
 
-<meta property="og:title" content="Graphically display required bricks. — build_pieces" />
+<meta property="og:title" content="Display bricks required to build model or mosaic. — build_pieces" />
 
-<meta property="og:description" content="Graphically display required bricks." />
+<meta property="og:description" content="Display bricks required to build model or mosaic." />
 
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
       </span>
     </div>
 
@@ -96,6 +96,15 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/graphs.html">ggplot with brickr</a>
+    </li>
+    <li>
+      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+    </li>
+    <li>
+      <a href="../articles/models-from-program.html">3D Models programmatically</a>
+    </li>
+    <li>
+      <a href="../articles/models-from-tables.html">3D models from tables</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -126,25 +135,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Graphically display required bricks.</h1>
+    <h1>Display bricks required to build model or mosaic.</h1>
     <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/piece-count.R'><code>R/piece-count.R</code></a></small>
     <div class="hidden name"><code>build_pieces.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Graphically display required bricks.</p>
+    <p>Display bricks required to build model or mosaic.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>build_pieces</span>(<span class='no'>image_list</span>)</pre>
+    <pre class="usage"><span class='fu'>build_pieces</span>(<span class='no'>brick_obj</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>image_list</th>
-      <td><p>Mosaic output from image_to_mosaic().</p></td>
+      <th>brick_obj</th>
+      <td><p>brickr mosaic or 3D model object.</p></td>
     </tr>
     </table>
     
@@ -155,6 +164,7 @@
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Resources: <code><a href='build_colors.html'>build_colors</a></code>,
+  <code><a href='build_instructions.html'>build_instructions</a></code>,
   <code><a href='build_pieces_table.html'>build_pieces_table</a></code>,
   <code><a href='build_themes.html'>build_themes</a></code></p></div>
     

@@ -42,7 +42,6 @@ A list with element \code{Img_lego} containing a data frame of the x- & y-coordi
 Create a 2D LEGO mosaic from an image array
 }
 \seealso{
-Other Mosaics: \code{\link{build_instructions}},
-  \code{\link{build_mosaic}}
+Other Mosaics: \code{\link{build_mosaic}}
 }
 \concept{Mosaics}

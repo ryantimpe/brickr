@@ -1,6 +1,6 @@
 Package: brickr
 Title: Tools to emulate the LEGO&reg; System in R
-Version: 0.1.0.9012
+Version: 0.1.0.9014
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -34,6 +34,7 @@ Collate:
     'bricks-from-rayshader.R'
     'bricks-from-tables.R'
     'build-bricks.R'
+    'build-instructions.R'
     'build-mosaic.R'
     'collect-bricks.R'
     'colors-and-themes.R'

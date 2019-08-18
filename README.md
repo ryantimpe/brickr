@@ -136,7 +136,7 @@ brick %>%
   bricks_from_table() %>% 
   build_bricks(brick_res = "uhd")
 
-rayshader::render_snapshot()
+rayshader::render_snapshot( clear = TRUE)
 ```
 
 ![](README_files/figure-gfm/bricks_1-1.png)<!-- -->
@@ -185,7 +185,7 @@ my_first_model %>%
   bricks_from_table(brick_colors) %>% 
   build_bricks(theta = 210, brick_res = "hd")
 
-rayshader::render_snapshot()
+rayshader::render_snapshot(clear = TRUE)
 ```
 
 ![](README_files/figure-gfm/bricks_5-1.png)<!-- -->
@@ -218,7 +218,7 @@ sphere_coords %>%
   bricks_from_coords() %>% 
   build_bricks(phi = 30, theta = 30)
 
-rayshader::render_snapshot()
+rayshader::render_snapshot(clear = TRUE)
 ```
 
 ![](README_files/figure-gfm/bricks_6-1.png)<!-- -->

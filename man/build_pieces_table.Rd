@@ -4,10 +4,10 @@
 \alias{build_pieces_table}
 \title{Generate required bricks as a data frame.}
 \usage{
-build_pieces_table(image_list)
+build_pieces_table(brick_obj)
 }
 \arguments{
-\item{image_list}{Mosaic output from image_to_mosaic().}
+\item{brick_obj}{brickr mosaic or 3D model object.}
 }
 \value{
 Data frame of piece counts by LEGO color name and size.
@@ -17,6 +17,7 @@ Generate required bricks as a data frame.
 }
 \seealso{
 Other Resources: \code{\link{build_colors}},
+  \code{\link{build_instructions}},
   \code{\link{build_pieces}}, \code{\link{build_themes}}
 }
 \concept{Resources}

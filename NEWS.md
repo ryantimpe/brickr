@@ -7,9 +7,7 @@
 ## Documentation
 
 * pkgdown site
-* Vignettes:
-    - Mosaics
-    - ggplot extension
+* Vignettes
 
 ## Mosaics
 
@@ -27,6 +25,7 @@
 * Option to use plates rather than bricks. Combining the two involves some hacking.
 * Updated brick collection algorithm to allow for custom brick input.
 * Updated brick collection algorithm staggers bricks over layer, though still prioritizes larger bricks.
+* `build_instructions` generates building instructions for 3D models, as well as mosaics.
 
 ## ggplot Extension
 
@@ -38,11 +37,8 @@
 
 * ggplot - continuous scale
 
-* 3D model instructions... level by level
 * Vignettes
-    - 3D models from tables
-    - 3D models from coords
-    - 3D modesl from mosaics + rayshader
+    - 3D model from mosaics + rayshader
     - IRL
 * Website
 * Check() breaks at the size check

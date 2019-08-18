@@ -174,10 +174,7 @@ sphere_coords %>%
   bricks_from_coords() %>% 
   build_bricks(phi = 30, theta = 30)
 
-rayshader::render_snapshot()
-```
-```{r, echo=FALSE}
- rgl::rgl.clear()
+rayshader::render_snapshot(clear = TRUE)
 ```
 
 ### Examples

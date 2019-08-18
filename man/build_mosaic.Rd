@@ -4,10 +4,10 @@
 \alias{build_mosaic}
 \title{Display 2D LEGO mosaic as a plot image}
 \usage{
-build_mosaic(image_list, title = NULL)
+build_mosaic(brick_obj, title = NULL)
 }
 \arguments{
-\item{image_list}{List output from collect_bricks() or image_to_bricks(). Contains an element  \code{Img_lego}.}
+\item{brick_obj}{List output from image_to_bricks(). Contains an element  \code{Img_lego}.}
 
 \item{title}{Optional title to include above plotted mosaic.}
 }
@@ -15,7 +15,6 @@ build_mosaic(image_list, title = NULL)
 Display 2D LEGO mosaic as a plot image
 }
 \seealso{
-Other Mosaics: \code{\link{build_instructions}},
-  \code{\link{image_to_mosaic}}
+Other Mosaics: \code{\link{image_to_mosaic}}
 }
 \concept{Mosaics}

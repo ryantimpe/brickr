@@ -2,21 +2,22 @@
 % Please edit documentation in R/piece-count.R
 \name{build_pieces}
 \alias{build_pieces}
-\title{Graphically display required bricks.}
+\title{Display bricks required to build model or mosaic.}
 \usage{
-build_pieces(image_list)
+build_pieces(brick_obj)
 }
 \arguments{
-\item{image_list}{Mosaic output from image_to_mosaic().}
+\item{brick_obj}{brickr mosaic or 3D model object.}
 }
 \value{
 Plot object of required bricks by color and size.
 }
 \description{
-Graphically display required bricks.
+Display bricks required to build model or mosaic.
 }
 \seealso{
 Other Resources: \code{\link{build_colors}},
+  \code{\link{build_instructions}},
   \code{\link{build_pieces_table}},
   \code{\link{build_themes}}
 }

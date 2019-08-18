@@ -111,7 +111,6 @@ collect_bricks <- function(image_list, use_bricks = NULL){
   
   in_list[["Img_bricks"]] <- img2
   in_list[["ID_bricks"]] <- bricks_df
-  in_list[["mosaic_type"]] <- "flat"
   in_list[["pieces"]] <- pcs
   
   return(in_list)
