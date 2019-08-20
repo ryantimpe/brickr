@@ -1,0 +1,142 @@
+---
+title: "3D models from tables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{graphs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(brickr)
+```
+
+## Getting started
+
+The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats. These models are rendered using [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://www.rayshader.com/) package. This package must be installed.
+
+`bricks_from_table()` converts a matrix-shaped table of integers into LEGO bricks, where most columns are x-coordinates, rows are y-coordinates, and a special `Level` column denotes the elevation of the row. For simple models, this table can be made manually using `data.frame()` or `tibble::tribble()`. 
+
+For more advanced models, it's recommended you use MS Excel or a .csv file. `bricks_from_excel()` is a wrapper function to more easily build models designed using a Microsoft Excel template. Please see this repo: [brickr toybox](https://github.com/ryantimpe/brickr_toybox).
+
+Pass the output of any `bricks_from_*()` function to `build_bricks()` to render it as a 3D model.
+
+## Individual bricks
+
+Create a single 2x4 brick with a 2x4 data frame, with an additional column to specify the 'Level'. These can be letters or numbers.
+
+```{r bricks_1, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
+#This is a 2 (columns) x 4 (rows) brick
+(brick <- data.frame(
+  Level="A",
+  X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
+  X2 = rep(3,4)
+))
+
+brick %>% 
+  bricks_from_table() %>% 
+  build_bricks(brick_res = "hd") #Bricks available in standard def, high def, and ultra hd. 
+
+rayshader::render_snapshot( clear = TRUE)
+```
+
+Stack many bricks by changing the 'Level' value in the data frame. The script below uses `purrr::map_df()` to avoid copying and pasting. Changing the numeric values inside the data frame for each level creates different colors.
+
+```{r bricks_2, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
+1:10 %>% 
+  purrr::map_df(~dplyr::mutate(brick,
+                        Level = LETTERS[.x], 
+                        X1 = .x,
+                        X2 = .x)) %>% 
+  bricks_from_table() %>% 
+  build_bricks(brick_res = "hd")
+
+rayshader::render_snapshot( clear = TRUE)
+```
+
+## Full models
+
+The most direct way to create a 3D model is to manually create a data frame. Below, we create a data frame using `tibble::tribble()` so we can more easily see the structure as it's written.
+
+The data frame has 3 numbers as input (values of 0 are void spaces in the model). Rather than use the default brickr colors for the values of 1, 2, and 3, we define another data frame 'brick_colors' 
+
+```{r bricks_5, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+tree_or_mushroom <- tibble::tribble(
+  ~Level, ~X1, ~X2, ~X3, ~X4, ~X5, ~X6,
+  "A", 1, 1, 1, 1, 1, 1, 
+  "A", 1, 1, 1, 1, 1, 1, 
+  "A", 1, 1, 1, 1, 1, 1, 
+  "A", 1, 1, 1, 1, 1, 1, 
+  "B", 0, 0, 0, 0, 0, 0, 
+  "B", 0, 0, 2, 2, 0, 0,
+  "B", 0, 0, 2, 2, 0, 0, 
+  "B", 0, 0, 0, 0, 0, 0, 
+  "C", 0, 0, 0, 0, 0, 0, 
+  "C", 0, 0, 2, 2, 0, 0,
+  "C", 0, 0, 2, 2, 0, 0, 
+  "C", 0, 0, 0, 0, 0, 0, 
+  "D", 0, 3, 3, 3, 3, 0, 
+  "D", 0, 3, 3, 3, 3, 0,
+  "D", 0, 3, 3, 3, 3, 0, 
+  "D", 0, 3, 3, 3, 3, 0,
+  "E", 0, 0, 3, 3, 0, 0, 
+  "E", 0, 3, 3, 3, 3, 0,
+  "E", 0, 3, 3, 3, 3, 0, 
+  "E", 0, 0, 3, 3, 0, 0,
+  "F", 0, 0, 0, 0, 0, 0, 
+  "F", 0, 0, 3, 3, 0, 0,
+  "F", 0, 0, 3, 3, 0, 0, 
+  "F", 0, 0, 0, 0, 0, 0,
+  "G", 0, 0, 0, 0, 0, 0, 
+  "G", 0, 0, 3, 0, 0, 0,
+  "G", 0, 0, 0, 3, 0, 0, 
+  "G", 0, 0, 0, 0, 0, 0
+)
+
+brick_colors <- tibble::tribble(
+  ~`.value`, ~Color,
+  1, "Bright green",
+  2, "Dark orange",
+  3, "Dark green"
+)
+  
+tree_or_mushroom %>% 
+  bricks_from_table(brick_colors) %>% 
+  build_bricks(theta = 210, phi = 20, brick_res = "hd")
+
+rayshader::render_snapshot(clear = TRUE)
+```
+
+### Plates instead of bricks
+
+That's clearly a tree, right? Why is the data frame called 'tree_or_mushroom'?
+
+Use the input 'brick_type="plate"' to render the 3D model using LEGO plates rather than bricks, which are 1/3 as tall.
+
+```{r bricks_5a, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+brick_colors <- tibble::tribble(
+  ~`.value`, ~Color,
+  1, "Dark green",
+  2, "Light nougat",
+  3, "Bright red"
+)
+  
+tree_or_mushroom %>% 
+  bricks_from_table(brick_colors) %>% 
+  build_bricks(theta = 210, phi = 10, brick_res = "hd", brick_type="plate")
+
+rayshader::render_snapshot(clear = TRUE)
+```
+
+## Bricks from Excel
+
+When designing larger models, it is much easier to use a spreadsheet program to lay out the bricks for each level.  
+
+See [the brickr toybox](https://github.com/ryantimpe/brickr_toybox) GitHub repo for some examples and templates.

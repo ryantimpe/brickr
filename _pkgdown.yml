@@ -1,0 +1,29 @@
+destination: docs
+
+url: http://brickr.org
+
+reference:
+  - title: Mosaics
+    desc: Create a LEGO mosaic from an image
+    contents:
+    - build_mosaic
+    - image_to_mosaic
+  - title: 3D Models
+    desc: Build 3D models from various inputs
+    contents:
+    - starts_with("bricks_")
+    - build_bricks
+  - title: ggplot Extension 
+    desc: Brick bar charts in ggplot
+    contents:
+    - starts_with("coord_")
+    - starts_with("geom_")
+    - starts_with("scale_")
+    - starts_with("theme_")
+  - title: Bricks IRL
+    desc: Helper functions to create bricks and build them IRL.
+    contents:
+    - build_colors
+    - build_instructions
+    - starts_with("build_pieces")
+    - build_themes

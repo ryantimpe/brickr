@@ -1,25 +1,51 @@
 Package: brickr
-Title: Create Simulated LEGO Models from Images or Data Frames
-Version: 0.0.0.9200
+Title: Tools to emulate the LEGO&reg; System in R
+Version: 0.1.0.9014
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
            role = c("aut", "cre"),
            email = "ryan.timpe@gmail.com")
-Description: Generate digital LEGO-eque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. Build 3D models using data frames with rayshader.
-License: MIT + file LICENSE
+Description: 
+    Generate digital LEGO-esque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. 
+    Build 3D models using data frames with rayshader. Create brick bar charts with ggplot2.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.0.2)
+Depends: R (>= 3.0.2), ggplot2
 Imports: 
     magrittr,
     dplyr,
     tidyr,
     purrr,
-    ggplot2
+    ggplot2,
+    scales,
+    farver
 Suggests: 
-    rayshader
+    rayshader,
+    knitr,
+    rmarkdown
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 URL: https://github.com/ryantimpe/brickr
 BugReports: https://github.com/ryantimpe/brickr/issues
+Collate: 
+    'bricks-from-mosaic.R'
+    'bricks-from-rayshader.R'
+    'bricks-from-tables.R'
+    'build-bricks.R'
+    'build-instructions.R'
+    'build-mosaic.R'
+    'collect-bricks.R'
+    'colors-and-themes.R'
+    'coord-brick.R'
+    'draw-key.R'
+    'geom-brick-col.R'
+    'geom-brick-rect.R'
+    'image-to-mosaic.R'
+    'image-to-prep-mosaic.R'
+    'piece-count.R'
+    'scale-brick.R'
+    'theme-brick.R'
+    'utils-pipe.R'
+VignetteBuilder: knitr
