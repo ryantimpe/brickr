@@ -138,7 +138,7 @@
 <a class="sourceLine" id="cb1-15" title="15"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>(<span class="dt">brick_res =</span> <span class="st">"hd"</span>) <span class="co">#Bricks available in standard def, high def, and ultra hd. </span></a>
 <a class="sourceLine" id="cb1-16" title="16"></a>
 <a class="sourceLine" id="cb1-17" title="17">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>( <span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/models-from-tables_files/figure-html/bricks_1-1.png" width="288"></p>
+<p><img src="models-from-tables_files/figure-html/bricks_1-1.png" width="288"></p>
 <p>Stack many bricks by changing the ‘Level’ value in the data frame. The script below uses <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_df()</a></code> to avoid copying and pasting. Changing the numeric values inside the data frame for each level creates different colors.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_df</a></span>(<span class="op">~</span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(brick,</a>
@@ -149,7 +149,7 @@
 <a class="sourceLine" id="cb2-7" title="7"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>(<span class="dt">brick_res =</span> <span class="st">"hd"</span>)</a>
 <a class="sourceLine" id="cb2-8" title="8"></a>
 <a class="sourceLine" id="cb2-9" title="9">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>( <span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/models-from-tables_files/figure-html/bricks_2-1.png" width="288"></p>
+<p><img src="models-from-tables_files/figure-html/bricks_2-1.png" width="288"></p>
 </div>
 <div id="full-models" class="section level2">
 <h2 class="hasAnchor">
@@ -200,7 +200,7 @@
 <a class="sourceLine" id="cb3-42" title="42"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>(<span class="dt">theta =</span> <span class="dv">210</span>, <span class="dt">phi =</span> <span class="dv">20</span>, <span class="dt">brick_res =</span> <span class="st">"hd"</span>)</a>
 <a class="sourceLine" id="cb3-43" title="43"></a>
 <a class="sourceLine" id="cb3-44" title="44">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/models-from-tables_files/figure-html/bricks_5-1.png" width="384"></p>
+<p><img src="models-from-tables_files/figure-html/bricks_5-1.png" width="384"></p>
 <div id="plates-instead-of-bricks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plates-instead-of-bricks" class="anchor"></a>Plates instead of bricks</h3>
@@ -218,7 +218,7 @@
 <a class="sourceLine" id="cb4-10" title="10"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>(<span class="dt">theta =</span> <span class="dv">210</span>, <span class="dt">phi =</span> <span class="dv">10</span>, <span class="dt">brick_res =</span> <span class="st">"hd"</span>, <span class="dt">brick_type=</span><span class="st">"plate"</span>)</a>
 <a class="sourceLine" id="cb4-11" title="11"></a>
 <a class="sourceLine" id="cb4-12" title="12">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="../../../../OneDrive%20-%20LEGO/Documents/brickr/docs/articles/models-from-tables_files/figure-html/bricks_5a-1.png" width="384"></p>
+<p><img src="models-from-tables_files/figure-html/bricks_5a-1.png" width="384"></p>
 </div>
 </div>
 <div id="bricks-from-excel" class="section level2">

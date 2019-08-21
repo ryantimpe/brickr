@@ -1,12 +1,12 @@
-pandoc: '2.6'
+pandoc: '2.7'
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
-  graphs: ../../../../Onedrive - LEGO/Documents/brickr/vignettes/graphs.html
-  models-from-other: ../../../../Onedrive - LEGO/Documents/brickr/vignettes/models-from-other.html
-  models-from-program: ../../../../Onedrive - LEGO/Documents/brickr/vignettes/models-from-program.html
-  models-from-tables: ../../../../Onedrive - LEGO/Documents/brickr/vignettes/models-from-tables.html
-  mosaics: ../../../../Onedrive - LEGO/Documents/brickr/vignettes/mosaics.html
+  graphs: graphs.html
+  models-from-other: models-from-other.html
+  models-from-program: models-from-program.html
+  models-from-tables: models-from-tables.html
+  mosaics: mosaics.html
 urls:
   reference: http://brickr.org/reference
   article: http://brickr.org/articles
