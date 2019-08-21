@@ -41,7 +41,7 @@ build_instructions <- function(brickr_obj, num_steps=6) {
     
     create_steps <- function(a, n_steps) {
       image %>% 
-        dplyr::filter(between(Level, a-1, a)) %>% 
+        dplyr::filter(dplyr::between(Level, a-1, a)) %>% 
         dplyr::mutate(alpha = ifelse(Level == a, 1, 0.5)) %>% 
         dplyr::mutate(Step = paste("Step", stringr::str_pad(a, 2, pad = "0")))
       

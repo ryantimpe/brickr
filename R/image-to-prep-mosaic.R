@@ -80,8 +80,8 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
     dplyr::mutate(color = rgb(R, G, B)) %>% 
     dplyr::ungroup() %>% 
     #Center the image
-    dplyr::filter(x <= median(x) + img_size2[1]/2, x > median(x) - img_size2[1]/2,
-                  y <= median(y) + img_size2[2]/2, y > median(y) - img_size2[2]/2) %>%
+    dplyr::filter(x <= stats::median(x) + img_size2[1]/2, x > stats::median(x) - img_size2[1]/2,
+                  y <= stats::median(y) + img_size2[2]/2, y > stats::median(y) - img_size2[2]/2) %>%
     #Flip y
     dplyr::mutate(y = (max(y) - y) + 1)
   

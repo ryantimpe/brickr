@@ -1,6 +1,6 @@
 Package: brickr
 Title: Tools to emulate the LEGO&reg; System in R
-Version: 0.1.0.9014
+Version: 0.1.0.9016
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -24,12 +24,17 @@ Imports:
 Suggests: 
     rayshader,
     knitr,
-    rmarkdown
+    rmarkdown,
+    gridExtra,
+    png,
+    jpeg,
+    tibble
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 URL: https://github.com/ryantimpe/brickr
 BugReports: https://github.com/ryantimpe/brickr/issues
 Collate: 
+    'brickr.R'
     'bricks-from-mosaic.R'
     'bricks-from-rayshader.R'
     'bricks-from-tables.R'

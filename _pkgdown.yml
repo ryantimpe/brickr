@@ -27,3 +27,19 @@ reference:
     - build_instructions
     - starts_with("build_pieces")
     - build_themes
+
+articles:
+- title: Mosaics
+  desc: Creating mosaics from images.
+  contents:
+  - '`mosaics`'
+- title: 3D Models
+  desc: Creating 3D LEGO models.
+  contents:
+  - '`models-from-other`'
+  - '`models-from-program`'
+  - '`models-from-tables`'
+- title: Charts
+  desc: ggplot2 brickr extension
+  contents:
+  - '`graphs`'

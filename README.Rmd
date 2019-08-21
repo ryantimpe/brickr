@@ -19,6 +19,7 @@ library(tidyverse)
 # brickr <img src='man/figures/logo.png' align="right" height="138" />
 <!--   <!-- badges: start -->
   [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+  [![Travis build status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travis-ci.org/ryantimpe/brickr)
 <!--   <!-- badges: end -->
 
 ## Overview
@@ -57,7 +58,10 @@ install.packages("rayshader")
 The mosaic functions renders an imported JPG or PNG file using LEGO colors and bricks.
 
 ```{r m1_set, fig.width = 3, fig.height=3, echo = TRUE, message = FALSE, warning = FALSE}
-mosaic1 <- png::readPNG("Images/mf_unicorn.PNG") %>% 
+demo_img = tempfile() 
+download.file("http://ryantimpe.com/files/mf_unicorn.PNG", demo_img, mode="wb")
+
+mosaic1 <- png::readPNG(demo_img) %>% 
   image_to_mosaic(img_size = 36) #Length of each side of mosaic in "bricks"
 
 #Plot 2D mosaic

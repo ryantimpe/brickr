@@ -26,11 +26,11 @@ theme_brick <- function(brick_theme = "classic"){
   
   theme_base +
     ggplot2::theme(
-      # plot.background = element_rect(fill = values$hex[1]),
-      panel.background = element_rect(fill = values$hex[1]),
-      panel.grid = element_blank(),
-      text = element_text(color = values$hex[2]),
-      legend.text = element_text(color = values$hex[2], size = 8)
+      # plot.background = ggplot2::element_rect(fill = values$hex[1]),
+      panel.background = ggplot2::element_rect(fill = values$hex[1]),
+      panel.grid = ggplot2::element_blank(),
+      text = ggplot2::element_text(color = values$hex[2]),
+      legend.text = ggplot2::element_text(color = values$hex[2], size = 8)
     )
   
 }

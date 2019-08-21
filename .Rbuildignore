@@ -1,5 +1,5 @@
 ^LICENSE\.md$
-^LEGOMosaics\.Rproj$
+^brickr\.Rproj$
 ^\.Rproj\.user$
 admin_color_tools
 ^_pkgdown\.yml$
@@ -7,3 +7,6 @@ admin_color_tools
 ^pkgdown$
 ^doc$
 ^Meta$
+^\.travis\.yml$
+^README_files$
+^README\.Rmd$

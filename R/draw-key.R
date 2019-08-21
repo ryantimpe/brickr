@@ -1,3 +1,4 @@
+#' @importFrom grDevices col2rgb rgb
 #' @rdname brickr-ggproto
 #' @keywords internal
 draw_key_brick <- function(data, params, size) {

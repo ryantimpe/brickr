@@ -25,6 +25,7 @@
 #'   scale_fill_brick() +
 #'   coord_brick() +
 #'   theme_brick()
+#' @importFrom stats median
 #' @family Graphs
 #' @export
 

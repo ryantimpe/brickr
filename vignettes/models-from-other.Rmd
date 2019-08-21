@@ -30,7 +30,10 @@ Begin with a brickr mosaic from an image. Rather than graphically rendering the 
 * `highest_el` specifies if 'light' or 'dark' color bricks should be the tallest in the model. The default is 'light'. 
 
 ```{r bricks_6, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
-mosaic <- png::readPNG("../Images/mf_unicorn.PNG") %>% 
+demo_img = tempfile() 
+download.file("http://ryantimpe.com/files/mf_unicorn.PNG", demo_img, mode="wb")
+
+mosaic <- png::readPNG(demo_img) %>% 
   image_to_mosaic()
 
 mosaic %>% build_mosaic()

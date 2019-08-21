@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9016</span>
       </span>
     </div>
 
@@ -124,10 +124,13 @@
 <li>
 <code>highest_el</code> specifies if ‘light’ or ‘dark’ color bricks should be the tallest in the model. The default is ‘light’.</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">mosaic &lt;-<span class="st"> </span>png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(<span class="st">"../Images/mf_unicorn.PNG"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>()</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">demo_img =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>() </a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(<span class="st">"http://ryantimpe.com/files/mf_unicorn.PNG"</span>, demo_img, <span class="dt">mode=</span><span class="st">"wb"</span>)</a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">mosaic <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb1-4" title="4">mosaic &lt;-<span class="st"> </span>png<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/png/topics/readPNG">readPNG</a></span>(demo_img) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>()</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7">mosaic <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/build_mosaic.html">build_mosaic</a></span>()</a></code></pre></div>
 <p><img src="models-from-other_files/figure-html/bricks_6-1.png" width="384"></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"></a>
 <a class="sourceLine" id="cb2-2" title="2">mosaic <span class="op">%&gt;%</span><span class="st"> </span></a>
