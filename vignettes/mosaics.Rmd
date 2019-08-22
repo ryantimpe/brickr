@@ -22,7 +22,7 @@ library(brickr)
 
 You can generate a brickr mosaic object from an image using `brickr::image_to_mosaic()`. Pass this object to `build_mosaic()` to construct a visualization of the mosaic.
 
-![](../Images/mf_unicorn.PNG){ width='250px' }
+![](http://ryantimpe.com/files/mf_unicorn.PNG){ width='250px' }
 
 ```{r g1}
 demo_img = tempfile() 
