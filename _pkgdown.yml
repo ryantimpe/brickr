@@ -1,7 +1,5 @@
 destination: docs
 
-url: http://brickr.org
-
 reference:
   - title: Mosaics
     desc: Create a LEGO mosaic from an image
