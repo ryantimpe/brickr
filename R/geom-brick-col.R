@@ -146,7 +146,7 @@ GeomBrickCol <- ggproto("GeomBrickCol", GeomRect,
                                 #Unknobbed caps
                                 coords_rect_complete_bricks %>%
                                   dplyr::group_by(PANEL, group) %>%
-                                  dplyr::filter((dplyr::n() > 1 && num_of_knobs_in_this_brick > 0) |
+                                  dplyr::filter((dplyr::n() > 1 & num_of_knobs_in_this_brick > 0) |
                                                   dplyr::n() == 1) %>%
                                   dplyr::filter(ymax == max(ymax)) %>%
                                   dplyr::ungroup() %>%
