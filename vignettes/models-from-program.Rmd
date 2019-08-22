@@ -2,7 +2,7 @@
 title: "3D Models programmatically"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{graphs}
+  %\VignetteIndexEntry{models-from-program}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

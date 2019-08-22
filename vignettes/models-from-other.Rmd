@@ -2,7 +2,7 @@
 title: "3D Models from mosaics & rayshader"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{graphs}
+  %\VignetteIndexEntry{models-from-other}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

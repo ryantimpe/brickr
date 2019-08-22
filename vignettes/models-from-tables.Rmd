@@ -2,7 +2,7 @@
 title: "3D models from tables"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{graphs}
+  %\VignetteIndexEntry{models-from-tables}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
