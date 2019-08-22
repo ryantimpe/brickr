@@ -170,7 +170,7 @@ bricks_from_excel <- function(excel_table, repeat_levels = 1,
 #' @family 3D Models
 #' @export 
 #'
-bricks_from_coords <- function(coord_table, color_guide = lego_colors,
+bricks_from_coords <- function(coord_table, 
                               increment_level = 0, max_level = Inf,
                               increment_x = 0, max_x = Inf,
                               increment_y = 0, max_y = Inf,

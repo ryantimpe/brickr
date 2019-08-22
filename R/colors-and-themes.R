@@ -38,7 +38,7 @@ build_colors <- function(.names_only = FALSE){
 #' Display available brick themes for ggplot feature scale_fill_brick()
 #' 
 #' Generates a plot of available brick themes.
-#' @param show_theme Defaults to "all". Pass an array of theme names to only plot a subset.
+#' @param show_themes Defaults to "all". Pass an array of theme names to only plot a subset.
 #' @param .names_only Logical. Return an array of the theme names. Does not plot.
 #' @return A table and ggplot of brick colors & ID numbers.
 #' @examples 

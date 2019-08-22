@@ -13,7 +13,8 @@
 #' @param min_radius_for_text Knob radius as a percentage of view port. If the calculated radius is lower than this value, embossed label will not appear in knobs.
 #' @param position It it not recommended to use \code{position = "stack"}.
 #' @examples
-#' #geom_brick_col should be used in conjunction with other brickr charting functions, especially coord_brick.
+#' #geom_brick_col should be used in conjunction with other brickr charting 
+#' #functions, especially coord_brick.
 #' df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 #' ggplot(df, aes(trt, outcome)) +
 #'   geom_brick_col() +
