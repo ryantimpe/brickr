@@ -36,18 +36,15 @@
 ## TO DO
 
 * ggplot - continuous scale
-
 * Vignettes
-    - 3D model from mosaics + rayshader
     - IRL
-* Website
-* Check() breaks at the size check
+* Check() passing
 
-## TO DO in the future 
+** Lower Priority**
 
 * Negative bricks are "underside"
 * bricks_from_models
-* CRAN!
+* ggplot plays nicely with rayshader::plot_gg()
 
 ----
 
