@@ -70,7 +70,8 @@ the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 Bar height is determined by values in the data using the \code{y} aesthetic. With the exception of \code{fill}, aesthetics available in \code{ggplot2::geom_col()} are generally not enabled here.
 }
 \examples{
-#geom_brick_col should be used in conjunction with other brickr charting functions, especially coord_brick.
+#geom_brick_col should be used in conjunction with other brickr charting 
+#functions, especially coord_brick.
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 ggplot(df, aes(trt, outcome)) +
   geom_brick_col() +

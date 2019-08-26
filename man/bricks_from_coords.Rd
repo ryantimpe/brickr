@@ -4,10 +4,9 @@
 \alias{bricks_from_coords}
 \title{Convert a data frame with x, y, z & Color columns into a brickr 3D object}
 \usage{
-bricks_from_coords(coord_table, color_guide = lego_colors,
-  increment_level = 0, max_level = Inf, increment_x = 0,
-  max_x = Inf, increment_y = 0, max_y = Inf, exclude_color = NULL,
-  exclude_level = NULL)
+bricks_from_coords(coord_table, increment_level = 0, max_level = Inf,
+  increment_x = 0, max_x = Inf, increment_y = 0, max_y = Inf,
+  exclude_color = NULL, exclude_level = NULL)
 }
 \arguments{
 \item{coord_table}{A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{build_colors()}.}

@@ -56,7 +56,6 @@ rayshader::render_snapshot(clear = TRUE)
 * `max_height` is the number of bricks stacked at the mosaic's highest point. The default is 12.
 * `img_size` is the number of bricks on each side of the model. The default is 48.
 
-
 ```{r bricks_rayshader, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 library(rayshader)
 

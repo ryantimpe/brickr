@@ -7,9 +7,9 @@
 build_themes(show_themes = "all", .names_only = FALSE)
 }
 \arguments{
-\item{.names_only}{Logical. Return an array of the theme names. Does not plot.}
+\item{show_themes}{Defaults to "all". Pass an array of theme names to only plot a subset.}
 
-\item{show_theme}{Defaults to "all". Pass an array of theme names to only plot a subset.}
+\item{.names_only}{Logical. Return an array of the theme names. Does not plot.}
 }
 \value{
 A table and ggplot of brick colors & ID numbers.

@@ -7,4 +7,7 @@ articles:
   models-from-program: models-from-program.html
   models-from-tables: models-from-tables.html
   mosaics: mosaics.html
+urls:
+  reference: http://brickr.org/reference
+  article: http://brickr.org/articles
 

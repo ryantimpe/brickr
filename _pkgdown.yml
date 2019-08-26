@@ -1,5 +1,5 @@
 destination: docs
-
+url: http://brickr.org
 reference:
   - title: Mosaics
     desc: Create a LEGO mosaic from an image
@@ -30,14 +30,14 @@ articles:
 - title: Mosaics
   desc: Creating mosaics from images.
   contents:
-  - '`mosaics`'
+  - mosaics
 - title: 3D Models
   desc: Creating 3D LEGO models.
   contents:
-  - '`models-from-other`'
-  - '`models-from-program`'
-  - '`models-from-tables`'
+  - models-from-other
+  - models-from-program
+  - models-from-tables
 - title: Charts
   desc: ggplot2 brickr extension
   contents:
-  - '`graphs`'
+  - graphs

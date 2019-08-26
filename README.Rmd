@@ -13,13 +13,12 @@ knitr::opts_chunk$set(echo = TRUE)
 library(brickr)
 library(jpeg)
 library(tidyverse)
-
 ```
 
 # brickr <img src='man/figures/logo.png' align="right" height="138" />
 <!--   <!-- badges: start -->
-  [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-  <!-- [![Travis build status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travis-ci.org/ryantimpe/brickr) -->
+  [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+  [![Travis build status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travis-ci.org/ryantimpe/brickr)
 <!--   <!-- badges: end -->
 
 ## Overview
@@ -32,6 +31,8 @@ The package is divided into 3 separate systems:
   - [**Charts**](#charts): A [ggplot2](https://ggplot2.tidyverse.org/) extension to generate plots that resemble LEGO&reg; bricks.
   
 brickr also includes tools help users create the Mosaics and 3D model output using real LEGO&reg; elements.
+
+Check out [brickr.org](http://brickr.org) for more detail!
 
 ### What's the point?
 

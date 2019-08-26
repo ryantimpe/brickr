@@ -33,7 +33,8 @@ A fixed scale coordinate system that ensures correct brick proportions are maint
 Use \code{coord_brick_flip()} for horizontal bars.
 }
 \examples{
-#geom_brick_col should be used in conjunction with other brickr charting functions, especially coord_brick.
+#geom_brick_col should be used in conjunction with other brickr charting 
+#functions, especially coord_brick.
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 ggplot(df, aes(trt, outcome)) +
   geom_brick_col(aes(fill = trt)) +

@@ -1,0 +1,57 @@
+.navbar-default {
+    background-color: #B40000;
+    border-color: #FAC80A;
+}
+
+.navbar-default {
+    color: #ffffff;
+}
+
+.navbar-default .navbar-link {
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-link:hover {
+    color: #FAC80A;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: white;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: white;
+    background-color: #B40000;
+}
+
+.label-default {
+    background-color: #FAC80A;
+    color:#1B2A34;
+}
+
+h2 {
+  color: #1E5AA8;
+}
+
+a {
+    color: #1E5AA8;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #19325A;
+}
+
+/*Code chunks*/
+code a, pre a {
+    color: #19325A; /*Earth blue*/
+}
+
+.ch, .st {
+    color: #00451A; /*Earth green*/
+}
+
+.co {
+    color: #720012; /*Dark red*/
+}

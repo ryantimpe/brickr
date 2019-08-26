@@ -37,11 +37,13 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 <meta property="og:title" content="Convert a data frame with x, y, z &amp; Color columns into a brickr 3D object — bricks_from_coords" />
 
 <meta property="og:description" content="Convert a data frame with x, y, z &amp;amp; Color columns into a brickr 3D object" />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9016</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9022</span>
       </span>
     </div>
 
@@ -146,10 +148,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>bricks_from_coords</span>(<span class='no'>coord_table</span>, <span class='kw'>color_guide</span> <span class='kw'>=</span> <span class='no'>lego_colors</span>,
-  <span class='kw'>increment_level</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_level</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>increment_x</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>max_x</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>increment_y</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_y</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>exclude_color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>exclude_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>bricks_from_coords</span>(<span class='no'>coord_table</span>, <span class='kw'>increment_level</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_level</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>increment_x</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_x</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>increment_y</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_y</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>exclude_color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclude_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
