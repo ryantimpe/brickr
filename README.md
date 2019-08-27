@@ -6,7 +6,7 @@ The LEGO® System in R
 <!--   <!-- badges: start -->
 
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travis-ci.org/ryantimpe/brickr)
 <!--   <!-- badges: end -->
@@ -28,9 +28,11 @@ The package is divided into 3 separate systems:
 brickr also includes tools help users create the Mosaics and 3D model
 output using real LEGO® elements.
 
+Check out [brickr.org](http://brickr.org) for more detail\!
+
 ### What’s the point?
 
-The goal of {brickr} is to provide a series of tools to integrate the
+The goal of **brickr** is to provide a series of tools to integrate the
 LEGO® system with R by:
 
   - Enhancing a real world building experience with mosaics, generated
@@ -59,7 +61,10 @@ The mosaic functions renders an imported JPG or PNG file using LEGO
 colors and bricks.
 
 ``` r
-mosaic1 <- png::readPNG("Images/mf_unicorn.PNG") %>% 
+demo_img = tempfile() 
+download.file("http://ryantimpe.com/files/mf_unicorn.PNG", demo_img, mode="wb")
+
+mosaic1 <- png::readPNG(demo_img) %>% 
   image_to_mosaic(img_size = 36) #Length of each side of mosaic in "bricks"
 
 #Plot 2D mosaic
@@ -68,8 +73,9 @@ mosaic1 %>% build_mosaic()
 
 ![](README_files/figure-gfm/m1_set-1.png)<!-- -->
 
-In general, any {brickr} function that begins with `build_` generates a
-graphical output from a {brickr} list object from other functions.
+In general, any **brickr** function that begins with `build_` generates
+a graphical output from a **brickr** list object, generated from other
+functions.
 
 ### Customization
 

@@ -39,7 +39,7 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
   } else {
     if(!(brick_res %in% c('sd', 'hd', 'uhd'))) stop("brick_res must be 'sd', 'hd', 'uhd', or a number.")
     ex_size <- switch(brick_res,
-                      sd = 15,
+                      sd = 18,
                       hd = 30,
                       uhd = 60)
   }
@@ -81,6 +81,12 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
       y %in% (max(y) - edge_offset) ~ 0.01+up_el,
       TRUE ~ elevation
     )) %>% 
+    #Remove the bottom corners of brick for bricks with an offset
+    dplyr::do(
+      if(ex_size >= 20){
+        dplyr::filter(., !((x %in% c(min(x), max(x))) & (y %in% c(min(y), max(y)))))
+      } else {.}
+    ) %>% 
     dplyr::ungroup() %>% 
     dplyr::mutate(y = max(y)-y) %>% 
     #Calculate stud placement... radius of 5/8 * (1/2) and height of 0.5 plate
@@ -89,11 +95,13 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
                   stud = ((x-x_mid)^2 + (y-y_mid)^2)^(1/2) <= (ex_size * (5/8 * (1/2))),
                   stud_color = dplyr::between(((x-x_mid)^2 + (y-y_mid)^2)^(1/2),
                   (ex_size * (5/8 * (1/2))) - 1,
-                  (ex_size * (5/8 * (1/2)))
+                  (ex_size * (5/8 * (1/2))) + 1
                   )) %>% 
     dplyr::ungroup() %>% 
     dplyr::mutate(elevation = ifelse(stud, elevation+0.5, elevation)) %>% 
-    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), list(~ifelse(stud_color, .-0.1, .))) %>% 
+    #Change color of the stude sics
+    dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
+                     list(~ifelse(stud_color, .-0.1, .))) %>% 
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), list(~ifelse(. < 0, 0, .)))
   
   #Elevation Matrix
@@ -116,6 +124,15 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
                      list(~ifelse((x == min(x) | y == min(y) | x == max(x) | y == max(y)), 
                                   . - 0.1, .))) %>% 
+    #Darken the upper edge of the bricks. This is important for the HD and UHD
+    dplyr::do(
+      if(ex_size >= 20){
+        dplyr::mutate_at(., 
+                         dplyr::vars(R_lego, G_lego, B_lego), 
+                         list(~ifelse((x == min(x)+(edge_offset+1) | y == min(y)+(edge_offset+1) | 
+                                         x == max(x)-(edge_offset+1) | y == max(y)-(edge_offset+1)), 
+                                      . - 0.05, .)))
+      }else{.}) %>% 
     dplyr::mutate_at(dplyr::vars(R_lego, G_lego, B_lego), 
                      list(~ifelse(. < 0, 0, .))) %>% 
     dplyr::ungroup()

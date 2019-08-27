@@ -36,7 +36,7 @@ Check out [brickr.org](http://brickr.org) for more detail!
 
 ### What's the point?
 
-The goal of {brickr} is to provide a series of tools to integrate the LEGO&reg; system with R by:
+The goal of **brickr** is to provide a series of tools to integrate the LEGO&reg; system with R by:
 
   - Enhancing a real world building experience with mosaics, generated instructions, and piece counts.
   - Generating interest in R and coding for new audiences with easy-to-create 3D models.
@@ -69,7 +69,7 @@ mosaic1 <- png::readPNG(demo_img) %>%
 mosaic1 %>% build_mosaic()
 ```
 
-In general, any {brickr} function that begins with `build_` generates a graphical output from a {brickr} list object from other functions.
+In general, any **brickr** function that begins with `build_` generates a graphical output from a **brickr** list object, generated from other functions.
 
 ### Customization
 
