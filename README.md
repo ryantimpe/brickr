@@ -122,9 +122,10 @@ Morgan-Wall](https://twitter.com/tylermorganwall)’s
     flexible than `bricks_from_table()` and allows the programmatic
     development of 3D models.
 
-\-`bricks_from_mosaic()` converts a 2D [mosaic](#mosaics) object from an
-image into 3D LEGO models, respectively. `bricks_from_rayshader()`
-creates a LEGO model from the same input as `rayshader::plot_3d()`.
+  - `bricks_from_mosaic()` converts a 2D [mosaic](#mosaics) object from
+    an image into 3D LEGO models, respectively.
+    `bricks_from_rayshader()` creates a LEGO model from the same input
+    as `rayshader::plot_3d()`.
 
 Pass the output from any `bricks_from_*()` function to `build_bricks()`
 to see the 3D model. The `brick_res` option allows for higher resolution
@@ -191,7 +192,7 @@ brick_colors <- tibble::tribble(
   
 my_first_model %>% 
   bricks_from_table(brick_colors) %>% 
-  build_bricks(theta = 210, brick_res = "hd")
+  build_bricks(theta = 210, brick_res = "uhd")
 
 rayshader::render_snapshot(clear = TRUE)
 ```
@@ -224,7 +225,7 @@ sphere_coords <- expand.grid(
 
 sphere_coords %>% 
   bricks_from_coords() %>% 
-  build_bricks(phi = 30, theta = 30)
+  build_bricks(brick_res = "uhd", phi = 30, theta = 30)
 
 rayshader::render_snapshot(clear = TRUE)
 ```

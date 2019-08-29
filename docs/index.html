@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9022</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9024</span>
       </span>
     </div>
 
@@ -129,7 +129,7 @@
 <div id="whats-the-point" class="section level3">
 <h3 class="hasAnchor">
 <a href="#whats-the-point" class="anchor"></a>What’s the point?</h3>
-<p>The goal of {brickr} is to provide a series of tools to integrate the LEGO® system with R by:</p>
+<p>The goal of <strong>brickr</strong> is to provide a series of tools to integrate the LEGO® system with R by:</p>
 <ul>
 <li>Enhancing a real world building experience with mosaics, generated instructions, and piece counts.</li>
 <li>Generating interest in R and coding for new audiences with easy-to-create 3D models.</li>
@@ -161,7 +161,7 @@
 <a class="sourceLine" id="cb2-7" title="7"><span class="co">#Plot 2D mosaic</span></a>
 <a class="sourceLine" id="cb2-8" title="8">mosaic1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/build_mosaic.html">build_mosaic</a></span>()</a></code></pre></div>
 <p><img src="index_files/figure-html/m1_set-1.png" width="288"></p>
-<p>In general, any {brickr} function that begins with <code>build_</code> generates a graphical output from a {brickr} list object from other functions.</p>
+<p>In general, any <strong>brickr</strong> function that begins with <code>build_</code> generates a graphical output from a <strong>brickr</strong> list object, generated from other functions.</p>
 <div id="customization" class="section level3">
 <h3 class="hasAnchor">
 <a href="#customization" class="anchor"></a>Customization</h3>
@@ -180,8 +180,8 @@
 <ul>
 <li><p><code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> &amp; <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> convert a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using <code><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/tribble.html">tibble::tribble()</a></code>. For more advanced models, it’s recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> is a wrapper function to more easily build models designed using a Microsoft Excel template. Please see this repo: <a href="https://github.com/ryantimpe/brickr_toybox">brickr toybox</a>.</p></li>
 <li><p><code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> takes a data frame with <code>x</code>, <code>y</code>, &amp; <code>z</code> integer values, and <code>Color</code> columns, where each combination of x, y, &amp; z is a point in 3-dimensional space. Color must be an official LEGO color name from <code><a href="reference/build_colors.html">build_colors()</a></code>. This format is much more flexible than <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> and allows the programmatic development of 3D models.</p></li>
+<li><p><code><a href="reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> converts a 2D <a href="#mosaics">mosaic</a> object from an image into 3D LEGO models, respectively. <code><a href="reference/bricks_from_rayshader.html">bricks_from_rayshader()</a></code> creates a LEGO model from the same input as <code><a href="https://www.rdocumentation.org/packages/rayshader/topics/plot_3d">rayshader::plot_3d()</a></code>.</p></li>
 </ul>
-<p>-<code><a href="reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> converts a 2D <a href="#mosaics">mosaic</a> object from an image into 3D LEGO models, respectively. <code><a href="reference/bricks_from_rayshader.html">bricks_from_rayshader()</a></code> creates a LEGO model from the same input as <code><a href="https://www.rdocumentation.org/packages/rayshader/topics/plot_3d">rayshader::plot_3d()</a></code>.</p>
 <p>Pass the output from any <code>bricks_from_*()</code> function to <code><a href="reference/build_bricks.html">build_bricks()</a></code> to see the 3D model. The <code>brick_res</code> option allows for higher resolution bricks in ‘hd’ or ‘uhd’, which will take longer to render.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(brickr)</a>
 <a class="sourceLine" id="cb3-2" title="2"></a>
@@ -235,7 +235,7 @@
 <a class="sourceLine" id="cb4-30" title="30">  </a>
 <a class="sourceLine" id="cb4-31" title="31">my_first_model <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-32" title="32"><span class="st">  </span><span class="kw"><a href="reference/bricks_from_table.html">bricks_from_table</a></span>(brick_colors) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-33" title="33"><span class="st">  </span><span class="kw"><a href="reference/build_bricks.html">build_bricks</a></span>(<span class="dt">theta =</span> <span class="dv">210</span>, <span class="dt">brick_res =</span> <span class="st">"hd"</span>)</a>
+<a class="sourceLine" id="cb4-33" title="33"><span class="st">  </span><span class="kw"><a href="reference/build_bricks.html">build_bricks</a></span>(<span class="dt">theta =</span> <span class="dv">210</span>, <span class="dt">brick_res =</span> <span class="st">"uhd"</span>)</a>
 <a class="sourceLine" id="cb4-34" title="34"></a>
 <a class="sourceLine" id="cb4-35" title="35">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="index_files/figure-html/bricks_5-1.png" width="384"></p>
@@ -262,7 +262,7 @@
 <a class="sourceLine" id="cb5-16" title="16"></a>
 <a class="sourceLine" id="cb5-17" title="17">sphere_coords <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-18" title="18"><span class="st">  </span><span class="kw"><a href="reference/bricks_from_coords.html">bricks_from_coords</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-19" title="19"><span class="st">  </span><span class="kw"><a href="reference/build_bricks.html">build_bricks</a></span>(<span class="dt">phi =</span> <span class="dv">30</span>, <span class="dt">theta =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb5-19" title="19"><span class="st">  </span><span class="kw"><a href="reference/build_bricks.html">build_bricks</a></span>(<span class="dt">brick_res =</span> <span class="st">"uhd"</span>, <span class="dt">phi =</span> <span class="dv">30</span>, <span class="dt">theta =</span> <span class="dv">30</span>)</a>
 <a class="sourceLine" id="cb5-20" title="20"></a>
 <a class="sourceLine" id="cb5-21" title="21">rayshader<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rayshader/topics/render_snapshot">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="index_files/figure-html/bricks_6-1.png" width="480"></p>

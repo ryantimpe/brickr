@@ -5,7 +5,8 @@
 \title{Build 3D brick model with rayshader.}
 \usage{
 build_bricks(brick_list, brick_type = "brick", brick_res = "sd",
-  view_levels = NULL, solidcolor = "#a3a2a4", ...)
+  view_levels = NULL, solidcolor = "#a3a2a4", water = FALSE,
+  waterdepth = 0, ...)
 }
 \arguments{
 \item{brick_list}{List output from collect_bricks(). Contains an element \code{Img_lego}.}
@@ -18,6 +19,10 @@ Enter a value for a custom resolution. High resolutions take longer to render.}
 \item{view_levels}{Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.}
 
 \item{solidcolor}{Hex color of mosaic base. Only renders on bottom.}
+
+\item{water}{Default 'FALSE'. If 'TRUE', a water layer is rendered.}
+
+\item{waterdepth}{Default '0'. Water level.}
 
 \item{...}{All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.}
 }

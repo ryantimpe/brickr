@@ -82,11 +82,11 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
       TRUE ~ elevation
     )) %>% 
     #Remove the bottom corners of brick for bricks with an offset
-    dplyr::do(
-      if(ex_size >= 20){
-        dplyr::filter(., !((x %in% c(min(x), max(x))) & (y %in% c(min(y), max(y)))))
-      } else {.}
-    ) %>% 
+    # dplyr::do(
+    #   if(ex_size >= 20){
+    #     dplyr::filter(., !((x %in% c(min(x), max(x))) & (y %in% c(min(y), max(y)))))
+    #   } else {.}
+    # ) %>% 
     dplyr::ungroup() %>% 
     dplyr::mutate(y = max(y)-y) %>% 
     #Calculate stud placement... radius of 5/8 * (1/2) and height of 0.5 plate
@@ -173,13 +173,16 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
 #' @param brick_res Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px. 
 #' Enter a value for a custom resolution. High resolutions take longer to render.
 #' @param solidcolor Hex color of mosaic base. Only renders on bottom.
+#' @param water Default 'FALSE'. If 'TRUE', a water layer is rendered.
+#' @param waterdepth Default '0'. Water level.
 #' @param ... All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @family 3D Models
 #' @export 
 #'
 build_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",
-                           view_levels = NULL, solidcolor = "#a3a2a4", ...){
+                           view_levels = NULL, solidcolor = "#a3a2a4",
+                           water = FALSE, waterdepth = 0, ...){
   #Requires Rayshader
   if (!requireNamespace("rayshader", quietly = TRUE)) {
     stop("Package \"rayshader\" needed for this function to work. Please install it.",
@@ -197,12 +200,23 @@ build_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",
   }
 
   for(ii in view_levels){
-    brick_layer <- brick_list %>% layer_from_bricks(ii, brick_type = brick_type, brick_res = brick_res)
+    brick_layer <- brick_list %>% 
+      layer_from_bricks(ii, brick_type = brick_type, brick_res = brick_res)
     
-    brick_layer$`threed_hillshade`%>%
-      rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167*(15/brick_layer$`brick_resolution`), 
-                         solid = FALSE,
-                         solidcolor=solidcolor, shadow = FALSE, ...)
+    if(ii == min(view_levels) & water){
+      brick_layer$`threed_hillshade`%>%
+        rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167*(15/brick_layer$`brick_resolution`), 
+                           solid = FALSE,
+                           solidcolor=solidcolor, shadow = FALSE,
+                           water = TRUE, waterdepth = waterdepth * 3, ...)
+    } else {
+      brick_layer$`threed_hillshade`%>%
+        rayshader::plot_3d(brick_layer$`threed_elevation`, zscale=0.167*(15/brick_layer$`brick_resolution`), 
+                           solid = FALSE,
+                           solidcolor=solidcolor, shadow = FALSE,
+                           water = FALSE, waterdepth = 0, ...)
+    }
+   
   }
 
 }

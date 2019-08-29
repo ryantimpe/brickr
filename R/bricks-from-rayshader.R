@@ -26,7 +26,11 @@ bricks_from_rayshader <- function(hillshade, heightmap, max_height = 12, img_siz
   hghtmp <- hghtmp_list[[1]] %>% 
     dplyr::select(x, y, height = R) %>% 
     dplyr::mutate(Level = round(height * (max_height))+1) %>% 
-    dplyr::select(-height) 
+    dplyr::select(-height) %>% 
+    dplyr::mutate(ww = max(x) - x, 
+                  x = max(y) - y, 
+                  y = ww) %>% 
+    dplyr::select(-ww)
 
   #New levels for the image
   img_sorted_by_lum <- in_list$Img_lego %>% 

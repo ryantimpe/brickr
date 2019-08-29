@@ -37,12 +37,12 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
     if(ncol(color_guide) < 2){stop(color_guide_error_msg)}
     if(!(".value" %in% names(color_guide)) | !("Color" %in% names(color_guide))){stop(color_guide_error_msg)}
     
-    if(!all(color_guide$Color %in% build_colors(.names_only = TRUE))){
-      stop(paste("At least one color name supplied does not match allowed brick color names. See build_colors().\n\n",
-                    paste(color_guide$Color[!(color_guide$Color %in% build_colors(.names_only = TRUE))],collapse = ", ")
-                    ))
-      
-    }
+    # if(!all(color_guide$Color %in% build_colors(.names_only = TRUE))){
+    #   stop(paste("At least one color name supplied does not match allowed brick color names. See build_colors().\n\n",
+    #                 paste(color_guide$Color[!(color_guide$Color %in% build_colors(.names_only = TRUE))],collapse = ", ")
+    #                 ))
+    #   
+    # }
       
     color_map <- color_guide %>% 
       dplyr::mutate(Color = as.character(Color)) %>% 

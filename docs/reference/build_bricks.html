@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9022</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9024</span>
       </span>
     </div>
 
@@ -149,7 +149,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>build_bricks</span>(<span class='no'>brick_list</span>, <span class='kw'>brick_type</span> <span class='kw'>=</span> <span class='st'>"brick"</span>, <span class='kw'>brick_res</span> <span class='kw'>=</span> <span class='st'>"sd"</span>,
-  <span class='kw'>view_levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>solidcolor</span> <span class='kw'>=</span> <span class='st'>"#a3a2a4"</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>view_levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>solidcolor</span> <span class='kw'>=</span> <span class='st'>"#a3a2a4"</span>, <span class='kw'>water</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>waterdepth</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,6 +175,14 @@ Enter a value for a custom resolution. High resolutions take longer to render.</
     <tr>
       <th>solidcolor</th>
       <td><p>Hex color of mosaic base. Only renders on bottom.</p></td>
+    </tr>
+    <tr>
+      <th>water</th>
+      <td><p>Default 'FALSE'. If 'TRUE', a water layer is rendered.</p></td>
+    </tr>
+    <tr>
+      <th>waterdepth</th>
+      <td><p>Default '0'. Water level.</p></td>
     </tr>
     <tr>
       <th>...</th>

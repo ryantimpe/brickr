@@ -34,14 +34,14 @@ use_colors <- c("Bright blue", "Bright yellow", "Bright red")
 cube <- expand.grid(
   x = 1:8,
   y = 1:8,
-  z = 1:8 
+  z = 1:8
 ) 
 
 cube$Color <- sample(use_colors, nrow(cube), replace = TRUE, prob = c(5, 3, 1))
 
 cube %>% 
   bricks_from_coords() %>% 
-  build_bricks(brick_res = "hd", phi = 30, theta = 30)
+  build_bricks(brick_res = "uhd", phi = 30, theta = 30)
 
 rayshader::render_snapshot(clear = TRUE)
 ```
@@ -67,7 +67,7 @@ sphere_coords <- expand.grid(
 
 sphere_coords %>% 
   bricks_from_coords() %>% 
-  build_bricks(brick_res = "hd", phi = 30, theta = 30)
+  build_bricks(brick_res = "uhd", phi = 30, theta = 30)
 
 rayshader::render_snapshot(clear = TRUE)
 ```
@@ -107,7 +107,8 @@ brick_house <- function(x_coord = 0, y_coord = 0, width=6, length=5, height=6){
 }
 
 #Build one house
-brick_house() %>% bricks_from_coords() %>% 
+brick_house() %>% 
+  bricks_from_coords() %>% 
   build_bricks(theta = 225)
 rayshader::render_snapshot(clear = TRUE)
 ```

@@ -85,7 +85,7 @@ rayshader::render_snapshot(clear = TRUE)
 #Plot as bricks
 rayshader_object %>% 
   bricks_from_rayshader(elmat) %>% 
-  build_bricks(theta = 135, zoom = 0.75, phi = 45)
+  build_bricks(theta = 135, phi = 45)
 
 rayshader::render_snapshot(clear = TRUE)
 ```
