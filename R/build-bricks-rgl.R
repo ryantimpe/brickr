@@ -11,13 +11,16 @@
 #' @family 3D Models
 #' @export 
 #'
-build_bricks_rgl <- function(brick_list, brick_type = "brick",
-                           view_levels = NULL){
+build_bricks_rgl <- function(brick_list,
+                             background_color = "white", rgl_lit = FALSE,
+                             trans_alpha = 0.5,
+                             view_levels = NULL){
   #Get previous data
   in_list <- brick_list
   
   img_lego <- in_list$Img_lego %>% 
     tidyr::drop_na() %>% 
+    dplyr::select(-dplyr::contains("lum")) %>% 
     dplyr::left_join(lego_colors %>%
                        dplyr::select(Lego_name = Color, lum),
                      by = c("Lego_name"))
@@ -27,7 +30,7 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
     dplyr::left_join(lego_colors %>% 
                        dplyr::select(Lego_name = Color, Trans_lego, lum),
                      by = c("Lego_name"))
-
+  
   if(is.null(view_levels)){
     view_levels <- unique(img_lego$Level)
   }
@@ -36,10 +39,12 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
   # For use inside brick drawing functions below
   nudge = 0.01 #Space between bricks
   scale = 1 #Reduce to unit size
-  trans_alpha = 0.5 #Alpha of transparent bricks
+  # trans_alpha = 0.5 #Alpha of transparent bricks
   height_scale = 9.6/7.8
   
   color_outline = "black"
+  color_outline_trans = "white"
+  
   contrast_knobs = TRUE
   contrast_lum = 0.2
   
@@ -47,13 +52,13 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
   
   brick_outlines = TRUE
   
-  rgl_lit = FALSE
-
+  # rgl_lit = FALSE
+  
   #For now, use the current collect_bricks output. 
   #This was designed for rayshader, and I don't want to drop rayshader just yet.
   
   #Bricks without knobs ----
-
+  
   rgl_bricks_base <- list(
     # x & y are the CENTERS of bricks. rgl scales shapes from center
     x = img_bricks$xmin + 0.5 + (img_bricks$xmax - img_bricks$xmin)/2 ,
@@ -70,10 +75,10 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
   
   rgl_bricks_base_list <- rgl_bricks_base %>% 
     purrr::map(function(this_brick){
-
+      
       #Solid brick ----
       brk_fill <- rgl::cube3d(col = this_brick$color,
-                         alpha = if(this_brick$trans){trans_alpha}else{1})
+                              alpha = if(this_brick$trans){trans_alpha}else{1})
       
       brk_fill$vb[4,] <- brk_fill$vb[4,]/scale*2 + nudge
       
@@ -82,7 +87,8 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
         rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale) 
       
       # Brick Outline ----
-      brk_out <- rgl::cube3d(col = color_outline)
+      brk_out <- rgl::cube3d(col = if(this_brick$trans){colorspace::lighten(this_brick$color)}
+                             else{color_outline})
       
       brk_out$vb[4,] <- brk_out$vb[4,]/scale*2 + nudge
       
@@ -113,17 +119,17 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
   
   rgl_bricks_knobs_list <- rgl_bricks_knobs %>% 
     purrr::map(function(this_brick){
-
+      
       # Brick knob ----
       brk_knob <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
-                             sides = 32,
-                             radius = knob_diameter,
-                             closed = -2) 
+                                  sides = 32,
+                                  radius = knob_diameter,
+                                  closed = -2) 
       
       brk_knob$vb[4,] <- brk_knob$vb[4,]/scale*2 + nudge
       
       #Knob side color
-      if(contrast_knobs){
+      if(contrast_knobs & !this_brick$trans){
         if(this_brick$lum <= contrast_lum){
           brk_knob$material$color <- colorspace::lighten(this_brick$color)
         } else {
@@ -133,22 +139,26 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
         brk_knob$material$color <- this_brick$color
       }
       brk_knob$material$alpha <- if(this_brick$trans){trans_alpha}else{1}
-
+      
       this_brick$x <- this_brick$x + 0.5
       this_brick$y <- this_brick$y + 0.5
       
       brk_knob2 <- brk_knob %>% 
         rgl::rotate3d(pi/2, 0, 1, 0) %>% 
-        rgl::translate3d(0.25, -0.25, -1/height_scale + 1.7/9.6) %>% 
+        rgl::scale3d(1, 1, height_scale + 1.7/9.6) %>% 
+        rgl::translate3d(0.25, -0.25, -height_scale-0.02) %>% 
         rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
       
       # Brick knob outlines ----
       # These are 2-dimensional cylinders
       
       brk_knob_ot_prep <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
-                                     sides = 32,
-                                     radius = knob_diameter*1.015) 
+                                          sides = 32,
+                                          radius = knob_diameter*1.015) 
       brk_knob_ot_prep$vb[4,] <- brk_knob_ot_prep$vb[4,]/scale*2 + nudge
+      
+      brk_knob_ot_prep$material$color <- if(this_brick$trans){colorspace::lighten(this_brick$color)}
+      else{color_outline}
       
       #Base of the knob
       brk_knob_ot <- brk_knob_ot_prep %>% 
@@ -166,9 +176,9 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
       # Only use if the knob side is contrasted
       if(contrast_knobs){
         brk_knob_top <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
-                                   sides = 32,
-                                   radius = knob_diameter*.99,
-                                   closed = -2)
+                                        sides = 32,
+                                        radius = knob_diameter*.99,
+                                        closed = -2)
         
         brk_knob_top$vb[4,] <- brk_knob_top$vb[4,]/scale*2 + nudge
         brk_knob_top$material$color <- this_brick$color
@@ -181,21 +191,28 @@ build_bricks_rgl <- function(brick_list, brick_type = "brick",
           rgl::scale3d(1, 1, 0.01) %>% 
           rgl::translate3d(0.25, -0.25, 0.62+0.22+0.01) %>% 
           rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
+        
+        out_list <- list(brk_knob2, brk_knob_ot, brk_knob_ot2, brk_knob_top2)
       } else{
         brk_knob_top2 <- NULL
+        out_list <- list(brk_knob2, brk_knob_ot, brk_knob_ot2)
       }
       
       #Save ----
-      return(list(brk_knob2, brk_knob_ot, brk_knob_ot2, brk_knob_top2))
+      return(out_list)
       
     }) %>% 
     purrr::transpose()
   
   #Draw
-  c(rgl_bricks_base_list[[1]], rgl_bricks_base_list[[2]]
-    , rgl_bricks_knobs_list[[1]], rgl_bricks_knobs_list[[2]]
-    , rgl_bricks_knobs_list[[3]], rgl_bricks_knobs_list[[4]]
-    ) %>% 
-    rgl::shapelist3d(lit=rgl_lit)
-
+  shapelist <- c(rgl_bricks_base_list[[1]]
+                 , rgl_bricks_base_list[[2]]
+                 , purrr::flatten(rgl_bricks_knobs_list)
+  )
+  
+  shapelist %>% 
+    rgl::shapelist3d(lit=rgl_lit, shininess = 100, specular = "black")
+  
+  rgl::bg3d(color = background_color)
+  
 }

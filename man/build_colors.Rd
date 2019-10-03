@@ -4,10 +4,12 @@
 \alias{build_colors}
 \title{Display available brick colors}
 \usage{
-build_colors(.names_only = FALSE)
+build_colors(.names_only = FALSE, include_transparent = TRUE)
 }
 \arguments{
-\item{.names_only}{Return an array of the 41 brick color names. Does not plot.}
+\item{.names_only}{Return an array of the 41 solid brick color names and 13 transparent colors. Does not plot.}
+
+\item{include_transparent}{Include transparent colors in the plot output.}
 }
 \value{
 A table and ggplot of brick colors & ID numbers.
