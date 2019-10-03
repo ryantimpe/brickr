@@ -12,7 +12,7 @@
 #' @export 
 #'
 build_bricks_rgl <- function(brick_list,
-                             background_color = "white", rgl_lit = FALSE,
+                             background_color = "white", rgl_lit = TRUE,
                              trans_alpha = 0.5,
                              view_levels = NULL){
   #Get previous data
@@ -52,7 +52,7 @@ build_bricks_rgl <- function(brick_list,
   
   brick_outlines = TRUE
   
-  # rgl_lit = FALSE
+  suppress_knobs = TRUE
   
   #For now, use the current collect_bricks output. 
   #This was designed for rayshader, and I don't want to drop rayshader just yet.
@@ -107,6 +107,22 @@ build_bricks_rgl <- function(brick_list,
     purrr::transpose()
   
   #Bricks knobs ----
+  # print(nrow(img_lego))
+  if(suppress_knobs){
+    img_lego <- img_lego %>% 
+      dplyr::group_by(x, y) %>% 
+      dplyr::filter(
+        #Keep knobs when next level is not right above it
+        (dplyr::lead(Level, order_by = Level) != Level + 1) |
+          #Or next level is na
+          is.na(dplyr::lead(Level, order_by = Level)) |
+          # Or this or next level is transparent
+          dplyr::lead(Trans_lego, order_by = Level) | Trans_lego
+      ) %>% 
+      dplyr::ungroup()
+  }
+  # print(nrow(img_lego))
+  
   rgl_bricks_knobs <- list(
     x = img_lego$x,
     y = img_lego$y,
