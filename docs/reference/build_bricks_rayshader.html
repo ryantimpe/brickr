@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Display a brickr object as a 3D model — layer_from_bricks • brickr</title>
+<title>Build 3D brick model with rayshader. — build_bricks_rayshader • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -44,8 +44,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Display a brickr object as a 3D model — layer_from_bricks" />
-<meta property="og:description" content="Display a brickr object as a 3D model" />
+<meta property="og:title" content="Build 3D brick model with rayshader. — build_bricks_rayshader" />
+<meta property="og:description" content="Build 3D brick model with rayshader." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -142,48 +142,68 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Display a brickr object as a 3D model</h1>
+    <h1>Build 3D brick model with rayshader.</h1>
     <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/build-bricks.R'><code>R/build-bricks.R</code></a></small>
-    <div class="hidden name"><code>layer_from_bricks.Rd</code></div>
+    <div class="hidden name"><code>build_bricks_rayshader.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Display a brickr object as a 3D model</p>
+    <p>Build 3D brick model with rayshader.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>layer_from_bricks</span>(<span class='no'>brick_list</span>, <span class='kw'>brick_type</span> <span class='kw'>=</span> <span class='st'>"brick"</span>, <span class='kw'>lev</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>brick_res</span> <span class='kw'>=</span> <span class='st'>"sd"</span>)</pre>
+    <pre class="usage"><span class='fu'>build_bricks_rayshader</span>(<span class='no'>brick_list</span>, <span class='kw'>brick_type</span> <span class='kw'>=</span> <span class='st'>"brick"</span>,
+  <span class='kw'>brick_res</span> <span class='kw'>=</span> <span class='st'>"sd"</span>, <span class='kw'>view_levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>solidcolor</span> <span class='kw'>=</span> <span class='st'>"#a3a2a4"</span>,
+  <span class='kw'>water</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>waterdepth</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>brick_list</th>
-      <td><p>A 3D brickr object from a bricks_from_*() function..</p></td>
+      <td><p>List output from collect_bricks(). Contains an element <code>Img_lego</code>.</p></td>
     </tr>
     <tr>
       <th>brick_type</th>
-      <td><p>Type of brick to use. Default is 'brick'. Other option is
-'plate', which is 1/3 the height of a brick.</p></td>
-    </tr>
-    <tr>
-      <th>lev</th>
-      <td><p>z-level of 3D model</p></td>
+      <td><p>Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.</p></td>
     </tr>
     <tr>
       <th>brick_res</th>
-      <td><p>Resolution, expressed at number of pixels on one side of a
-1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd'
-for 60px. Enter a value for a custom resolution. High resolutions take
-longer to render.</p></td>
+      <td><p>Resolution, expressed at number of pixels on one side of a 1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd' for 60px.
+Enter a value for a custom resolution. High resolutions take longer to render.</p></td>
+    </tr>
+    <tr>
+      <th>view_levels</th>
+      <td><p>Numeric array of Levels/z values to display. Leave as <code>NULL</code> to include all.</p></td>
+    </tr>
+    <tr>
+      <th>solidcolor</th>
+      <td><p>Hex color of mosaic base. Only renders on bottom.</p></td>
+    </tr>
+    <tr>
+      <th>water</th>
+      <td><p>Default 'FALSE'. If 'TRUE', a water layer is rendered.</p></td>
+    </tr>
+    <tr>
+      <th>waterdepth</th>
+      <td><p>Default '0'. Water level.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>All other inputs from rayshader::plot_3d() EXCEPT <code>hillshade</code>, <code>soliddepth</code>, <code>zscale</code>, and <code>shadow</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with elements <code>threed_elevation</code> and
-<code>threed_hillshade</code> to created 3D mosiacs with the <code>rayshader</code>
-package.</p>
+    <p>3D brick model rendered in the 'rgl' package.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other 3D Models: <code><a href='bricks_from_coords.html'>bricks_from_coords</a></code>,
+  <code><a href='bricks_from_excel.html'>bricks_from_excel</a></code>,
+  <code><a href='bricks_from_mosaic.html'>bricks_from_mosaic</a></code>,
+  <code><a href='bricks_from_rayshader.html'>bricks_from_rayshader</a></code>,
+  <code><a href='bricks_from_table.html'>bricks_from_table</a></code>,
+  <code><a href='build_bricks.html'>build_bricks</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -191,6 +211,7 @@ package.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
 collapse = TRUE,
 comment = "#>"
 )
+rgl::setupKnitr()
 ```
 
 ```{r setup, include = FALSE}
@@ -20,7 +21,7 @@ library(brickr)
 
 ## Getting started
 
-The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats. These models are rendered using [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://www.rayshader.com/) package. This package must be installed.
+The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats.
 
 ## 3D mosaics
 
@@ -29,7 +30,7 @@ Begin with a brickr mosaic from an image. Rather than graphically rendering the 
 * `mosaic_height` is the number of bricks stacked at the mosaic's highest point. The default is 6.
 * `highest_el` specifies if 'light' or 'dark' color bricks should be the tallest in the model. The default is 'light'. 
 
-```{r bricks_6, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_6, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 demo_img = tempfile() 
 download.file("http://ryantimpe.com/files/mf_unicorn.PNG", demo_img, mode="wb")
 
@@ -37,12 +38,17 @@ mosaic <- png::readPNG(demo_img) %>%
   image_to_mosaic()
 
 mosaic %>% build_mosaic()
-
+```
+```{r bricks_6a, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 mosaic %>% 
   bricks_from_mosaic(highest_el = "dark") %>% 
-  build_bricks(phi = 60, theta = 15)
+  build_bricks()
 
-rayshader::render_snapshot(clear = TRUE)
+#From dput(round(rgl::par3d("userMatrix"),1)) after manual rotation
+custom_rotation <- structure(c(0.9, 0.3, -0.3, 0, -0.3, 0.9, -0.3, 
+                               0, 0.2, 0.4, 0.9, 0, 0, 0, 0, 1), .Dim = c(4L, 4L))
+
+rgl::par3d(userMatrix = rgl::rotate3d(custom_rotation, 0, 0, pi/4 ,1))
 ```
 
 ## Models from rayshader
@@ -56,7 +62,7 @@ rayshader::render_snapshot(clear = TRUE)
 * `max_height` is the number of bricks stacked at the mosaic's highest point. The default is 12.
 * `img_size` is the number of bricks on each side of the model. The default is 48.
 
-```{r bricks_rayshader, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_rayshader, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 library(rayshader)
 
 #Example from rayshader.com
@@ -85,7 +91,8 @@ rayshader::render_snapshot(clear = TRUE)
 #Plot as bricks
 rayshader_object %>% 
   bricks_from_rayshader(elmat) %>% 
-  build_bricks(theta = 135, phi = 45)
+  build_bricks_rayshader(theta = 135, phi = 45)
 
 rayshader::render_snapshot(clear = TRUE)
 ```
+This example is rendered using `build_bricks_rayshader()`, which a bit faster for very large sets.

@@ -20,8 +20,8 @@ The package is divided into 3 separate systems:
 
   - [**Mosaics**](#mosaics): Convert image files into mosaics that could
     be built using LEGO® bricks.
-  - [**3D Models**](#3d-models): Build 3D LEGO® models from simple data
-    formats & [rayshader](https://www.rayshader.com/).
+  - [**3D Models**](#3d-models): Build 3D LEGO® models from data tables
+    using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
   - [**Charts**](#charts): A [ggplot2](https://ggplot2.tidyverse.org/)
     extension to generate plots that resemble LEGO® bricks.
 
@@ -41,8 +41,10 @@ LEGO® system with R by:
     easy-to-create 3D models.
   - or just embracing pure novelty.
 
-*brickr is developed using publicly available information about LEGO®
-products and is not officially affiliated with The LEGO Group*
+*brickr is developed under the [Fair
+Play](https://www.lego.com/en-us/legal/notices-and-policies/fair-play/)
+policy using publicly available information about LEGO® products. brickr
+is not affiliated with The LEGO Group.*
 
 ## Installation
 
@@ -101,9 +103,7 @@ functions.
 ## 3D Models
 
 The `bricks_from_*` series of functions creates 3D models of LEGO bricks
-from a variety of input formats. These models are rendered using [Tyler
-Morgan-Wall](https://twitter.com/tylermorganwall)’s
-[rayshader](https://www.rayshader.com/) package.
+from a variety of input formats.
 
   - `bricks_from_table()` & `bricks_from_excel()` convert a
     matrix-shaped table of integers into LEGO bricks. For simple models,
@@ -128,8 +128,13 @@ Morgan-Wall](https://twitter.com/tylermorganwall)’s
     as `rayshader::plot_3d()`.
 
 Pass the output from any `bricks_from_*()` function to `build_bricks()`
-to see the 3D model. The `brick_res` option allows for higher resolution
-bricks in ‘hd’ or ‘uhd’, which will take longer to render.
+to see the 3D model. Models are currently rendered in **rgl**. Previous
+versions of brickr use [Tyler
+Morgan-Wall](https://twitter.com/tylermorganwall)’s
+[rayshader](https://www.rayshader.com/) package. This option is still
+available by passing the output from any `bricks_from_*()` function to
+`build_bricks_rayshader()`. Rayshader can still be used for saving
+snapshots and creating animations.
 
 ``` r
 library(brickr)
@@ -143,9 +148,10 @@ brick <- data.frame(
 
 brick %>% 
   bricks_from_table() %>% 
-  build_bricks(brick_res = "uhd")
+  build_bricks()
 
-rayshader::render_snapshot( clear = TRUE)
+#Rotate the default view for a better snapshot
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 0.75*pi, 0, 0 ,1))
 ```
 
 ![](README_files/figure-gfm/bricks_1-1.png)<!-- -->
@@ -192,9 +198,10 @@ brick_colors <- tibble::tribble(
   
 my_first_model %>% 
   bricks_from_table(brick_colors) %>% 
-  build_bricks(theta = 210, brick_res = "uhd")
+  build_bricks()
 
-rayshader::render_snapshot(clear = TRUE)
+#Rotate the default view for a better snapshot
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi, 0, 0 ,1))
 ```
 
 ![](README_files/figure-gfm/bricks_5-1.png)<!-- -->
@@ -225,12 +232,18 @@ sphere_coords <- expand.grid(
 
 sphere_coords %>% 
   bricks_from_coords() %>% 
-  build_bricks(brick_res = "uhd", phi = 30, theta = 30)
+  build_bricks(outline_bricks = TRUE, rgl_lit = FALSE)
 
-rayshader::render_snapshot(clear = TRUE)
+
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
 
 ![](README_files/figure-gfm/bricks_6-1.png)<!-- -->
+
+The option `outline_bricks = TRUE` adds a black outline around the edges
+of the bricks. Setting `rgl_lit = FALSE` turns off automated lighting
+effects from rgl. Changing these two inputs together renders bricks in a
+more cartoon fashion.
 
 ### Examples
 

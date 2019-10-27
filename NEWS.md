@@ -1,4 +1,6 @@
-# brickr 0.2.1
+# brickr 0.2.0
+
+* Lots of bug fixes. More to come.
 
 ## Documentation
 
