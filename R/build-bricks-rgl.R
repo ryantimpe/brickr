@@ -12,11 +12,11 @@
 #' @family 3D Models
 #' @export 
 #'
-build_bricks<- function(brick_list,
-                             background_color = "white", rgl_lit = TRUE,
-                             outline_bricks = FALSE,
-                             trans_alpha = 0.5,
-                             view_levels = NULL){
+build_bricks <- function(brick_list,
+                         background_color = "white", rgl_lit = TRUE,
+                         outline_bricks = FALSE,
+                         trans_alpha = 0.5,
+                         view_levels = NULL){
   #Get previous data
   in_list <- brick_list
   
@@ -116,7 +116,7 @@ build_bricks<- function(brick_list,
     purrr::transpose()
   
   #Bricks knobs ----
-
+  
   if(suppress_knobs){
     img_lego <- img_lego %>% 
       dplyr::group_by(x, y) %>% 
@@ -210,25 +210,25 @@ build_bricks<- function(brick_list,
                                         sides = 32,
                                         radius = knob_diameter*.99,
                                         closed = -2)
-
+        
         brk_knob_top$vb[4,] <- brk_knob_top$vb[4,]/scale*2 + nudge
         brk_knob_top$material$color <- this_brick$color
-
+        
         brk_knob_top$material$alpha <- if(this_brick$trans){trans_alpha}else{1}
-
+        
         #A 2-dimensional filled circle on the top the knob
         brk_knob_top2 <- brk_knob_top %>%
           rgl::rotate3d(pi/2, 0, 1, 0) %>%
           rgl::scale3d(1, 1, 0.01) %>%
           rgl::translate3d(0.25, -0.25, 0.62+0.22+0.01) %>%
           rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
-
+        
         out_list[[4]] <- brk_knob_top2
       } else{
         brk_knob_top2 <- NULL
         out_list[[4]] <- brk_knob_top2
       }
-
+      
       #Save ----
       return(out_list)
       

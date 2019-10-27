@@ -23,10 +23,10 @@ build_colors <- function(.names_only = FALSE, include_transparent = TRUE){
   if(include_transparent){
     message("Transparent colors are only used for 3D models, not color matching in mosaics or ggplot.")
   
-    use_colors <- lego_colors$Color
+    use_colors <- brickr::lego_colors$Color
     use_columns <- 12
   } else{
-    use_colors <- lego_colors %>% 
+    use_colors <- brickr::lego_colors %>% 
       dplyr::filter(!Trans_lego) %>% 
       pull(Color)
     

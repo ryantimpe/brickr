@@ -15,7 +15,7 @@
 #' @family 3D Models
 #' @export 
 #'
-bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level = TRUE,
+bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, .re_level = TRUE,
                               increment_level = 0, max_level = Inf,
                               increment_x = 0, max_x = Inf,
                               increment_y = 0, max_y = Inf,
@@ -31,7 +31,7 @@ bricks_from_table <- function(matrix_table, color_guide = lego_colors, .re_level
   `Color` should match official LEGO names in the data frame `lego_colors`."
   
   if(identical(color_guide, brickr::lego_colors)){
-    color_map <- lego_colors %>% 
+    color_map <- brickr::lego_colors %>% 
       dplyr::rename(.value = brickrID)
   } else if(is.data.frame(color_guide)){
     if(ncol(color_guide) < 2){stop(color_guide_error_msg)}

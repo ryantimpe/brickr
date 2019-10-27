@@ -117,7 +117,7 @@ scaled_to_colors <- function(image_list, method = "cie94",
   
   #Brick colors to use ----
   if(is.null(color_table)) {
-    brick_table <- lego_colors %>% 
+    brick_table <- brickr::lego_colors %>% 
       #No transparent colors in mosaics
       dplyr::filter(!Trans_lego)
   } else{
@@ -130,7 +130,7 @@ scaled_to_colors <- function(image_list, method = "cie94",
       dplyr::filter(tolower(Palette) %in% color_palette)
   } else {
     #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
-    brick_table <- lego_colors  %>% 
+    brick_table <- brickr::lego_colors  %>% 
       dplyr::filter(Color %in% c("White", "Black", "Medium stone grey", "Dark stone grey")) %>% 
       dplyr::arrange((R_lego + G_lego + B_lego)) %>% 
       dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego))
