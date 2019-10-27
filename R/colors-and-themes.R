@@ -28,7 +28,7 @@ build_colors <- function(.names_only = FALSE, include_transparent = TRUE){
   } else{
     use_colors <- brickr::lego_colors %>% 
       dplyr::filter(!Trans_lego) %>% 
-      pull(Color)
+      dplyr::pull(Color)
     
     use_columns <- 9
   }
