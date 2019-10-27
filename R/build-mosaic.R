@@ -11,11 +11,14 @@ build_mosaic <- function(brick_obj, title=NULL){
   image <- in_list$Img_bricks
   type <- in_list$mosaic_type
   
+  use_bricks <- in_list$use_bricks
+  
   coord_x <- c(min(image$xmin)+0.5, max(image$xmax)-0.5)
   coord_y <- c(min(image$ymin)+0.5, max(image$ymax)-0.5)
 
   img <- ggplot2::ggplot(in_list$Img_lego, ggplot2::aes(x=x, y=y))  +
-    geom_brick_rect(ggplot2::aes(fill = Lego_color), color = "#333333")+
+    geom_brick_rect(ggplot2::aes(fill = Lego_color), color = "#333333",
+                    use_bricks = use_bricks)+
     ggplot2::scale_fill_identity() + 
     ggplot2::coord_fixed(expand = 0.5) 
   
