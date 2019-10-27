@@ -28,9 +28,9 @@ collect_bricks <- function(image_list, use_bricks = NULL){
   ) %>%
     dplyr::distinct() %>% 
     dplyr::mutate(offset_x = purrr::map(xx, ~.x:1 -1)) %>% 
-    tidyr::unnest() %>% 
+    tidyr::unnest_legacy() %>% 
     dplyr::mutate(offset_y = purrr::map(yy, ~.x:1 -1)) %>% 
-    tidyr::unnest() %>% 
+    tidyr::unnest_legacy() %>% 
     dplyr::arrange(dplyr::desc(xx*yy), #Start with bricks with most area
                    xx+yy, #Then smaller perimeter... so 2x2 is before 1x4,
                    dplyr::desc(xx), #Then widest first, so offsets are collected
