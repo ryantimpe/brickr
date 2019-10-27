@@ -2,16 +2,17 @@
 #'
 #' @param brick_list List output from collect_bricks(). Contains an element \code{Img_lego}.
 #' @param brick_type Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.
-#' @param view_levels Numeric array of Levels/z values to display. Leave as \code{NULL} to include all.
-#' @param solidcolor Hex color of mosaic base. Only renders on bottom.
-#' @param water Default 'FALSE'. If 'TRUE', a water layer is rendered.
-#' @param waterdepth Default '0'. Water level.
-#' @param ... All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.
+#' @param background_color Default 'white'. Color of the background.
+#' @param rgl_lit Default 'TRUE'. Include RGL lighting features in rendering.
+#' @param outline_bricks Default 'FALSE'. Include black outlines around brick edges. 
+#' Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.
+#' @param trans_alpha Default 0.5. Alpha level for transparent bricks.
+#' @param view_levels Numeric array of Levels/z values to display. Leave as 'NULL' to include all.
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @family 3D Models
 #' @export 
 #'
-build_bricks_rgl <- function(brick_list,
+build_bricks<- function(brick_list,
                              background_color = "white", rgl_lit = TRUE,
                              outline_bricks = FALSE,
                              trans_alpha = 0.5,

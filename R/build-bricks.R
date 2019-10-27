@@ -180,7 +180,7 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
 #' @family 3D Models
 #' @export 
 #'
-build_bricks <- function(brick_list, brick_type = "brick", brick_res = "sd",
+build_bricks_rayshader <- function(brick_list, brick_type = "brick", brick_res = "sd",
                            view_levels = NULL, solidcolor = "#a3a2a4",
                            water = FALSE, waterdepth = 0, ...){
   #Requires Rayshader

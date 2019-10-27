@@ -38,7 +38,7 @@ Other 3D Models: \code{\link{bricks_from_excel}},
   \code{\link{bricks_from_mosaic}},
   \code{\link{bricks_from_rayshader}},
   \code{\link{bricks_from_table}},
-  \code{\link{build_bricks_rgl}},
+  \code{\link{build_bricks_rayshader}},
   \code{\link{build_bricks}}
 }
 \concept{3D Models}

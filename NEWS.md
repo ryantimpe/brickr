@@ -1,4 +1,16 @@
-# brickr 0.1.1.0000
+# brickr 0.2.1
+
+## Documentation
+
+* Issues and bugs are now actively tracked on [GitHub Issues](https://github.com/ryantimpe/brickr/issues).
+
+## 3D Models
+
+* `build_bricks()` now renders models in {rgl}, rather than {rayshader}. Most options for the rendering have changed. Use `build_brick_rayshader()` for previous output.
+
+----
+
+# brickr 0.1.1
 
 * **Breaking:** Pretty much *EVERY* function. Seriously, check out the README and start fresh.
 
@@ -32,19 +44,6 @@
 * `geom_brick_col` for bar charts in the shape of bricks. Negative values are fine, but `position = stack` is not available.
 * `coord_brick` to prevent chart brick distortion. `coord_brick_flip` for horizontal bars.
 * `scale_fill_brick` and `theme_brick` for different LEGO color options.
-
-## TO DO
-
-* ggplot - continuous scale
-* Vignettes
-    - IRL
-* Check() passing
-
-** Lower Priority**
-
-* Negative bricks are "underside"
-* bricks_from_models
-* ggplot plays nicely with rayshader::plot_gg()
 
 ----
 
