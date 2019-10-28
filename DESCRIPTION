@@ -1,6 +1,6 @@
 Package: brickr
 Title: Tools to emulate the LEGO&reg; System in R
-Version: 0.1.0.9024
+Version: 0.2.0
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -8,19 +8,20 @@ Authors@R:
            email = "ryan.timpe@gmail.com")
 Description: 
     Generate digital LEGO-esque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. 
-    Build 3D models using data frames with rayshader. Create brick bar charts with ggplot2.
+    Build 3D models using data frames with rgl. Create brick bar charts with ggplot2.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.0.2), ggplot2
+Depends: R (>= 3.0.2),
+    ggplot2
 Imports: 
     magrittr,
     dplyr,
     tidyr,
     purrr,
-    ggplot2,
     scales,
-    farver
+    farver,
+    colorspace
 Suggests: 
     rayshader,
     knitr,
@@ -42,6 +43,7 @@ Collate:
     'bricks-from-rayshader.R'
     'bricks-from-tables.R'
     'build-bricks.R'
+    'build-bricks-rgl.R'
     'build-instructions.R'
     'build-mosaic.R'
     'collect-bricks.R'

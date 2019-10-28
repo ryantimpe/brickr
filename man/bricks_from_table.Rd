@@ -4,7 +4,7 @@
 \alias{bricks_from_table}
 \title{Convert a matrix table into a brickr 3D object}
 \usage{
-bricks_from_table(matrix_table, color_guide = lego_colors,
+bricks_from_table(matrix_table, color_guide = brickr::lego_colors,
   .re_level = TRUE, increment_level = 0, max_level = Inf,
   increment_x = 0, max_x = Inf, increment_y = 0, max_y = Inf,
   exclude_color = NULL, exclude_level = NULL)
@@ -43,6 +43,7 @@ Other 3D Models: \code{\link{bricks_from_coords}},
   \code{\link{bricks_from_excel}},
   \code{\link{bricks_from_mosaic}},
   \code{\link{bricks_from_rayshader}},
+  \code{\link{build_bricks_rayshader}},
   \code{\link{build_bricks}}
 }
 \concept{3D Models}

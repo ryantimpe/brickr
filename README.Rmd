@@ -10,6 +10,8 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+rgl::setupKnitr()
+
 library(brickr)
 library(jpeg)
 library(tidyverse)
@@ -27,7 +29,7 @@ library(tidyverse)
 The package is divided into 3 separate systems: 
 
   - [**Mosaics**](#mosaics): Convert image files into mosaics that could be built using LEGO&reg; bricks.
-  - [**3D Models**](#3d-models): Build 3D LEGO&reg; models from simple data formats & [rayshader](https://www.rayshader.com/).
+  - [**3D Models**](#3d-models): Build 3D LEGO&reg; models from data tables using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
   - [**Charts**](#charts): A [ggplot2](https://ggplot2.tidyverse.org/) extension to generate plots that resemble LEGO&reg; bricks.
   
 brickr also includes tools help users create the Mosaics and 3D model output using real LEGO&reg; elements.
@@ -42,7 +44,7 @@ The goal of **brickr** is to provide a series of tools to integrate the LEGO&reg
   - Generating interest in R and coding for new audiences with easy-to-create 3D models.
   - or just embracing pure novelty.
   
-*brickr is developed using publicly available information about LEGO&reg; products and is not officially affiliated with The LEGO Group*
+*brickr is developed under the [Fair Play](https://www.lego.com/en-us/legal/notices-and-policies/fair-play/) policy using publicly available information about LEGO&reg; products. brickr is not affiliated with The LEGO Group.*
 
 ## Installation
 ``` r
@@ -83,7 +85,7 @@ In general, any **brickr** function that begins with `build_` generates a graphi
 
 ## 3D Models
 
-The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats. These models are rendered using [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://www.rayshader.com/) package.
+The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats. 
 
 - `bricks_from_table()` & `bricks_from_excel()` convert a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using `data.frame()` or `tibble::tribble()`. For more advanced models, it's recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. `bricks_from_excel()` is a wrapper function to more easily build models designed using a Microsoft Excel template. Please see this repo: [brickr toybox](https://github.com/ryantimpe/brickr_toybox).
 
@@ -91,9 +93,10 @@ The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a 
 
 - `bricks_from_mosaic()` converts a 2D [mosaic](#mosaics) object from an image into 3D LEGO models, respectively. `bricks_from_rayshader()` creates a LEGO model from the same input as `rayshader::plot_3d()`.
 
-Pass the output from any `bricks_from_*()` function to `build_bricks()` to see the 3D model. The `brick_res` option allows for higher resolution bricks in 'hd' or 'uhd', which will take longer to render.
+Pass the output from any `bricks_from_*()` function to `build_bricks()` to see the 3D model. 
+Models are currently rendered in **rgl**. Previous versions of brickr use [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://www.rayshader.com/) package. This option is still available by passing the output from any `bricks_from_*()` function to `build_bricks_rayshader()`. Rayshader can still be used for saving snapshots and creating animations.
 
-```{r bricks_1, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
+```{r bricks_1, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
 library(brickr)
 
 #This is a brick
@@ -105,9 +108,11 @@ brick <- data.frame(
 
 brick %>% 
   bricks_from_table() %>% 
-  build_bricks(brick_res = "uhd")
+  build_bricks()
 
-rayshader::render_snapshot( clear = TRUE)
+#Rotate the default view for a better snapshot
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 0.75*pi, 0, 0 ,1))
+
 ```
 
 ### Stacking bricks
@@ -116,7 +121,7 @@ The Level column in the input table determines the elevation of the bricks. `bri
 
 For larger models, use `tibble::tribble()` to more easily visualize the model. For very large models, use a csv or Excel.
 
-```{r bricks_5, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_5, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 my_first_model <- tibble::tribble(
   ~Level, ~X1, ~X2, ~X3, ~x4, ~x5, ~X6, ~x7, ~x8,
   "A", 1, 1, 1, 0, 1, 1, 1, 1,
@@ -149,16 +154,17 @@ brick_colors <- tibble::tribble(
   
 my_first_model %>% 
   bricks_from_table(brick_colors) %>% 
-  build_bricks(theta = 210, brick_res = "uhd")
+  build_bricks()
 
-rayshader::render_snapshot(clear = TRUE)
+#Rotate the default view for a better snapshot
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi, 0, 0 ,1))
 ```
 
 ### Programmatically build models
 
 Use `bricks_from_coords()` to programmatically build 3D LEGO models instead of manually drawing them in a spreadsheet or table. Here you must provide whole number coordinates for x, y, and z, along with an official LEGO color name for each point.
 
-```{r bricks_6, echo=TRUE, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+```{r bricks_6, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
 radius <- 4
 sphere_coords <- expand.grid(
   x = 1:round((radius*2.5)),
@@ -177,10 +183,13 @@ sphere_coords <- expand.grid(
 
 sphere_coords %>% 
   bricks_from_coords() %>% 
-  build_bricks(brick_res = "uhd", phi = 30, theta = 30)
+  build_bricks(outline_bricks = TRUE, rgl_lit = FALSE)
 
-rayshader::render_snapshot(clear = TRUE)
+
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
+
+The option `outline_bricks = TRUE` adds a black outline around the edges of the bricks. Setting `rgl_lit = FALSE` turns off automated lighting effects from rgl. Changing these two inputs together renders bricks in a more cartoon fashion.
 
 ### Examples
 
