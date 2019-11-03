@@ -8,6 +8,18 @@
 #' Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.
 #' @param trans_alpha Default 0.5. Alpha level for transparent bricks.
 #' @param view_levels Numeric array of Levels/z values to display. Leave as 'NULL' to include all.
+#' @examples \dontrun{
+#' #This is a brick
+#'brick <- data.frame(
+#'  Level="A",
+#'  X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
+#'  X2 = rep(3,4)
+#')
+#'
+#'brick %>% 
+#'  bricks_from_table() %>% 
+#'  build_bricks()
+#' }
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @family 3D Models
 #' @export 

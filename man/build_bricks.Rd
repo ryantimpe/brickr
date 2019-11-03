@@ -29,6 +29,20 @@ Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.}
 \description{
 Build 3D brick model with rgl
 }
+\examples{
+\dontrun{
+#This is a brick
+brick <- data.frame(
+ Level="A",
+ X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
+ X2 = rep(3,4)
+)
+
+brick \%>\% 
+ bricks_from_table() \%>\% 
+ build_bricks()
+}
+}
 \seealso{
 Other 3D Models: \code{\link{bricks_from_coords}},
   \code{\link{bricks_from_excel}},

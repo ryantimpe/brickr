@@ -11,6 +11,7 @@ reference:
     contents:
     - starts_with("bricks_")
     - build_bricks
+    - build_bricks_rayshader
   - title: ggplot Extension 
     desc: Brick bar charts in ggplot
     contents:

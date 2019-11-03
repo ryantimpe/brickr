@@ -195,7 +195,7 @@ Enter a value for a custom resolution. High resolutions take longer to render.</
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>3D brick model rendered in the 'rgl' package.</p>
+    <p>3D brick model rendered in the 'rayshader' package.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other 3D Models: <code><a href='bricks_from_coords.html'>bricks_from_coords</a></code>,
@@ -205,6 +205,19 @@ Enter a value for a custom resolution. High resolutions take longer to render.</
   <code><a href='bricks_from_table.html'>bricks_from_table</a></code>,
   <code><a href='build_bricks.html'>build_bricks</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'>#This is a brick</span>
+<span class='no'>brick</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+ <span class='kw'>Level</span><span class='kw'>=</span><span class='st'>"A"</span>,
+ <span class='kw'>X1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>), <span class='co'>#The number 3 is the brickrID for 'bright red'</span>
+ <span class='kw'>X2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>)
+)
+
+<span class='no'>brick</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='bricks_from_table.html'>bricks_from_table</a></span>() <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='build_bricks.html'>build_bricks</a></span>()
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -212,6 +225,7 @@ Enter a value for a custom resolution. High resolutions take longer to render.</
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

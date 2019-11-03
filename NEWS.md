@@ -9,6 +9,7 @@
 ## 3D Models
 
 * `build_bricks()` now renders models in {rgl}, rather than {rayshader}. Most options for the rendering have changed. Use `build_brick_rayshader()` for previous output.
+* Support for transparent bricks. See `build_colors()` for list of color names.
 
 ----
 
