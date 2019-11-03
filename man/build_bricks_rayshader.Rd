@@ -27,10 +27,24 @@ Enter a value for a custom resolution. High resolutions take longer to render.}
 \item{...}{All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.}
 }
 \value{
-3D brick model rendered in the 'rgl' package.
+3D brick model rendered in the 'rayshader' package.
 }
 \description{
 Build 3D brick model with rayshader.
+}
+\examples{
+\dontrun{
+#This is a brick
+brick <- data.frame(
+ Level="A",
+ X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
+ X2 = rep(3,4)
+)
+
+brick \%>\% 
+ bricks_from_table() \%>\% 
+ build_bricks()
+}
 }
 \seealso{
 Other 3D Models: \code{\link{bricks_from_coords}},

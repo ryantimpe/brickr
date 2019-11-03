@@ -43,7 +43,7 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
                       hd = 30,
                       uhd = 60)
   }
-
+  
   
   #Use below is edge calculation
   # Optimized color only in HD bricks >20 pixels
@@ -94,8 +94,8 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
     dplyr::mutate(x_mid = median(x), y_mid = median(y),
                   stud = ((x-x_mid)^2 + (y-y_mid)^2)^(1/2) <= (ex_size * (5/8 * (1/2))),
                   stud_color = dplyr::between(((x-x_mid)^2 + (y-y_mid)^2)^(1/2),
-                  (ex_size * (5/8 * (1/2))) - 1,
-                  (ex_size * (5/8 * (1/2))) + 1
+                                              (ex_size * (5/8 * (1/2))) - 1,
+                                              (ex_size * (5/8 * (1/2))) + 1
                   )) %>% 
     dplyr::ungroup() %>% 
     dplyr::mutate(elevation = ifelse(stud, elevation+0.5, elevation)) %>% 
@@ -176,13 +176,25 @@ layer_from_bricks <- function(brick_list, brick_type = "brick", lev=1, brick_res
 #' @param water Default 'FALSE'. If 'TRUE', a water layer is rendered.
 #' @param waterdepth Default '0'. Water level.
 #' @param ... All other inputs from rayshader::plot_3d() EXCEPT \code{hillshade}, \code{soliddepth}, \code{zscale}, and \code{shadow}.
-#' @return 3D brick model rendered in the 'rgl' package.
+#' @examples \dontrun{
+#' #This is a brick
+#'brick <- data.frame(
+#'  Level="A",
+#'  X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
+#'  X2 = rep(3,4)
+#')
+#'
+#'brick %>% 
+#'  bricks_from_table() %>% 
+#'  build_bricks()
+#' }
+#' @return 3D brick model rendered in the 'rayshader' package.
 #' @family 3D Models
 #' @export 
 #'
 build_bricks_rayshader <- function(brick_list, brick_type = "brick", brick_res = "sd",
-                           view_levels = NULL, solidcolor = "#a3a2a4",
-                           water = FALSE, waterdepth = 0, ...){
+                                   view_levels = NULL, solidcolor = "#a3a2a4",
+                                   water = FALSE, waterdepth = 0, ...){
   #Requires Rayshader
   if (!requireNamespace("rayshader", quietly = TRUE)) {
     stop("Package \"rayshader\" needed for this function to work. Please install it.",
@@ -198,7 +210,7 @@ build_bricks_rayshader <- function(brick_list, brick_type = "brick", brick_res =
   if(is.null(view_levels)){
     view_levels <- unique(img_lego$Level)
   }
-
+  
   for(ii in view_levels){
     brick_layer <- brick_list %>% 
       layer_from_bricks(ii, brick_type = brick_type, brick_res = brick_res)
@@ -216,7 +228,7 @@ build_bricks_rayshader <- function(brick_list, brick_type = "brick", brick_res =
                            solidcolor=solidcolor, shadow = FALSE,
                            water = FALSE, waterdepth = 0, ...)
     }
-   
+    
   }
-
+  
 }

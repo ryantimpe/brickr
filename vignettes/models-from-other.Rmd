@@ -39,6 +39,7 @@ mosaic <- png::readPNG(demo_img) %>%
 
 mosaic %>% build_mosaic()
 ```
+
 ```{r bricks_6a, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 mosaic %>% 
   bricks_from_mosaic(highest_el = "dark") %>% 
@@ -62,7 +63,7 @@ rgl::par3d(userMatrix = rgl::rotate3d(custom_rotation, 0, 0, pi/4 ,1))
 * `max_height` is the number of bricks stacked at the mosaic's highest point. The default is 12.
 * `img_size` is the number of bricks on each side of the model. The default is 48.
 
-```{r bricks_rayshader, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_rayshader, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 library(rayshader)
 
 #Example from rayshader.com
@@ -95,4 +96,5 @@ rayshader_object %>%
 
 rayshader::render_snapshot(clear = TRUE)
 ```
+
 This example is rendered using `build_bricks_rayshader()`, which a bit faster for very large sets.

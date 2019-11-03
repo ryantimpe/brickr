@@ -121,12 +121,20 @@ scaled_to_colors <- function(image_list, method = "cie94",
       #No transparent colors in mosaics
       dplyr::filter(!Trans_lego)
   } else{
-    brick_table <- color_table
+    # if(any(stringr::str_detect(color_table$Color, stringr::fixed("Tr. ")))){
+    #   warning("Transparent bricks cannot be used in mosaics. Removing from color_table.")
+    # }
+    
+    brick_table <- color_table %>% 
+      #No transparent colors in mosaics
+      dplyr::filter(!stringr::str_detect(Color, stringr::fixed("Tr. ")))
   }
   
   #Set up color palette... used standard way or with Dithering
   if(any(c("universal", "generic", "special") %in% color_palette)){
     brick_table <- brick_table %>% 
+      #No transparent colors in mosaics
+      dplyr::filter(!Trans_lego) %>% 
       dplyr::filter(tolower(Palette) %in% color_palette)
   } else {
     #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
