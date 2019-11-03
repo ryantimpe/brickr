@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
 collapse = TRUE,
 comment = "#>"
 )
+rgl::setupKnitr()
 ```
 
 ```{r setup, include = FALSE}
@@ -20,7 +21,7 @@ library(brickr)
 
 ## Getting started
 
-The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats. These models are rendered using [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://www.rayshader.com/) package. This package must be installed.
+The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats.
 
 `bricks_from_table()` converts a matrix-shaped table of integers into LEGO bricks, where most columns are x-coordinates, rows are y-coordinates, and a special `Level` column denotes the elevation of the row. For simple models, this table can be made manually using `data.frame()` or `tibble::tribble()`. 
 
@@ -32,7 +33,7 @@ Pass the output of any `bricks_from_*()` function to `build_bricks()` to render 
 
 Create a single 2x4 brick with a 2x4 data frame, with an additional column to specify the 'Level'. These can be letters or numbers.
 
-```{r bricks_1, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
+```{r bricks_1, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
 #This is a 2 (columns) x 4 (rows) brick
 (brick <- data.frame(
   Level="A",
@@ -42,23 +43,23 @@ Create a single 2x4 brick with a 2x4 data frame, with an additional column to sp
 
 brick %>% 
   bricks_from_table() %>% 
-  build_bricks(brick_res = "hd") #Bricks available in standard def, high def, and ultra hd. 
+  build_bricks() 
 
-rayshader::render_snapshot( clear = TRUE)
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
 
 Stack many bricks by changing the 'Level' value in the data frame. The script below uses `purrr::map_df()` to avoid copying and pasting. Changing the numeric values inside the data frame for each level creates different colors.
 
-```{r bricks_2, echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
+```{r bricks_2, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=3, fig.height=3}
 1:10 %>% 
   purrr::map_df(~dplyr::mutate(brick,
                         Level = LETTERS[.x], 
                         X1 = .x,
                         X2 = .x)) %>% 
   bricks_from_table() %>% 
-  build_bricks(brick_res = "hd")
+  build_bricks(rgl_lit=FALSE, outline_bricks = TRUE)
 
-rayshader::render_snapshot( clear = TRUE)
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
 
 ## Full models
@@ -67,7 +68,7 @@ The most direct way to create a 3D model is to manually create a data frame. Bel
 
 The data frame has 3 numbers as input (values of 0 are void spaces in the model). Rather than use the default brickr colors for the values of 1, 2, and 3, we define another data frame 'brick_colors' 
 
-```{r bricks_5, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_5, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 tree_or_mushroom <- tibble::tribble(
   ~Level, ~X1, ~X2, ~X3, ~X4, ~X5, ~X6,
   "A", 1, 1, 1, 1, 1, 1, 
@@ -109,12 +110,14 @@ brick_colors <- tibble::tribble(
   
 tree_or_mushroom %>% 
   bricks_from_table(brick_colors) %>% 
-  build_bricks(theta = 210, phi = 20, brick_res = "hd")
+  build_bricks()
 
-rayshader::render_snapshot(clear = TRUE)
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
 
 ### Plates instead of bricks
+
+**Currently unavailable in `build_bricks()`. Use `build_bricks_rayshader()`**
 
 That's clearly a tree, right? Why is the data frame called 'tree_or_mushroom'?
 
@@ -130,7 +133,7 @@ brick_colors <- tibble::tribble(
   
 tree_or_mushroom %>% 
   bricks_from_table(brick_colors) %>% 
-  build_bricks(theta = 210, phi = 10, brick_res = "hd", brick_type="plate")
+  build_bricks_rayshader(theta = 210, phi = 10, brick_res = "hd", brick_type="plate")
 
 rayshader::render_snapshot(clear = TRUE)
 ```

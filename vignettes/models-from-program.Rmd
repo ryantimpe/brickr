@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
 collapse = TRUE,
 comment = "#>"
 )
+rgl::setupKnitr()
 ```
 
 ```{r setup, include = FALSE}
@@ -20,7 +21,7 @@ library(brickr)
 
 ## Getting started
 
-The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats. These models are rendered using [Tyler Morgan-Wall](https://twitter.com/tylermorganwall)'s [rayshader](https://www.rayshader.com/) package. This package must be installed.
+The `bricks_from_*` series of functions creates 3D models of LEGO bricks from a variety of input formats.
 
 Use `bricks_from_coords()` to programmatically build 3D LEGO models rather than manually drawing them in a spreadsheet or table. Prove the function with a data frame with x, y, and z coordinates, along with an official LEGO color name for each point.
 
@@ -28,7 +29,7 @@ Use `bricks_from_coords()` to programmatically build 3D LEGO models rather than 
 
 Below, we create a 8x8x8 cube by expanding a data frame with the array 1:8 as the x-, y-, and z-coordinates. We then assign each row of that data frame one of three colors: Bright blue, Bright yellow, or Bright red.
 
-```{r bricks_6, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_6, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 use_colors <- c("Bright blue", "Bright yellow", "Bright red")
 
 cube <- expand.grid(
@@ -41,14 +42,14 @@ cube$Color <- sample(use_colors, nrow(cube), replace = TRUE, prob = c(5, 3, 1))
 
 cube %>% 
   bricks_from_coords() %>% 
-  build_bricks(brick_res = "uhd", phi = 30, theta = 30)
+  build_bricks()
 
-rayshader::render_snapshot(clear = TRUE)
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
 
 Using the same logic, we can build a sphere with a specified radius, and then apply rules to color each brick based on its coordinates.
 
-```{r bricks_7, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_7, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 radius <- 4
 sphere_coords <- expand.grid(
   x = 1:round((radius*2.5)),
@@ -67,10 +68,12 @@ sphere_coords <- expand.grid(
 
 sphere_coords %>% 
   bricks_from_coords() %>% 
-  build_bricks(brick_res = "uhd", phi = 30, theta = 30)
+  build_bricks(rgl_lit = FALSE, outline_bricks = TRUE)
 
-rayshader::render_snapshot(clear = TRUE)
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
+
+The option `outline_bricks = TRUE` adds a black outline around the edges of the bricks. Setting `rgl_lit = FALSE` turns off automated lighting effects from rgl. Changing these two inputs together renders bricks in a more cartoon fashion.
 
 ## It takes a village
 
@@ -78,8 +81,8 @@ Rather than directly writing a data frame for a model, you can write a function 
 
 Below, the function `brick_house()` creates a LEGO house with randomized colors. The x- and y-coordinates and the size of the house are inputs to the functions.
 
-```{r bricks_8, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
-brick_house <- function(x_coord = 0, y_coord = 0, width=6, length=5, height=6){
+```{r bricks_8, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+brick_house <- function(x_coord = 0, y_coord = 0, width=6, length=5, height=7){
   roof_colors <- c("Dark orange", "Dark brown", "Medium nougat", "Medium stone grey")
   roof_col <- sample(roof_colors, 1)
   
@@ -96,9 +99,9 @@ brick_house <- function(x_coord = 0, y_coord = 0, width=6, length=5, height=6){
         roof & (abs(y - floor(length/2) -1) <= (height-z)) ~ roof_col,
         roof ~ NA_character_,
         #Door and windows
-        x == round(width/2) & z == 1 ~ NA_character_,
-        dplyr::between(x, 2, width-1) & x %% 2 == 0  & y > 1 & z == 2 ~ NA_character_,
-        dplyr::between(y, 2, length-1) & y %% 2 == 0 & z == 2 ~ NA_character_,
+        x == round(width/2) & y==1 & z <= 3 ~ NA_character_,
+        dplyr::between(x, 2, width-1) & x %% 2 == 0  & y > 1 & z == 3 ~ NA_character_,
+        dplyr::between(y, 2, length-1) & y %% 2 == 0 & z == 3 ~ NA_character_,
         x %in% c(1, width) | y %in% c(1, length) ~ house_col),
       x = x+x_coord, 
       y = y+y_coord
@@ -109,13 +112,14 @@ brick_house <- function(x_coord = 0, y_coord = 0, width=6, length=5, height=6){
 #Build one house
 brick_house() %>% 
   bricks_from_coords() %>% 
-  build_bricks(theta = 225)
-rayshader::render_snapshot(clear = TRUE)
+  build_bricks()
+
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
 
 Next, we write one more function, `brick_street()` to build a road and grass foundation. The, for an arbitrary number of houses and neighborhood size, use `purrr::pmap_df` to generate many houses and place them along the road.
 
-```{r bricks_9, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
+```{r bricks_9, rgl=TRUE, dev='png', echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
 brick_street <- function(width = 100, length = 40){
   expand.grid(x=1:width, y=1:length, z=1) %>% 
     dplyr::mutate(
@@ -130,20 +134,18 @@ brick_street <- function(width = 100, length = 40){
 n_houses = 14
 sz = c(100, 40)
 
-list(x_coord = c(sample(seq(10, sz[1]-10, by = 10), n_houses/2),
-                 sample(seq(10, sz[1]-10, by = 10), n_houses/2)),
+list(x_coord = c(sample(seq(10, sz[1]-10, by = 12), n_houses/2),
+                 sample(seq(10, sz[1]-10, by = 12), n_houses/2)),
      y_coord = c(rep(sz[2]/2-15, n_houses/2), rep(sz[2]/2+10, n_houses/2)),
      width = sample(4:10, n_houses, replace = TRUE),
-     length = sample(4:8, n_houses, replace = TRUE),
-     height = sample(5:8, n_houses, replace = TRUE)
+     length = sample(5:8, n_houses, replace = TRUE),
+     height = sample(7:9, n_houses, replace = TRUE)
      ) %>% 
   purrr::pmap_df(brick_house) %>% 
   dplyr::bind_rows(brick_street(sz[1], sz[2])) %>% 
   bricks_from_coords() %>% 
   build_bricks()
 
-rayshader::render_camera(theta = 60, phi = 20, zoom = 0.75)
-rayshader::render_snapshot(clear = TRUE)
-
+rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, pi/4, 0 ,1))
 ```
 

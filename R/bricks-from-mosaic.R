@@ -16,7 +16,7 @@ bricks_from_mosaic <- function(mosaic_list, mosaic_height = 6, highest_el = "lig
   img_lego <- in_list$Img_lego
   
   img_sorted_by_lum <- mosaic_list$Img_lego %>% 
-    dplyr::left_join(lego_colors %>% dplyr::select(Lego_name = Color, lum), by = "Lego_name") %>% 
+    dplyr::left_join(brickr::lego_colors %>% dplyr::select(Lego_name = Color, lum), by = "Lego_name") %>% 
     dplyr::mutate(Level = as.numeric(as.factor(cut(lum, mosaic_height)))) %>% 
     dplyr::do(
       if(highest_el == "dark"){

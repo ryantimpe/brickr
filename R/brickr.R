@@ -19,7 +19,10 @@ if(getRversion() >= "2.15.1") {
                            "Lego_name", "Level", "lum", "Lum", "n", "offset_x", "offset_y", "Palette", 
                            "R", "R_lego", "shade", "shade_bw", "size1", "size2", 
                            "stud", "stud_id", "studs", 
-                           "theme", "Tr", "TYPE", "user_color", "x", "x_comp", "x_mid", "x_scaled", 
-                           "xg", "xmax", "xmin", "xx", "y", "y_comp", "y_mid", "y_scaled", "yg", "ymax", 
+                           "theme", "Tr", "Trans_lego", "TYPE", "user_color", "ww", 
+                           "value",
+                           "x", "x_comp", "x_mid", "x_scaled", 
+                           "xg", "xmax", "xmin", "xx", 
+                           "y", "y_comp", "y_mid", "y_scaled", "yg", "ymax", 
                            "ymin", "yy", "z"))
 }

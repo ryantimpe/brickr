@@ -117,18 +117,28 @@ scaled_to_colors <- function(image_list, method = "cie94",
   
   #Brick colors to use ----
   if(is.null(color_table)) {
-    brick_table <- lego_colors
+    brick_table <- brickr::lego_colors %>% 
+      #No transparent colors in mosaics
+      dplyr::filter(!Trans_lego)
   } else{
-    brick_table <- color_table
+    # if(any(stringr::str_detect(color_table$Color, stringr::fixed("Tr. ")))){
+    #   warning("Transparent bricks cannot be used in mosaics. Removing from color_table.")
+    # }
+    
+    brick_table <- color_table %>% 
+      #No transparent colors in mosaics
+      dplyr::filter(!stringr::str_detect(Color, stringr::fixed("Tr. ")))
   }
   
   #Set up color palette... used standard way or with Dithering
   if(any(c("universal", "generic", "special") %in% color_palette)){
     brick_table <- brick_table %>% 
+      #No transparent colors in mosaics
+      dplyr::filter(!Trans_lego) %>% 
       dplyr::filter(tolower(Palette) %in% color_palette)
   } else {
     #Black and white is simpler... cut the colors into 4 groups, then assign lightest = white, darkest = black
-    brick_table <- lego_colors  %>% 
+    brick_table <- brickr::lego_colors  %>% 
       dplyr::filter(Color %in% c("White", "Black", "Medium stone grey", "Dark stone grey")) %>% 
       dplyr::arrange((R_lego + G_lego + B_lego)) %>% 
       dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego))
@@ -277,8 +287,8 @@ convert_color_to_brick_dithering <- function(img_object, color_table, brick_tabl
         mosaic_base[mosaic_base$B > 1, "B"] <- 1
         
         mosaic_base[mosaic_base$R < 0, "R"] <- 0
-        mosaic_base[mosaic_base$G < 0, "R"] <- 0
-        mosaic_base[mosaic_base$B < 0, "R"] <- 0
+        mosaic_base[mosaic_base$G < 0, "G"] <- 0
+        mosaic_base[mosaic_base$B < 0, "B"] <- 0
       }
     }
     

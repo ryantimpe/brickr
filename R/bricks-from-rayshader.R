@@ -49,7 +49,7 @@ bricks_from_rayshader <- function(hillshade, heightmap, max_height = 12, img_siz
     purrr::map_df(function(lvl){
       dat <- img_sorted_by_lum %>% 
         #Only get colors at or above the current level
-        dplyr::filter(Level >= lvl) %>% 
+        dplyr::filter(Level >= lvl & Level <= (lvl + 2)) %>% 
         #Replace any higher levels with colors in this level
         dplyr::mutate(Lego_name = ifelse(Level > lvl, NA_character_, Lego_name),
                       Lego_color = ifelse(is.na(Lego_name), NA_character_, Lego_color),
