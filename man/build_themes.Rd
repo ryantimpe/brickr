@@ -26,9 +26,10 @@ build_themes(c("ducks", "ocean", "space"))
 build_themes(.names_only = TRUE)
 }
 \seealso{
-Other Resources: \code{\link{build_colors}},
-  \code{\link{build_instructions}},
-  \code{\link{build_pieces_table}},
-  \code{\link{build_pieces}}
+Other Resources: 
+\code{\link{build_colors}()},
+\code{\link{build_instructions}()},
+\code{\link{build_pieces_table}()},
+\code{\link{build_pieces}()}
 }
 \concept{Resources}

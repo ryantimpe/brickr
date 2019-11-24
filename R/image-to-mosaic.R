@@ -20,7 +20,7 @@
 #' @export 
 #'
 image_to_mosaic <- function(img, img_size = 48, color_table = NULL,
-                            method = "cie94", 
+                            method = "brickr_classic", 
                             color_palette = c("universal", "generic", "special"), 
                             dithering = FALSE, contrast = 1, 
                             use_bricks = NULL, 

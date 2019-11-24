@@ -286,8 +286,7 @@ ggplot(df, aes(trt, outcome)) +
 
 Both `scale_fill_brick()` and `theme_brick()` take an input
 ‘brick\_theme’, which ensures all colors match official LEGO brick
-colors. See `build_themes()` for a sample of all available brick
-theme.
+colors. See `build_themes()` for a sample of all available brick theme.
 
 ``` r
 df <- data.frame(trt = letters[1:6], outcome = rnorm(6, mean = 5, sd = 2))

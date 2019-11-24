@@ -4,10 +4,19 @@
 \alias{bricks_from_table}
 \title{Convert a matrix table into a brickr 3D object}
 \usage{
-bricks_from_table(matrix_table, color_guide = brickr::lego_colors,
-  .re_level = TRUE, increment_level = 0, max_level = Inf,
-  increment_x = 0, max_x = Inf, increment_y = 0, max_y = Inf,
-  exclude_color = NULL, exclude_level = NULL)
+bricks_from_table(
+  matrix_table,
+  color_guide = brickr::lego_colors,
+  .re_level = TRUE,
+  increment_level = 0,
+  max_level = Inf,
+  increment_x = 0,
+  max_x = Inf,
+  increment_y = 0,
+  max_y = Inf,
+  exclude_color = NULL,
+  exclude_level = NULL
+)
 }
 \arguments{
 \item{matrix_table}{A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.}
@@ -39,11 +48,12 @@ A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 Convert a matrix table into a brickr 3D object
 }
 \seealso{
-Other 3D Models: \code{\link{bricks_from_coords}},
-  \code{\link{bricks_from_excel}},
-  \code{\link{bricks_from_mosaic}},
-  \code{\link{bricks_from_rayshader}},
-  \code{\link{build_bricks_rayshader}},
-  \code{\link{build_bricks}}
+Other 3D Models: 
+\code{\link{bricks_from_coords}()},
+\code{\link{bricks_from_excel}()},
+\code{\link{bricks_from_mosaic}()},
+\code{\link{bricks_from_rayshader}()},
+\code{\link{build_bricks_rayshader}()},
+\code{\link{build_bricks}()}
 }
 \concept{3D Models}

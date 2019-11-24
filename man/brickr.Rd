@@ -3,7 +3,6 @@
 \docType{package}
 \name{brickr}
 \alias{brickr}
-\alias{brickr-package}
 \title{\code{brickr} package}
 \description{
 Google spreadsheets R API

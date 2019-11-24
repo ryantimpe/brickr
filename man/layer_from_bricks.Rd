@@ -4,8 +4,7 @@
 \alias{layer_from_bricks}
 \title{Display a brickr object as a 3D model}
 \usage{
-layer_from_bricks(brick_list, brick_type = "brick", lev = 1,
-  brick_res = "sd")
+layer_from_bricks(brick_list, brick_type = "brick", lev = 1, brick_res = "sd")
 }
 \arguments{
 \item{brick_list}{A 3D brickr object from a bricks_from_*() function..}

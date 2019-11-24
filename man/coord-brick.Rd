@@ -7,8 +7,7 @@
 \usage{
 coord_brick(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 
-coord_brick_flip(xlim = NULL, ylim = NULL, expand = TRUE,
-  clip = "on")
+coord_brick_flip(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 }
 \arguments{
 \item{xlim}{Limits for the x and y axes.}
@@ -46,8 +45,10 @@ ggplot(df, aes(trt, outcome)) +
   coord_brick_flip()
 }
 \seealso{
-Other Graphs: \code{\link{geom_brick_col}},
-  \code{\link{geom_brick_rect}},
-  \code{\link{scale_fill_brick}}, \code{\link{theme_brick}}
+Other Graphs: 
+\code{\link{geom_brick_col}()},
+\code{\link{geom_brick_rect}()},
+\code{\link{scale_fill_brick}()},
+\code{\link{theme_brick}()}
 }
 \concept{Graphs}

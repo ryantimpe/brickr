@@ -15,8 +15,10 @@ build_instructions(brickr_obj, num_steps = 6)
 Create instruction manual for 2D image mosaics
 }
 \seealso{
-Other Resources: \code{\link{build_colors}},
-  \code{\link{build_pieces_table}},
-  \code{\link{build_pieces}}, \code{\link{build_themes}}
+Other Resources: 
+\code{\link{build_colors}()},
+\code{\link{build_pieces_table}()},
+\code{\link{build_pieces}()},
+\code{\link{build_themes}()}
 }
 \concept{Resources}

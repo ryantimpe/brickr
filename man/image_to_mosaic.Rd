@@ -4,10 +4,18 @@
 \alias{image_to_mosaic}
 \title{Create a 2D LEGO mosaic from an image array}
 \usage{
-image_to_mosaic(img, img_size = 48, color_table = NULL,
-  method = "cie94", color_palette = c("universal", "generic",
-  "special"), dithering = FALSE, contrast = 1, use_bricks = NULL,
-  brightness = 1, warhol = 1:3)
+image_to_mosaic(
+  img,
+  img_size = 48,
+  color_table = NULL,
+  method = "brickr_classic",
+  color_palette = c("universal", "generic", "special"),
+  dithering = FALSE,
+  contrast = 1,
+  use_bricks = NULL,
+  brightness = 1,
+  warhol = 1:3
+)
 }
 \arguments{
 \item{img}{Image to convert into mosaic. Usually from \code{jpeg::readJPEG()} or \code{png::readPNG()}.}
@@ -42,6 +50,7 @@ A list with element \code{Img_lego} containing a data frame of the x- & y-coordi
 Create a 2D LEGO mosaic from an image array
 }
 \seealso{
-Other Mosaics: \code{\link{build_mosaic}}
+Other Mosaics: 
+\code{\link{build_mosaic}()}
 }
 \concept{Mosaics}

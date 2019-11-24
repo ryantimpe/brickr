@@ -25,8 +25,10 @@ build_colors()
 build_colors(TRUE)
 }
 \seealso{
-Other Resources: \code{\link{build_instructions}},
-  \code{\link{build_pieces_table}},
-  \code{\link{build_pieces}}, \code{\link{build_themes}}
+Other Resources: 
+\code{\link{build_instructions}()},
+\code{\link{build_pieces_table}()},
+\code{\link{build_pieces}()},
+\code{\link{build_themes}()}
 }
 \concept{Resources}

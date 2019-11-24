@@ -4,9 +4,17 @@
 \alias{bricks_from_coords}
 \title{Convert a data frame with x, y, z & Color columns into a brickr 3D object}
 \usage{
-bricks_from_coords(coord_table, increment_level = 0, max_level = Inf,
-  increment_x = 0, max_x = Inf, increment_y = 0, max_y = Inf,
-  exclude_color = NULL, exclude_level = NULL)
+bricks_from_coords(
+  coord_table,
+  increment_level = 0,
+  max_level = Inf,
+  increment_x = 0,
+  max_x = Inf,
+  increment_y = 0,
+  max_y = Inf,
+  exclude_color = NULL,
+  exclude_level = NULL
+)
 }
 \arguments{
 \item{coord_table}{A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{build_colors()}.}
@@ -34,11 +42,12 @@ A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 Convert a data frame with x, y, z & Color columns into a brickr 3D object
 }
 \seealso{
-Other 3D Models: \code{\link{bricks_from_excel}},
-  \code{\link{bricks_from_mosaic}},
-  \code{\link{bricks_from_rayshader}},
-  \code{\link{bricks_from_table}},
-  \code{\link{build_bricks_rayshader}},
-  \code{\link{build_bricks}}
+Other 3D Models: 
+\code{\link{bricks_from_excel}()},
+\code{\link{bricks_from_mosaic}()},
+\code{\link{bricks_from_rayshader}()},
+\code{\link{bricks_from_table}()},
+\code{\link{build_bricks_rayshader}()},
+\code{\link{build_bricks}()}
 }
 \concept{3D Models}

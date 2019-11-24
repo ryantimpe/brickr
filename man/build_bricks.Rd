@@ -4,8 +4,14 @@
 \alias{build_bricks}
 \title{Build 3D brick model with rgl}
 \usage{
-build_bricks(brick_list, background_color = "white", rgl_lit = TRUE,
-  outline_bricks = FALSE, trans_alpha = 0.5, view_levels = NULL)
+build_bricks(
+  brick_list,
+  background_color = "white",
+  rgl_lit = TRUE,
+  outline_bricks = FALSE,
+  trans_alpha = 0.5,
+  view_levels = NULL
+)
 }
 \arguments{
 \item{brick_list}{List output from collect_bricks(). Contains an element \code{Img_lego}.}
@@ -44,11 +50,12 @@ brick \%>\%
 }
 }
 \seealso{
-Other 3D Models: \code{\link{bricks_from_coords}},
-  \code{\link{bricks_from_excel}},
-  \code{\link{bricks_from_mosaic}},
-  \code{\link{bricks_from_rayshader}},
-  \code{\link{bricks_from_table}},
-  \code{\link{build_bricks_rayshader}}
+Other 3D Models: 
+\code{\link{bricks_from_coords}()},
+\code{\link{bricks_from_excel}()},
+\code{\link{bricks_from_mosaic}()},
+\code{\link{bricks_from_rayshader}()},
+\code{\link{bricks_from_table}()},
+\code{\link{build_bricks_rayshader}()}
 }
 \concept{3D Models}

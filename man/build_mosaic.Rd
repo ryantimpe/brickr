@@ -15,6 +15,7 @@ build_mosaic(brick_obj, title = NULL)
 Display 2D LEGO mosaic as a plot image
 }
 \seealso{
-Other Mosaics: \code{\link{image_to_mosaic}}
+Other Mosaics: 
+\code{\link{image_to_mosaic}()}
 }
 \concept{Mosaics}

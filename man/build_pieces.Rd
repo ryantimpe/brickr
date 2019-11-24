@@ -16,9 +16,10 @@ Plot object of required bricks by color and size.
 Display bricks required to build model or mosaic.
 }
 \seealso{
-Other Resources: \code{\link{build_colors}},
-  \code{\link{build_instructions}},
-  \code{\link{build_pieces_table}},
-  \code{\link{build_themes}}
+Other Resources: 
+\code{\link{build_colors}()},
+\code{\link{build_instructions}()},
+\code{\link{build_pieces_table}()},
+\code{\link{build_themes}()}
 }
 \concept{Resources}

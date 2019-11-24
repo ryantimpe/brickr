@@ -108,7 +108,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' @usage NULL
 #' @keywords internal
 #' @return A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
-scaled_to_colors <- function(image_list, method = "cie94", 
+scaled_to_colors <- function(image_list, method = "brickr_classic", 
                              color_table = NULL,
                              color_palette = c("universal", "generic", "special"), 
                              dithering = FALSE,
@@ -184,8 +184,9 @@ convert_color_to_brick_standard <- function(img_object, color_table, brick_table
     } else { #Farver ----
       mosaic_colors <- mosaic_base %>% 
         dplyr::mutate(rgb = purrr::pmap(list(R, G, B), function(R, G, B){
-          cc <- matrix(c(R, G, B), ncol = 3)
-          dstncs <- farver::compare_colour(from=cc, to=brick_table[, c('R_lego', 'G_lego', 'B_lego')], 
+          cc <- matrix(c(R, G, B), ncol = 3)*255
+          dstncs <- farver::compare_colour(from=cc, 
+                                           to=brick_table[, c('R_lego', 'G_lego', 'B_lego')]*255, 
                                            from_space='rgb', to_space = 'rgb', method=method)
           
           sel_color <- as.character(brick_table[which.min(dstncs), "Color"])[1]

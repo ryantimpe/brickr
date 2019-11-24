@@ -16,8 +16,10 @@ Data frame of piece counts by LEGO color name and size.
 Generate required bricks as a data frame.
 }
 \seealso{
-Other Resources: \code{\link{build_colors}},
-  \code{\link{build_instructions}},
-  \code{\link{build_pieces}}, \code{\link{build_themes}}
+Other Resources: 
+\code{\link{build_colors}()},
+\code{\link{build_instructions}()},
+\code{\link{build_pieces}()},
+\code{\link{build_themes}()}
 }
 \concept{Resources}

@@ -4,9 +4,18 @@
 \alias{bricks_from_excel}
 \title{Convert an Excel {brickr} template into a brickr 3D object}
 \usage{
-bricks_from_excel(excel_table, repeat_levels = 1, increment_level = 0,
-  max_level = Inf, increment_x = 0, max_x = Inf, increment_y = 0,
-  max_y = Inf, exclude_color = NULL, exclude_level = NULL)
+bricks_from_excel(
+  excel_table,
+  repeat_levels = 1,
+  increment_level = 0,
+  max_level = Inf,
+  increment_x = 0,
+  max_x = Inf,
+  increment_y = 0,
+  max_y = Inf,
+  exclude_color = NULL,
+  exclude_level = NULL
+)
 }
 \arguments{
 \item{excel_table}{Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.}
@@ -36,11 +45,12 @@ A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 Convert an Excel {brickr} template into a brickr 3D object
 }
 \seealso{
-Other 3D Models: \code{\link{bricks_from_coords}},
-  \code{\link{bricks_from_mosaic}},
-  \code{\link{bricks_from_rayshader}},
-  \code{\link{bricks_from_table}},
-  \code{\link{build_bricks_rayshader}},
-  \code{\link{build_bricks}}
+Other 3D Models: 
+\code{\link{bricks_from_coords}()},
+\code{\link{bricks_from_mosaic}()},
+\code{\link{bricks_from_rayshader}()},
+\code{\link{bricks_from_table}()},
+\code{\link{build_bricks_rayshader}()},
+\code{\link{build_bricks}()}
 }
 \concept{3D Models}

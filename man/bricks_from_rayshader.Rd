@@ -4,8 +4,7 @@
 \alias{bricks_from_rayshader}
 \title{Build a brickr 3D object from rayshader hillshade & heightmap matrices}
 \usage{
-bricks_from_rayshader(hillshade, heightmap, max_height = 12,
-  img_size = 48)
+bricks_from_rayshader(hillshade, heightmap, max_height = 12, img_size = 48)
 }
 \arguments{
 \item{hillshade}{Same as \code{rayshader::plot_3d()}. Hillshade/image to be added to 3D surface map.}
@@ -24,11 +23,12 @@ A list with elements \code{threed_elevation} and \code{threed_hillshade} to crea
 Build a brickr 3D object from rayshader hillshade & heightmap matrices
 }
 \seealso{
-Other 3D Models: \code{\link{bricks_from_coords}},
-  \code{\link{bricks_from_excel}},
-  \code{\link{bricks_from_mosaic}},
-  \code{\link{bricks_from_table}},
-  \code{\link{build_bricks_rayshader}},
-  \code{\link{build_bricks}}
+Other 3D Models: 
+\code{\link{bricks_from_coords}()},
+\code{\link{bricks_from_excel}()},
+\code{\link{bricks_from_mosaic}()},
+\code{\link{bricks_from_table}()},
+\code{\link{build_bricks_rayshader}()},
+\code{\link{build_bricks}()}
 }
 \concept{3D Models}

@@ -1,4 +1,12 @@
-# brickr 0.2.0
+# Current dev version
+
+##brickr 0.2.0.9003
+
+* Issues after updating to [farver 2.0](https://github.com/thomasp85/farver). Temporarily set color method back to 'brickr_classic'.
+
+----
+
+# brickr 0.2.0 - a.k.a. [Castle]()
 
 * Lots of bug fixes. More to come.
 
@@ -13,7 +21,7 @@
 
 ----
 
-# brickr 0.1.1
+# brickr 0.1.1 - a.k.a. [brickr House](https://twitter.com/ryantimpe/status/1106572408918605824?s=20)
 
 * **Breaking:** Pretty much *EVERY* function. Seriously, check out the README and start fresh.
 

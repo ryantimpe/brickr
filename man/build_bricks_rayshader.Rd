@@ -4,9 +4,16 @@
 \alias{build_bricks_rayshader}
 \title{Build 3D brick model with rayshader.}
 \usage{
-build_bricks_rayshader(brick_list, brick_type = "brick",
-  brick_res = "sd", view_levels = NULL, solidcolor = "#a3a2a4",
-  water = FALSE, waterdepth = 0, ...)
+build_bricks_rayshader(
+  brick_list,
+  brick_type = "brick",
+  brick_res = "sd",
+  view_levels = NULL,
+  solidcolor = "#a3a2a4",
+  water = FALSE,
+  waterdepth = 0,
+  ...
+)
 }
 \arguments{
 \item{brick_list}{List output from collect_bricks(). Contains an element \code{Img_lego}.}
@@ -47,11 +54,12 @@ brick \%>\%
 }
 }
 \seealso{
-Other 3D Models: \code{\link{bricks_from_coords}},
-  \code{\link{bricks_from_excel}},
-  \code{\link{bricks_from_mosaic}},
-  \code{\link{bricks_from_rayshader}},
-  \code{\link{bricks_from_table}},
-  \code{\link{build_bricks}}
+Other 3D Models: 
+\code{\link{bricks_from_coords}()},
+\code{\link{bricks_from_excel}()},
+\code{\link{bricks_from_mosaic}()},
+\code{\link{bricks_from_rayshader}()},
+\code{\link{bricks_from_table}()},
+\code{\link{build_bricks}()}
 }
 \concept{3D Models}
