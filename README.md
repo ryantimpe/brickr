@@ -6,7 +6,7 @@ The LEGO® System in R
 <!--   <!-- badges: start -->
 
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
 status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travis-ci.org/ryantimpe/brickr)
 <!--   <!-- badges: end -->

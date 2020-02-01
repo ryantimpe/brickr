@@ -10,3 +10,4 @@ admin_color_tools
 ^\.travis\.yml$
 ^README_files$
 ^README\.Rmd$
+R_experiments
