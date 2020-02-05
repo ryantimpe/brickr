@@ -1,6 +1,6 @@
 #' \code{brickr} package
 #'
-#' Google spreadsheets R API
+#' 3D LEGO models and mosaics from images using R and the tidyverse 
 #'
 #'
 #' @docType package
