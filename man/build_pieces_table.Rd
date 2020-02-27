@@ -19,7 +19,6 @@ Generate required bricks as a data frame.
 Other Resources: 
 \code{\link{build_colors}()},
 \code{\link{build_instructions}()},
-\code{\link{build_pieces}()},
-\code{\link{build_themes}()}
+\code{\link{build_pieces}()}
 }
 \concept{Resources}
