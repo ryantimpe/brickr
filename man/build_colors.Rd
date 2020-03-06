@@ -28,7 +28,6 @@ build_colors(TRUE)
 Other Resources: 
 \code{\link{build_instructions}()},
 \code{\link{build_pieces_table}()},
-\code{\link{build_pieces}()},
-\code{\link{build_themes}()}
+\code{\link{build_pieces}()}
 }
 \concept{Resources}

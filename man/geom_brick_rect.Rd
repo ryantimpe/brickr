@@ -79,11 +79,4 @@ the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 \description{
 \code{geom_rect}, except bars look like LEGO(R) bricks.
 }
-\seealso{
-Other Graphs: 
-\code{\link{coord_brick}()},
-\code{\link{geom_brick_col}()},
-\code{\link{scale_fill_brick}()},
-\code{\link{theme_brick}()}
-}
 \concept{Graphs}

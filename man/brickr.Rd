@@ -5,5 +5,5 @@
 \alias{brickr}
 \title{\code{brickr} package}
 \description{
-Google spreadsheets R API
+Tools to emulate the LEGO® System in R
 }

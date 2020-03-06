@@ -19,7 +19,6 @@ Display bricks required to build model or mosaic.
 Other Resources: 
 \code{\link{build_colors}()},
 \code{\link{build_instructions}()},
-\code{\link{build_pieces_table}()},
-\code{\link{build_themes}()}
+\code{\link{build_pieces_table}()}
 }
 \concept{Resources}

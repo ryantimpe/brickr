@@ -1,6 +1,6 @@
 Package: brickr
 Title: Tools to emulate the LEGO&reg; System in R
-Version: 0.2.0.9003
+Version: 0.2.9.9002
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -8,20 +8,21 @@ Authors@R:
            email = "ryan.timpe@gmail.com")
 Description: 
     Generate digital LEGO-esque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. 
-    Build 3D models using data frames with rgl. Create brick bar charts with ggplot2.
-License: GPL-3
+    Build 3D models using data frames with rgl. 
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.0.2),
-    ggplot2
+Depends: R (>= 3.0.2)
 Imports: 
+    ggplot2,
     magrittr,
     dplyr,
     tidyr,
     purrr,
     scales,
     farver,
-    colorspace
+    colorspace,
+    rgl
 Suggests: 
     rayshader,
     knitr,
@@ -34,7 +35,7 @@ Suggests:
     rgdal,
     stringr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 URL: https://github.com/ryantimpe/brickr
 BugReports: https://github.com/ryantimpe/brickr/issues
 Collate: 
@@ -48,14 +49,10 @@ Collate:
     'build-mosaic.R'
     'collect-bricks.R'
     'colors-and-themes.R'
-    'coord-brick.R'
-    'draw-key.R'
-    'geom-brick-col.R'
+    'data.R'
     'geom-brick-rect.R'
     'image-to-mosaic.R'
     'image-to-prep-mosaic.R'
     'piece-count.R'
-    'scale-brick.R'
-    'theme-brick.R'
     'utils-pipe.R'
 VignetteBuilder: knitr

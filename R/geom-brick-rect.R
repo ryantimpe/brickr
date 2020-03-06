@@ -8,6 +8,7 @@
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @family Graphs
 #' @export
+#' 
 geom_brick_rect <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
@@ -17,7 +18,7 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
                             na.rm = FALSE,
                             show.legend = NA,
                             inherit.aes = TRUE) {
-  layer_brick <- layer(
+  layer_brick <- ggplot2::layer(
     data = data,
     mapping = mapping,
     stat = stat,
@@ -46,8 +47,8 @@ geom_brick_rect <- function(mapping = NULL, data = NULL,
 #' @rdname brickr-ggproto
 #' @format NULL
 #' @usage NULL
-GeomBrick <- ggproto("GeomBrick", Geom,
-                     default_aes = aes(colour = "#333333", fill = "#B40000", size = 0.5, linetype = 1,
+GeomBrick <- ggplot2::ggproto("GeomBrick", ggplot2::Geom,
+                     default_aes = ggplot2::aes(colour = "#333333", fill = "#B40000", size = 0.5, linetype = 1,
                                        alpha = NA, label = "brickr", label_scale = 1,
                                        angle = 0, family = "", fontface = 1, lineheight = 1.2),
                      
@@ -102,9 +103,9 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                            default.units = "native",
                            just = c("left", "top"),
                            gp = grid::gpar(
-                             col = alpha(coords_rect$colour, 0.2),
-                             fill = alpha(coords_rect$fill, coords_rect$alpha),
-                             lwd = coords_rect$size * .pt,
+                             col = ggplot2::alpha(coords_rect$colour, 0.2),
+                             fill = ggplot2::alpha(coords_rect$fill, coords_rect$alpha),
+                             lwd = coords_rect$size * ggplot2::.pt,
                              lty = coords_rect$linetype,
                              linejoin = linejoin,
                              # `lineend` is a workaround for Windows and intentionally kept unexposed
@@ -119,8 +120,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                          
                          # test_coord <<- coords
 
-                         x_size <- median(abs(diff(coords$x))[abs(diff(coords$x))>0], na.rm=TRUE)
-                         y_size <- median(abs(diff(coords$y))[abs(diff(coords$y))>0], na.rm=TRUE)
+                         x_size <- stats::median(abs(diff(coords$x))[abs(diff(coords$x))>0], na.rm=TRUE)
+                         y_size <- stats::median(abs(diff(coords$y))[abs(diff(coords$y))>0], na.rm=TRUE)
 
                          diameter <- max(x_size, y_size, na.rm=TRUE)
 
@@ -143,8 +144,8 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                            default.units = "native",
                            gp = grid::gpar(
                              col = NA,
-                             fill = alpha("#333333", 0.2),
-                             size = coords$size * .pt,
+                             fill = ggplot2::alpha("#333333", 0.2),
+                             size = coords$size * ggplot2::.pt,
                              lty = coords$linetype
                            )
                          )
@@ -154,10 +155,10 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                            r= diameter*(5/8)*(1/2),
                            default.units = "native",
                            gp = grid::gpar(
-                             # col = alpha("#333333", 0.2),
-                             col = alpha(coords$text_col, coords$text_alpha),
-                             fill = alpha(coords$fill, coords$alpha),
-                             size = coords$size * .pt,
+                             # col = ggplot2::alpha("#333333", 0.2),
+                             col = ggplot2::alpha(coords$text_col, coords$text_alpha),
+                             fill = ggplot2::alpha(coords$fill, coords$alpha),
+                             size = coords$size * ggplot2::.pt,
                              lty = coords$linetype
                            )
                          )
@@ -177,7 +178,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                             label_num <- nchar(lab)[1]
 
                             #Get view port size for initial text drawing... 
-                            vp_width = grid::convertWidth(unit(1, "snpc"), "mm", valueOnly=TRUE)
+                            vp_width = grid::convertWidth(ggplot2::unit(1, "snpc"), "mm", valueOnly=TRUE)
                             fs <- scales::rescale(vp_width, to=c(20, 7), from=c(120, 20))
 
                             gm_knob_text <- grid::textGrob(
@@ -187,7 +188,7 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                               hjust = data$hjust, vjust = data$vjust,
                               rot = data$angle,
                               gp = grid::gpar(
-                                col = alpha(coords$text_col, coords$text_alpha),
+                                col = ggplot2::alpha(coords$text_col, coords$text_alpha),
                                 fontsize = fs,
                                 cex = label_scale * (3/8) * 0.5 * (1.5) * ((100/n)^(1/2)), #100 bricks is optimal size for labels by default?
                                 fontfamily = data$family,
@@ -206,8 +207,11 @@ GeomBrick <- ggproto("GeomBrick", Geom,
                        }
                      },
                      
-                     draw_key = draw_key_brick
+                     draw_key = ggplot2::draw_key_polygon
 )
 
+thres_brick_lum <- function(){
+  return(0.4)
+}
 
 

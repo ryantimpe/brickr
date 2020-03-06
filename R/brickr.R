@@ -1,7 +1,6 @@
 #' \code{brickr} package
 #'
-#' Google spreadsheets R API
-#'
+#' Tools to emulate the LEGO&reg; System in R
 #'
 #' @docType package
 #' @name brickr
@@ -16,8 +15,9 @@ if(getRversion() >= "2.15.1") {
                            "elevation", "G", "G_lego", 
                            "ggproto", "height", "hex", "layer",
                            "lego", "Lego_color", "LEGO_color", "lego_colors", 
-                           "Lego_name", "Level", "lum", "Lum", "n", "offset_x", "offset_y", "Palette", 
-                           "R", "R_lego", "shade", "shade_bw", "size1", "size2", 
+                           "Lego_name", "Level", "lum", "Lum", "median", "n", 
+                           "offset_x", "offset_y", "Palette", 
+                           "R", "rgb", "R_lego", "shade", "shade_bw", "size1", "size2", 
                            "stud", "stud_id", "studs", 
                            "theme", "Tr", "Trans_lego", "TYPE", "user_color", "ww", 
                            "value",
