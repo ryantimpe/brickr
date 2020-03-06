@@ -11,3 +11,4 @@ admin_color_tools
 ^README_files$
 ^README\.Rmd$
 R_experiments
+^CNAME

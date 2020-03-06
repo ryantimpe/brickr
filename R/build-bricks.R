@@ -1,8 +1,7 @@
 #' Display a brickr object as a 3D model
 #'
 #' @param brick_list A 3D brickr object from a bricks_from_*() function..
-#' @param brick_type Type of brick to use. Default is 'brick'. Other option is
-#'   'plate', which is 1/3 the height of a brick.
+#' @param brick_type Either a 3-height "brick" (default) or 1-height "plate"
 #' @param lev z-level of 3D model
 #' @param brick_res Resolution, expressed at number of pixels on one side of a
 #'   1x1 brick. Defaults to 'sd' (15px). Use 'hd' for 30px per brick, and 'uhd'

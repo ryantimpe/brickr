@@ -1,7 +1,6 @@
 #' Build 3D brick model with rgl
 #'
 #' @param brick_list List output from collect_bricks(). Contains an element \code{Img_lego}.
-#' @param brick_type Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.
 #' @param background_color Default 'white'. Color of the background.
 #' @param rgl_lit Default 'TRUE'. Include RGL lighting features in rendering.
 #' @param outline_bricks Default 'FALSE'. Include black outlines around brick edges. 

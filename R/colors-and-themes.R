@@ -39,9 +39,9 @@ build_colors <- function(.names_only = FALSE, include_transparent = TRUE){
     dplyr::mutate(color = factor(gsub('(.{1,8})(\\s|$)', '\\1\n',  color), 
                                  levels =gsub('(.{1,8})(\\s|$)', '\\1\n', use_colors)),
                   alpha = ifelse(Trans_lego, 0.5, 1)) %>% 
-    ggplot2::ggplot(aes(x=x, y=y, group=color)) +
+    ggplot2::ggplot(ggplot2::aes(x=x, y=y, group=color)) +
     ggplot2::labs(title = "Brick colors available in {brickr}") +
-    brickr:::geom_brick_rect(aes(fill = color_hex, alpha = alpha), label_scale = 0.1, 
+    brickr::geom_brick_rect(ggplot2::aes(fill = color_hex, alpha = alpha), label_scale = 0.1, 
                     #Including the use_bricks inputs greatly increases the speed of this.
                     use_bricks = c("2x2")) +
     ggplot2::coord_fixed(x=c(0.5, 2.5), y=c(0.5, 2.5)) +

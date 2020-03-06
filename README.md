@@ -22,8 +22,9 @@ The package is divided into 3 separate systems:
     be built using LEGO® bricks.
   - [**3D Models**](#3d-models): Build 3D LEGO® models from data tables
     using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
-  - [**Charts**](#charts): A [ggplot2](https://ggplot2.tidyverse.org/)
-    extension to generate plots that resemble LEGO® bricks.
+  - [**Charts**](#charts): COMING SOON: A
+    [ggplot2](https://ggplot2.tidyverse.org/) extension to generate
+    plots that resemble LEGO® bricks.
 
 brickr also includes tools help users create the Mosaics and 3D model
 output using real LEGO® elements.
@@ -261,47 +262,6 @@ be found at the links below.
     using `bricks_from_coords()` and {purrr}.
   - [**brickr toybox**](https://github.com/ryantimpe/brickr_toybox) repo
     for tools and resources to get started.
-
-## Charts
-
-brickr includes functions to render
-[ggplot2](https://ggplot2.tidyverse.org/) bar charts as bricks with LEGO
-color themes. The main function is `geom_brick_col()`, which is the
-brickr equivalent of `geom_col()`. Additional functions are highly
-recommended to ensure that proper the chart is rendered in the proper
-functions and proportions.
-
-``` r
-df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
-
-#For official LEGO colors, use with scale_fill_brick and theme_brick.
-ggplot(df, aes(trt, outcome)) +
-  geom_brick_col(aes(fill = trt)) +
-  scale_fill_brick() +
-  coord_brick() +
-  theme_brick()
-```
-
-![](README_files/figure-gfm/geom_brick-1.png)<!-- -->
-
-Both `scale_fill_brick()` and `theme_brick()` take an input
-‘brick\_theme’, which ensures all colors match official LEGO brick
-colors. See `build_themes()` for a sample of all available brick theme.
-
-``` r
-df <- data.frame(trt = letters[1:6], outcome = rnorm(6, mean = 5, sd = 2))
-
-use_theme <- "hp"
-
-ggplot(df, aes(trt, outcome)) +
-  geom_brick_col(aes(fill = trt), two_knob = F) +
-  scale_fill_brick(use_theme) +
-  coord_brick_flip() +
-  theme_brick(use_theme) +
-  theme(legend.position = "none")
-```
-
-![](README_files/figure-gfm/geom_brick2-1.png)<!-- -->
 
 ## IRL
 

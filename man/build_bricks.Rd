@@ -26,8 +26,6 @@ Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.}
 \item{trans_alpha}{Default 0.5. Alpha level for transparent bricks.}
 
 \item{view_levels}{Numeric array of Levels/z values to display. Leave as 'NULL' to include all.}
-
-\item{brick_type}{Type of brick to use. Default is 'brick'. Other option is 'plate', which is 1/3 the height of a brick.}
 }
 \value{
 3D brick model rendered in the 'rgl' package.

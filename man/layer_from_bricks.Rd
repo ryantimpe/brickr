@@ -9,8 +9,7 @@ layer_from_bricks(brick_list, brick_type = "brick", lev = 1, brick_res = "sd")
 \arguments{
 \item{brick_list}{A 3D brickr object from a bricks_from_*() function..}
 
-\item{brick_type}{Type of brick to use. Default is 'brick'. Other option is
-'plate', which is 1/3 the height of a brick.}
+\item{brick_type}{Either a 3-height "brick" (default) or 1-height "plate"}
 
 \item{lev}{z-level of 3D model}
 

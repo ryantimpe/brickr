@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom-brick-rect.R
 \name{geom_brick_rect}
 \alias{geom_brick_rect}
-\title{INTERNAL. Tile charts as Bricks - ggplot2 extension}
+\title{Tile charts as Bricks - ggplot2 extension}
 \usage{
 geom_brick_rect(
   mapping = NULL,
