@@ -16,7 +16,7 @@
 #' @export 
 #'
 bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, 
-                              piece_table = NULL,
+                              piece_matrix = NULL,
                               .re_level = TRUE,
                               increment_level = 0, max_level = Inf,
                               increment_x = 0, max_x = Inf,
@@ -27,6 +27,12 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   bricks_raw <- matrix_table
   names(bricks_raw)[1] <- "Level"
   names(bricks_raw)[-1] <- paste0("X", seq_along(names(bricks_raw)[-1]))
+  
+  if(!is.null(piece_matrix)){
+    pieces_raw <- piece_matrix
+    names(pieces_raw)[1] <- "Level"
+    names(pieces_raw)[-1] <- paste0("X", seq_along(names(pieces_raw)[-1]))
+  }
   
   #Color mapping
   color_guide_error_msg <- "Color guide should be a data frame with at least 2 columns: `.value` and `Color`. 
@@ -45,7 +51,7 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
     #                 ))
     #   
     # }
-      
+    
     color_map <- color_guide %>% 
       dplyr::mutate(Color = as.character(Color)) %>% 
       dplyr::left_join(lego_colors, by = "Color")
@@ -58,16 +64,21 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   if(.re_level){
     bricks_raw <- bricks_raw %>% 
       dplyr::mutate(Level = as.numeric(as.factor(as.character(Level))))
+    
+    if(!is.null(piece_matrix)){
+      pieces_raw <- pieces_raw %>% 
+        dplyr::mutate(Level = as.numeric(as.factor(as.character(Level))))
+    }
   }
   
   #Clean up increments
   incr_level <- as.numeric(increment_level)[1]
-  if(is.na(incr_level)){incr_level<-0}
+  if(is.na(incr_level)){incr_level <- 0}
   incr_x <- as.numeric(increment_x)[1]
-  if(is.na(incr_x)){incr_x<-0}
+  if(is.na(incr_x)){incr_x <- 0}
   incr_y <- as.numeric(increment_y)[1]
-  if(is.na(incr_y)){incr_y<-0}
-
+  if(is.na(incr_y)){incr_y < -0}
+  
   brick_set <- bricks_raw %>% 
     dplyr::mutate_all(list(~ifelse(is.na(.), 0, .))) %>% 
     dplyr::group_by(Level) %>% 
@@ -100,9 +111,33 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
     tidyr::drop_na(Lego_color)
   
   #Piece tables
-  if(is.null(piece_table)){
+  if(is.null(piece_matrix)){
     brick_set <- brick_set %>% 
       dplyr::mutate(piece_type = "B")
+  } else {
+    pieces_set <- pieces_raw %>% 
+      dplyr::mutate_all(list(~ifelse(is.na(.), 0, .))) %>% 
+      dplyr::group_by(Level) %>% 
+      dplyr::mutate(y = dplyr::n() - dplyr::row_number() + 1) %>% 
+      dplyr::ungroup() %>% 
+      dplyr::select(Level, y, dplyr::everything()) %>% 
+      tidyr::gather(x, piece_type, 3:ncol(.)) %>% 
+      dplyr::mutate(x = as.numeric(substr(x, 2, 20))) %>% 
+      dplyr::arrange(Level, x, dplyr::desc(y)) %>% 
+      tidyr::drop_na(piece_type) %>% 
+      dplyr::filter(piece_type != "0") %>% 
+      #Exclusions
+      dplyr::filter(!(Level %in% exclude_level)) %>% 
+      #Increment coordinates
+      dplyr::mutate(Level = Level + incr_level,
+                    x = x + incr_x, y = y + incr_y) %>% 
+      dplyr::filter(Level >= 1, Level <= max_level,
+                    x >= 1, x <= max_x,
+                    y >= 1, y <= max_y)
+    
+    brick_set <- brick_set %>% 
+      dplyr::left_join(pieces_set, by = c("Level", "y", "x"))
+    
   }
   
   #Return an object from collect_bricks()
@@ -184,7 +219,7 @@ bricks_from_excel <- function(excel_table,
   #Render as brickr output
   brickr_out <- instructions %>% 
     bricks_from_table(color_guide =  colors_user,
-                      piece_table = instructions_p,
+                      piece_matrix = instructions_p,
                       .re_level = TRUE,
                       increment_level = increment_level, max_level = max_level,
                       increment_x = increment_x, max_x = max_x,
@@ -209,10 +244,10 @@ bricks_from_excel <- function(excel_table,
 #' @export 
 #'
 bricks_from_coords <- function(coord_table, 
-                              increment_level = 0, max_level = Inf,
-                              increment_x = 0, max_x = Inf,
-                              increment_y = 0, max_y = Inf,
-                              exclude_color = NULL, exclude_level = NULL){
+                               increment_level = 0, max_level = Inf,
+                               increment_x = 0, max_x = Inf,
+                               increment_y = 0, max_y = Inf,
+                               exclude_color = NULL, exclude_level = NULL){
   
   #Reformat input table to consistent format
   bricks_raw <- coord_table
@@ -270,6 +305,11 @@ bricks_from_coords <- function(coord_table,
     dplyr::group_by(Level) %>%
     dplyr::filter(!all(is.na(Lego_color))) %>%
     dplyr::ungroup()
+  
+  if(!("piece_type" %in% names(brick_set))){
+    brick_set <- brick_set %>% 
+      dplyr::mutate(piece_type = "B")
+  }
   
   #Return an object from collect_bricks()
   return(
