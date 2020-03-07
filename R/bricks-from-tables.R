@@ -1,6 +1,6 @@
 #' Convert a matrix table into a brickr 3D object
 #'
-#' @param matrix_table A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
+#' @param matrix_table A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
 #' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
@@ -15,7 +15,9 @@
 #' @family 3D Models
 #' @export 
 #'
-bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, .re_level = TRUE,
+bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, 
+                              piece_table = NULL,
+                              .re_level = TRUE,
                               increment_level = 0, max_level = Inf,
                               increment_x = 0, max_x = Inf,
                               increment_y = 0, max_y = Inf,
@@ -67,7 +69,7 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, .
   if(is.na(incr_y)){incr_y<-0}
 
   brick_set <- bricks_raw %>% 
-    dplyr::mutate_all(dplyr::funs(ifelse(is.na(.), 0, .))) %>% 
+    dplyr::mutate_all(list(~ifelse(is.na(.), 0, .))) %>% 
     dplyr::group_by(Level) %>% 
     dplyr::mutate(y = dplyr::n() - dplyr::row_number() + 1) %>% 
     dplyr::ungroup() %>% 
@@ -77,9 +79,9 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, .
     dplyr::arrange(Level, x, dplyr::desc(y)) %>% 
     tidyr::drop_na(.value) %>% 
     dplyr::left_join(color_map, by = ".value") %>% 
-    dplyr::mutate_at(dplyr::vars(dplyr::contains("_lego")), dplyr::funs(ifelse(is.na(.), 0, .))) %>% 
+    dplyr::mutate_at(dplyr::vars(dplyr::contains("_lego")), list(~ifelse(is.na(.), 0, .))) %>% 
     dplyr::mutate(Lego_color = grDevices::rgb(R_lego, G_lego, B_lego)) %>% 
-    dplyr::mutate(Lego_color = ifelse(is.na(Color),NA, Lego_color)) %>% 
+    dplyr::mutate(Lego_color = ifelse(is.na(Color), NA, Lego_color)) %>% 
     dplyr::rename(Lego_name = Color) %>%
     dplyr::arrange(Level) %>% 
     #Exclusions
@@ -94,7 +96,14 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, .
     #In the end, drop empty levels
     dplyr::group_by(Level) %>% 
     dplyr::filter(!all(is.na(Lego_color))) %>% 
-    dplyr::ungroup()
+    dplyr::ungroup() %>% 
+    tidyr::drop_na(Lego_color)
+  
+  #Piece tables
+  if(is.null(piece_table)){
+    brick_set <- brick_set %>% 
+      dplyr::mutate(piece_type = "B")
+  }
   
   #Return an object from collect_bricks()
   return(
@@ -111,7 +120,9 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, .
 #' @family 3D Models
 #' @export 
 #'
-bricks_from_excel <- function(excel_table, repeat_levels = 1,
+bricks_from_excel <- function(excel_table, 
+                              piece_table = NULL,
+                              repeat_levels = 1,
                               increment_level = 0, max_level = Inf,
                               increment_x = 0, max_x = Inf,
                               increment_y = 0, max_y = Inf,
@@ -139,6 +150,32 @@ bricks_from_excel <- function(excel_table, repeat_levels = 1,
     }
   }
   
+  if(!is.null(piece_table)){
+    #Set Instructions
+    instructions_p <- piece_table %>%
+      dplyr::select(1:columns_meta_start) %>%
+      dplyr::rename(Level = 1) %>%
+      dplyr::filter(Level != "Level") %>%
+      dplyr::mutate_at(dplyr::vars(dplyr::matches("^\\d")),
+                       list(~ifelse(grepl("^[A-Za-z]", .)|is.na(.), ., "B")))
+    
+    #Repeat levels. 
+    #TODO: DO this for x and y too
+    if(is.numeric(repeat_levels)){
+      rep_levels <- max(round(repeat_levels), 1)
+      
+      if(rep_levels == 1){instructions_p <- instructions_p}
+      else{
+        instructions_p <- 1:rep_levels %>% 
+          purrr::map_df(
+            ~dplyr::mutate(instructions_p, Level = paste0(Level, .x))
+          )
+      }
+    }
+  } else{
+    instructions_p = NULL
+  }
+  
   #Color Instructions
   colors_user <- excel_table %>% 
     dplyr::select(.value = user_color, Color = LEGO_color) %>% 
@@ -147,6 +184,7 @@ bricks_from_excel <- function(excel_table, repeat_levels = 1,
   #Render as brickr output
   brickr_out <- instructions %>% 
     bricks_from_table(color_guide =  colors_user,
+                      piece_table = instructions_p,
                       .re_level = TRUE,
                       increment_level = increment_level, max_level = max_level,
                       increment_x = increment_x, max_x = max_x,

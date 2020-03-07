@@ -155,7 +155,7 @@ scaled_to_colors <- function(image_list, method = "brickr_classic",
   
   #Return output....
   in_list[["Img_lego"]] <- img %>% 
-    dplyr::mutate(Level = 1)
+    dplyr::mutate(Level = 1, piece_type = "B")
   
   in_list[["brickr_object"]] <- "mosaic"
   

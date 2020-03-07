@@ -48,11 +48,8 @@ collect_bricks <- function(image_list, use_bricks = NULL){
       offset_y <- brick_sizes2$offset_y[aa]
       
       in_list$Img_lego %>%
-        #Weird bug when resetting the level
-        dplyr::select(Level, x, y, Lego_name, Lego_color) %>%
-        # dplyr::mutate(Level = ifelse(!is.numeric(lll), as.numeric(as.factor(lll)), lll)) %>% 
-        # dplyr::select(-lll) %>% 
-        dplyr::group_by(Level, 
+        dplyr::select(Level, piece_type, x, y, Lego_name, Lego_color) %>%
+        dplyr::group_by(Level, piece_type,
                         xg = (x + offset_x -1 + Level -1) %/% xx, 
                         yg = (y + offset_y -1 + Level -1) %/% yy) %>%
         dplyr::mutate(brick_type = paste0("x", xx, "y", yy, "_offx", offset_x, "_offy", offset_y)) %>% 
@@ -61,7 +58,6 @@ collect_bricks <- function(image_list, use_bricks = NULL){
         dplyr::ungroup() %>% 
         dplyr::select(-xg, -yg) %>% 
         dplyr::filter(!is.na(Lego_name))
-      
     }
     )
   
@@ -79,7 +75,7 @@ collect_bricks <- function(image_list, use_bricks = NULL){
       tidyr::drop_na(brick_name) %>% 
       dplyr::anti_join(bricks_df, by = c("Level", "x", "y")) %>% 
       #Necessary Area
-      dplyr::mutate(area_tar = as.numeric(substr(brick_type, 2,2)) *  as.numeric(substr(brick_type, 4,4))) %>%
+      dplyr::mutate(area_tar = as.numeric(substr(brick_type, 2,2)) * as.numeric(substr(brick_type, 4,4))) %>%
       #Actual Area
       dplyr::group_by(brick_name) %>% 
       dplyr::mutate(area_act = dplyr::n()) %>% 
