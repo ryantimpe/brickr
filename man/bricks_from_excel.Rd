@@ -6,6 +6,7 @@
 \usage{
 bricks_from_excel(
   excel_table,
+  piece_table = NULL,
   repeat_levels = 1,
   increment_level = 0,
   max_level = Inf,
@@ -19,6 +20,8 @@ bricks_from_excel(
 }
 \arguments{
 \item{excel_table}{Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.}
+
+\item{piece_table}{Sheet identical in shape to \code{excel_table} with piece shape IDs.}
 
 \item{repeat_levels}{How many times to repeat a level. Can save time in model planning. Default is 1.}
 

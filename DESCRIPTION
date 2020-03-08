@@ -1,6 +1,6 @@
 Package: brickr
 Title: Tools to emulate the LEGO&reg; System in R
-Version: 0.2.9.9003
+Version: 0.2.9.9103
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",

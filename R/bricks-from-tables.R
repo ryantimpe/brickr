@@ -2,6 +2,7 @@
 #'
 #' @param matrix_table A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
+#' @param piece_matrix A data frame in same shape as \code{matrix_table} with piece shape IDs.
 #' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
@@ -149,6 +150,7 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
 
 #' Convert an Excel {brickr} template into a brickr 3D object
 #' @param excel_table Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.
+#' @param piece_table Sheet identical in shape to \code{excel_table} with piece shape IDs.
 #' @param repeat_levels How many times to repeat a level. Can save time in model planning. Default is 1.
 #' @inheritParams bricks_from_table
 #' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
@@ -230,7 +232,8 @@ bricks_from_excel <- function(excel_table,
 
 #' Convert a data frame with x, y, z & Color columns into a brickr 3D object
 #'
-#' @param coord_table A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{build_colors()}.
+#' @param coord_table A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. 
+#' See \code{build_colors()}. Optional column piece_type for shapes other than rectangular bricks.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
 #' @param increment_x Default '0'. Use in animations. Shift x dimension by an integer.

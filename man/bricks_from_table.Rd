@@ -7,6 +7,7 @@
 bricks_from_table(
   matrix_table,
   color_guide = brickr::lego_colors,
+  piece_matrix = NULL,
   .re_level = TRUE,
   increment_level = 0,
   max_level = Inf,
@@ -19,9 +20,11 @@ bricks_from_table(
 )
 }
 \arguments{
-\item{matrix_table}{A data frame of a 3D brick model desigh. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.}
+\item{matrix_table}{A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.}
 
 \item{color_guide}{A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.}
+
+\item{piece_matrix}{A data frame in same shape as \code{matrix_table} with piece shape IDs.}
 
 \item{.re_level}{Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.}
 

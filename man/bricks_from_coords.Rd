@@ -17,7 +17,8 @@ bricks_from_coords(
 )
 }
 \arguments{
-\item{coord_table}{A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{build_colors()}.}
+\item{coord_table}{A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names.
+See \code{build_colors()}. Optional column piece_type for shapes other than rectangular bricks.}
 
 \item{increment_level}{Default '0'. Use in animations. Shift  Level/z dimension by an integer.}
 

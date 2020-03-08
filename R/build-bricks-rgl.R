@@ -52,7 +52,6 @@ build_bricks <- function(brick_list,
   # For use inside brick drawing functions below
   nudge = 0.01 #Space between bricks
   scale = 1 #Reduce to unit size
-  # trans_alpha = 0.5 #Alpha of transparent bricks
   height_scale = 9.6/7.8
   
   color_outline = "black"
@@ -65,12 +64,14 @@ build_bricks <- function(brick_list,
   
   outline_bricks = outline_bricks
   
-  suppress_knobs = TRUE
+  suppress_knobs = TRUE #this won't draw 'hidden' knobs
+  
+  pieces_knobbed = c("B", "P")
   
   #For now, use the current collect_bricks output. 
   #This was designed for rayshader, and I don't want to drop rayshader just yet.
   
-  #Bricks without knobs ----
+  #Bricks & pieces without knobs ----
   
   rgl_bricks_base <- list(
     # x & y are the CENTERS of bricks. rgl scales shapes from center
@@ -82,12 +83,14 @@ build_bricks <- function(brick_list,
     lum = img_bricks$lum,
     #Grab brick size from brick type id
     width = as.numeric(substr(img_bricks$brick_type, 2, 2)),
-    length = as.numeric(substr(img_bricks$brick_type, 4, 4))
+    length = as.numeric(substr(img_bricks$brick_type, 4, 4)),
+    piece = img_bricks$piece_type
   ) %>% 
     purrr::transpose()
   
   rgl_bricks_base_list <- rgl_bricks_base %>% 
     purrr::map(function(this_brick){
+      if(!(this_brick$piece %in% pieces_knobbed)){return(NULL)}
       
       #Solid brick ----
       brk_fill <- rgl::cube3d(col = this_brick$color,
@@ -124,6 +127,71 @@ build_bricks <- function(brick_list,
       return(out_list)
       
     }) %>% 
+    purrr::discard(is.null) %>% 
+    purrr::transpose()
+  
+  rgl_bricks_wedge_list <- rgl_bricks_base %>% 
+    purrr::map(function(this_brick){
+      if(!(this_brick$piece %in% paste0("w", 1:4))){return(NULL)}
+      
+      #Solid brick ----
+      brk_fill <- rgl::cube3d(col = this_brick$color,
+                              alpha = if(this_brick$trans){trans_alpha}else{1})
+      
+      #Turn it into a wedge
+      w_lhs <- switch(this_brick$piece,
+                      w1 = c(7, 8),
+                      w2 = c(6, 8),
+                      w3 = c(5, 6),
+                      w4 = c(5, 7))
+      
+      w_rhs <- switch(this_brick$piece,
+                      w1 = c(3, 4),
+                      w2 = c(2, 4),
+                      w3 = c(1, 2),
+                      w4 = c(1, 3))
+      
+      w_ratio = 1.2/4
+      
+      brk_fill$vb[, w_lhs] <- brk_fill$vb[, w_rhs] * (1-w_ratio) + brk_fill$vb[, w_lhs] * w_ratio
+      
+      brk_fill$vb[4,] <- brk_fill$vb[4,]/scale*2 + nudge
+      
+      brk_fill2 <- brk_fill %>% 
+        rgl::scale3d(this_brick$width, this_brick$length, height_scale * 2/3) %>% #Increase height
+        rgl::translate3d(this_brick$x, this_brick$y, 
+                         this_brick$z * height_scale - height_scale*(1-2/3)/2) 
+      
+      if(outline_bricks){
+        # Brick Outline ----
+        brk_out <- rgl::cube3d(col = if(this_brick$trans){colorspace::lighten(this_brick$color)}
+                               else{color_outline})
+        
+        #Turn it into a wedge
+        brk_out$vb[, w_lhs] <- brk_out$vb[, w_rhs] * (1-w_ratio) + brk_out$vb[, w_lhs] * w_ratio
+        
+        brk_out$vb[4,] <- brk_out$vb[4,]/scale*2 + nudge
+        
+        brk_out$material$lwd <- 1
+        brk_out$material$front <- 'line'
+        brk_out$material$back <- 'line'
+        
+        brk_out2 <- brk_out %>% 
+          rgl::scale3d(this_brick$width, this_brick$length, height_scale * 2/3) %>% #Increase height
+          rgl::translate3d(this_brick$x, this_brick$y, 
+                          this_brick$z * height_scale - height_scale*(1-2/3)/2)  
+        
+        out_list <- list(brk_fill2, brk_out2)
+      } else {
+        brk_out2 <- NULL
+        out_list <- list(brk_fill2, brk_out2)
+      }
+      
+      #Save ----
+      return(out_list)
+      
+    }) %>% 
+    purrr::discard(is.null) %>% 
     purrr::transpose()
   
   #Bricks knobs ----
@@ -148,12 +216,14 @@ build_bricks <- function(brick_list,
     z = img_lego$Level,
     color = img_lego$Lego_color,
     trans = img_lego$Trans_lego,
-    lum = img_lego$lum
+    lum = img_lego$lum,
+    piece = img_lego$piece_type
   ) %>% 
     purrr::transpose()
   
   rgl_bricks_knobs_list <- rgl_bricks_knobs %>% 
     purrr::map(function(this_brick){
+      if(!(this_brick$piece %in% pieces_knobbed)){return(NULL)}
       
       # Brick knob ----
       brk_knob <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
@@ -244,11 +314,14 @@ build_bricks <- function(brick_list,
       return(out_list)
       
     }) %>% 
+    purrr::discard(is.null) %>% 
     purrr::transpose()
   
   #Draw
   shapelist <- c(rgl_bricks_base_list[[1]]
                  , rgl_bricks_base_list[[2]]
+                 , rgl_bricks_wedge_list[[1]]
+                 , rgl_bricks_wedge_list[[2]]
                  , purrr::flatten(rgl_bricks_knobs_list)
   )
   
