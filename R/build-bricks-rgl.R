@@ -61,6 +61,7 @@ build_bricks <- function(brick_list,
   contrast_lum = 0.2
   
   knob_diameter = 5/8
+  brick_diameter = 96/100
   
   outline_bricks = outline_bricks
   
@@ -194,6 +195,100 @@ build_bricks <- function(brick_list,
     purrr::discard(is.null) %>% 
     purrr::transpose()
   
+  rgl_bricks_cyln_list <- rgl_bricks_base %>% 
+    purrr::map(function(this_brick){
+      if(!(this_brick$piece %in% "c")){return(NULL)}
+    
+      bottom_diameter = 12/16
+      bottom_gap =  height_scale/6
+      
+      cyl_scale = 2
+      
+      #Solid brick ----
+      # Base
+      cyl_base <-  rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/cyl_scale, ncol=2, byrow = TRUE),
+                                   sides = 32,
+                                   radius = brick_diameter,
+                                   closed = -2)
+      
+      cyl_base$material$color <- this_brick$color
+      cyl_base$material$alpha <- if(this_brick$trans){trans_alpha}else{1}
+      
+      cyl_base$vb[4,] <- cyl_base$vb[4,]/scale*2 + nudge
+      
+      cyl_base2 <- cyl_base %>% 
+        rgl::rotate3d(pi/2, 0, 1, 0) %>% 
+        rgl::scale3d(1, 1, height_scale - bottom_gap) %>% 
+        rgl::translate3d(0.25, -0.25, -height_scale + bottom_gap*1.5)  %>% 
+        rgl::translate3d(this_brick$x, this_brick$y, 
+                         this_brick$z * height_scale) 
+      
+      # Knob
+      cyl_knob <-  rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/cyl_scale, ncol=2, byrow = TRUE),
+                                   sides = 32,
+                                   radius = knob_diameter,
+                                   closed = -2)
+      
+      cyl_knob$material$color <- this_brick$color
+      cyl_knob$material$alpha <- if(this_brick$trans){trans_alpha}else{1}
+      
+      cyl_knob$vb[4,] <- cyl_knob$vb[4,]/scale*2 + nudge
+      
+      cyl_knob2 <- cyl_knob %>% 
+        rgl::rotate3d(pi/2, 0, 1, 0) %>% 
+        rgl::scale3d(1, 1, height_scale) %>% 
+        rgl::translate3d(0.25, -0.25, -height_scale + bottom_gap - 0.02 + (1.7/9.6)/2 - 0.02) %>% 
+        rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale) 
+      
+      # Bottom
+      cyl_bttm <-  rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/cyl_scale, ncol=2, byrow = TRUE),
+                                   sides = 32,
+                                   radius = bottom_diameter,
+                                   closed = -2)
+      
+      cyl_bttm$material$color <- this_brick$color
+      cyl_bttm$material$alpha <- if(this_brick$trans){trans_alpha}else{1}
+      
+      cyl_bttm$vb[4,] <- cyl_bttm$vb[4,]/scale*2 + nudge
+      
+      cyl_bttm2 <- cyl_bttm %>% 
+        rgl::rotate3d(pi/2, 0, 1, 0) %>% 
+        rgl::scale3d(1, 1, bottom_gap) %>%
+        rgl::translate3d(0.25, -0.25, -bottom_gap*3.5)  %>% 
+        rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
+      
+      if(FALSE){#outline_bricks){
+        # Brick Outline ----
+        brk_out <- rgl::cube3d(col = if(this_brick$trans){colorspace::lighten(this_brick$color)}
+                               else{color_outline})
+        
+        #Turn it into a wedge
+        brk_out$vb[, w_lhs] <- brk_out$vb[, w_rhs] * (1-w_ratio) + brk_out$vb[, w_lhs] * w_ratio
+        
+        brk_out$vb[4,] <- brk_out$vb[4,]/scale*2 + nudge
+        
+        brk_out$material$lwd <- 1
+        brk_out$material$front <- 'line'
+        brk_out$material$back <- 'line'
+        
+        brk_out2 <- brk_out %>% 
+          rgl::scale3d(this_brick$width, this_brick$length, height_scale * 2/3) %>% #Increase height
+          rgl::translate3d(this_brick$x, this_brick$y, 
+                           this_brick$z * height_scale - height_scale*(1-2/3)/2)  
+        
+        out_list <- list(brk_fill2, brk_out2)
+      } else {
+        brk_out2 <- NULL
+        out_list <- list(cyl_base2, cyl_knob2, cyl_bttm2)
+      }
+      
+      #Save ----
+      return(out_list)
+      
+    }) %>% 
+    purrr::discard(is.null) %>% 
+    purrr::transpose()
+  
   #Bricks knobs ----
   
   if(suppress_knobs){
@@ -318,10 +413,9 @@ build_bricks <- function(brick_list,
     purrr::transpose()
   
   #Draw
-  shapelist <- c(rgl_bricks_base_list[[1]]
-                 , rgl_bricks_base_list[[2]]
-                 , rgl_bricks_wedge_list[[1]]
-                 , rgl_bricks_wedge_list[[2]]
+  shapelist <- c(  purrr::flatten(rgl_bricks_base_list)
+                 , purrr::flatten(rgl_bricks_wedge_list)
+                 , purrr::flatten(rgl_bricks_cyln_list)
                  , purrr::flatten(rgl_bricks_knobs_list)
   )
   
