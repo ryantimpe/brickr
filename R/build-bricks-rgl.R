@@ -197,7 +197,8 @@ build_bricks <- function(brick_list,
   
   rgl_bricks_cyln_list <- rgl_bricks_base %>% 
     purrr::map(function(this_brick){
-      if(!(this_brick$piece %in% "c")){return(NULL)}
+      if(!(this_brick$piece %in% c("c", paste0("c", 1:2)))){return(NULL)}
+      this_piece = tolower(this_brick$piece)
     
       bottom_diameter = 12/16
       bottom_gap =  height_scale/6
@@ -206,9 +207,17 @@ build_bricks <- function(brick_list,
       
       #Solid brick ----
       # Base
+      # Between c/c1 (cylinder) and c2 (cone), only base is different
+      cyl_base_diameter = switch(
+        this_piece,
+        c  = brick_diameter, 
+        c1 = brick_diameter,
+        c2 = c(brick_diameter, (brick_diameter+knob_diameter)/2, knob_diameter)
+      )
+      
       cyl_base <-  rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/cyl_scale, ncol=2, byrow = TRUE),
                                    sides = 32,
-                                   radius = brick_diameter,
+                                   radius = cyl_base_diameter,
                                    closed = -2)
       
       cyl_base$material$color <- this_brick$color
@@ -257,30 +266,70 @@ build_bricks <- function(brick_list,
         rgl::translate3d(0.25, -0.25, -bottom_gap*3.5)  %>% 
         rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
       
-      if(FALSE){#outline_bricks){
-        # Brick Outline ----
-        brk_out <- rgl::cube3d(col = if(this_brick$trans){colorspace::lighten(this_brick$color)}
-                               else{color_outline})
+      #Outlines ----
+      if(outline_bricks){
+        cyl_ot_diameter = switch(
+          this_piece,
+          c  = brick_diameter, 
+          c1 = brick_diameter,
+          c2 = knob_diameter
+        )
         
-        #Turn it into a wedge
-        brk_out$vb[, w_lhs] <- brk_out$vb[, w_rhs] * (1-w_ratio) + brk_out$vb[, w_lhs] * w_ratio
-        
-        brk_out$vb[4,] <- brk_out$vb[4,]/scale*2 + nudge
-        
-        brk_out$material$lwd <- 1
-        brk_out$material$front <- 'line'
-        brk_out$material$back <- 'line'
-        
-        brk_out2 <- brk_out %>% 
-          rgl::scale3d(this_brick$width, this_brick$length, height_scale * 2/3) %>% #Increase height
-          rgl::translate3d(this_brick$x, this_brick$y, 
-                           this_brick$z * height_scale - height_scale*(1-2/3)/2)  
-        
-        out_list <- list(brk_fill2, brk_out2)
-      } else {
-        brk_out2 <- NULL
-        out_list <- list(cyl_base2, cyl_knob2, cyl_bttm2)
-      }
+        # These are 2-dimensional cylinders
+          #Base, top ----
+          cyl_base_ot_prep <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
+                                              sides = 32,
+                                              radius = cyl_ot_diameter*1.015) #Conditional on cone or cylinder
+          cyl_base_ot_prep$vb[4,] <- cyl_base_ot_prep$vb[4,]/scale*2 + nudge
+          
+          cyl_base_ot_prep$material$color <- if(this_brick$trans){colorspace::lighten(this_brick$color)}
+          else{color_outline}
+          
+          cyl_base_ot <- cyl_base_ot_prep %>% 
+            rgl::rotate3d(pi/2, 0, 1, 0) %>%
+            rgl::scale3d(1, 1, 0.01) %>% #Make the height super short
+            rgl::translate3d(0.25, -0.25, height_scale/2 - 0.02) %>% 
+            rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
+          
+          #Base, bottom ---
+          cyl_bttm_ot_prep <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
+                                              sides = 32,
+                                              radius = brick_diameter*1.015) 
+          cyl_bttm_ot_prep$vb[4,] <- cyl_bttm_ot_prep$vb[4,]/scale*2 + nudge
+          
+          cyl_bttm_ot_prep$material$color <- if(this_brick$trans){colorspace::lighten(this_brick$color)}
+          else{color_outline}
+          
+          cyl_bttm_ot <- cyl_bttm_ot_prep %>% 
+            rgl::rotate3d(pi/2, 0, 1, 0) %>%
+            rgl::scale3d(1, 1, 0.01) %>% #Make the height super short
+            rgl::translate3d(0.25, -0.25, height_scale/2) %>% 
+            rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale) %>% 
+            rgl::translate3d(0, 0, -1*(height_scale - bottom_gap))
+          
+          #Knob ----
+          cyl_knob_ot_prep <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
+                                              sides = 32,
+                                              radius = knob_diameter*1.015) 
+          cyl_knob_ot_prep$vb[4,] <- cyl_knob_ot_prep$vb[4,]/scale*2 + nudge
+          
+          cyl_knob_ot_prep$material$color <- if(this_brick$trans){colorspace::lighten(this_brick$color)}
+          else{color_outline}
+          
+          cyl_knob_ot <- cyl_knob_ot_prep %>% 
+            rgl::rotate3d(pi/2, 0, 1, 0) %>%
+            rgl::scale3d(1, 1, 0.01) %>% #Make the height super short
+            rgl::translate3d(0.25, -0.25, height_scale/2) %>%
+            rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale) %>% 
+            rgl::translate3d(0, 0, 0.22)
+        } else {
+          cyl_base_ot  <- NULL
+          cyl_bttm_ot <- NULL
+          cyl_knob_ot <- NULL
+        }
+       
+      out_list <- list(cyl_base2, cyl_bttm2, cyl_knob2, 
+                       cyl_base_ot, cyl_bttm_ot, cyl_knob_ot)
       
       #Save ----
       return(out_list)
@@ -364,7 +413,7 @@ build_bricks <- function(brick_list,
         brk_knob_ot <- brk_knob_ot_prep %>% 
           rgl::rotate3d(pi/2, 0, 1, 0) %>%
           rgl::scale3d(1, 1, 0.01) %>% #Make the height super short
-          rgl::translate3d(0.25, -0.25, 0.62) %>% 
+          rgl::translate3d(0.25, -0.25, height_scale/2) %>% 
           rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
         
         #Top of the knob
@@ -396,7 +445,7 @@ build_bricks <- function(brick_list,
         brk_knob_top2 <- brk_knob_top %>%
           rgl::rotate3d(pi/2, 0, 1, 0) %>%
           rgl::scale3d(1, 1, 0.01) %>%
-          rgl::translate3d(0.25, -0.25, 0.62+0.22+0.01) %>%
+          rgl::translate3d(0.25, -0.25, height_scale/2+0.22+0.01) %>%
           rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
         
         out_list[[4]] <- brk_knob_top2
