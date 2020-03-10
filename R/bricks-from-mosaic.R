@@ -3,7 +3,7 @@
 #' @param mosaic_list List output from collect_bricks() or image_to_bricks(). Contains an element \code{Img_lego}.
 #' @param mosaic_height Number of layers in the 3D image.
 #' @param highest_el Brick height is determined by brightness of color. Use \code{highest_el = 'dark'} for darkest bricks to have \code{mosaic_height}.
-#' @return A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
+#' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 #' @family 3D Models
 #' @export 
 #'

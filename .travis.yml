@@ -13,7 +13,6 @@ addons:
     packages:
       - libgdal-dev
       - libproj-dev
-      - r-cran-rayshader
 
 #env
 env:

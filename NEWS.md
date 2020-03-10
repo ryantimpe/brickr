@@ -8,6 +8,8 @@
 
 * New shapes! Plates, cheese slopes, round 1x1 bricks, conical 1x1 bricks.
 
+* Removed bricks_from_rayshader() and build_bricks_rayshader() to decrease the complexity of package.
+
 ## ggplot Extension
 
 * Removed from brickr. Will be rewritten as its own package.
