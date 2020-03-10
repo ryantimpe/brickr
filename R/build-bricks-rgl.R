@@ -68,6 +68,7 @@ build_bricks <- function(brick_list,
   suppress_knobs = TRUE #this won't draw 'hidden' knobs
   
   pieces_knobbed = c("B", "P")
+  pieces_knobbed = c(pieces_knobbed, tolower(pieces_knobbed))
   
   #For now, use the current collect_bricks output. 
   #This was designed for rayshader, and I don't want to drop rayshader just yet.
@@ -85,13 +86,23 @@ build_bricks <- function(brick_list,
     #Grab brick size from brick type id
     width = as.numeric(substr(img_bricks$brick_type, 2, 2)),
     length = as.numeric(substr(img_bricks$brick_type, 4, 4)),
-    piece = img_bricks$piece_type
+    piece = tolower(img_bricks$piece_type)
   ) %>% 
     purrr::transpose()
   
   rgl_bricks_base_list <- rgl_bricks_base %>% 
     purrr::map(function(this_brick){
       if(!(this_brick$piece %in% pieces_knobbed)){return(NULL)}
+      
+      this_height = switch(this_brick$piece,
+        b = 1,
+        p = 1/3
+      )
+      
+      z_drop = switch(this_brick$piece,
+        b = 0,
+        p = -1/3
+      )
       
       #Solid brick ----
       brk_fill <- rgl::cube3d(col = this_brick$color,
@@ -100,8 +111,8 @@ build_bricks <- function(brick_list,
       brk_fill$vb[4,] <- brk_fill$vb[4,]/scale*2 + nudge
       
       brk_fill2 <- brk_fill %>% 
-        rgl::scale3d(this_brick$width, this_brick$length, height_scale) %>% #Increase height
-        rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale) 
+        rgl::scale3d(this_brick$width, this_brick$length, height_scale*this_height) %>% #Increase height
+        rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale + z_drop*height_scale) 
       
       if(outline_bricks){
         # Brick Outline ----
@@ -115,8 +126,8 @@ build_bricks <- function(brick_list,
         brk_out$material$back <- 'line'
         
         brk_out2 <- brk_out %>% 
-          rgl::scale3d(this_brick$width, this_brick$length, height_scale) %>% #Increase height
-          rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale) 
+          rgl::scale3d(this_brick$width, this_brick$length, height_scale*this_height) %>% #Increase height
+          rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale + z_drop*height_scale) 
         
         out_list <- list(brk_fill2, brk_out2)
       } else {
@@ -361,13 +372,28 @@ build_bricks <- function(brick_list,
     color = img_lego$Lego_color,
     trans = img_lego$Trans_lego,
     lum = img_lego$lum,
-    piece = img_lego$piece_type
+    piece = tolower(img_lego$piece_type)
   ) %>% 
     purrr::transpose()
   
   rgl_bricks_knobs_list <- rgl_bricks_knobs %>% 
     purrr::map(function(this_brick){
       if(!(this_brick$piece %in% pieces_knobbed)){return(NULL)}
+      
+      adj_height = switch(this_brick$piece,
+                           b = 1,
+                           p = 1/3
+      )
+      
+      z_drop = switch(this_brick$piece,
+                      b = 0,
+                      p = 1/3
+      )
+      
+      cap_drop = switch(this_brick$piece,
+                      b = 0,
+                      p = -2/3
+      )
       
       # Brick knob ----
       brk_knob <- rgl::cylinder3d(matrix(c(rep(1, 3), rep(1, 3))/2, ncol=2, byrow = TRUE),
@@ -394,9 +420,9 @@ build_bricks <- function(brick_list,
       
       brk_knob2 <- brk_knob %>% 
         rgl::rotate3d(pi/2, 0, 1, 0) %>% 
-        rgl::scale3d(1, 1, height_scale + 1.7/9.6) %>% 
+        rgl::scale3d(1, 1, (height_scale*adj_height) + 1.7/9.6) %>% 
         rgl::translate3d(0.25, -0.25, -height_scale-0.02) %>% 
-        rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
+        rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale + z_drop*height_scale)
       
       # Brick knob outlines ----
       # These are 2-dimensional cylinders
@@ -414,7 +440,7 @@ build_bricks <- function(brick_list,
           rgl::rotate3d(pi/2, 0, 1, 0) %>%
           rgl::scale3d(1, 1, 0.01) %>% #Make the height super short
           rgl::translate3d(0.25, -0.25, height_scale/2) %>% 
-          rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
+          rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale + cap_drop*height_scale)
         
         #Top of the knob
         brk_knob_ot2 <- brk_knob_ot %>% 
@@ -446,7 +472,7 @@ build_bricks <- function(brick_list,
           rgl::rotate3d(pi/2, 0, 1, 0) %>%
           rgl::scale3d(1, 1, 0.01) %>%
           rgl::translate3d(0.25, -0.25, height_scale/2+0.22+0.01) %>%
-          rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale)
+          rgl::translate3d(this_brick$x, this_brick$y, this_brick$z * height_scale + cap_drop*height_scale)
         
         out_list[[4]] <- brk_knob_top2
       } else{
