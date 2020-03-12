@@ -1,6 +1,6 @@
 #' Consolidate 1x1 bricks into larger ones of the same color. Internal function.
 #'
-#' @param image_list List output from legoize(). Contains an element  \code{Img_lego}.
+#' @param image_list List output from legoize(). Contains an element \code{Img_lego}.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @return A list with element \code{Img_bricks} containing a data frame of the x- & y-coordinates, R, G, B channels, and brick ID. Other helper elements.
 #' @keywords internal 
@@ -42,7 +42,6 @@ collect_bricks <- function(image_list, use_bricks = NULL){
   multidim_bricks <- c("B", "P")
   multidim_bricks <- c(multidim_bricks, tolower(multidim_bricks))
   
-  
   # Does any xx*yy space contain all the same color?
   # Only "brick" shapes will get sizes greater than 1x1
   img_multi <- (1:nrow(brick_sizes2)) %>% 
@@ -54,13 +53,13 @@ collect_bricks <- function(image_list, use_bricks = NULL){
       
       in_list$Img_lego %>%
         dplyr::filter(piece_type %in% multidim_bricks) %>% 
-        dplyr::select(Level, piece_type, x, y, Lego_name, Lego_color) %>%
-        dplyr::group_by(Level, piece_type,
+        dplyr::select(Level, mid_level, piece_type, x, y, Lego_name, Lego_color) %>%
+        dplyr::group_by(Level, mid_level, piece_type,
                         xg = (x + offset_x -1 + Level -1) %/% xx, 
                         yg = (y + offset_y -1 + Level -1) %/% yy) %>%
         dplyr::mutate(brick_type = paste0("x", xx, "y", yy, "_offx", offset_x, "_offy", offset_y)) %>% 
         dplyr::mutate(brick_name = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == (xx*yy),
-                                          paste0("brick_", "x", min(x), "_y", min(y), "_", Level), NA)) %>% 
+                                          paste0("brick_", "x", min(x), "_y", min(y), "_", Level, mid_level, "_", piece_type), NA)) %>% 
         dplyr::ungroup() %>% 
         dplyr::select(-xg, -yg) %>% 
         dplyr::filter(!is.na(Lego_name))
@@ -69,9 +68,9 @@ collect_bricks <- function(image_list, use_bricks = NULL){
   
   img_single <- in_list$Img_lego %>%
     dplyr::filter(!(piece_type %in% multidim_bricks)) %>% 
-    dplyr::select(Level, piece_type, x, y, Lego_name, Lego_color) %>%
+    dplyr::select(Level, mid_level, piece_type, x, y, Lego_name, Lego_color) %>%
     dplyr::mutate(brick_type = paste0("x", 1, "y", 1, "_offx", 0, "_offy", 0)) %>% 
-    dplyr::mutate(brick_name = paste0("brick_", "x", x, "_y", y, "_", Level)) %>% 
+    dplyr::mutate(brick_name = paste0("brick_", "x", x, "_y", y, "_", Level, mid_level, "_", piece_type)) %>% 
     dplyr::filter(!is.na(Lego_name))
   
   #Combine multi- and single- bricks
@@ -106,7 +105,7 @@ collect_bricks <- function(image_list, use_bricks = NULL){
   
   img2 <- bricks_df %>% 
     # min/max coord for geom_rect()
-    dplyr::group_by(Level, piece_type, brick_type, brick_name, 
+    dplyr::group_by(Level, mid_level, piece_type, brick_type, brick_name, 
                     Lego_color, Lego_name) %>% 
     dplyr::summarise(xmin = min(x)-0.5, xmax = max(x)+0.5,
                      ymin = min(y)-0.5, ymax = max(y)+0.5) %>% 
@@ -115,7 +114,7 @@ collect_bricks <- function(image_list, use_bricks = NULL){
   # Pieces ----
   # This is very brute-force. Probably a much cleaner way to do this
   pcs <- img2 %>% 
-    dplyr::select(Level, piece_type, brick_type, brick_name, Lego_name, Lego_color) %>% 
+    dplyr::select(Level, mid_level, piece_type, brick_type, brick_name, Lego_name, Lego_color) %>% 
     dplyr::distinct() %>% 
     dplyr::mutate(size1 = as.numeric(substr(brick_type, 2, 2)), 
                   size2 = as.numeric(substr(brick_type, 4, 4))) %>% 

@@ -2,6 +2,10 @@
 
 ##brickr 0.3.0 - a.k.a. [Pirate ship]()
 
+* An overall leaner package to ensure optimal performance.
+
+* Updated documentation to increase accessibility and usability.
+
 ## 3D Models
 
 * Optional new coordinate system to allow for varying piece shape and 1-height plates & pieces. (Most bricks are 3-height)

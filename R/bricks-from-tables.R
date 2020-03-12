@@ -27,12 +27,31 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   #Reformat input table to consistent format
   bricks_raw <- matrix_table
   names(bricks_raw)[1] <- "Level"
-  names(bricks_raw)[-1] <- paste0("X", seq_along(names(bricks_raw)[-1]))
+  if(names(bricks_raw)[2] %in% c("mid_level")){
+    excl_name = -1:-2
+  } else{
+    excl_name = -1
+  }
+  names(bricks_raw)[excl_name] <- paste0("X", seq_along(names(bricks_raw)[excl_name]))
+
+  #Add mid_level if not in there
+  if(!(names(bricks_raw)[2] %in% c("mid_level"))){
+    bricks_raw <- bricks_raw %>% 
+      dplyr::mutate(mid_level = 0) %>% 
+      dplyr::select(Level, mid_level, dplyr::everything())
+  }
   
   if(!is.null(piece_matrix)){
     pieces_raw <- piece_matrix
     names(pieces_raw)[1] <- "Level"
-    names(pieces_raw)[-1] <- paste0("X", seq_along(names(pieces_raw)[-1]))
+    names(pieces_raw)[excl_name] <- paste0("X", seq_along(names(pieces_raw)[excl_name]))
+    
+    #Add mid_level if not in there
+    if(!(names(pieces_raw)[2] %in% c("mid_level"))){
+      pieces_raw <- pieces_raw %>% 
+        dplyr::mutate(mid_level = 0) %>% 
+        dplyr::select(Level, mid_level, dplyr::everything())
+    }
   }
   
   #Color mapping
@@ -62,6 +81,7 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   }
   
   #Literal levels or names
+  # This does not apply to mid_level, which can only be 0, 1, or 2 for now
   if(.re_level){
     bricks_raw <- bricks_raw %>% 
       dplyr::mutate(Level = as.numeric(as.factor(as.character(Level))))
@@ -82,11 +102,11 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   
   brick_set <- bricks_raw %>% 
     dplyr::mutate_all(list(~ifelse(is.na(.), 0, .))) %>% 
-    dplyr::group_by(Level) %>% 
+    dplyr::group_by(Level, mid_level) %>% 
     dplyr::mutate(y = dplyr::n() - dplyr::row_number() + 1) %>% 
     dplyr::ungroup() %>% 
-    dplyr::select(Level, y, dplyr::everything()) %>% 
-    tidyr::gather(x, .value, 3:ncol(.)) %>% 
+    dplyr::select(Level, mid_level, y, dplyr::everything()) %>% 
+    tidyr::gather(x, .value, dplyr::starts_with("X")) %>% 
     dplyr::mutate(x = as.numeric(substr(x, 2, 20))) %>% 
     dplyr::arrange(Level, x, dplyr::desc(y)) %>% 
     tidyr::drop_na(.value) %>% 
@@ -106,7 +126,7 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
                   x >= 1, x <= max_x,
                   y >= 1, y <= max_y) %>% 
     #In the end, drop empty levels
-    dplyr::group_by(Level) %>% 
+    dplyr::group_by(Level, mid_level) %>% 
     dplyr::filter(!all(is.na(Lego_color))) %>% 
     dplyr::ungroup() %>% 
     tidyr::drop_na(Lego_color)
@@ -114,15 +134,15 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   #Piece tables
   if(is.null(piece_matrix)){
     brick_set <- brick_set %>% 
-      dplyr::mutate(piece_type = "B")
+      dplyr::mutate(piece_type = "b")
   } else {
     pieces_set <- pieces_raw %>% 
       dplyr::mutate_all(list(~ifelse(is.na(.), 0, .))) %>% 
-      dplyr::group_by(Level) %>% 
+      dplyr::group_by(Level, mid_level) %>% 
       dplyr::mutate(y = dplyr::n() - dplyr::row_number() + 1) %>% 
       dplyr::ungroup() %>% 
-      dplyr::select(Level, y, dplyr::everything()) %>% 
-      tidyr::gather(x, piece_type, 3:ncol(.)) %>% 
+      dplyr::select(Level, mid_level, y, dplyr::everything()) %>% 
+      tidyr::gather(x, piece_type, dplyr::starts_with("X")) %>% 
       dplyr::mutate(x = as.numeric(substr(x, 2, 20))) %>% 
       dplyr::arrange(Level, x, dplyr::desc(y)) %>% 
       tidyr::drop_na(piece_type) %>% 
@@ -137,7 +157,7 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
                     y >= 1, y <= max_y)
     
     brick_set <- brick_set %>% 
-      dplyr::left_join(pieces_set, by = c("Level", "y", "x"))
+      dplyr::left_join(pieces_set, by = c("Level", "mid_level", "y", "x"))
     
   }
   
@@ -171,10 +191,10 @@ bricks_from_excel <- function(excel_table,
   instructions <- excel_table %>% 
     dplyr::select(1:columns_meta_start) %>% 
     dplyr::rename(Level = 1) %>% 
-    dplyr::filter(Level != "Level")
+    dplyr::filter(!(Level %in% c("Level", "mid-level")))
   
   #Repeat levels. 
-  #TODO: DO this for x and y too
+  # Super niche case for lazy people, like me
   if(is.numeric(repeat_levels)){
     rep_levels <- max(round(repeat_levels), 1)
     
@@ -187,6 +207,13 @@ bricks_from_excel <- function(excel_table,
     }
   }
   
+  #Is 'mid_level' in instructions?
+  if(!("mid_level" %in% names(instructions))){
+    instructions <- instructions %>% 
+      dplyr::mutate(mid_level = 0) %>% 
+      dplyr::select(Level, mid_level, dplyr::everything())
+  }
+  
   if(!is.null(piece_table)){
     #Set Instructions
     instructions_p <- piece_table %>%
@@ -197,7 +224,6 @@ bricks_from_excel <- function(excel_table,
                        list(~ifelse(grepl("^[A-Za-z]", .)|is.na(.), ., "B")))
     
     #Repeat levels. 
-    #TODO: DO this for x and y too
     if(is.numeric(repeat_levels)){
       rep_levels <- max(round(repeat_levels), 1)
       
@@ -208,6 +234,13 @@ bricks_from_excel <- function(excel_table,
             ~dplyr::mutate(instructions_p, Level = paste0(Level, .x))
           )
       }
+    }
+    
+    #Is 'mid_level' in instructions_p?
+    if(!("mid_level" %in% names(instructions_p))){
+      instructions_p <- instructions_p %>% 
+        dplyr::mutate(mid_level = 0) %>% 
+        dplyr::select(Level, mid_level, dplyr::everything())
     }
   } else{
     instructions_p = NULL
@@ -232,8 +265,9 @@ bricks_from_excel <- function(excel_table,
 
 #' Convert a data frame with x, y, z & Color columns into a brickr 3D object
 #'
-#' @param coord_table A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. 
-#' See \code{build_colors()}. Optional column piece_type for shapes other than rectangular bricks.
+#' @param coord_table A data frame of a 3D brick model design. Contains 'x', 'y', and 'z' (vertical height) dimensions, as well as 'Color' from official LEGO color names. 
+#' See \code{build_colors()}. Optional column 'piece_type' for shapes other than rectangular bricks.
+#' Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height placement of bricks.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
 #' @param increment_x Default '0'. Use in animations. Shift x dimension by an integer.
@@ -311,7 +345,16 @@ bricks_from_coords <- function(coord_table,
   
   if(!("piece_type" %in% names(brick_set))){
     brick_set <- brick_set %>% 
-      dplyr::mutate(piece_type = "B")
+      dplyr::mutate(piece_type = "b")
+  }
+  
+  if(!("mid_level" %in% names(brick_set))){
+    brick_set <- brick_set %>% 
+      dplyr::mutate(mid_level = 0)
+  }
+  
+  if(!any(unique(mid_level) %in% 0:2)){
+    stop("Column 'mid_level' must be equal to 0, 1, or 2. 0 is the default base level, 1 is the middle of the level, and 2 is the top of the level. Exclude column unless necessary.")
   }
   
   #Return an object from collect_bricks()

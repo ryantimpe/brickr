@@ -14,7 +14,7 @@ bricks_from_mosaic(mosaic_list, mosaic_height = 6, highest_el = "light")
 \item{highest_el}{Brick height is determined by brightness of color. Use \code{highest_el = 'dark'} for darkest bricks to have \code{mosaic_height}.}
 }
 \value{
-A list with elements \code{threed_elevation} and \code{threed_hillshade} to created 3D mosiacs with the \code{rayshader} package.
+A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
 }
 \description{
 Convert a 2D LEGO mosaic into a brickr 3D object
@@ -23,9 +23,7 @@ Convert a 2D LEGO mosaic into a brickr 3D object
 Other 3D Models: 
 \code{\link{bricks_from_coords}()},
 \code{\link{bricks_from_excel}()},
-\code{\link{bricks_from_rayshader}()},
 \code{\link{bricks_from_table}()},
-\code{\link{build_bricks_rayshader}()},
 \code{\link{build_bricks}()}
 }
 \concept{3D Models}

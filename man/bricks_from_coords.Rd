@@ -17,8 +17,9 @@ bricks_from_coords(
 )
 }
 \arguments{
-\item{coord_table}{A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names.
-See \code{build_colors()}. Optional column piece_type for shapes other than rectangular bricks.}
+\item{coord_table}{A data frame of a 3D brick model design. Contains 'x', 'y', and 'z' (vertical height) dimensions, as well as 'Color' from official LEGO color names.
+See \code{build_colors()}. Optional column 'piece_type' for shapes other than rectangular bricks.
+Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height placement of bricks.}
 
 \item{increment_level}{Default '0'. Use in animations. Shift  Level/z dimension by an integer.}
 
@@ -46,9 +47,7 @@ Convert a data frame with x, y, z & Color columns into a brickr 3D object
 Other 3D Models: 
 \code{\link{bricks_from_excel}()},
 \code{\link{bricks_from_mosaic}()},
-\code{\link{bricks_from_rayshader}()},
 \code{\link{bricks_from_table}()},
-\code{\link{build_bricks_rayshader}()},
 \code{\link{build_bricks}()}
 }
 \concept{3D Models}
