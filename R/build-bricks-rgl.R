@@ -79,13 +79,13 @@ build_bricks <- function(brick_list,
     # x & y are the CENTERS of bricks. rgl scales shapes from center
     x = img_bricks$xmin + 0.5 + (img_bricks$xmax - img_bricks$xmin)/2 ,
     y = img_bricks$ymin + 0.5 + (img_bricks$ymax - img_bricks$ymin)/2 ,
-    z = img_bricks$Level,
+    z = img_bricks$Level + (img_bricks$mid_level/3),
     color = img_bricks$Lego_color,
     trans = img_bricks$Trans_lego,
     lum = img_bricks$lum,
     #Grab brick size from brick type id
-    width = as.numeric(substr(img_bricks$brick_type, 2, 2)),
-    length = as.numeric(substr(img_bricks$brick_type, 4, 4)),
+    width = as.numeric(img_bricks$brick_width),
+    length = as.numeric(img_bricks$brick_height),
     piece = tolower(img_bricks$piece_type)
   ) %>% 
     purrr::transpose()
@@ -353,14 +353,17 @@ build_bricks <- function(brick_list,
   
   if(suppress_knobs){
     img_lego <- img_lego %>% 
+      dplyr::mutate(temp_level = Level*3 + mid_level) %>% 
       dplyr::group_by(x, y) %>% 
       dplyr::filter(
-        #Keep knobs when next level is not right above it
-        (dplyr::lead(Level, order_by = Level) != Level + 1) |
+        #Bricks: Keep knobs when next level is not right above it, 3 1-height units
+        ((dplyr::lead(temp_level, order_by = temp_level) != temp_level + 3) & piece_type == "b") |
+          #Plates: Keep knobs when next level is not right above it, 1 1-height unit
+          ((dplyr::lead(temp_level, order_by = temp_level) > temp_level + 2) & piece_type %in% c("p", "s")) |
           #Or next level is na
-          is.na(dplyr::lead(Level, order_by = Level)) |
+          is.na(dplyr::lead(temp_level, order_by = temp_level)) |
           # Or this or next level is transparent
-          dplyr::lead(Trans_lego, order_by = Level) | Trans_lego
+          dplyr::lead(Trans_lego, order_by = temp_level) | Trans_lego
       ) %>% 
       dplyr::ungroup()
   }
@@ -368,7 +371,7 @@ build_bricks <- function(brick_list,
   rgl_bricks_knobs <- list(
     x = img_lego$x,
     y = img_lego$y,
-    z = img_lego$Level,
+    z = img_lego$Level + (img_lego$mid_level/3),
     color = img_lego$Lego_color,
     trans = img_lego$Trans_lego,
     lum = img_lego$lum,

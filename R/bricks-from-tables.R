@@ -3,6 +3,7 @@
 #' @param matrix_table A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
 #' @param piece_matrix A data frame in same shape as \code{matrix_table} with piece shape IDs.
+#'  @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
@@ -18,6 +19,7 @@
 #'
 bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, 
                               piece_matrix = NULL,
+                              use_bricks = NULL,
                               .re_level = TRUE,
                               increment_level = 0, max_level = Inf,
                               increment_x = 0, max_x = Inf,
@@ -164,13 +166,14 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   #Return an object from collect_bricks()
   return(
     list(Img_lego =  brick_set,
-         brickr_object = "3dmodel") %>% collect_bricks
+         brickr_object = "3dmodel") %>% collect_bricks(use_bricks = use_bricks)
   )
 }
 
 #' Convert an Excel {brickr} template into a brickr 3D object
 #' @param excel_table Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.
 #' @param piece_table Sheet identical in shape to \code{excel_table} with piece shape IDs.
+#'  @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param repeat_levels How many times to repeat a level. Can save time in model planning. Default is 1.
 #' @inheritParams bricks_from_table
 #' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
@@ -179,6 +182,7 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
 #'
 bricks_from_excel <- function(excel_table, 
                               piece_table = NULL,
+                              use_bricks = NULL,
                               repeat_levels = 1,
                               increment_level = 0, max_level = Inf,
                               increment_x = 0, max_x = Inf,
@@ -255,6 +259,7 @@ bricks_from_excel <- function(excel_table,
   brickr_out <- instructions %>% 
     bricks_from_table(color_guide =  colors_user,
                       piece_matrix = instructions_p,
+                      use_bricks = use_bricks,
                       .re_level = TRUE,
                       increment_level = increment_level, max_level = max_level,
                       increment_x = increment_x, max_x = max_x,
@@ -268,6 +273,7 @@ bricks_from_excel <- function(excel_table,
 #' @param coord_table A data frame of a 3D brick model design. Contains 'x', 'y', and 'z' (vertical height) dimensions, as well as 'Color' from official LEGO color names. 
 #' See \code{build_colors()}. Optional column 'piece_type' for shapes other than rectangular bricks.
 #' Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height placement of bricks.
+#' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param max_level Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.
 #' @param increment_x Default '0'. Use in animations. Shift x dimension by an integer.
@@ -281,6 +287,7 @@ bricks_from_excel <- function(excel_table,
 #' @export 
 #'
 bricks_from_coords <- function(coord_table, 
+                               use_bricks = NULL,
                                increment_level = 0, max_level = Inf,
                                increment_x = 0, max_x = Inf,
                                increment_y = 0, max_y = Inf,
@@ -297,10 +304,19 @@ bricks_from_coords <- function(coord_table,
     stop("Input 'coord_table' must include the columns x, y, z, and Color. z should be >1. Color uses offical brick color names. See build_colors().")
   }
   
+  #Set mid_level = 0 if not in data
+  if(!("mid_level" %in% names(bricks_raw))){
+    bricks_raw <- bricks_raw %>% 
+      dplyr::mutate(mid_level = 0)
+  }
+  if(!any(unique(brick_set$mid_level) %in% 0:2)){
+    stop("Column 'mid_level' must be equal to 0, 1, or 2. 0 is the default base level, 1 is the middle of the level, and 2 is the top of the level. Exclude column unless necessary.")
+  }
+  
   #x, y, z, must be whole numbers and unique
   bricks_raw <- bricks_raw %>% 
     dplyr::mutate_at(dplyr::vars("x", "y", "z"), round) %>% 
-    dplyr::group_by(x, y, z) %>% 
+    dplyr::group_by(x, y, z, mid_level) %>% 
     dplyr::filter(dplyr::row_number() == 1) %>% 
     dplyr::ungroup()
   
@@ -348,18 +364,9 @@ bricks_from_coords <- function(coord_table,
       dplyr::mutate(piece_type = "b")
   }
   
-  if(!("mid_level" %in% names(brick_set))){
-    brick_set <- brick_set %>% 
-      dplyr::mutate(mid_level = 0)
-  }
-  
-  if(!any(unique(mid_level) %in% 0:2)){
-    stop("Column 'mid_level' must be equal to 0, 1, or 2. 0 is the default base level, 1 is the middle of the level, and 2 is the top of the level. Exclude column unless necessary.")
-  }
-  
   #Return an object from collect_bricks()
   return(
-    list(Img_lego =  brick_set,
-         brickr_object = "3dmodel") %>% collect_bricks
+   list(Img_lego =  brick_set,
+         brickr_object = "3dmodel") %>% collect_bricks(use_bricks = use_bricks)
   )
 }
