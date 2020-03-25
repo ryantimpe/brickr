@@ -2,7 +2,7 @@
 
 ##brickr 0.3.0 - a.k.a. [Pirate ship]()
 
-* An overall leaner package to ensure optimal performance.
+* An overall leaner package to ensure optimal performance and remove experimental features.
 
 * Updated documentation to increase accessibility and usability.
 
@@ -26,7 +26,7 @@
 
 ----
 
-# brickr 0.2.0 - a.k.a. [Castle]()
+# brickr 0.2.0 - a.k.a. [Castle](https://twitter.com/ryantimpe/status/1191354410124709892)
 
 * Lots of bug fixes. More to come.
 

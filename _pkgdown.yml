@@ -11,14 +11,6 @@ reference:
     contents:
     - starts_with("bricks_")
     - build_bricks
-    - build_bricks_rayshader
-  - title: ggplot Extension 
-    desc: Brick bar charts in ggplot
-    contents:
-    - starts_with("coord_")
-    - starts_with("geom_")
-    - starts_with("scale_")
-    - starts_with("theme_")
   - title: Bricks IRL
     desc: Helper functions to create bricks and build them IRL.
     contents:

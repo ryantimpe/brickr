@@ -16,15 +16,12 @@ status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travi
 **brickr** is a package for bringing the LEGO® experience into the R and
 [tidyverse](https://www.tidyverse.org/) ecosystem.
 
-The package is divided into 3 separate systems:
+The package is divided into 2 systems:
 
   - [**Mosaics**](#mosaics): Convert image files into mosaics that could
     be built using LEGO® bricks.
   - [**3D Models**](#3d-models): Build 3D LEGO® models from data tables
     using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
-  - [**Charts**](#charts): COMING SOON: A
-    [ggplot2](https://ggplot2.tidyverse.org/) extension to generate
-    plots that resemble LEGO® bricks.
 
 brickr also includes tools help users create the Mosaics and 3D model
 output using real LEGO® elements.
@@ -40,7 +37,7 @@ LEGO® system with R by:
     instructions, and piece counts.
   - Generating interest in R and coding for new audiences with
     easy-to-create 3D models.
-  - or just embracing pure novelty.
+  - Embracing pure novelty.
 
 *brickr is developed under the [Fair
 Play](https://www.lego.com/en-us/legal/notices-and-policies/fair-play/)
@@ -51,11 +48,8 @@ is not affiliated with The LEGO Group.*
 
 ``` r
 # To install the latest version from Github:
-# install.packages("devtools")
-devtools::install_github("ryantimpe/brickr")
-
-#For 3D features, rayshader is also required.
-install.packages("rayshader")
+# install.packages("remotes")
+remotes::install_github("ryantimpe/brickr")
 ```
 
 ## Mosaics
@@ -121,21 +115,14 @@ from a variety of input formats.
     & z is a point in 3-dimensional space. Color must be an official
     LEGO color name from `build_colors()`. This format is much more
     flexible than `bricks_from_table()` and allows the programmatic
-    development of 3D models.
+    development of 3D models. For other options, see the “Piece type in
+    3D Models” vignette.
 
   - `bricks_from_mosaic()` converts a 2D [mosaic](#mosaics) object from
     an image into 3D LEGO models, respectively.
-    `bricks_from_rayshader()` creates a LEGO model from the same input
-    as `rayshader::plot_3d()`.
 
 Pass the output from any `bricks_from_*()` function to `build_bricks()`
-to see the 3D model. Models are currently rendered in **rgl**. Previous
-versions of brickr use [Tyler
-Morgan-Wall](https://twitter.com/tylermorganwall)’s
-[rayshader](https://www.rayshader.com/) package. This option is still
-available by passing the output from any `bricks_from_*()` function to
-`build_bricks_rayshader()`. Rayshader can still be used for saving
-snapshots and creating animations.
+to see the 3D model. Models are rendered in **rgl**.
 
 ``` r
 library(brickr)
@@ -251,15 +238,9 @@ more cartoon fashion.
 More examples using `bricks_from_table()` and `bricks_from_coords()` can
 be found at the links below.
 
-  - [**Get
-    started**](https://gist.github.com/ryantimpe/a784beaa4f798f57010369329d46ce71)
-    with the framework for building a brick from scratch.
-  - [**Build an
-    owl**](https://gist.github.com/ryantimpe/ceab2ed6b8a4737077280fc9b0d1c886)
-    with `bricks_from_table()` by manually placing each brick.
-  - Generate a punny [**random forest
-    model**](https://gist.github.com/ryantimpe/a7363a5e99dceabada150a43925beec7)
-    using `bricks_from_coords()` and {purrr}.
+  - [**Baby
+    Yoda**](https://gist.github.com/ryantimpe/3893fdd0f94138d027bae35bf38b57c7)
+    example using `bricks_from_excel()` with an animation.
   - [**brickr toybox**](https://github.com/ryantimpe/brickr_toybox) repo
     for tools and resources to get started.
 
@@ -294,3 +275,15 @@ mosaic1 %>% build_pieces()
 ```
 
 ![](README_files/figure-gfm/m1_pieces-1.png)<!-- -->
+
+## Acknowledgements
+
+3D models in brickr would not exist without [Tyler
+Morgan-Wall](https://twitter.com/tylermorganwall) and his
+[rayshader](https://www.rayshader.com/) package. If you’re interested in
+creating any time of 3D models in R, check out his
+[rayrender](https://www.rayrender.net/) package.
+
+All functions in brickr are created with the
+[tidyverse](https://www.tidyverse.org/) and
+[rgl](https://cran.r-project.org/web/packages/rgl/index.html).

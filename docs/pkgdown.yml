@@ -5,7 +5,7 @@ articles:
   models-from-other: models-from-other.html
   models-from-program: models-from-program.html
   models-from-tables: models-from-tables.html
-  models-pieces-type: models-pieces-type.html
+  models-piece-type: models-piece-type.html
   mosaics: mosaics.html
 urls:
   reference: http://brickr.org/reference
