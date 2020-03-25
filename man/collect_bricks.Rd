@@ -4,12 +4,14 @@
 \alias{collect_bricks}
 \title{Consolidate 1x1 bricks into larger ones of the same color. Internal function.}
 \usage{
-collect_bricks(image_list, use_bricks = NULL)
+collect_bricks(image_list, use_bricks = NULL, default_piece_type = "b")
 }
 \arguments{
-\item{image_list}{List output from legoize(). Contains an element  \code{Img_lego}.}
+\item{image_list}{List output from legoize(). Contains an element \code{Img_lego}.}
 
 \item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.}
+
+\item{default_piece_type}{Piece type to use in absense of piece_type column.}
 }
 \value{
 A list with element \code{Img_bricks} containing a data frame of the x- & y-coordinates, R, G, B channels, and brick ID. Other helper elements.

@@ -6,8 +6,11 @@
 \usage{
 bricks_from_excel(
   excel_table,
+  piece_table = NULL,
+  use_bricks = NULL,
   repeat_levels = 1,
   increment_level = 0,
+  min_level = 1,
   max_level = Inf,
   increment_x = 0,
   max_x = Inf,
@@ -20,9 +23,15 @@ bricks_from_excel(
 \arguments{
 \item{excel_table}{Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.}
 
+\item{piece_table}{Sheet identical in shape to \code{excel_table} with piece shape IDs.}
+
+\item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.}
+
 \item{repeat_levels}{How many times to repeat a level. Can save time in model planning. Default is 1.}
 
 \item{increment_level}{Default '0'. Use in animations. Shift  Level/z dimension by an integer.}
+
+\item{min_level}{Default '1'. Use in animations. Any Level/z values below this value will be cut off.}
 
 \item{max_level}{Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.}
 
@@ -48,9 +57,7 @@ Convert an Excel {brickr} template into a brickr 3D object
 Other 3D Models: 
 \code{\link{bricks_from_coords}()},
 \code{\link{bricks_from_mosaic}()},
-\code{\link{bricks_from_rayshader}()},
 \code{\link{bricks_from_table}()},
-\code{\link{build_bricks_rayshader}()},
 \code{\link{build_bricks}()}
 }
 \concept{3D Models}

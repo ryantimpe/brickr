@@ -1,5 +1,5 @@
 ---
-title: "3D Models from mosaics & rayshader"
+title: "3D Models from mosaics"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{models-from-other}
@@ -51,50 +51,3 @@ custom_rotation <- structure(c(0.9, 0.3, -0.3, 0, -0.3, 0.9, -0.3,
 
 rgl::par3d(userMatrix = rgl::rotate3d(custom_rotation, 0, 0, pi/4 ,1))
 ```
-
-## Models from rayshader
-
-[rayshader](https://www.rayshader.com/) by [Tyler Morgan-Wall](https://twitter.com/tylermorganwall) is an open source package for producing 2D and 3D data visualizations in R. rayshader uses elevation data in a base R matrix and a combination of raytracing, spherical texture mapping, overlays, and ambient occlusion to generate beautiful topographic 2D and 3D maps. (Note: text lifted straight from [rayshader.com](https://www.rayshader.com/).)
-
-3D models in **brickr** are rendered using the functions in **rayshader**. Using `bricks_from_rayshader()`, you can convert rayshader map output into a brickr model. This function takes three inputs:
-
-* `hillshade` is topographic image matrix with an RGB channel (much like the mosaics).
-* `heightmap` is a two-dimensional matrix specifiying the height of the image at each location.
-* `max_height` is the number of bricks stacked at the mosaic's highest point. The default is 12.
-* `img_size` is the number of bricks on each side of the model. The default is 48.
-
-```{r bricks_rayshader, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
-library(rayshader)
-
-#Example from rayshader.com
-
-#Here, I load a map with the raster package.
-loadzip = tempfile() 
-download.file("https://tylermw.com/data/dem_01.tif.zip", loadzip)
-localtif = raster::raster(unzip(loadzip, "dem_01.tif"))
-unlink(loadzip)
-
-#And convert it to a matrix:
-elmat = matrix(raster::extract(localtif, raster::extent(localtif), buffer = 1000),
-               nrow = ncol(localtif), ncol = nrow(localtif))
-
-rayshader_object <- elmat %>%
-  sphere_shade(texture = "desert") %>%
-  add_water(detect_water(elmat), color = "desert") %>%
-  add_shadow(ray_shade(elmat, zscale = 3, maxsearch = 300), 0.5) 
-
-#Plot with rayshader
-rayshader_object %>%
-  plot_3d(elmat, zscale = 10, fov = 0, theta = 135, zoom = 0.75, phi = 45, windowsize = c(1000, 800))
-
-rayshader::render_snapshot(clear = TRUE)
-
-#Plot as bricks
-rayshader_object %>% 
-  bricks_from_rayshader(elmat) %>% 
-  build_bricks_rayshader(theta = 135, phi = 45)
-
-rayshader::render_snapshot(clear = TRUE)
-```
-
-This example is rendered using `build_bricks_rayshader()`, which a bit faster for very large sets.

@@ -1,4 +1,24 @@
-# Current dev version
+# Current version
+
+##brickr 0.3.0 - a.k.a. [Pirate ship]()
+
+* An overall leaner package to ensure optimal performance and remove experimental features.
+
+* Updated documentation to increase accessibility and usability.
+
+## 3D Models
+
+* Optional new coordinate system to allow for varying piece shape and 1-height plates & pieces. (Most bricks are 3-height)
+
+* New shapes! Plates, cheese slopes, round 1x1 bricks, conical 1x1 bricks.
+
+* Removed bricks_from_rayshader() and build_bricks_rayshader() to decrease the complexity of package.
+
+## ggplot Extension
+
+* Removed from brickr. Will be rewritten as its own package.
+
+----
 
 ##brickr 0.2.0.9003
 
@@ -6,7 +26,7 @@
 
 ----
 
-# brickr 0.2.0 - a.k.a. [Castle]()
+# brickr 0.2.0 - a.k.a. [Castle](https://twitter.com/ryantimpe/status/1191354410124709892)
 
 * Lots of bug fixes. More to come.
 

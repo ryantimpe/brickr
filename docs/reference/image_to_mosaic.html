@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9300</span>
       </span>
     </div>
 
@@ -102,16 +102,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-piece-type.html">Piece type in 3D Models</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -151,10 +151,18 @@
     <p>Create a 2D LEGO mosaic from an image array</p>
     </div>
 
-    <pre class="usage"><span class='fu'>image_to_mosaic</span>(<span class='no'>img</span>, <span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>48</span>, <span class='kw'>color_table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cie94"</span>, <span class='kw'>color_palette</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"universal"</span>, <span class='st'>"generic"</span>,
-  <span class='st'>"special"</span>), <span class='kw'>dithering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>use_bricks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>brightness</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>warhol</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</pre>
+    <pre class="usage"><span class='fu'>image_to_mosaic</span>(
+  <span class='no'>img</span>,
+  <span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>48</span>,
+  <span class='kw'>color_table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"brickr_classic"</span>,
+  <span class='kw'>color_palette</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"universal"</span>, <span class='st'>"generic"</span>, <span class='st'>"special"</span>),
+  <span class='kw'>dithering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>use_bricks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>brightness</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>warhol</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,7 +185,7 @@ See attached data  <code>lego_colors</code> as examples.</p></td>
       <th>method</th>
       <td><p>The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
 'brickr_classic' is an explicit euclidean distance formula, but yield different results than 'euclidean' in farver.
-See <code><a href='https://rdrr.io/pkg/farver/man/compare_colour.html'>farver::compare_colour</a></code>.</p></td>
+See <code><a href='https://farver.data-imaginist.com/reference/compare_colour.html'>farver::compare_colour</a></code>.</p></td>
     </tr>
     <tr>
       <th>color_palette</th>
@@ -211,7 +219,8 @@ Use "bw" for only grayscale bricks. Ignored if a <code>color_table</code> is sup
     <p>A list with element <code>Img_lego</code> containing a data frame of the x- &amp; y-coordinates, R, G, B channels, and mapped color of each brick (pixel).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Mosaics: <code><a href='build_mosaic.html'>build_mosaic</a></code></p></div>
+    <div class='dont-index'><p>Other Mosaics: 
+<code><a href='build_mosaic.html'>build_mosaic</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

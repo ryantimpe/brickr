@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9300</span>
       </span>
     </div>
 
@@ -102,16 +102,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-piece-type.html">Piece type in 3D Models</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -151,20 +151,40 @@
     <p>Convert a data frame with x, y, z &amp; Color columns into a brickr 3D object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bricks_from_coords</span>(<span class='no'>coord_table</span>, <span class='kw'>increment_level</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_level</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>increment_x</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_x</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>increment_y</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_y</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>exclude_color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclude_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>bricks_from_coords</span>(
+  <span class='no'>coord_table</span>,
+  <span class='kw'>use_bricks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>increment_level</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>min_level</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>max_level</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>increment_x</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>max_x</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>increment_y</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>max_y</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>exclude_color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>exclude_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>coord_table</th>
-      <td><p>A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See <code><a href='build_colors.html'>build_colors()</a></code>.</p></td>
+      <td><p>A data frame of a 3D brick model design. Contains 'x', 'y', and 'z' (vertical height) dimensions, as well as 'Color' from official LEGO color names.
+See <code><a href='build_colors.html'>build_colors()</a></code>. Optional column 'piece_type' for shapes other than rectangular bricks.
+Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height placement of bricks.</p></td>
+    </tr>
+    <tr>
+      <th>use_bricks</th>
+      <td><p>Array of brick sizes to use in mosaic. Defaults to <code><a href='https://rdrr.io/r/base/c.html'>c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')</a></code>`.</p></td>
     </tr>
     <tr>
       <th>increment_level</th>
       <td><p>Default '0'. Use in animations. Shift  Level/z dimension by an integer.</p></td>
+    </tr>
+    <tr>
+      <th>min_level</th>
+      <td><p>Default '1'. Use in animations. Any Level/z values below this value will be cut off.</p></td>
     </tr>
     <tr>
       <th>max_level</th>
@@ -201,12 +221,11 @@
     <p>A list with elements <code>Img_lego</code> to pass to <code><a href='collect_bricks.html'>collect_bricks()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other 3D Models: <code><a href='bricks_from_excel.html'>bricks_from_excel</a></code>,
-  <code><a href='bricks_from_mosaic.html'>bricks_from_mosaic</a></code>,
-  <code><a href='bricks_from_rayshader.html'>bricks_from_rayshader</a></code>,
-  <code><a href='bricks_from_table.html'>bricks_from_table</a></code>,
-  <code><a href='build_bricks_rayshader.html'>build_bricks_rayshader</a></code>,
-  <code><a href='build_bricks.html'>build_bricks</a></code></p></div>
+    <div class='dont-index'><p>Other 3D Models: 
+<code><a href='bricks_from_excel.html'>bricks_from_excel</a>()</code>,
+<code><a href='bricks_from_mosaic.html'>bricks_from_mosaic</a>()</code>,
+<code><a href='bricks_from_table.html'>bricks_from_table</a>()</code>,
+<code><a href='build_bricks.html'>build_bricks</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

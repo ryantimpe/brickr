@@ -19,6 +19,8 @@ Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
 \item{dithering}{Improves color of large, photo-realistic mosaics.}
 
 \item{contrast}{For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.}
+
+\item{default_piece_type}{Piece type to use in absense of piece_type column.}
 }
 \value{
 A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).

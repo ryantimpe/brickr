@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9300</span>
       </span>
     </div>
 
@@ -102,16 +102,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-piece-type.html">Piece type in 3D Models</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -151,8 +151,7 @@
     <p>Convert a 2D LEGO mosaic into a brickr 3D object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bricks_from_mosaic</span>(<span class='no'>mosaic_list</span>, <span class='kw'>mosaic_height</span> <span class='kw'>=</span> <span class='fl'>6</span>,
-  <span class='kw'>highest_el</span> <span class='kw'>=</span> <span class='st'>"light"</span>)</pre>
+    <pre class="usage"><span class='fu'>bricks_from_mosaic</span>(<span class='no'>mosaic_list</span>, <span class='kw'>mosaic_height</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>highest_el</span> <span class='kw'>=</span> <span class='st'>"light"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,15 +172,14 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with elements <code>threed_elevation</code> and <code>threed_hillshade</code> to created 3D mosiacs with the <code>rayshader</code> package.</p>
+    <p>A list with elements <code>Img_lego</code> to pass to <code><a href='collect_bricks.html'>collect_bricks()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other 3D Models: <code><a href='bricks_from_coords.html'>bricks_from_coords</a></code>,
-  <code><a href='bricks_from_excel.html'>bricks_from_excel</a></code>,
-  <code><a href='bricks_from_rayshader.html'>bricks_from_rayshader</a></code>,
-  <code><a href='bricks_from_table.html'>bricks_from_table</a></code>,
-  <code><a href='build_bricks_rayshader.html'>build_bricks_rayshader</a></code>,
-  <code><a href='build_bricks.html'>build_bricks</a></code></p></div>
+    <div class='dont-index'><p>Other 3D Models: 
+<code><a href='bricks_from_coords.html'>bricks_from_coords</a>()</code>,
+<code><a href='bricks_from_excel.html'>bricks_from_excel</a>()</code>,
+<code><a href='bricks_from_table.html'>bricks_from_table</a>()</code>,
+<code><a href='build_bricks.html'>build_bricks</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
