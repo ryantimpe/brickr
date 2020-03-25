@@ -19,16 +19,10 @@
     <loc>http://brickr.org/reference/bricks_from_mosaic.html</loc>
   </url>
   <url>
-    <loc>http://brickr.org/reference/bricks_from_rayshader.html</loc>
-  </url>
-  <url>
     <loc>http://brickr.org/reference/bricks_from_table.html</loc>
   </url>
   <url>
     <loc>http://brickr.org/reference/build_bricks.html</loc>
-  </url>
-  <url>
-    <loc>http://brickr.org/reference/build_bricks_rayshader.html</loc>
   </url>
   <url>
     <loc>http://brickr.org/reference/build_colors.html</loc>
@@ -46,16 +40,7 @@
     <loc>http://brickr.org/reference/build_pieces_table.html</loc>
   </url>
   <url>
-    <loc>http://brickr.org/reference/build_themes.html</loc>
-  </url>
-  <url>
     <loc>http://brickr.org/reference/collect_bricks.html</loc>
-  </url>
-  <url>
-    <loc>http://brickr.org/reference/coord-brick.html</loc>
-  </url>
-  <url>
-    <loc>http://brickr.org/reference/geom_brick_col.html</loc>
   </url>
   <url>
     <loc>http://brickr.org/reference/geom_brick_rect.html</loc>
@@ -67,22 +52,13 @@
     <loc>http://brickr.org/reference/image_to_scaled.html</loc>
   </url>
   <url>
-    <loc>http://brickr.org/reference/layer_from_bricks.html</loc>
+    <loc>http://brickr.org/reference/lego_colors.html</loc>
   </url>
   <url>
     <loc>http://brickr.org/reference/pipe.html</loc>
   </url>
   <url>
     <loc>http://brickr.org/reference/scaled_to_colors.html</loc>
-  </url>
-  <url>
-    <loc>http://brickr.org/reference/scale_fill_brick.html</loc>
-  </url>
-  <url>
-    <loc>http://brickr.org/reference/theme_brick.html</loc>
-  </url>
-  <url>
-    <loc>http://brickr.org/articles/graphs.html</loc>
   </url>
   <url>
     <loc>http://brickr.org/articles/models-from-other.html</loc>
@@ -92,6 +68,9 @@
   </url>
   <url>
     <loc>http://brickr.org/articles/models-from-tables.html</loc>
+  </url>
+  <url>
+    <loc>http://brickr.org/articles/models-pieces-type.html</loc>
   </url>
   <url>
     <loc>http://brickr.org/articles/mosaics.html</loc>

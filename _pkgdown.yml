@@ -35,10 +35,8 @@ articles:
 - title: 3D Models
   desc: Creating 3D LEGO models.
   contents:
-  - models-from-other
-  - models-from-program
   - models-from-tables
-- title: Charts
-  desc: ggplot2 brickr extension
-  contents:
-  - graphs
+  - models-from-program
+  - models-from-other
+  - models-piece-type
+  

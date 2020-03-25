@@ -1,13 +1,14 @@
 Package: brickr
 Title: Tools to emulate the LEGO&reg; System in R
-Version: 0.2.9.9111
+Version: 0.2.9.9215
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
            role = c("aut", "cre"),
            email = "ryan.timpe@gmail.com")
 Description: 
-    Generate digital LEGO-esque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. 
+    Generate digital LEGO models using tidyverse functions. 
+    Convert image files into 2D and 3D mosaics, along with piece counts and instructions. 
     Build 3D models using data frames with rgl. 
 License: MIT + file LICENSE
 Encoding: UTF-8

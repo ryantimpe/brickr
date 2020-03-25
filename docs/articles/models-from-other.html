@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Models from mosaics &amp; rayshader • brickr</title>
+<title>3D Models from mosaics • brickr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="3D Models from mosaics &amp; rayshader">
+<meta property="og:title" content="3D Models from mosaics">
 <meta property="og:description" content="">
 <meta property="og:image" content="http://brickr.org/logo.png">
 <meta name="twitter:card" content="summary">
@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9215</span>
       </span>
     </div>
 
@@ -62,16 +62,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-pieces-type.html">UNKNOWN TITLE</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -102,7 +102,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>3D Models from mosaics &amp; rayshader</h1>
+      <h1>3D Models from mosaics</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/ryantimpe/brickr/blob/master/vignettes/models-from-other.Rmd"><code>vignettes/models-from-other.Rmd</code></a></small>
@@ -146,56 +146,6 @@
 <a class="sourceLine" id="cb2-9" title="9">rgl<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="dt">userMatrix =</span> rgl<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rgl/man/matrices.html">rotate3d</a></span>(custom_rotation, <span class="dv">0</span>, <span class="dv">0</span>, pi<span class="op">/</span><span class="dv">4</span> ,<span class="dv">1</span>))</a></code></pre></div>
 <p><img src="models-from-other_files/figure-html/bricks_6a-1.png" width="384"></p>
 </div>
-<div id="models-from-rayshader" class="section level2">
-<h2 class="hasAnchor">
-<a href="#models-from-rayshader" class="anchor"></a>Models from rayshader</h2>
-<p><a href="https://www.rayshader.com/">rayshader</a> by <a href="https://twitter.com/tylermorganwall">Tyler Morgan-Wall</a> is an open source package for producing 2D and 3D data visualizations in R. rayshader uses elevation data in a base R matrix and a combination of raytracing, spherical texture mapping, overlays, and ambient occlusion to generate beautiful topographic 2D and 3D maps. (Note: text lifted straight from <a href="https://www.rayshader.com/">rayshader.com</a>.)</p>
-<p>3D models in <strong>brickr</strong> are rendered using the functions in <strong>rayshader</strong>. Using <code><a href="../reference/bricks_from_rayshader.html">bricks_from_rayshader()</a></code>, you can convert rayshader map output into a brickr model. This function takes three inputs:</p>
-<ul>
-<li>
-<code>hillshade</code> is topographic image matrix with an RGB channel (much like the mosaics).</li>
-<li>
-<code>heightmap</code> is a two-dimensional matrix specifiying the height of the image at each location.</li>
-<li>
-<code>max_height</code> is the number of bricks stacked at the mosaic’s highest point. The default is 12.</li>
-<li>
-<code>img_size</code> is the number of bricks on each side of the model. The default is 48.</li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rayshader)</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#Example from rayshader.com</span></a>
-<a class="sourceLine" id="cb3-4" title="4"></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co">#Here, I load a map with the raster package.</span></a>
-<a class="sourceLine" id="cb3-6" title="6">loadzip =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>() </a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="kw"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(<span class="st">"https://tylermw.com/data/dem_01.tif.zip"</span>, loadzip)</a>
-<a class="sourceLine" id="cb3-8" title="8">localtif =<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span>(loadzip, <span class="st">"dem_01.tif"</span>))</a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(loadzip)</a>
-<a class="sourceLine" id="cb3-10" title="10"></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#And convert it to a matrix:</span></a>
-<a class="sourceLine" id="cb3-12" title="12">elmat =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/extract.html">extract</a></span>(localtif, raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span>(localtif), <span class="dt">buffer =</span> <span class="dv">1000</span>),</a>
-<a class="sourceLine" id="cb3-13" title="13">               <span class="dt">nrow =</span> <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(localtif), <span class="dt">ncol =</span> <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(localtif))</a>
-<a class="sourceLine" id="cb3-14" title="14"></a>
-<a class="sourceLine" id="cb3-15" title="15">rayshader_object &lt;-<span class="st"> </span>elmat <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="st">  </span><span class="kw">sphere_shade</span>(<span class="dt">texture =</span> <span class="st">"desert"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="st">  </span><span class="kw">add_water</span>(<span class="kw">detect_water</span>(elmat), <span class="dt">color =</span> <span class="st">"desert"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-18" title="18"><span class="st">  </span><span class="kw">add_shadow</span>(<span class="kw">ray_shade</span>(elmat, <span class="dt">zscale =</span> <span class="dv">3</span>, <span class="dt">maxsearch =</span> <span class="dv">300</span>), <span class="fl">0.5</span>) </a>
-<a class="sourceLine" id="cb3-19" title="19"></a>
-<a class="sourceLine" id="cb3-20" title="20"><span class="co">#Plot with rayshader</span></a>
-<a class="sourceLine" id="cb3-21" title="21">rayshader_object <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-22" title="22"><span class="st">  </span><span class="kw">plot_3d</span>(elmat, <span class="dt">zscale =</span> <span class="dv">10</span>, <span class="dt">fov =</span> <span class="dv">0</span>, <span class="dt">theta =</span> <span class="dv">135</span>, <span class="dt">zoom =</span> <span class="fl">0.75</span>, <span class="dt">phi =</span> <span class="dv">45</span>, <span class="dt">windowsize =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1000</span>, <span class="dv">800</span>))</a>
-<a class="sourceLine" id="cb3-23" title="23"></a>
-<a class="sourceLine" id="cb3-24" title="24">rayshader<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rayshader/man/render_snapshot.html">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="models-from-other_files/figure-html/bricks_rayshader-1.png" width="384"></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#Plot as bricks</span></a>
-<a class="sourceLine" id="cb4-3" title="3">rayshader_object <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/bricks_from_rayshader.html">bricks_from_rayshader</a></span>(elmat) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks_rayshader.html">build_bricks_rayshader</a></span>(<span class="dt">theta =</span> <span class="dv">135</span>, <span class="dt">phi =</span> <span class="dv">45</span>)</a>
-<a class="sourceLine" id="cb4-6" title="6"></a>
-<a class="sourceLine" id="cb4-7" title="7">rayshader<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rayshader/man/render_snapshot.html">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="models-from-other_files/figure-html/bricks_rayshader-2.png" width="384"></p>
-<p>This example is rendered using <code><a href="../reference/build_bricks_rayshader.html">build_bricks_rayshader()</a></code>, which a bit faster for very large sets.</p>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -206,7 +156,6 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#getting-started">Getting started</a></li>
       <li><a href="#d-mosaics">3D mosaics</a></li>
-      <li><a href="#models-from-rayshader">Models from rayshader</a></li>
       </ul>
 </div>
       </div>

@@ -30,7 +30,7 @@ image_to_mosaic <- function(img, img_size = 48, color_table = NULL,
     image_to_scaled(img_size = img_size, brightness = brightness, warhol = warhol) %>% 
     scaled_to_colors(method = method, 
                      color_table = color_table, color_palette = color_palette, 
-                     dithering = dithering, contrast = contrast) %>% 
+                     dithering = dithering, contrast = contrast, default_piece_type = "p") %>% 
     collect_bricks(use_bricks = use_bricks)
   
   return(in_list)

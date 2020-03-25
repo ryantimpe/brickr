@@ -8,8 +8,10 @@ bricks_from_table(
   matrix_table,
   color_guide = brickr::lego_colors,
   piece_matrix = NULL,
+  use_bricks = NULL,
   .re_level = TRUE,
   increment_level = 0,
+  min_level = 1,
   max_level = Inf,
   increment_x = 0,
   max_x = Inf,
@@ -26,9 +28,13 @@ bricks_from_table(
 
 \item{piece_matrix}{A data frame in same shape as \code{matrix_table} with piece shape IDs.}
 
+\item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.}
+
 \item{.re_level}{Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.}
 
 \item{increment_level}{Default '0'. Use in animations. Shift  Level/z dimension by an integer.}
+
+\item{min_level}{Default '1'. Use in animations. Any Level/z values below this value will be cut off.}
 
 \item{max_level}{Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.}
 

@@ -353,13 +353,14 @@ build_bricks <- function(brick_list,
   
   if(suppress_knobs){
     img_lego <- img_lego %>% 
-      dplyr::mutate(temp_level = Level*3 + mid_level) %>% 
+      dplyr::mutate(temp_level = Level*3 + mid_level,
+                    piece_type = tolower(piece_type)) %>% 
       dplyr::group_by(x, y) %>% 
       dplyr::filter(
         #Bricks: Keep knobs when next level is not right above it, 3 1-height units
-        ((dplyr::lead(temp_level, order_by = temp_level) != temp_level + 3) & piece_type == "b") |
+        ((dplyr::lead(temp_level, order_by = temp_level) > (temp_level + 3)) & piece_type == "b") |
           #Plates: Keep knobs when next level is not right above it, 1 1-height unit
-          ((dplyr::lead(temp_level, order_by = temp_level) > temp_level + 2) & piece_type %in% c("p", "s")) |
+          ((dplyr::lead(temp_level, order_by = temp_level) > (temp_level + 1)) & piece_type %in% c("p", "s")) |
           #Or next level is na
           is.na(dplyr::lead(temp_level, order_by = temp_level)) |
           # Or this or next level is transparent

@@ -8,10 +8,10 @@
 #' @export 
 #'
 bricks_from_mosaic <- function(mosaic_list, mosaic_height = 6, highest_el = "light"){
-
+  
   #Get previous data
   in_list <- mosaic_list
-
+  
   BrickIDs <- in_list$ID_bricks
   img_lego <- in_list$Img_lego
   
@@ -43,7 +43,9 @@ bricks_from_mosaic <- function(mosaic_list, mosaic_height = 6, highest_el = "lig
         dplyr::mutate(Lego_name = ifelse(is.na(Lego_name), as.character(most_common_color[1, "Lego_name"]), Lego_name),
                       Lego_color = ifelse(is.na(Lego_color), as.character(most_common_color[1, "Lego_color"]), Lego_color)) %>% 
         dplyr::select(-color) %>% 
-        dplyr::rename(color = Lego_name, z = Level)
+        dplyr::rename(color = Lego_name, z = Level) %>% 
+        dplyr::mutate(mid_level = (z-1) %% 3,
+                      z = (z-1) %/% 3 +1)
     })
   
   return(img_all_levels %>% bricks_from_coords() )

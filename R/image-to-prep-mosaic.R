@@ -104,6 +104,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
 #' @param dithering Improves color of large, photo-realistic mosaics. 
 #' @param contrast For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
+#' @param default_piece_type Piece type to use in absense of piece_type column.
 #' @format NULL
 #' @usage NULL
 #' @keywords internal
@@ -112,7 +113,7 @@ scaled_to_colors <- function(image_list, method = "brickr_classic",
                              color_table = NULL,
                              color_palette = c("universal", "generic", "special"), 
                              dithering = FALSE,
-                             contrast = 1){
+                             contrast = 1, default_piece_type = "b"){
   in_list <- image_list
   
   #Brick colors to use ----
@@ -155,7 +156,7 @@ scaled_to_colors <- function(image_list, method = "brickr_classic",
   
   #Return output....
   in_list[["Img_lego"]] <- img %>% 
-    dplyr::mutate(Level = 1, piece_type = "B")
+    dplyr::mutate(Level = 1, piece_type = default_piece_type)
   
   in_list[["brickr_object"]] <- "mosaic"
   

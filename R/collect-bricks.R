@@ -2,12 +2,26 @@
 #'
 #' @param image_list List output from legoize(). Contains an element \code{Img_lego}.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
+#' @param default_piece_type Piece type to use in absense of piece_type column.
 #' @return A list with element \code{Img_bricks} containing a data frame of the x- & y-coordinates, R, G, B channels, and brick ID. Other helper elements.
 #' @keywords internal 
 
-collect_bricks <- function(image_list, use_bricks = NULL){
+collect_bricks <- function(image_list, use_bricks = NULL, 
+                           default_piece_type = "b"){
 
   in_list <- image_list
+  img_lego <- in_list$Img_lego
+  
+  #If no mid_level (as in a mosaic), add it
+  if(!("mid_level" %in% names(img_lego))){
+    img_lego <- img_lego %>%
+      dplyr::mutate(mid_level = 0)
+  }
+  #Same with piece_type
+  if(!("piece_type" %in% names(img_lego))){
+    img_lego <- img_lego %>%
+      dplyr::mutate(piece_type = default_piece_type)
+  }
   
   #Allowed bricks ----
   
@@ -51,7 +65,7 @@ collect_bricks <- function(image_list, use_bricks = NULL){
       offset_x <- brick_sizes2$offset_x[aa]
       offset_y <- brick_sizes2$offset_y[aa]
       
-      in_list$Img_lego %>%
+      img_lego %>%
         dplyr::filter(piece_type %in% multidim_bricks) %>% 
         dplyr::select(Level, mid_level, piece_type, x, y, Lego_name, Lego_color) %>%
         dplyr::group_by(Level, mid_level, piece_type,
@@ -68,7 +82,7 @@ collect_bricks <- function(image_list, use_bricks = NULL){
     }
     )
   
-  img_single <- in_list$Img_lego %>%
+  img_single <- img_lego %>%
     dplyr::filter(!(piece_type %in% multidim_bricks)) %>% 
     dplyr::select(Level, mid_level, piece_type, x, y, Lego_name, Lego_color) %>%
     dplyr::mutate(brick_type = paste0("x", 1, "y", 1, "_offx", 0, "_offy", 0)) %>% 

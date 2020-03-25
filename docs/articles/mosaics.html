@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9215</span>
       </span>
     </div>
 
@@ -62,16 +62,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-pieces-type.html">UNKNOWN TITLE</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -224,11 +224,11 @@
 <div id="d-mosaics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#d-mosaics" class="anchor"></a>3D Mosaics</h2>
-<p>With <a href="https://www.rayshader.com/">rayshader</a> installed, passing the mosaic object to <code><a href="../reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> will render a 3D object, stacking layers of bricks on each other to create an elevated mosaic. By default, the lightest color bricks will be on top, but this can be changed using the <code>highest_el = 'dark'</code> option.</p>
+<p>Passing the mosaic object to <code><a href="../reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> will render a 3D object, stacking layers of bricks on each other to create an elevated mosaic. By default, the lightest color bricks will be on top, but this can be changed using the <code>highest_el = 'dark'</code> option.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">png<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/png/man/readPNG.html">readPNG</a></span>(demo_img) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="dv">32</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/bricks_from_mosaic.html">bricks_from_mosaic</a></span>(<span class="dt">highest_el =</span> <span class="st">"dark"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>()</a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks.html">build_bricks</a></span>(<span class="dt">outline_bricks =</span> <span class="ot">TRUE</span>, <span class="dt">rgl_lit =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb8-5" title="5"></a>
 <a class="sourceLine" id="cb8-6" title="6"><span class="co">#From dput(round(rgl::par3d("userMatrix"),1)) after manual rotation</span></a>
 <a class="sourceLine" id="cb8-7" title="7">custom_rotation &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.9</span>, <span class="fl">0.3</span>, <span class="fl">-0.3</span>, <span class="dv">0</span>, <span class="fl">-0.3</span>, <span class="fl">0.9</span>, <span class="fl">-0.3</span>, </a>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert image output from scale_image() to bricks — scaled_to_colors • brickr</title>
+<title>Brickr colors avaiable for mosaics &amp; 3D models — lego_colors • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -44,8 +44,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Convert image output from scale_image() to bricks — scaled_to_colors" />
-<meta property="og:description" content="Convert image output from scale_image() to bricks" />
+<meta property="og:title" content="Brickr colors avaiable for mosaics &amp; 3D models — lego_colors" />
+<meta property="og:description" content="A dataset containing the 54 colors available in brickr, along with metadata" />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -142,63 +142,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert image output from scale_image() to bricks</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/image-to-prep-mosaic.R'><code>R/image-to-prep-mosaic.R</code></a></small>
-    <div class="hidden name"><code>scaled_to_colors.Rd</code></div>
+    <h1>Brickr colors avaiable for mosaics &amp; 3D models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>lego_colors.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convert image output from scale_image() to bricks</p>
+    <p>A dataset containing the 54 colors available in brickr, along with metadata</p>
     </div>
 
+    <pre class="usage"><span class='no'>lego_colors</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>image_list</th>
-      <td><p>List output from scale_image(). Contains an element  <code>Img_scaled</code>.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
-'brickr_classic' is an explicit euclidean distance formula, but yield different results than 'euclidean' in farver.
-See <code><a href='https://farver.data-imaginist.com/reference/compare_colour.html'>farver::compare_colour</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>color_table</th>
-      <td><p>Defaults to <code>lego_colors</code>. Data frame of brick colors to map onto image. Must contain Name and R, G, B channels.
-See attached data  <code>lego_colors</code> as examples.</p></td>
-    </tr>
-    <tr>
-      <th>color_palette</th>
-      <td><p>Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
-Use "bw" for only grayscale bricks. Ignored if a <code>color_table</code> is supplied.</p></td>
-    </tr>
-    <tr>
-      <th>dithering</th>
-      <td><p>Improves color of large, photo-realistic mosaics.</p></td>
-    </tr>
-    <tr>
-      <th>contrast</th>
-      <td><p>For <code>color_palette = "bw"</code>. A value &gt;1 will increase the contrast of the image while a positive value &lt;1 will decrease the contrast.</p></td>
-    </tr>
-    <tr>
-      <th>default_piece_type</th>
-      <td><p>Piece type to use in absense of piece_type column.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A list with element <code>Img_lego</code> containing a data frame of the x- &amp; y-coordinates, R, G, B channels, and mapped color of each brick (pixel).</p>
+    <p>A data frame with 54 rows and 10 variables:</p><dl class='dl-horizontal'>
+<dt>brickrID</dt><dd><p>integer, simple color number for use in mosaic creation</p></dd>
+<dt>Color</dt><dd><p>color name</p></dd>
+<dt>LEGONo</dt><dd><p>integer, color number according to The LEGO Group</p></dd>
+<dt>Palette</dt><dd><p>Name of palette, either Universal, Generic, or Special</p></dd>
+<dt>R_lego</dt><dd><p>Red channel, (0-1)</p></dd>
+<dt>G_lego</dt><dd><p>Green channel, (0-1)</p></dd>
+<dt>B_lego</dt><dd><p>Blue channel, (0-1)</p></dd>
+<dt>Trans_lego</dt><dd><p>Transparent color, TRUE or FALSE</p></dd>
+<dt>hex</dt><dd><p>Color hex code</p></dd>
+<dt>lum</dt><dd><p>Color brightness, (0-1)</p></dd>
+
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://brickarchitect.com/color/'>https://brickarchitect.com/color/</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
 
   </div>

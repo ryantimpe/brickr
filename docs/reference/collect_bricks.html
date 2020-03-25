@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9215</span>
       </span>
     </div>
 
@@ -102,16 +102,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-pieces-type.html">UNKNOWN TITLE</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -151,18 +151,22 @@
     <p>Consolidate 1x1 bricks into larger ones of the same color. Internal function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>collect_bricks</span>(<span class='no'>image_list</span>, <span class='kw'>use_bricks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>collect_bricks</span>(<span class='no'>image_list</span>, <span class='kw'>use_bricks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>default_piece_type</span> <span class='kw'>=</span> <span class='st'>"b"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>image_list</th>
-      <td><p>List output from legoize(). Contains an element  <code>Img_lego</code>.</p></td>
+      <td><p>List output from legoize(). Contains an element <code>Img_lego</code>.</p></td>
     </tr>
     <tr>
       <th>use_bricks</th>
       <td><p>Array of brick sizes to use in mosaic. Defaults to <code><a href='https://rdrr.io/r/base/c.html'>c('4x2', '2x2', '3x1', '2x1', '1x1')</a></code>`.</p></td>
+    </tr>
+    <tr>
+      <th>default_piece_type</th>
+      <td><p>Piece type to use in absense of piece_type column.</p></td>
     </tr>
     </table>
 
