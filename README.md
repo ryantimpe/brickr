@@ -1,4 +1,4 @@
-The LEGO® System in R
+Emulate LEGO Bricks in 2D and 3D
 ================
 
 # brickr <img src='man/figures/logo.png' align="right" height="138" />
@@ -286,4 +286,4 @@ creating 3D models of literally *anything* R, check out his
 
 All functions in brickr are created with the
 [tidyverse](https://www.tidyverse.org/) and
-[rgl](https://cran.r-project.org/web/packages/rgl/index.html).
+[rgl](https://CRAN.R-project.org/package=rgl).

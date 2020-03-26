@@ -1,6 +1,6 @@
 # Current version
 
-# brickr 0.3.0 - a.k.a. [Pirate ship]()
+# brickr 0.3.0
 
 * An overall leaner package to ensure optimal performance and remove experimental features.
 
@@ -20,14 +20,9 @@
 
 ----
 
-# brickr 0.2.0.9003
+# brickr 0.2.0
 
-* Issues after updating to [farver 2.0](https://github.com/thomasp85/farver). Temporarily set color method back to 'brickr_classic'.
-
-----
-
-# brickr 0.2.0 - a.k.a. [Castle](https://twitter.com/ryantimpe/status/1191354410124709892)
-
+* [Castle release video](https://twitter.com/ryantimpe/status/1191354410124709892)
 * Lots of bug fixes. More to come.
 
 ## Documentation
@@ -41,7 +36,9 @@
 
 ----
 
-# brickr 0.1.1 - a.k.a. [brickr House](https://twitter.com/ryantimpe/status/1106572408918605824?s=20)
+# brickr 0.1.1
+
+* [House release video](https://twitter.com/ryantimpe/status/1106572408918605824?s=20)
 
 * **Breaking:** Pretty much *EVERY* function. Seriously, check out the README and start fresh.
 

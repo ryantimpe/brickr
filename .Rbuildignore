@@ -13,3 +13,4 @@ admin_color_tools
 R_experiments
 ^CNAME
 ^cran-comments\.md$
+^CRAN-RELEASE$

@@ -1,5 +1,5 @@
 ---
-title: "The LEGO&reg; System in R"
+title: "Emulate LEGO Bricks in 2D and 3D"
 output:
   github_document:
     fig_width: 7.5
@@ -218,4 +218,4 @@ mosaic1 %>% build_pieces()
 
 3D models in brickr would not exist without [Tyler Morgan-Wall](https://twitter.com/tylermorganwall) and his [rayshader](https://www.rayshader.com/) package. If you're interested in creating 3D models of literally *anything* R, check out his [rayrender](https://www.rayrender.net/) package.
 
-All functions in brickr are created with the [tidyverse](https://www.tidyverse.org/) and [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
+All functions in brickr are created with the [tidyverse](https://www.tidyverse.org/) and [rgl](https://CRAN.R-project.org/package=rgl).

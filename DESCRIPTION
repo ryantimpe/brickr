@@ -1,5 +1,5 @@
 Package: brickr
-Title: Tools to Emulate the LEGO&reg; System in R
+Title: Emulate LEGO Bricks in 2D and 3D
 Version: 0.3.0
 Authors@R: 
     person(given = "Ryan",
