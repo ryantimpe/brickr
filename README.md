@@ -21,7 +21,7 @@ The package is divided into 2 systems:
   - [**Mosaics**](#mosaics): Convert image files into mosaics that could
     be built using LEGO bricks.
   - [**3D Models**](#3d-models): Build 3D LEGO models from data tables
-    using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
+    using [rgl](https://CRAN.R-project.org/package=rgl).
 
 brickr also includes tools help users create the Mosaics and 3D model
 output using real LEGO elements.
