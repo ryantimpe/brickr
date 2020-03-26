@@ -1,6 +1,6 @@
 # Current version
 
-##brickr 0.3.0 - a.k.a. [Pirate ship]()
+# brickr 0.3.0 - a.k.a. [Pirate ship]()
 
 * An overall leaner package to ensure optimal performance and remove experimental features.
 
@@ -20,7 +20,7 @@
 
 ----
 
-##brickr 0.2.0.9003
+# brickr 0.2.0.9003
 
 * Issues after updating to [farver 2.0](https://github.com/thomasp85/farver). Temporarily set color method back to 'brickr_classic'.
 

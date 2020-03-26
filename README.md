@@ -19,19 +19,19 @@ status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travi
 The package is divided into 2 systems:
 
   - [**Mosaics**](#mosaics): Convert image files into mosaics that could
-    be built using LEGO® bricks.
-  - [**3D Models**](#3d-models): Build 3D LEGO® models from data tables
+    be built using LEGO bricks.
+  - [**3D Models**](#3d-models): Build 3D LEGO models from data tables
     using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
 
 brickr also includes tools help users create the Mosaics and 3D model
-output using real LEGO® elements.
+output using real LEGO elements.
 
 Check out [brickr.org](http://brickr.org) for more detail\!
 
 ### What’s the point?
 
 The goal of **brickr** is to provide a series of tools to integrate the
-LEGO® system with R by:
+LEGO system with R by:
 
   - Enhancing a real world building experience with mosaics, generated
     instructions, and piece counts.
@@ -41,7 +41,7 @@ LEGO® system with R by:
 
 *brickr is developed under the [Fair
 Play](https://www.lego.com/en-us/legal/notices-and-policies/fair-play/)
-policy using publicly available information about LEGO® products. brickr
+policy using publicly available information about LEGO products. brickr
 is not affiliated with The LEGO Group.*
 
 ## Installation
@@ -276,12 +276,12 @@ mosaic1 %>% build_pieces()
 
 ![](README_files/figure-gfm/m1_pieces-1.png)<!-- -->
 
-## Acknowledgements
+## Acknowledgments
 
 3D models in brickr would not exist without [Tyler
 Morgan-Wall](https://twitter.com/tylermorganwall) and his
 [rayshader](https://www.rayshader.com/) package. If you’re interested in
-creating any time of 3D models in R, check out his
+creating 3D models of literally *anything* R, check out his
 [rayrender](https://www.rayrender.net/) package.
 
 All functions in brickr are created with the

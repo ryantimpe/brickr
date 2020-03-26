@@ -45,7 +45,7 @@ png::readPNG(demo_img) %>%
 
 ## Colors
 
-A key feature in `image_to_mosaic()` is the conversion of the original image into colors produced by LEGO. The default is to map each individual pixel to any of the 41 solid brick colors currently produced by LEGO useing the [CIE94](https://en.wikipedia.org/wiki/Color_difference#CIE94) algorithm. These defaults can be changed.
+A key feature in `image_to_mosaic()` is the conversion of the original image into colors produced by LEGO. The default is to map each individual pixel to any of the 41 solid brick colors currently produced by LEGO using the [CIE94](https://en.wikipedia.org/wiki/Color_difference#CIE94) algorithm. These defaults can be changed.
 
 ### Color palettes
 

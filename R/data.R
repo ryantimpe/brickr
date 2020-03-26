@@ -1,4 +1,4 @@
-#' Brickr colors avaiable for mosaics & 3D models
+#' Brickr colors available for mosaics & 3D models
 #'
 #' A dataset containing the 54 colors available in brickr, along with metadata
 #'

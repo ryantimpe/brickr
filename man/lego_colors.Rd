@@ -3,7 +3,7 @@
 \docType{data}
 \name{lego_colors}
 \alias{lego_colors}
-\title{Brickr colors avaiable for mosaics & 3D models}
+\title{Brickr colors available for mosaics & 3D models}
 \format{A data frame with 54 rows and 10 variables:
 \describe{
 \item{brickrID}{integer, simple color number for use in mosaic creation}

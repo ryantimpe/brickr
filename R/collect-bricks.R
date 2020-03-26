@@ -2,7 +2,7 @@
 #'
 #' @param image_list List output from legoize(). Contains an element \code{Img_lego}.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
-#' @param default_piece_type Piece type to use in absense of piece_type column.
+#' @param default_piece_type Piece type to use in absence of piece_type column.
 #' @return A list with element \code{Img_bricks} containing a data frame of the x- & y-coordinates, R, G, B channels, and brick ID. Other helper elements.
 #' @keywords internal 
 

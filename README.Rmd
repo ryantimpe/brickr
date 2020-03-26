@@ -28,22 +28,22 @@ library(tidyverse)
 
 The package is divided into 2 systems: 
 
-  - [**Mosaics**](#mosaics): Convert image files into mosaics that could be built using LEGO&reg; bricks.
-  - [**3D Models**](#3d-models): Build 3D LEGO&reg; models from data tables using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
+  - [**Mosaics**](#mosaics): Convert image files into mosaics that could be built using LEGO bricks.
+  - [**3D Models**](#3d-models): Build 3D LEGO models from data tables using [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
   
-brickr also includes tools help users create the Mosaics and 3D model output using real LEGO&reg; elements.
+brickr also includes tools help users create the Mosaics and 3D model output using real LEGO elements.
 
 Check out [brickr.org](http://brickr.org) for more detail!
 
 ### What's the point?
 
-The goal of **brickr** is to provide a series of tools to integrate the LEGO&reg; system with R by:
+The goal of **brickr** is to provide a series of tools to integrate the LEGO system with R by:
 
   - Enhancing a real world building experience with mosaics, generated instructions, and piece counts.
   - Generating interest in R and coding for new audiences with easy-to-create 3D models.
   - Embracing pure novelty.
   
-*brickr is developed under the [Fair Play](https://www.lego.com/en-us/legal/notices-and-policies/fair-play/) policy using publicly available information about LEGO&reg; products. brickr is not affiliated with The LEGO Group.*
+*brickr is developed under the [Fair Play](https://www.lego.com/en-us/legal/notices-and-policies/fair-play/) policy using publicly available information about LEGO products. brickr is not affiliated with The LEGO Group.*
 
 ## Installation
 ``` r
@@ -214,8 +214,8 @@ Use `build_pieces()` to generate a graphic and count of all required plates or b
 mosaic1 %>% build_pieces()
 ```
 
-## Acknowledgements
+## Acknowledgments
 
-3D models in brickr would not exist without [Tyler Morgan-Wall](https://twitter.com/tylermorganwall) and his [rayshader](https://www.rayshader.com/) package. If you're interested in creating any time of 3D models in R, check out his [rayrender](https://www.rayrender.net/) package.
+3D models in brickr would not exist without [Tyler Morgan-Wall](https://twitter.com/tylermorganwall) and his [rayshader](https://www.rayshader.com/) package. If you're interested in creating 3D models of literally *anything* R, check out his [rayrender](https://www.rayrender.net/) package.
 
 All functions in brickr are created with the [tidyverse](https://www.tidyverse.org/) and [rgl](https://cran.r-project.org/web/packages/rgl/index.html).
