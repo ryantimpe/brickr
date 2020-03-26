@@ -52,8 +52,6 @@ Other 3D Models:
 \code{\link{bricks_from_coords}()},
 \code{\link{bricks_from_excel}()},
 \code{\link{bricks_from_mosaic}()},
-\code{\link{bricks_from_rayshader}()},
-\code{\link{bricks_from_table}()},
-\code{\link{build_bricks_rayshader}()}
+\code{\link{bricks_from_table}()}
 }
 \concept{3D Models}

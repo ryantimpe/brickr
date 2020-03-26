@@ -1,11 +1,11 @@
-pandoc: '2.7'
+pandoc: 2.7.2
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  graphs: graphs.html
   models-from-other: models-from-other.html
   models-from-program: models-from-program.html
   models-from-tables: models-from-tables.html
+  models-piece-type: models-piece-type.html
   mosaics: mosaics.html
 urls:
   reference: http://brickr.org/reference

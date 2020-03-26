@@ -115,29 +115,6 @@ tree_or_mushroom %>%
 rgl::par3d(userMatrix = rgl::rotate3d(rgl::par3d("userMatrix"), 1.1*pi/4, 0, 0 ,1))
 ```
 
-### Plates instead of bricks
-
-**Currently unavailable in `build_bricks()`. Use `build_bricks_rayshader()`**
-
-That's clearly a tree, right? Why is the data frame called 'tree_or_mushroom'?
-
-Use the input 'brick_type="plate"' to render the 3D model using LEGO plates rather than bricks, which are 1/3 as tall.
-
-```{r bricks_5a, echo=TRUE, warning=FALSE, message=FALSE, fig.width=4, fig.height=4}
-brick_colors <- tibble::tribble(
-  ~`.value`, ~Color,
-  1, "Dark green",
-  2, "Light nougat",
-  3, "Bright red"
-)
-  
-tree_or_mushroom %>% 
-  bricks_from_table(brick_colors) %>% 
-  build_bricks_rayshader(theta = 210, phi = 10, brick_res = "hd", brick_type="plate")
-
-rayshader::render_snapshot(clear = TRUE)
-```
-
 ## Bricks from Excel
 
 When designing larger models, it is much easier to use a spreadsheet program to lay out the bricks for each level.  

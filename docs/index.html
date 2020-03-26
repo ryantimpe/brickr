@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tools to emulate the LEGO® System in R • brickr</title>
+<title>Tools to Emulate the LEGO® System in R • brickr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,10 +17,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="Tools to emulate the LEGO® System in R">
+<meta property="og:title" content="Tools to Emulate the LEGO® System in R">
 <meta property="og:description" content="
-    Generate digital LEGO-esque models using tidyverse functions. Convert image files into 2D and 3D mosaics, along with piece counts and instructions. 
-    Build 3D models using data frames with rgl. Create brick bar charts with ggplot2.">
+    Generate digital LEGO models using tidyverse functions. 
+    Convert image files into 2D and 3D LEGO mosaics, complete with piece counts and instructions. 
+    Render 3D models using simple data frame instructions.">
 <meta property="og:image" content="http://brickr.org/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -41,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -64,16 +65,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="articles/models-piece-type.html">Piece type in 3D Models</a>
     </li>
     <li>
       <a href="articles/mosaics.html">Mosaics with brickr</a>
@@ -118,38 +119,33 @@
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p><strong>brickr</strong> is a package for bringing the LEGO® experience into the R and <a href="https://www.tidyverse.org/">tidyverse</a> ecosystem.</p>
-<p>The package is divided into 3 separate systems:</p>
+<p>The package is divided into 2 systems:</p>
 <ul>
 <li>
-<a href="#mosaics"><strong>Mosaics</strong></a>: Convert image files into mosaics that could be built using LEGO® bricks.</li>
+<a href="#mosaics"><strong>Mosaics</strong></a>: Convert image files into mosaics that could be built using LEGO bricks.</li>
 <li>
-<a href="#3d-models"><strong>3D Models</strong></a>: Build 3D LEGO® models from data tables using <a href="https://cran.r-project.org/web/packages/rgl/index.html">rgl</a>.</li>
-<li>
-<a href="#charts"><strong>Charts</strong></a>: A <a href="https://ggplot2.tidyverse.org/">ggplot2</a> extension to generate plots that resemble LEGO® bricks.</li>
+<a href="#3d-models"><strong>3D Models</strong></a>: Build 3D LEGO models from data tables using <a href="https://cran.r-project.org/web/packages/rgl/index.html">rgl</a>.</li>
 </ul>
-<p>brickr also includes tools help users create the Mosaics and 3D model output using real LEGO® elements.</p>
+<p>brickr also includes tools help users create the Mosaics and 3D model output using real LEGO elements.</p>
 <p>Check out <a href="http://brickr.org">brickr.org</a> for more detail!</p>
 <div id="whats-the-point" class="section level3">
 <h3 class="hasAnchor">
 <a href="#whats-the-point" class="anchor"></a>What’s the point?</h3>
-<p>The goal of <strong>brickr</strong> is to provide a series of tools to integrate the LEGO® system with R by:</p>
+<p>The goal of <strong>brickr</strong> is to provide a series of tools to integrate the LEGO system with R by:</p>
 <ul>
 <li>Enhancing a real world building experience with mosaics, generated instructions, and piece counts.</li>
 <li>Generating interest in R and coding for new audiences with easy-to-create 3D models.</li>
-<li>or just embracing pure novelty.</li>
+<li>Embracing pure novelty.</li>
 </ul>
-<p><em>brickr is developed under the <a href="https://www.lego.com/en-us/legal/notices-and-policies/fair-play/">Fair Play</a> policy using publicly available information about LEGO® products. brickr is not affiliated with The LEGO Group.</em></p>
+<p><em>brickr is developed under the <a href="https://www.lego.com/en-us/legal/notices-and-policies/fair-play/">Fair Play</a> policy using publicly available information about LEGO products. brickr is not affiliated with The LEGO Group.</em></p>
 </div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># To install the latest version from Github:</span></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-3" title="3">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"ryantimpe/brickr"</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="co">#For 3D features, rayshader is also required.</span></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"rayshader"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co"># install.packages("remotes")</span></a>
+<a class="sourceLine" id="cb1-3" title="3">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"ryantimpe/brickr"</span>)</a></code></pre></div>
 </div>
 <div id="mosaics" class="section level2">
 <h2 class="hasAnchor">
@@ -182,10 +178,10 @@
 <p>The <code>bricks_from_*</code> series of functions creates 3D models of LEGO bricks from a variety of input formats.</p>
 <ul>
 <li><p><code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> &amp; <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> convert a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/tribble.html">tibble::tribble()</a></code>. For more advanced models, it’s recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> is a wrapper function to more easily build models designed using a Microsoft Excel template. Please see this repo: <a href="https://github.com/ryantimpe/brickr_toybox">brickr toybox</a>.</p></li>
-<li><p><code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> takes a data frame with <code>x</code>, <code>y</code>, &amp; <code>z</code> integer values, and <code>Color</code> columns, where each combination of x, y, &amp; z is a point in 3-dimensional space. Color must be an official LEGO color name from <code><a href="reference/build_colors.html">build_colors()</a></code>. This format is much more flexible than <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> and allows the programmatic development of 3D models.</p></li>
-<li><p><code><a href="reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> converts a 2D <a href="#mosaics">mosaic</a> object from an image into 3D LEGO models, respectively. <code><a href="reference/bricks_from_rayshader.html">bricks_from_rayshader()</a></code> creates a LEGO model from the same input as <code><a href="https://rdrr.io/pkg/rayshader/man/plot_3d.html">rayshader::plot_3d()</a></code>.</p></li>
+<li><p><code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> takes a data frame with <code>x</code>, <code>y</code>, &amp; <code>z</code> integer values, and <code>Color</code> columns, where each combination of x, y, &amp; z is a point in 3-dimensional space. Color must be an official LEGO color name from <code><a href="reference/build_colors.html">build_colors()</a></code>. This format is much more flexible than <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> and allows the programmatic development of 3D models. For other options, see the “Piece type in 3D Models” vignette.</p></li>
+<li><p><code><a href="reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> converts a 2D <a href="#mosaics">mosaic</a> object from an image into 3D LEGO models, respectively.</p></li>
 </ul>
-<p>Pass the output from any <code>bricks_from_*()</code> function to <code><a href="reference/build_bricks.html">build_bricks()</a></code> to see the 3D model. Models are currently rendered in <strong>rgl</strong>. Previous versions of brickr use <a href="https://twitter.com/tylermorganwall">Tyler Morgan-Wall</a>’s <a href="https://www.rayshader.com/">rayshader</a> package. This option is still available by passing the output from any <code>bricks_from_*()</code> function to <code><a href="reference/build_bricks_rayshader.html">build_bricks_rayshader()</a></code>. Rayshader can still be used for saving snapshots and creating animations.</p>
+<p>Pass the output from any <code>bricks_from_*()</code> function to <code><a href="reference/build_bricks.html">build_bricks()</a></code> to see the 3D model. Models are rendered in <strong>rgl</strong>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(brickr)</a>
 <a class="sourceLine" id="cb3-2" title="2"></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="co">#This is a brick</span></a>
@@ -280,40 +276,11 @@
 <p>More examples using <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> and <code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> can be found at the links below.</p>
 <ul>
 <li>
-<a href="https://gist.github.com/ryantimpe/a784beaa4f798f57010369329d46ce71"><strong>Get started</strong></a> with the framework for building a brick from scratch.</li>
-<li>
-<a href="https://gist.github.com/ryantimpe/ceab2ed6b8a4737077280fc9b0d1c886"><strong>Build an owl</strong></a> with <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> by manually placing each brick.</li>
-<li>Generate a punny <a href="https://gist.github.com/ryantimpe/a7363a5e99dceabada150a43925beec7"><strong>random forest model</strong></a> using <code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> and {purrr}.</li>
+<a href="https://gist.github.com/ryantimpe/3893fdd0f94138d027bae35bf38b57c7"><strong>Baby Yoda</strong></a> example using <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> with an animation.</li>
 <li>
 <a href="https://github.com/ryantimpe/brickr_toybox"><strong>brickr toybox</strong></a> repo for tools and resources to get started.</li>
 </ul>
 </div>
-</div>
-<div id="charts" class="section level2">
-<h2 class="hasAnchor">
-<a href="#charts" class="anchor"></a>Charts</h2>
-<p>brickr includes functions to render <a href="https://ggplot2.tidyverse.org/">ggplot2</a> bar charts as bricks with LEGO color themes. The main function is <code><a href="reference/geom_brick_col.html">geom_brick_col()</a></code>, which is the brickr equivalent of <code>geom_col()</code>. Additional functions are highly recommended to ensure that proper the chart is rendered in the proper functions and proportions.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">trt =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>), <span class="dt">outcome =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2.3</span>, <span class="fl">1.9</span>, <span class="fl">3.2</span>))</a>
-<a class="sourceLine" id="cb6-2" title="2"></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#For official LEGO colors, use with scale_fill_brick and theme_brick.</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(trt, outcome)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw"><a href="reference/geom_brick_col.html">geom_brick_col</a></span>(<span class="kw">aes</span>(<span class="dt">fill =</span> trt)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="st">  </span><span class="kw"><a href="reference/scale_fill_brick.html">scale_fill_brick</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="st">  </span><span class="kw"><a href="reference/coord-brick.html">coord_brick</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="st">  </span><span class="kw"><a href="reference/theme_brick.html">theme_brick</a></span>()</a></code></pre></div>
-<p><img src="README_files/figure-gfm/geom_brick-1.png"><!-- --></p>
-<p>Both <code><a href="reference/scale_fill_brick.html">scale_fill_brick()</a></code> and <code><a href="reference/theme_brick.html">theme_brick()</a></code> take an input ‘brick_theme’, which ensures all colors match official LEGO brick colors. See <code><a href="reference/build_themes.html">build_themes()</a></code> for a sample of all available brick theme.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">trt =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>], <span class="dt">outcome =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">6</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb7-2" title="2"></a>
-<a class="sourceLine" id="cb7-3" title="3">use_theme &lt;-<span class="st"> "hp"</span></a>
-<a class="sourceLine" id="cb7-4" title="4"></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(trt, outcome)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="st">  </span><span class="kw"><a href="reference/geom_brick_col.html">geom_brick_col</a></span>(<span class="kw">aes</span>(<span class="dt">fill =</span> trt), <span class="dt">two_knob =</span> F) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="st">  </span><span class="kw"><a href="reference/scale_fill_brick.html">scale_fill_brick</a></span>(use_theme) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="st">  </span><span class="kw"><a href="reference/coord-brick.html">coord_brick_flip</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="st">  </span><span class="kw"><a href="reference/theme_brick.html">theme_brick</a></span>(use_theme) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</a></code></pre></div>
-<p><img src="README_files/figure-gfm/geom_brick2-1.png"><!-- --></p>
 </div>
 <div id="irl" class="section level2">
 <h2 class="hasAnchor">
@@ -323,16 +290,22 @@
 <h3 class="hasAnchor">
 <a href="#instructions" class="anchor"></a>Instructions</h3>
 <p>Use <code><a href="reference/build_instructions.html">build_instructions()</a></code> to break the mosaics and 3D models into easier-to-read steps for building the set. This defaults to 6 steps, but passing any integer value will generate that many steps.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mosaic1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/build_instructions.html">build_instructions</a></span>(<span class="dv">9</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">mosaic1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/build_instructions.html">build_instructions</a></span>(<span class="dv">9</span>)</a></code></pre></div>
 <p><img src="README_files/figure-gfm/m1_instructions-1.png"><!-- --></p>
 </div>
 <div id="piece-list-and-count" class="section level3">
 <h3 class="hasAnchor">
 <a href="#piece-list-and-count" class="anchor"></a>Piece list and count</h3>
 <p>Use <code><a href="reference/build_pieces.html">build_pieces()</a></code> to generate a graphic and count of all required plates or bricks (for stacked mosaics). These are sorted by color and size for easy purchase on LEGO.com’s <a href="https://shop.lego.com/en-US/Pick-a-Brick">Pick-a-Brick</a> section using the advanced search option. Alternatively, use <code>table_pieces()</code> to produce a data frame table of all required bricks.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">mosaic1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/build_pieces.html">build_pieces</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">mosaic1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/build_pieces.html">build_pieces</a></span>()</a></code></pre></div>
 <p><img src="README_files/figure-gfm/m1_pieces-1.png"><!-- --></p>
 </div>
+</div>
+<div id="acknowledgments" class="section level2">
+<h2 class="hasAnchor">
+<a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
+<p>3D models in brickr would not exist without <a href="https://twitter.com/tylermorganwall">Tyler Morgan-Wall</a> and his <a href="https://www.rayshader.com/">rayshader</a> package. If you’re interested in creating 3D models of literally <em>anything</em> R, check out his <a href="https://www.rayrender.net/">rayrender</a> package.</p>
+<p>All functions in brickr are created with the <a href="https://www.tidyverse.org/">tidyverse</a> and <a href="https://cran.r-project.org/web/packages/rgl/index.html">rgl</a>.</p>
 </div>
 </div>
 
@@ -352,7 +325,7 @@
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 <div class="developers">

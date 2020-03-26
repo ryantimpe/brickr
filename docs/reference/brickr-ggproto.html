@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GeomBrick — CoordBrick • brickr</title>
+<title>GeomBrick — GeomBrick • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -44,7 +44,7 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="GeomBrick — CoordBrick" />
+<meta property="og:title" content="GeomBrick — GeomBrick" />
 <meta property="og:description" content="ggproto for brickr geoms" />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -102,16 +102,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-piece-type.html">Piece type in 3D Models</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -143,7 +143,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>GeomBrick</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/coord-brick.R'><code>R/coord-brick.R</code></a>, <a href='https://github.com/ryantimpe/brickr/blob/master/R/draw-key.R'><code>R/draw-key.R</code></a>, <a href='https://github.com/ryantimpe/brickr/blob/master/R/geom-brick-col.R'><code>R/geom-brick-col.R</code></a>, and 2 more</small>
+    <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/geom-brick-rect.R'><code>R/geom-brick-rect.R</code></a></small>
     <div class="hidden name"><code>brickr-ggproto.Rd</code></div>
     </div>
 
@@ -151,7 +151,6 @@
     <p>ggproto for brickr geoms</p>
     </div>
 
-    <pre class="usage"><span class='fu'>draw_key_brick</span>(<span class='no'>data</span>, <span class='no'>params</span>, <span class='no'>size</span>)</pre>
 
 
 

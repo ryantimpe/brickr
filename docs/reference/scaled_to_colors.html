@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -102,16 +102,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-piece-type.html">Piece type in 3D Models</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -161,9 +161,9 @@
     </tr>
     <tr>
       <th>method</th>
-      <td><p>The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
+      <td><p>Default 'cie94'. The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
 'brickr_classic' is an explicit euclidean distance formula, but yield different results than 'euclidean' in farver.
-See <code><a href='https://rdrr.io/pkg/farver/man/compare_colour.html'>farver::compare_colour</a></code>.</p></td>
+See <code><a href='https://farver.data-imaginist.com/reference/compare_colour.html'>farver::compare_colour</a></code>.</p></td>
     </tr>
     <tr>
       <th>color_table</th>
@@ -172,7 +172,8 @@ See attached data  <code>lego_colors</code> as examples.</p></td>
     </tr>
     <tr>
       <th>color_palette</th>
-      <td><p>Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
+      <td><p>Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common).
+This is useful when trying to build the mosaic out of real bricks.
 Use "bw" for only grayscale bricks. Ignored if a <code>color_table</code> is supplied.</p></td>
     </tr>
     <tr>
@@ -182,6 +183,10 @@ Use "bw" for only grayscale bricks. Ignored if a <code>color_table</code> is sup
     <tr>
       <th>contrast</th>
       <td><p>For <code>color_palette = "bw"</code>. A value &gt;1 will increase the contrast of the image while a positive value &lt;1 will decrease the contrast.</p></td>
+    </tr>
+    <tr>
+      <th>default_piece_type</th>
+      <td><p>Piece type to use in absence of piece_type column.</p></td>
     </tr>
     </table>
 

@@ -12,3 +12,4 @@ admin_color_tools
 ^README\.Rmd$
 R_experiments
 ^CNAME
+^cran-comments\.md$

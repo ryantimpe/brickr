@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -62,16 +62,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/graphs.html">ggplot with brickr</a>
-    </li>
-    <li>
-      <a href="../articles/models-from-other.html">3D Models from mosaics &amp; rayshader</a>
+      <a href="../articles/models-from-other.html">3D Models from mosaics</a>
     </li>
     <li>
       <a href="../articles/models-from-program.html">3D Models programmatically</a>
     </li>
     <li>
       <a href="../articles/models-from-tables.html">3D models from tables</a>
+    </li>
+    <li>
+      <a href="../articles/models-piece-type.html">Piece type in 3D Models</a>
     </li>
     <li>
       <a href="../articles/mosaics.html">Mosaics with brickr</a>
@@ -204,26 +204,6 @@
 <a class="sourceLine" id="cb3-43" title="43"></a>
 <a class="sourceLine" id="cb3-44" title="44">rgl<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="dt">userMatrix =</span> rgl<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rgl/man/matrices.html">rotate3d</a></span>(rgl<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="st">"userMatrix"</span>), <span class="fl">1.1</span><span class="op">*</span>pi<span class="op">/</span><span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span> ,<span class="dv">1</span>))</a></code></pre></div>
 <p><img src="models-from-tables_files/figure-html/bricks_5-1.png" width="384"></p>
-<div id="plates-instead-of-bricks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#plates-instead-of-bricks" class="anchor"></a>Plates instead of bricks</h3>
-<p><strong>Currently unavailable in <code><a href="../reference/build_bricks.html">build_bricks()</a></code>. Use <code><a href="../reference/build_bricks_rayshader.html">build_bricks_rayshader()</a></code></strong></p>
-<p>That’s clearly a tree, right? Why is the data frame called ‘tree_or_mushroom’?</p>
-<p>Use the input ‘brick_type=“plate”’ to render the 3D model using LEGO plates rather than bricks, which are 1/3 as tall.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">brick_colors &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(</a>
-<a class="sourceLine" id="cb4-2" title="2">  <span class="op">~</span><span class="st">`</span><span class="dt">.value</span><span class="st">`</span>, <span class="op">~</span>Color,</a>
-<a class="sourceLine" id="cb4-3" title="3">  <span class="dv">1</span>, <span class="st">"Dark green"</span>,</a>
-<a class="sourceLine" id="cb4-4" title="4">  <span class="dv">2</span>, <span class="st">"Light nougat"</span>,</a>
-<a class="sourceLine" id="cb4-5" title="5">  <span class="dv">3</span>, <span class="st">"Bright red"</span></a>
-<a class="sourceLine" id="cb4-6" title="6">)</a>
-<a class="sourceLine" id="cb4-7" title="7">  </a>
-<a class="sourceLine" id="cb4-8" title="8">tree_or_mushroom <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="st">  </span><span class="kw"><a href="../reference/bricks_from_table.html">bricks_from_table</a></span>(brick_colors) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="st">  </span><span class="kw"><a href="../reference/build_bricks_rayshader.html">build_bricks_rayshader</a></span>(<span class="dt">theta =</span> <span class="dv">210</span>, <span class="dt">phi =</span> <span class="dv">10</span>, <span class="dt">brick_res =</span> <span class="st">"hd"</span>, <span class="dt">brick_type=</span><span class="st">"plate"</span>)</a>
-<a class="sourceLine" id="cb4-11" title="11"></a>
-<a class="sourceLine" id="cb4-12" title="12">rayshader<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rayshader/man/render_snapshot.html">render_snapshot</a></span>(<span class="dt">clear =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="models-from-tables_files/figure-html/bricks_5a-1.png" width="384"></p>
-</div>
 </div>
 <div id="bricks-from-excel" class="section level2">
 <h2 class="hasAnchor">

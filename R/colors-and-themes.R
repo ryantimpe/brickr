@@ -7,7 +7,9 @@
 #' @return A table and ggplot of brick colors & ID numbers.
 #' @examples 
 #' #Generate plot of colors
+#' \dontrun{
 #' build_colors()
+#' }
 #' 
 #' #Print list of colors
 #' build_colors(TRUE)
@@ -33,7 +35,7 @@ build_colors <- function(.names_only = FALSE, include_transparent = TRUE){
     use_columns <- 9
   }
   
-  tidyr::crossing(x=1:2, y=1:2, color = use_colors) %>% 
+  tidyr::crossing(x=1, y=1, color = use_colors) %>% 
     dplyr::left_join(lego_colors %>% 
                        dplyr::select(color = Color, color_hex = hex, Trans_lego), by = "color") %>% 
     dplyr::mutate(color = factor(gsub('(.{1,8})(\\s|$)', '\\1\n',  color), 
@@ -41,10 +43,8 @@ build_colors <- function(.names_only = FALSE, include_transparent = TRUE){
                   alpha = ifelse(Trans_lego, 0.5, 1)) %>% 
     ggplot2::ggplot(ggplot2::aes(x=x, y=y, group=color)) +
     ggplot2::labs(title = "Brick colors available in {brickr}") +
-    brickr::geom_brick_rect(ggplot2::aes(fill = color_hex, alpha = alpha), label_scale = 0.1, 
-                    #Including the use_bricks inputs greatly increases the speed of this.
-                    use_bricks = c("2x2")) +
-    ggplot2::coord_fixed(x=c(0.5, 2.5), y=c(0.5, 2.5)) +
+    ggplot2::geom_raster(ggplot2::aes(fill = color_hex, alpha = alpha)) +
+    ggplot2::coord_fixed() +
     ggplot2::scale_fill_identity() +
     ggplot2::scale_alpha_identity()+
     ggplot2::facet_wrap(~color, ncol = use_columns) +

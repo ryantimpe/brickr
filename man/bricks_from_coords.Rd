@@ -6,7 +6,9 @@
 \usage{
 bricks_from_coords(
   coord_table,
+  use_bricks = NULL,
   increment_level = 0,
+  min_level = 1,
   max_level = Inf,
   increment_x = 0,
   max_x = Inf,
@@ -17,9 +19,15 @@ bricks_from_coords(
 )
 }
 \arguments{
-\item{coord_table}{A data frame of a 3D brick model design. Contains x, y, and z (vertical height) dimensions, as well as Color from official LEGO color names. See \code{build_colors()}.}
+\item{coord_table}{A data frame of a 3D brick model design. Contains 'x', 'y', and 'z' (vertical height) dimensions, as well as 'Color' from official LEGO color names.
+See \code{build_colors()}. Optional column 'piece_type' for shapes other than rectangular bricks.
+Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height placement of bricks.}
+
+\item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.}
 
 \item{increment_level}{Default '0'. Use in animations. Shift  Level/z dimension by an integer.}
+
+\item{min_level}{Default '1'. Use in animations. Any Level/z values below this value will be cut off.}
 
 \item{max_level}{Default 'Inf'. Use in animations. Any Level/z values above this value will be cut off.}
 
@@ -45,9 +53,7 @@ Convert a data frame with x, y, z & Color columns into a brickr 3D object
 Other 3D Models: 
 \code{\link{bricks_from_excel}()},
 \code{\link{bricks_from_mosaic}()},
-\code{\link{bricks_from_rayshader}()},
 \code{\link{bricks_from_table}()},
-\code{\link{build_bricks_rayshader}()},
 \code{\link{build_bricks}()}
 }
 \concept{3D Models}
