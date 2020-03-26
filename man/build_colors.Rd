@@ -19,7 +19,9 @@ Generates a plot of available brick colors. Use .names_only = TRUE to get a list
 }
 \examples{
 #Generate plot of colors
+\dontrun{
 build_colors()
+}
 
 #Print list of colors
 build_colors(TRUE)

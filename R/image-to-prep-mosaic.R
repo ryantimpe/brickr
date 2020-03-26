@@ -105,7 +105,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
 #' @param dithering Improves color of large, photo-realistic mosaics. 
 #' @param contrast For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
-#' @param default_piece_type Piece type to use in absense of piece_type column.
+#' @param default_piece_type Piece type to use in absence of piece_type column.
 #' @format NULL
 #' @usage NULL
 #' @keywords internal

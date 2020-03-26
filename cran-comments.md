@@ -4,9 +4,16 @@
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs or NOTEs. 
+There were no ERRORs or WARNINGs. 
 
-This is my first cran submission.
+There is 1 NOTE:
+
+Checking CRAN incoming feasibility ... NOTE
+  Maintainer: 'Ryan Timpe <ryan.timpe@gmail.com>'
+  
+  New submission
+
+This is my first CRAN submission.
 
 ## Downstream dependencies
 No downstream dependencies

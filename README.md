@@ -276,7 +276,7 @@ mosaic1 %>% build_pieces()
 
 ![](README_files/figure-gfm/m1_pieces-1.png)<!-- -->
 
-## Acknowledgements
+## Acknowledgments
 
 3D models in brickr would not exist without [Tyler
 Morgan-Wall](https://twitter.com/tylermorganwall) and his

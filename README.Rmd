@@ -214,7 +214,7 @@ Use `build_pieces()` to generate a graphic and count of all required plates or b
 mosaic1 %>% build_pieces()
 ```
 
-## Acknowledgements
+## Acknowledgments
 
 3D models in brickr would not exist without [Tyler Morgan-Wall](https://twitter.com/tylermorganwall) and his [rayshader](https://www.rayshader.com/) package. If you're interested in creating 3D models of literally *anything* R, check out his [rayrender](https://www.rayrender.net/) package.
 
