@@ -1,4 +1,6 @@
-#' Scale an image raster array to a small number of pixels. Process into a data frame. Internal function.
+#' Scale an image raster array to a small number of pixels.
+#' 
+#' Decrease the size of an image, in pixel. Process into a data frame. Internal function.
 #'
 #' @param image A raster array from an image.
 #' @param img_size Size of output image in pixel, where one pixel = one 'brick'. Use a single value (e.g. \code{48}) for a square image with 48 pixels on each side. 
@@ -9,6 +11,7 @@
 #' @usage NULL
 #' @return A list with element \code{Img_scaled} containing a data frame of the x- & y-coordinates, R, G, B channels, and hex color of each brick (pixel).
 #' @keywords internal
+
 image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
   
   #Adjust brightness. Max channel value is 1
@@ -93,6 +96,8 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 }
 
 #' Convert image output from scale_image() to bricks
+#' 
+#' Match raw color channel values to a smaller subset of colors.
 #'
 #' @param image_list List output from scale_image(). Contains an element  \code{Img_scaled}.
 #' @param method Default 'cie94'. The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'. 

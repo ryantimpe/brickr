@@ -1,10 +1,28 @@
-#' Create instruction manual for 2D image mosaics
+#' Create instruction manual
+#' 
+#' Render faceted plot of instructions for 2D mosacis or 3D model objects.
+#' 
+#' Instructions for 2D mosaics are split into sections beginning at the bottom of the image.
+#' This makes it easier to follow each row when building an actual brick mosaic.
+#' 
+#' 3D model instructions are displayed one Level (z value) at a time. 
+#' The current model level is clearly displayed, while the previous level is shows as transparent.
 #'
 #' @param brickr_obj brickr mosaic or 3D model object.
-#' @param num_steps Number of discrete steps in instruction manual, for mosaics only
+#' @param num_steps Number of discrete steps in instruction manual, for mosaics only.
+#' @return A single plot object of steps to build brickr model or mosaic.
 #' @family Resources
 #' @export 
+#' @examples \donttest{
+#' # Create a random 24x24 'image'. 
+#' # Otherwise, use a jpeg or png
+#'  demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
 #'
+#' demo_image %>% 
+#'  image_to_mosaic(img_size = 24) %>% 
+#'  build_instructions()
+#'}
+#' 
 
 build_instructions <- function(brickr_obj, num_steps=6) {
   in_list <- brickr_obj

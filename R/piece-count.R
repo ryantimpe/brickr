@@ -1,9 +1,20 @@
 #' Generate required bricks as a data frame.
+#' 
+#' Create a dataframe of brick colors and sizes used in a brick mosaic or model.
 #'
 #' @param brick_obj brickr mosaic or 3D model object.
 #' @return Data frame of piece counts by LEGO color name and size. 
 #' @family Resources
 #' @export 
+#' @examples \donttest{
+#' # Create a random 24x24 'image'. 
+#' # Otherwise, use a jpeg or png
+#'  demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
+#'
+#' demo_image %>% 
+#'  image_to_mosaic(img_size = 24) %>% 
+#'  build_pieces_table()
+#'}
 
 build_pieces_table <- function(brick_obj){
   pcs <- brick_obj$pieces
@@ -15,11 +26,22 @@ build_pieces_table <- function(brick_obj){
 }
 
 #' Display bricks required to build model or mosaic.
+#' 
+#' Create a chart of brick colors and sizes used in a brick mosaic or model.
 #'
 #' @param brick_obj brickr mosaic or 3D model object.
 #' @return Plot object of required bricks by color and size. 
 #' @family Resources
 #' @export 
+#' @examples \donttest{
+#' # Create a random 24x24 'image'. 
+#' # Otherwise, use a jpeg or png
+#'  demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
+#'
+#' demo_image %>% 
+#'  image_to_mosaic(img_size = 24) %>% 
+#'  build_pieces()
+#'}
 #'
 
 build_pieces <- function(brick_obj){

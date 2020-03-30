@@ -45,7 +45,7 @@
   
 
 <meta property="og:title" content="Convert a matrix table into a brickr 3D object — bricks_from_table" />
-<meta property="og:description" content="Convert a matrix table into a brickr 3D object" />
+<meta property="og:description" content="Convert a data frame into a 3D brick object." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Convert a matrix table into a brickr 3D object</p>
+    <p>Convert a data frame into a 3D brick object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bricks_from_table</span>(
@@ -173,7 +173,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>matrix_table</th>
-      <td><p>A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use <code>tribble</code> for ease.</p></td>
+      <td><p>A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use <code><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></code> for ease.</p></td>
     </tr>
     <tr>
       <th>color_guide</th>
@@ -231,7 +231,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with elements <code>Img_lego</code> to pass to <code><a href='collect_bricks.html'>collect_bricks()</a></code>.</p>
+    <p>A list with elements <code>Img_lego</code> to pass to <code><a href='build_bricks.html'>build_bricks</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other 3D Models: 
@@ -240,6 +240,21 @@
 <code><a href='bricks_from_mosaic.html'>bricks_from_mosaic</a>()</code>,
 <code><a href='build_bricks.html'>build_bricks</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'>#This is a brick</span>
+<span class='no'>brick</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+ <span class='kw'>Level</span><span class='kw'>=</span><span class='st'>"A"</span>,
+ <span class='kw'>X1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>), <span class='co'>#The number 3 is the brickrID for 'bright red'</span>
+ <span class='kw'>X2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>)
+)
+
+<span class='no'>brick</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'>bricks_from_table</span>() <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='build_bricks.html'>build_bricks</a></span>()
+
+ <span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -247,6 +262,7 @@
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

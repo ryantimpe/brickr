@@ -2,7 +2,7 @@
 % Please edit documentation in R/bricks-from-tables.R
 \name{bricks_from_coords}
 \alias{bricks_from_coords}
-\title{Convert a data frame with x, y, z & Color columns into a brickr 3D object}
+\title{Create a 3D model object from a long coordinate data frame}
 \usage{
 bricks_from_coords(
   coord_table,
@@ -20,7 +20,7 @@ bricks_from_coords(
 }
 \arguments{
 \item{coord_table}{A data frame of a 3D brick model design. Contains 'x', 'y', and 'z' (vertical height) dimensions, as well as 'Color' from official LEGO color names.
-See \code{build_colors()}. Optional column 'piece_type' for shapes other than rectangular bricks.
+See \code{\link{build_colors}}. Optional column 'piece_type' for shapes other than rectangular bricks.
 Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height placement of bricks.}
 
 \item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.}
@@ -44,10 +44,42 @@ Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height pla
 \item{exclude_level}{Numeric array of Level/z dimensions to exclude.}
 }
 \value{
-A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 }
 \description{
-Convert a data frame with x, y, z & Color columns into a brickr 3D object
+Convert a data frame with x, y, z & Color columns into a 3D object
+}
+\examples{
+\donttest{
+#This is a 1x4 yellow brick
+brick <- data.frame(
+        x = 1:4,
+        y = 1, z=1,
+        color = "Bright yellow", 
+        stringsAsFactors=FALSE)
+
+brick \%>\% 
+  bricks_from_coords() \%>\% 
+  build_bricks()
+  
+  rgl::clear3d()
+  
+#This is a lot of bricks
+bricks <- expand.grid(
+x = 1:8,
+y = 1:4,
+z = 1:3)
+
+#Color them in sets of these 3 options
+bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Dark green"), each=4), 8)
+
+bricks \%>\% 
+  bricks_from_coords() \%>\% 
+  build_bricks()
+  
+  rgl::clear3d()
+
+}
 }
 \seealso{
 Other 3D Models: 

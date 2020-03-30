@@ -1,6 +1,8 @@
-#' Convert a matrix table into a brickr 3D object
+#' Convert a matrix table into a 'brickr' 3D object
+#' 
+#' Convert a data frame into a 3D brick object.
 #'
-#' @param matrix_table A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{tribble} for ease.
+#' @param matrix_table A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{\link[tibble]{tribble}} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
 #' @param piece_matrix A data frame in same shape as \code{matrix_table} with piece shape IDs.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
@@ -14,10 +16,24 @@
 #' @param max_y Default 'Inf'. Use in animations. Any y values above this value will be cut off.
 #' @param exclude_color Numeric array of color ID numbers to exclude.
 #' @param exclude_level Numeric array of Level/z dimensions to exclude.
-#' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+#' @return A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 #' @family 3D Models
 #' @export 
+#' @examples \donttest{
+#' #This is a brick
+#'brick <- data.frame(
+#'  Level="A",
+#'  X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
+#'  X2 = rep(3,4)
+#')
 #'
+#'brick %>% 
+#'  bricks_from_table() %>% 
+#'  build_bricks()
+#'  
+#'  rgl::clear3d()
+#' }
+
 bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, 
                               piece_matrix = NULL,
                               use_bricks = NULL,
@@ -171,15 +187,32 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
   )
 }
 
-#' Convert an Excel {brickr} template into a brickr 3D object
+#' Convert an Excel 'brickr' template into a 3D object
+#' 
+#' Convert am Excel template file into a 3D brick object.
+#' 
 #' @param excel_table Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.
 #' @param piece_table Sheet identical in shape to \code{excel_table} with piece shape IDs.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param repeat_levels How many times to repeat a level. Can save time in model planning. Default is 1.
 #' @inheritParams bricks_from_table
-#' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+#' @return A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 #' @family 3D Models
 #' @export 
+#' @examples \donttest{
+#' #Demo table in same format as Excel template
+#' #This creates a 1x3 red brick.
+#'brick <- tibble::tribble(
+#' ~Level, ~"1", ~"2", ~"3", ~user_color, ~LEGO_color,
+#'  "A",  1,  1,  1,           1, "Bright red" 
+#' )
+#'
+#'brick %>% 
+#'  bricks_from_excel() %>% 
+#'  build_bricks()
+#'  
+#'  rgl::clear3d()
+#' }
 #'
 bricks_from_excel <- function(excel_table, 
                               piece_table = NULL,
@@ -274,10 +307,12 @@ bricks_from_excel <- function(excel_table,
   return(brickr_out)
 }
 
-#' Convert a data frame with x, y, z & Color columns into a brickr 3D object
+#' Create a 3D model object from a long coordinate data frame
+#' 
+#' Convert a data frame with x, y, z & Color columns into a 3D object
 #'
 #' @param coord_table A data frame of a 3D brick model design. Contains 'x', 'y', and 'z' (vertical height) dimensions, as well as 'Color' from official LEGO color names. 
-#' See \code{build_colors()}. Optional column 'piece_type' for shapes other than rectangular bricks.
+#' See \code{\link{build_colors}}. Optional column 'piece_type' for shapes other than rectangular bricks.
 #' Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height placement of bricks.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
@@ -289,10 +324,39 @@ bricks_from_excel <- function(excel_table,
 #' @param max_y Default 'Inf'. Use in animations. Any y values above this value will be cut off.
 #' @param exclude_color Numeric array of color ID numbers to exclude.
 #' @param exclude_level Numeric array of Level/z dimensions to exclude.
-#' @return A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+#' @return A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 #' @family 3D Models
 #' @export 
+#' @examples \donttest{
+#' #This is a 1x4 yellow brick
+#' brick <- data.frame(
+#'         x = 1:4,
+#'         y = 1, z=1,
+#'         color = "Bright yellow", 
+#'         stringsAsFactors=FALSE)
 #'
+#' brick %>% 
+#'   bricks_from_coords() %>% 
+#'   build_bricks()
+#'   
+#'   rgl::clear3d()
+#'   
+#' #This is a lot of bricks
+#' bricks <- expand.grid(
+#' x = 1:8,
+#' y = 1:4,
+#' z = 1:3)
+#' 
+#' #Color them in sets of these 3 options
+#' bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Dark green"), each=4), 8)
+#' 
+#' bricks %>% 
+#'   bricks_from_coords() %>% 
+#'   build_bricks()
+#'   
+#'   rgl::clear3d()
+#' 
+#' }
 bricks_from_coords <- function(coord_table, 
                                use_bricks = NULL,
                                increment_level = 0, min_level = 1, max_level = Inf,

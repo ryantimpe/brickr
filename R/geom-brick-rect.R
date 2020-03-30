@@ -1,18 +1,21 @@
-#' Tile charts as Bricks - ggplot2 extension
+#' Tile charts as bricks
 #'
-#' `geom_rect`, except bars look like LEGO(R) bricks.
+#' `geom_rect`, except bars look like LEGO bricks. 
+#' 
+#' Currently all 'ggplot2' extensions are for internal use only. 
+#' 
 #' @inheritParams ggplot2::geom_rect
 #' @param label Character string to include as embossed text inside brick knobs. Maximum 6 characters.
 #' @param label_scale Scale text size of label as a percentage. 
 #' @param simplified_threshold Maximum number of knobs on the plot before embossed label is suppressed.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @family Graphs
-#' @export
+#' @keywords internal
 #' 
 geom_brick_rect <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
-                            label = "brickr", simplified_threshold = 24*24, label_scale = 1,
+                            label = "", simplified_threshold = 24*24, label_scale = 1,
                             use_bricks = NULL,
                             linejoin = "mitre",
                             na.rm = FALSE,

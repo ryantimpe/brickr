@@ -45,7 +45,7 @@
   
 
 <meta property="og:title" content="Create a 2D LEGO mosaic from an image array — image_to_mosaic" />
-<meta property="og:description" content="Create a 2D LEGO mosaic from an image array" />
+<meta property="og:description" content="Generate brick mosaics from an image or matrix with customization options." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a 2D LEGO mosaic from an image array</p>
+    <p>Generate brick mosaics from an image or matrix with customization options.</p>
     </div>
 
     <pre class="usage"><span class='fu'>image_to_mosaic</span>(
@@ -169,7 +169,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>img</th>
-      <td><p>Image to convert into mosaic. Usually from <code><a href='https://rdrr.io/pkg/jpeg/man/readJPEG.html'>jpeg::readJPEG()</a></code> or <code><a href='https://rdrr.io/pkg/png/man/readPNG.html'>png::readPNG()</a></code>.</p></td>
+      <td><p>Image matrix to convert into mosaic. Usually from <code><a href='https://rdrr.io/pkg/jpeg/man/readJPEG.html'>readJPEG</a></code> or <code><a href='https://rdrr.io/pkg/png/man/readPNG.html'>readPNG</a></code>.</p></td>
     </tr>
     <tr>
       <th>img_size</th>
@@ -222,6 +222,21 @@ Use "bw" for only grayscale bricks. Ignored if a <code>color_table</code> is sup
     <div class='dont-index'><p>Other Mosaics: 
 <code><a href='build_mosaic.html'>build_mosaic</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># Create a random 24x24 'image'. </span>
+<span class='co'># Otherwise, use a jpeg or png</span>
+ <span class='no'>demo_image</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/rescale.html'>rescale</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>24</span>*<span class='fl'>24</span>*<span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)), <span class='kw'>dim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>24</span>, <span class='fl'>24</span>, <span class='fl'>3</span>))
+
+<span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ <span class='co'>#Only use the most common "universal" LEGO colors</span>
+ <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>, <span class='kw'>color_palette</span> <span class='kw'>=</span> <span class='st'>"universal"</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -229,6 +244,7 @@ Use "bw" for only grayscale bricks. Ignored if a <code>color_table</code> is sup
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

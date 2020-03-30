@@ -24,6 +24,6 @@
 lego_colors
 }
 \description{
-A dataset containing the 54 colors available in brickr, along with metadata
+A dataset containing the 54 colors available in 'brickr', along with metadata
 }
 \keyword{datasets}

@@ -3,7 +3,7 @@
 \docType{package}
 \name{brickr}
 \alias{brickr}
-\title{\code{brickr} package}
+\title{'brickr' package}
 \description{
-Tools to emulate the LEGO® System in R
+Emulate LEGO Bricks in 2D and 3D
 }

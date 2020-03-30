@@ -12,14 +12,17 @@ build_colors(.names_only = FALSE, include_transparent = TRUE)
 \item{include_transparent}{Include transparent colors in the plot output.}
 }
 \value{
-A table and ggplot of brick colors & ID numbers.
+An array or ggplot of brick colors & ID numbers.
 }
 \description{
-Generates a plot of available brick colors. Use .names_only = TRUE to get a list of color names.
+Generates a plot of available brick colors.
+}
+\details{
+Use .names_only = TRUE to get a list of color names.
 }
 \examples{
 #Generate plot of colors
-\dontrun{
+\donttest{
 build_colors()
 }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bricks-from-tables.R
 \name{bricks_from_excel}
 \alias{bricks_from_excel}
-\title{Convert an Excel {brickr} template into a brickr 3D object}
+\title{Convert an Excel 'brickr' template into a 3D object}
 \usage{
 bricks_from_excel(
   excel_table,
@@ -48,10 +48,27 @@ bricks_from_excel(
 \item{exclude_level}{Numeric array of Level/z dimensions to exclude.}
 }
 \value{
-A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 }
 \description{
-Convert an Excel {brickr} template into a brickr 3D object
+Convert am Excel template file into a 3D brick object.
+}
+\examples{
+\donttest{
+#Demo table in same format as Excel template
+#This creates a 1x3 red brick.
+brick <- tibble::tribble(
+~Level, ~"1", ~"2", ~"3", ~user_color, ~LEGO_color,
+ "A",  1,  1,  1,           1, "Bright red" 
+)
+
+brick \%>\% 
+ bricks_from_excel() \%>\% 
+ build_bricks()
+ 
+ rgl::clear3d()
+}
+
 }
 \seealso{
 Other 3D Models: 

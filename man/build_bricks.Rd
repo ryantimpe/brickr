@@ -2,7 +2,7 @@
 % Please edit documentation in R/build-bricks-rgl.R
 \name{build_bricks}
 \alias{build_bricks}
-\title{Build 3D brick model with rgl}
+\title{Build 3D brick model with 'rgl'}
 \usage{
 build_bricks(
   brick_list,
@@ -14,7 +14,7 @@ build_bricks(
 )
 }
 \arguments{
-\item{brick_list}{List output from collect_bricks(). Contains an element \code{Img_lego}.}
+\item{brick_list}{List output from a \code{bricks_from_*} function. Contains an element \code{Img_lego}.}
 
 \item{background_color}{Default 'white'. Color of the background.}
 
@@ -31,10 +31,10 @@ Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.}
 3D brick model rendered in the 'rgl' package.
 }
 \description{
-Build 3D brick model with rgl
+Render the output of any of the \code{bricks_from_*} functions as a 3D model.
 }
 \examples{
-\dontrun{
+\donttest{
 #This is a brick
 brick <- data.frame(
  Level="A",
@@ -45,6 +45,8 @@ brick <- data.frame(
 brick \%>\% 
  bricks_from_table() \%>\% 
  build_bricks()
+ 
+rgl::clear3d()
 }
 }
 \seealso{

@@ -45,7 +45,7 @@
   
 
 <meta property="og:title" content="Build 3D brick model with rgl — build_bricks" />
-<meta property="og:description" content="Build 3D brick model with rgl" />
+<meta property="og:description" content="Render the output of any of the bricks_from_* functions as a 3D model." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Build 3D brick model with rgl</p>
+    <p>Render the output of any of the <code>bricks_from_*</code> functions as a 3D model.</p>
     </div>
 
     <pre class="usage"><span class='fu'>build_bricks</span>(
@@ -165,7 +165,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>brick_list</th>
-      <td><p>List output from collect_bricks(). Contains an element <code>Img_lego</code>.</p></td>
+      <td><p>List output from a <code>bricks_from_*</code> function. Contains an element <code>Img_lego</code>.</p></td>
     </tr>
     <tr>
       <th>background_color</th>
@@ -202,7 +202,7 @@ Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.</p></td>
 <code><a href='bricks_from_table.html'>bricks_from_table</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'>#This is a brick</span>
 <span class='no'>brick</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
  <span class='kw'>Level</span><span class='kw'>=</span><span class='st'>"A"</span>,
@@ -213,7 +213,9 @@ Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.</p></td>
 <span class='no'>brick</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='bricks_from_table.html'>bricks_from_table</a></span>() <span class='kw'>%&gt;%</span>
  <span class='fu'>build_bricks</span>()
-}</div></pre>
+
+<span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

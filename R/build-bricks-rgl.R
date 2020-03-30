@@ -1,13 +1,15 @@
-#' Build 3D brick model with rgl
+#' Build 3D brick model with 'rgl'
+#' 
+#' Render the output of any of the \code{bricks_from_*} functions as a 3D model.
 #'
-#' @param brick_list List output from collect_bricks(). Contains an element \code{Img_lego}.
+#' @param brick_list List output from a \code{bricks_from_*} function. Contains an element \code{Img_lego}.
 #' @param background_color Default 'white'. Color of the background.
 #' @param rgl_lit Default 'TRUE'. Include RGL lighting features in rendering.
 #' @param outline_bricks Default 'FALSE'. Include black outlines around brick edges. 
 #' Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.
 #' @param trans_alpha Default 0.5. Alpha level for transparent bricks.
 #' @param view_levels Numeric array of Levels/z values to display. Leave as 'NULL' to include all.
-#' @examples \dontrun{
+#' @examples \donttest{
 #' #This is a brick
 #'brick <- data.frame(
 #'  Level="A",
@@ -18,6 +20,8 @@
 #'brick %>% 
 #'  bricks_from_table() %>% 
 #'  build_bricks()
+#'  
+#'rgl::clear3d()
 #' }
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @family 3D Models

@@ -1,15 +1,16 @@
 Package: brickr
 Title: Emulate LEGO Bricks in 2D and 3D
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
            role = c("aut", "cre"),
            email = "ryan.timpe@gmail.com")
 Description: 
-    Generate digital LEGO models using tidyverse functions. 
+    Generate digital LEGO models using 'tidyverse' functions. 
     Convert image files into 2D and 3D LEGO mosaics, complete with piece counts and instructions. 
     Render 3D models using simple data frame instructions.
+    Developed under the LEGO Group's Fair Play policy <https://www.lego.com/en-us/legal/notices-and-policies/fair-play/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

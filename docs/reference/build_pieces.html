@@ -45,7 +45,7 @@
   
 
 <meta property="og:title" content="Display bricks required to build model or mosaic. — build_pieces" />
-<meta property="og:description" content="Display bricks required to build model or mosaic." />
+<meta property="og:description" content="Create a chart of brick colors and sizes used in a brick mosaic or model." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Display bricks required to build model or mosaic.</p>
+    <p>Create a chart of brick colors and sizes used in a brick mosaic or model.</p>
     </div>
 
     <pre class="usage"><span class='fu'>build_pieces</span>(<span class='no'>brick_obj</span>)</pre>
@@ -172,6 +172,17 @@
 <code><a href='build_instructions.html'>build_instructions</a>()</code>,
 <code><a href='build_pieces_table.html'>build_pieces_table</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># Create a random 24x24 'image'. </span>
+<span class='co'># Otherwise, use a jpeg or png</span>
+ <span class='no'>demo_image</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/rescale.html'>rescale</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>24</span>*<span class='fl'>24</span>*<span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)), <span class='kw'>dim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>24</span>, <span class='fl'>24</span>, <span class='fl'>3</span>))
+
+<span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='image_to_mosaic.html'>image_to_mosaic</a></span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>build_pieces</span>()</div><div class='img'><img src='build_pieces-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -179,6 +190,7 @@
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

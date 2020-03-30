@@ -1,13 +1,15 @@
 #' Display available brick colors
 #' 
-#' Generates a plot of available brick colors. Use .names_only = TRUE to get a list of color names.
+#' Generates a plot of available brick colors. 
+#' 
+#' Use .names_only = TRUE to get a list of color names.
 #' 
 #' @param .names_only Return an array of the 41 solid brick color names and 13 transparent colors. Does not plot.
 #' @param include_transparent Include transparent colors in the plot output.
-#' @return A table and ggplot of brick colors & ID numbers.
+#' @return An array or ggplot of brick colors & ID numbers.
 #' @examples 
 #' #Generate plot of colors
-#' \dontrun{
+#' \donttest{
 #' build_colors()
 #' }
 #' 

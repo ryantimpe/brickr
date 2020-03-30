@@ -1,6 +1,8 @@
 #' Create a 2D LEGO mosaic from an image array
+#' 
+#' Generate brick mosaics from an image or matrix with customization options.
 #'
-#' @param img Image to convert into mosaic. Usually from \code{jpeg::readJPEG()} or \code{png::readPNG()}.
+#' @param img Image matrix to convert into mosaic. Usually from \code{\link[jpeg]{readJPEG}} or \code{\link[png]{readPNG}}.
 #' @param img_size Size of output image in pixel, where one pixel = one 'brick'. Use a single value (e.g. \code{48}) for a square image with 48 pixels on each side. 
 #' Use an array of two values for a rectangular image \code{c(width, height)}.
 #' @param method The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'. 
@@ -18,6 +20,21 @@
 #' @return A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
 #' @family Mosaics
 #' @export 
+#' @examples 
+#' \donttest{
+#' # Create a random 24x24 'image'. 
+#' # Otherwise, use a jpeg or png
+#'  demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
+#'
+#' demo_image %>% 
+#'  image_to_mosaic(img_size = 24) %>% 
+#'  build_mosaic()
+#'  
+#'  #Only use the most common "universal" LEGO colors
+#'  demo_image %>% 
+#'   image_to_mosaic(img_size = 24, color_palette = "universal") %>% 
+#'    build_mosaic()
+#' }
 #'
 image_to_mosaic <- function(img, img_size = 48, color_table = NULL,
                             method = "cie94", 

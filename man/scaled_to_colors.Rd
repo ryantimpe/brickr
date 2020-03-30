@@ -27,6 +27,6 @@ Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
 A list with element \code{Img_lego} containing a data frame of the x- & y-coordinates, R, G, B channels, and mapped color of each brick (pixel).
 }
 \description{
-Convert image output from scale_image() to bricks
+Match raw color channel values to a smaller subset of colors.
 }
 \keyword{internal}

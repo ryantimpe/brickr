@@ -26,7 +26,7 @@ collect_bricks <- function(image_list, use_bricks = NULL,
   #Allowed bricks ----
   
   if(is.null(use_bricks)){
-    use_bricks <- c('4x2', '2x2', '4x1', '3x2', '3x1', '2x1', '1x1')
+    use_bricks <- c('4x2', '2x2', '4x1', '3x1', '2x1', '1x1') #3x2 once I change build_pieces()
   } else {
     #Must contain 1x1... duplicated gets dropped
     use_bricks <- c(use_bricks, '1x1')

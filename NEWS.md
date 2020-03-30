@@ -1,6 +1,4 @@
-# Current version
-
-# brickr 0.3.0
+# brickr 0.3.1
 
 * An overall leaner package to ensure optimal performance and remove experimental features.
 

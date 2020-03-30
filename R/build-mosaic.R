@@ -1,10 +1,21 @@
 #' Display 2D LEGO mosaic as a plot image
+#' 
+#' Render a plot image of the 2D brick mosaic with optional title.
 #'
-#' @param brick_obj List output from image_to_bricks(). Contains an element  \code{Img_lego}.
+#' @param brick_obj List output from image_to_bricks(). Contains an element \code{Img_lego}.
 #' @param title Optional title to include above plotted mosaic.
+#' @return A single plot object to display 2D mosaic.
 #' @family Mosaics
 #' @export 
+#' @examples \donttest{
+#' # Create a random 24x24 'image'. 
+#' # Otherwise, use a jpeg or png
+#'  demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
 #'
+#' demo_image %>% 
+#'  image_to_mosaic(img_size = 24) %>% 
+#'  build_mosaic()
+#'}
 
 build_mosaic <- function(brick_obj, title=NULL){
   in_list <- brick_obj

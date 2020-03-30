@@ -2,22 +2,39 @@
 % Please edit documentation in R/bricks-from-mosaic.R
 \name{bricks_from_mosaic}
 \alias{bricks_from_mosaic}
-\title{Convert a 2D LEGO mosaic into a brickr 3D object}
+\title{Convert a 2D LEGO mosaic into a 'brickr' 3D object}
 \usage{
 bricks_from_mosaic(mosaic_list, mosaic_height = 6, highest_el = "light")
 }
 \arguments{
-\item{mosaic_list}{List output from collect_bricks() or image_to_bricks(). Contains an element \code{Img_lego}.}
+\item{mosaic_list}{List output from image_to_bricks(). Contains an element \code{Img_lego}.}
 
 \item{mosaic_height}{Number of layers in the 3D image.}
 
 \item{highest_el}{Brick height is determined by brightness of color. Use \code{highest_el = 'dark'} for darkest bricks to have \code{mosaic_height}.}
 }
 \value{
-A list with elements \code{Img_lego} to pass to \code{collect_bricks()}.
+A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 }
 \description{
-Convert a 2D LEGO mosaic into a brickr 3D object
+Stacks LEGO plates to create a 3D version of the 2D brick mosaics.
+}
+\details{
+Height of bricks determined by brightness of color.
+}
+\examples{
+\donttest{
+# Create a random 24x24 'image'. 
+# Otherwise, use a jpeg or png
+ demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
+
+demo_image \%>\% 
+ image_to_mosaic(img_size = 24) \%>\% 
+ bricks_from_mosaic() \%>\% 
+ build_bricks()
+ 
+ rgl::clear3d()
+}
 }
 \seealso{
 Other 3D Models: 

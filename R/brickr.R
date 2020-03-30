@@ -1,6 +1,6 @@
-#' \code{brickr} package
+#' 'brickr' package
 #'
-#' Tools to emulate the LEGO&reg; System in R
+#' Emulate LEGO Bricks in 2D and 3D
 #'
 #' @docType package
 #' @name brickr

@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom-brick-rect.R
 \name{geom_brick_rect}
 \alias{geom_brick_rect}
-\title{Tile charts as Bricks - ggplot2 extension}
+\title{Tile charts as bricks}
 \usage{
 geom_brick_rect(
   mapping = NULL,
@@ -10,7 +10,7 @@ geom_brick_rect(
   stat = "identity",
   position = "identity",
   ...,
-  label = "brickr",
+  label = "",
   simplified_threshold = 24 * 24,
   label_scale = 1,
   use_bricks = NULL,
@@ -77,6 +77,10 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 }
 \description{
-\code{geom_rect}, except bars look like LEGO(R) bricks.
+\code{geom_rect}, except bars look like LEGO bricks.
+}
+\details{
+Currently all 'ggplot2' extensions are for internal use only.
 }
 \concept{Graphs}
+\keyword{internal}

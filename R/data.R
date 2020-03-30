@@ -1,6 +1,6 @@
 #' Brickr colors available for mosaics & 3D models
 #'
-#' A dataset containing the 54 colors available in brickr, along with metadata
+#' A dataset containing the 54 colors available in 'brickr', along with metadata
 #'
 #' @format A data frame with 54 rows and 10 variables:
 #' \describe{
