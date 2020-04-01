@@ -15,5 +15,7 @@ Checking CRAN incoming feasibility ... NOTE
 
 This is my first CRAN submission.
 
+Re-submit with improvements to documentation.
+
 ## Downstream dependencies
 No downstream dependencies
