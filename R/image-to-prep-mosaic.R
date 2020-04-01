@@ -255,12 +255,14 @@ convert_color_to_brick_dithering <- function(img_object, color_table, brick_tabl
                                  from_space='rgb', to_space = 'rgb', method=method)
         
         #Assign LEGO color for this cell
+        if(!is.character(brick_table$hex[which.min(dstncs)])){next}
+        
         mosaic_base[mosaic_base$x == xx & mosaic_base$y == yy, c("Lego_name", "Lego_color")] <- 
-          brick_table[which.min(dstncs),  c("Color", "hex")]
+          as.character(brick_table[which.min(dstncs),  c("Color", "hex")][1,])
         
         #Difference in color
         dith_diff <- mosaic_base[mosaic_base$x == xx & mosaic_base$y == yy,  c("R", "G", "B")] - 
-          brick_table[which.min(dstncs),  c("R_lego", "G_lego", "B_lego")]
+          as.numeric(brick_table[which.min(dstncs),  c("R_lego", "G_lego", "B_lego")][1,])
         
         # dith_diff <- dith_diff*c(0.299, 0.587, 0.114)
         

@@ -121,18 +121,6 @@ gridExtra::grid.arrange(grobs = mosaics_by_method, layout_matrix =rbind(c(1,2),c
 
 When rendering a mosaic from a photographic with many shades of similar colors, using [dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering) by setting `dithering = TRUE` will help to add texture to the mosaic and avoid large areas of the same color. This works particularly well for large mosaics, but is purely a stylist preference.
 
-```{r c_dither, fig.width=6, fig.height=4}
-gg_img = tempfile() 
-download.file("http://ryantimpe.com/files/goldengirls.JPG", gg_img, mode="wb")
-
-c(FALSE, TRUE) %>% 
-  purrr::map(~jpeg::readJPEG(gg_img) %>% 
-  image_to_mosaic(dithering = .x) %>% 
-  build_mosaic(title = paste("dithering =", .x))) -> mosaics_by_dither
-
-gridExtra::grid.arrange(grobs = mosaics_by_dither, layout_matrix = matrix(c(1,2), ncol=2))
-```
-
 ### Other color options
 
 The input `brightness` can be used to scale up or down the RGB values of the image before color matching. The default is 1.

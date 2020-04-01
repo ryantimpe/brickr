@@ -74,7 +74,7 @@ expand.grid(
   x = 1:4,
   y = 1:2,
   z = 1,
-  Color = "Bright red"
+  Color = "Bright red", stringsAsFactors = FALSE
 )  %>% 
   bricks_from_coords() %>% 
   build_bricks()
@@ -90,7 +90,7 @@ expand.grid(
   x = 1:4,
   y = 1:2,
   z = 1,
-  Color = "Bright red"
+  Color = "Bright red", stringsAsFactors = FALSE
 )  %>% 
   dplyr::mutate(piece_type = "p") %>% 
   bricks_from_coords() %>% 
