@@ -50,7 +50,6 @@ A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 Convert a data frame with x, y, z & Color columns into a 3D object
 }
 \examples{
-\donttest{
 #This is a 1x4 yellow brick
 brick <- data.frame(
         x = 1:4,
@@ -71,7 +70,16 @@ y = 1:4,
 z = 1:3)
 
 #Color them in sets of these 3 options
-bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Dark green"), each=4), 8)
+bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Tr. green"), each=4), 8)
+
+bricks \%>\% 
+  bricks_from_coords() \%>\% 
+  build_bricks()
+  
+  rgl::clear3d()
+  
+#Use different brick shapes by added a 'piece_type' column
+bricks$piece_type <- "c1" #Make all the pieces cylinders
 
 bricks \%>\% 
   bricks_from_coords() \%>\% 
@@ -79,7 +87,6 @@ bricks \%>\%
   
   rgl::clear3d()
 
-}
 }
 \seealso{
 Other 3D Models: 

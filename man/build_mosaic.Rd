@@ -18,15 +18,13 @@ A single plot object to display 2D mosaic.
 Render a plot image of the 2D brick mosaic with optional title.
 }
 \examples{
-\donttest{
-# Create a random 24x24 'image'. 
-# Otherwise, use a jpeg or png
- demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
 
-demo_image \%>\% 
- image_to_mosaic(img_size = 24) \%>\% 
+# Import a jpeg or png
+ demo_image = system.file("extdata", "demo_img.jpg", package = "brickr", mustWork = TRUE)
+
+jpeg::readJPEG(demo_image) \%>\% 
+ image_to_mosaic() \%>\% 
  build_mosaic()
-}
 }
 \seealso{
 Other Mosaics: 

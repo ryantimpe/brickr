@@ -1,6 +1,6 @@
-#' Create instruction manual
+#' Create instruction manual for a 2D mosaic or 3D model
 #' 
-#' Render faceted plot of instructions for 2D mosacis or 3D model objects.
+#' Render faceted plot of instructions for 2D mosacis or 3D model objects. For mosaics, can specify the number of steps.
 #' 
 #' Instructions for 2D mosaics are split into sections beginning at the bottom of the image.
 #' This makes it easier to follow each row when building an actual brick mosaic.

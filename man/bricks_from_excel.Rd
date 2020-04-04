@@ -21,7 +21,8 @@ bricks_from_excel(
 )
 }
 \arguments{
-\item{excel_table}{Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.}
+\item{excel_table}{Sheet imported from a brickr Excel template to build model.
+This differs slightly from \code{\link{bricks_from_table}} because a single data frame has both the brick coordinates and color table.}
 
 \item{piece_table}{Sheet identical in shape to \code{excel_table} with piece shape IDs.}
 
@@ -51,24 +52,34 @@ bricks_from_excel(
 A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 }
 \description{
-Convert am Excel template file into a 3D brick object.
+Build a 3D model from an Excel template. A single data frame includes both the instructions and the color guides.
 }
 \examples{
-\donttest{
 #Demo table in same format as Excel template
 #This creates a 1x3 red brick.
-brick <- tibble::tribble(
+demo_excel <- tibble::tribble(
 ~Level, ~"1", ~"2", ~"3", ~user_color, ~LEGO_color,
  "A",  1,  1,  1,           1, "Bright red" 
 )
 
-brick \%>\% 
+demo_excel \%>\% 
  bricks_from_excel() \%>\% 
  build_bricks()
  
  rgl::clear3d()
-}
+ 
+#To change the pieces, import a second table in the same shape, but with piece IDs.
+demo_pieces <- tibble::tribble(
+~Level, ~"1", ~"2", ~"3",
+ "A",  "w4",  "c1",  "w2"    
+)
 
+demo_excel \%>\% 
+ bricks_from_excel(piece_table = demo_pieces) \%>\% 
+ build_bricks()
+ 
+ rgl::clear3d()
+ 
 }
 \seealso{
 Other 3D Models: 

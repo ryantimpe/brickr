@@ -2,7 +2,7 @@
 % Please edit documentation in R/bricks-from-tables.R
 \name{bricks_from_table}
 \alias{bricks_from_table}
-\title{Convert a matrix table into a 'brickr' 3D object}
+\title{Convert a table into a 'brickr' 3D object}
 \usage{
 bricks_from_table(
   matrix_table,
@@ -28,7 +28,7 @@ bricks_from_table(
 
 \item{piece_matrix}{A data frame in same shape as \code{matrix_table} with piece shape IDs.}
 
-\item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.}
+\item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`. '1x1' will always be considered.}
 
 \item{.re_level}{Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.}
 
@@ -54,11 +54,10 @@ bricks_from_table(
 A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 }
 \description{
-Convert a data frame into a 3D brick object.
+Create a 3D brick object from a data frame. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis.
 }
 \examples{
-\donttest{
-#This is a brick
+#This is a 4x2 brick. One level high, 2 x-values (columns), 4 y-values (rows).
 brick <- data.frame(
  Level="A",
  X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
@@ -70,7 +69,51 @@ brick \%>\%
  build_bricks()
  
  rgl::clear3d()
-}
+ 
+#Build on top of each other by changing the Level value.
+#This example builds a blue 2x2 brick on top of a red 2x2
+brick <- data.frame(
+ Level=c("A", "A", "B", "B"),
+ X1 = c(3, 3, 4, 4), #3 is red, 4 is blue
+ X2 = c(3, 3, 4, 4)
+)
+
+brick \%>\% 
+ bricks_from_table() \%>\% 
+ build_bricks()
+ 
+ rgl::clear3d()
+
+#Provide an additional piece_matrix  argument to change the default brick shape.
+pieces <- data.frame(
+ Level=c("A", "A", "B", "B"),
+ X1 = c("b", "b", "p", "p"), #b is brick (default), p is plate
+ X2 = c("b", "b", "p", "p")
+)
+brick \%>\% 
+ bricks_from_table(piece_matrix=pieces) \%>\% 
+ build_bricks()
+ 
+ rgl::clear3d()
+ 
+#Provide a custom table of colors 
+custom_colors <- data.frame(
+.value = c(3, 4),
+Color = c("Bright orange", "Dark green")
+)
+
+brick \%>\% 
+ bricks_from_table(color_guide  = custom_colors) \%>\% 
+ build_bricks()
+ 
+ rgl::clear3d()
+ 
+#Limit the size of bricks used in the model with use_bricks
+brick \%>\% 
+ bricks_from_table(use_bricks = "2x1") \%>\% #Only use 2x1 bricks.
+ build_bricks()
+ 
+ rgl::clear3d()
 }
 \seealso{
 Other 3D Models: 

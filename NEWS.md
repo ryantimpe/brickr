@@ -1,4 +1,4 @@
-# brickr 0.3.1
+# brickr 0.3.2
 
 * An overall leaner package to ensure optimal performance and remove experimental features.
 

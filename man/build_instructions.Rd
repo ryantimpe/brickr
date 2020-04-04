@@ -2,7 +2,7 @@
 % Please edit documentation in R/build-instructions.R
 \name{build_instructions}
 \alias{build_instructions}
-\title{Create instruction manual}
+\title{Create instruction manual for a 2D mosaic or 3D model}
 \usage{
 build_instructions(brickr_obj, num_steps = 6)
 }
@@ -15,7 +15,7 @@ build_instructions(brickr_obj, num_steps = 6)
 A single plot object of steps to build brickr model or mosaic.
 }
 \description{
-Render faceted plot of instructions for 2D mosacis or 3D model objects.
+Render faceted plot of instructions for 2D mosacis or 3D model objects. For mosaics, can specify the number of steps.
 }
 \details{
 Instructions for 2D mosaics are split into sections beginning at the bottom of the image.

@@ -5,7 +5,7 @@
 #' @param matrix_table A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{\link[tibble]{tribble}} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
 #' @param piece_matrix A data frame in same shape as \code{matrix_table} with piece shape IDs.
-#' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
+#' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`. '1x1' will always be considered.
 #' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param min_level Default '1'. Use in animations. Any Level/z values below this value will be cut off.
@@ -58,8 +58,25 @@
 #'  build_bricks()
 #'  
 #'  rgl::clear3d()
-
-
+#'  
+#' #Provide a custom table of colors 
+#' custom_colors <- data.frame(
+#' .value = c(3, 4),
+#' Color = c("Bright orange", "Dark green")
+#' )
+#' 
+#'brick %>% 
+#'  bricks_from_table(color_guide  = custom_colors) %>% 
+#'  build_bricks()
+#'  
+#'  rgl::clear3d()
+#'  
+#'#Limit the size of bricks used in the model with use_bricks
+#'brick %>% 
+#'  bricks_from_table(use_bricks = "2x1") %>% #Only use 2x1 bricks.
+#'  build_bricks()
+#'  
+#'  rgl::clear3d()
 
 bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, 
                               piece_matrix = NULL,
@@ -218,9 +235,10 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
 
 #' Convert an Excel 'brickr' template into a 3D object
 #' 
-#' Convert am Excel template file into a 3D brick object.
+#' Build a 3D model from an Excel template. A single data frame includes both the instructions and the color guides.
 #' 
-#' @param excel_table Sheet imported from a brickr Excel template to build model. Contains stud placement and colors.
+#' @param excel_table Sheet imported from a brickr Excel template to build model. 
+#' This differs slightly from \code{\link{bricks_from_table}} because a single data frame has both the brick coordinates and color table.
 #' @param piece_table Sheet identical in shape to \code{excel_table} with piece shape IDs.
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param repeat_levels How many times to repeat a level. Can save time in model planning. Default is 1.
@@ -228,21 +246,33 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
 #' @return A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 #' @family 3D Models
 #' @export 
-#' @examples \donttest{
+#' @examples
 #' #Demo table in same format as Excel template
 #' #This creates a 1x3 red brick.
-#'brick <- tibble::tribble(
+#'demo_excel <- tibble::tribble(
 #' ~Level, ~"1", ~"2", ~"3", ~user_color, ~LEGO_color,
 #'  "A",  1,  1,  1,           1, "Bright red" 
 #' )
 #'
-#'brick %>% 
+#'demo_excel %>% 
 #'  bricks_from_excel() %>% 
 #'  build_bricks()
 #'  
 #'  rgl::clear3d()
-#' }
-#'
+#'  
+#' #To change the pieces, import a second table in the same shape, but with piece IDs.
+#' demo_pieces <- tibble::tribble(
+#' ~Level, ~"1", ~"2", ~"3",
+#'  "A",  "w4",  "c1",  "w2"    
+#' )
+#' 
+#'demo_excel %>% 
+#'  bricks_from_excel(piece_table = demo_pieces) %>% 
+#'  build_bricks()
+#'  
+#'  rgl::clear3d()
+#'  
+
 bricks_from_excel <- function(excel_table, 
                               piece_table = NULL,
                               use_bricks = NULL,
@@ -356,7 +386,7 @@ bricks_from_excel <- function(excel_table,
 #' @return A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 #' @family 3D Models
 #' @export 
-#' @examples \donttest{
+#' @examples 
 #' #This is a 1x4 yellow brick
 #' brick <- data.frame(
 #'         x = 1:4,
@@ -377,15 +407,23 @@ bricks_from_excel <- function(excel_table,
 #' z = 1:3)
 #' 
 #' #Color them in sets of these 3 options
-#' bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Dark green"), each=4), 8)
+#' bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Tr. green"), each=4), 8)
 #' 
 #' bricks %>% 
 #'   bricks_from_coords() %>% 
 #'   build_bricks()
 #'   
 #'   rgl::clear3d()
+#'   
+#'#Use different brick shapes by added a 'piece_type' column
+#'bricks$piece_type <- "c1" #Make all the pieces cylinders
+#'
+#'bricks %>% 
+#'   bricks_from_coords() %>% 
+#'   build_bricks()
+#'   
+#'   rgl::clear3d()
 #' 
-#' }
 bricks_from_coords <- function(coord_table, 
                                use_bricks = NULL,
                                increment_level = 0, min_level = 1, max_level = Inf,
