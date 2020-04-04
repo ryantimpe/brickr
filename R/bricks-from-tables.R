@@ -1,11 +1,11 @@
-#' Convert a matrix table into a 'brickr' 3D object
-#' 
-#' Convert a data frame into a 3D brick object.
+#' Convert a table into a 'brickr' 3D object
+#'
+#' Create a 3D brick object from a data frame. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. 
 #'
 #' @param matrix_table A data frame of a 3D brick model design. Left-most column is level/height/z dimension, with rows as Y axis and columns as X axis. See example. Use \code{\link[tibble]{tribble}} for ease.
 #' @param color_guide A data frame linking numeric \code{.value} in \code{matrix_table} to official LEGO color names. Defaults to data frame 'lego_colors'.
 #' @param piece_matrix A data frame in same shape as \code{matrix_table} with piece shape IDs.
-#' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '3x2', '2x2', '3x1', '2x1', '1x1')}`.
+#' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param .re_level Logical to reassign the Level/z dimension to layers in alphanumeric order. Set to FALSE to explicitly provide levels.
 #' @param increment_level Default '0'. Use in animations. Shift  Level/z dimension by an integer.
 #' @param min_level Default '1'. Use in animations. Any Level/z values below this value will be cut off.
@@ -19,8 +19,8 @@
 #' @return A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 #' @family 3D Models
 #' @export 
-#' @examples \donttest{
-#' #This is a brick
+#' @examples 
+#' #This is a 4x2 brick. One level high, 2 x-values (columns), 4 y-values (rows).
 #'brick <- data.frame(
 #'  Level="A",
 #'  X1 = rep(3,4), #The number 3 is the brickrID for 'bright red'
@@ -32,7 +32,34 @@
 #'  build_bricks()
 #'  
 #'  rgl::clear3d()
-#' }
+#'  
+#'#Build on top of each other by changing the Level value.
+#'#This example builds a blue 2x2 brick on top of a red 2x2
+#'brick <- data.frame(
+#'  Level=c("A", "A", "B", "B"),
+#'  X1 = c(3, 3, 4, 4), #3 is red, 4 is blue
+#'  X2 = c(3, 3, 4, 4)
+#')
+#'
+#'brick %>% 
+#'  bricks_from_table() %>% 
+#'  build_bricks()
+#'  
+#'  rgl::clear3d()
+#'
+#' #Provide an additional piece_matrix  argument to change the default brick shape.
+#' pieces <- data.frame(
+#'  Level=c("A", "A", "B", "B"),
+#'  X1 = c("b", "b", "p", "p"), #b is brick (default), p is plate
+#'  X2 = c("b", "b", "p", "p")
+#')
+#'brick %>% 
+#'  bricks_from_table(piece_matrix=pieces) %>% 
+#'  build_bricks()
+#'  
+#'  rgl::clear3d()
+
+
 
 bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, 
                               piece_matrix = NULL,
@@ -156,7 +183,9 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
       dplyr::mutate(piece_type = "b")
   } else {
     pieces_set <- pieces_raw %>% 
-      dplyr::mutate_all(list(~ifelse(is.na(.), 0, .))) %>% 
+      dplyr::mutate_at(dplyr::vars(-Level, -mid_level), as.character) %>% 
+      dplyr::mutate_at(dplyr::vars(-Level, -mid_level), list(~ifelse(is.na(.), "b", .))) %>% 
+      dplyr::mutate_at(dplyr::vars( Level,  mid_level), list(~ifelse(is.na(.), 0, .))) %>% 
       dplyr::group_by(Level, mid_level) %>% 
       dplyr::mutate(y = dplyr::n() - dplyr::row_number() + 1) %>% 
       dplyr::ungroup() %>% 
