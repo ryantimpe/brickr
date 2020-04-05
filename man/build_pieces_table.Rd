@@ -2,7 +2,7 @@
 % Please edit documentation in R/piece-count.R
 \name{build_pieces_table}
 \alias{build_pieces_table}
-\title{Generate required bricks as a data frame.}
+\title{Generate required bricks as a data frame}
 \usage{
 build_pieces_table(brick_obj)
 }
@@ -16,15 +16,21 @@ Data frame of piece counts by LEGO color name and size.
 Create a dataframe of brick colors and sizes used in a brick mosaic or model.
 }
 \examples{
-\donttest{
-# Create a random 24x24 'image'. 
-# Otherwise, use a jpeg or png
- demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
-
-demo_image \%>\% 
- image_to_mosaic(img_size = 24) \%>\% 
- build_pieces_table()
-}
+# Import a jpeg or png
+ demo_file <- system.file("extdata", "demo_img.jpg", 
+                          package = "brickr", mustWork = TRUE)
+ demo_image <- jpeg::readJPEG(demo_file)
+#Create a mosaic oject 
+ \donttest{
+ mosaic <- demo_image \%>\% 
+   image_to_mosaic(img_size = 24)
+ }
+ 
+ #Rather than drawing the mosaic, use build_pieces_table() to produce piece table
+ \donttest{
+  mosaic \%>\% 
+   build_pieces_table()
+ }
 }
 \seealso{
 Other Resources: 

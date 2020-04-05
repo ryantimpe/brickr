@@ -10,11 +10,23 @@
 #' @examples 
 #' 
 #' # Import a jpeg or png
-#'  demo_image = system.file("extdata", "demo_img.jpg", package = "brickr", mustWork = TRUE)
-#'
-#' jpeg::readJPEG(demo_image) %>% 
-#'  image_to_mosaic() %>% 
+#'  demo_file <- system.file("extdata", "demo_img.jpg", 
+#'                           package = "brickr", mustWork = TRUE)
+#'  demo_image <- jpeg::readJPEG(demo_file)
+#'  
+#' #Build a very small 12x12 mosaic.
+#'  \donttest{
+#' demo_image %>% 
+#'  image_to_mosaic(12) %>% 
 #'  build_mosaic()
+#'  }
+#' 
+#' #Build a mosaic in the default size of 48x48 studs with title
+#' \donttest{
+#' demo_image %>% 
+#'  image_to_mosaic() %>% 
+#'  build_mosaic("Demo mosaic")
+#'  }
 
 build_mosaic <- function(brick_obj, title=NULL){
   in_list <- brick_obj

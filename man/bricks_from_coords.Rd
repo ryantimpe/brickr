@@ -65,27 +65,31 @@ brick \%>\%
   
 #This is a lot of bricks
 bricks <- expand.grid(
-x = 1:8,
-y = 1:4,
+x = 1:4,
+y = 1:2,
 z = 1:3)
 
 #Color them in sets of these 3 options
-bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Tr. green"), each=4), 8)
+bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Tr. green"), each=4), 2)
 
+\donttest{
 bricks \%>\% 
   bricks_from_coords() \%>\% 
   build_bricks()
   
   rgl::clear3d()
+  }
   
 #Use different brick shapes by added a 'piece_type' column
 bricks$piece_type <- "c1" #Make all the pieces cylinders
 
+\donttest{
 bricks \%>\% 
   bricks_from_coords() \%>\% 
   build_bricks()
   
   rgl::clear3d()
+  }
 
 }
 \seealso{

@@ -15,16 +15,15 @@ build_colors(.names_only = FALSE, include_transparent = TRUE)
 An array or ggplot of brick colors & ID numbers.
 }
 \description{
-Generates a plot of available brick colors.
+Generates a plot of available brick colors. These names must be used exactly when creating custom name lists.
+There are 41 solid brick color names and 13 transparent colors. Transparent colors are not used in mosaics.
 }
 \details{
 Use .names_only = TRUE to get a list of color names.
 }
 \examples{
 #Generate plot of colors
-\donttest{
-build_colors()
-}
+build_colors(include_transparent = FALSE)
 
 #Print list of colors
 build_colors(TRUE)

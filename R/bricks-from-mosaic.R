@@ -1,7 +1,6 @@
 #' Convert a 2D LEGO mosaic into a 'brickr' 3D object
 #' 
 #' Stacks LEGO plates to create a 3D version of the 2D brick mosaics. 
-#' 
 #' Height of bricks determined by brightness of color. 
 #'
 #' @param mosaic_list List output from image_to_bricks(). Contains an element \code{Img_lego}.
@@ -10,18 +9,37 @@
 #' @return A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 #' @family 3D Models
 #' @export 
-#' @examples \donttest{
-#' # Create a random 24x24 'image'. 
-#' # Otherwise, use a jpeg or png
-#'  demo_image = array(scales::rescale(runif(24*24*3), c(0, 1)), dim=c(24, 24, 3))
-#'
-#' demo_image %>% 
-#'  image_to_mosaic(img_size = 24) %>% 
-#'  bricks_from_mosaic() %>% 
-#'  build_bricks()
+#' @examples 
+#' # Import a jpeg or png
+#'  demo_file <- system.file("extdata", "demo_img.jpg", 
+#'                           package = "brickr", mustWork = TRUE)
+#'  demo_image <- jpeg::readJPEG(demo_file)
 #'  
-#'  rgl::clear3d()
-#'}
+#'  #Begin with a 24x24 mosaic object
+#'  \donttest{
+#'  mosaic <- demo_image %>% 
+#'     image_to_mosaic(24)
+#'     }
+#'  
+#'  #Pass the mosaic object to bricks_from_mosaic() to convert to 3D specifications
+#'  \donttest{
+#'  mosaic %>% 
+#'    bricks_from_mosaic() %>% 
+#'    build_bricks()
+#'    
+#'    rgl::clear3d()
+#'    }
+#'    
+#'  #In this image, the background is a light color.
+#'  # Change the 'highest_el' to make dark colors highest
+#'  # Change mosaic height to change the number of layers
+#'  \donttest{
+#'  mosaic %>% 
+#'    bricks_from_mosaic(mosaic_height = 3, highest_el = "dark") %>% 
+#'    build_bricks()
+#'  
+#'   rgl::clear3d()
+#'   }
 bricks_from_mosaic <- function(mosaic_list, mosaic_height = 6, highest_el = "light"){
   
   #Get previous data

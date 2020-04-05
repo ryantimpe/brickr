@@ -105,10 +105,10 @@ png::readPNG(demo_img) %>%
 
 brickr uses the [`farver`](https://CRAN.R-project.org/package=farver) package to match image colors to the subset of LEGO colors. Technical details of the different algorithms can be found on [Wikipedia](https://en.wikipedia.org/wiki/Color_difference).
 
-The default algorithm is 'cie94', though the other farver options are available using the `method` input. The farver 'euclidean' is not very accurate, so 'brickr_classic' returns a manually calculated version for Euclidean RGB distance matching.
+The default algorithm is 'cie94', though the other farver options are available using the `method` input. 
 
 ```{r c_methods, fig.height=5, fig.width=5}
-c("cie94", "cie2000", "euclidean", "brickr_classic") %>% 
+c("cie94", "cie2000", "euclidean", "cmc") %>% 
   purrr::map(~png::readPNG(demo_img) %>% 
   image_to_mosaic(24, method =.x) %>% 
   build_mosaic(title = .x )) -> mosaics_by_method

@@ -1,4 +1,4 @@
-#' Scale an image raster array to a small number of pixels.
+#' Scale an image raster array to a small number of pixels
 #' 
 #' Decrease the size of an image, in pixel. Process into a data frame. Internal function.
 #'

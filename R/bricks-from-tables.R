@@ -53,11 +53,14 @@
 #'  X1 = c("b", "b", "p", "p"), #b is brick (default), p is plate
 #'  X2 = c("b", "b", "p", "p")
 #')
+#'
+#'\donttest{
 #'brick %>% 
 #'  bricks_from_table(piece_matrix=pieces) %>% 
 #'  build_bricks()
 #'  
 #'  rgl::clear3d()
+#'  }
 #'  
 #' #Provide a custom table of colors 
 #' custom_colors <- data.frame(
@@ -65,18 +68,22 @@
 #' Color = c("Bright orange", "Dark green")
 #' )
 #' 
+#' \donttest{
 #'brick %>% 
 #'  bricks_from_table(color_guide  = custom_colors) %>% 
 #'  build_bricks()
 #'  
 #'  rgl::clear3d()
+#'  }
 #'  
 #'#Limit the size of bricks used in the model with use_bricks
+#'\donttest{
 #'brick %>% 
 #'  bricks_from_table(use_bricks = "2x1") %>% #Only use 2x1 bricks.
 #'  build_bricks()
 #'  
 #'  rgl::clear3d()
+#'  }
 
 bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors, 
                               piece_matrix = NULL,
@@ -402,27 +409,31 @@ bricks_from_excel <- function(excel_table,
 #'   
 #' #This is a lot of bricks
 #' bricks <- expand.grid(
-#' x = 1:8,
-#' y = 1:4,
+#' x = 1:4,
+#' y = 1:2,
 #' z = 1:3)
 #' 
 #' #Color them in sets of these 3 options
-#' bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Tr. green"), each=4), 8)
+#' bricks$color <- rep(rep(c("Bright yellow", "Bright red", "Tr. green"), each=4), 2)
 #' 
+#' \donttest{
 #' bricks %>% 
 #'   bricks_from_coords() %>% 
 #'   build_bricks()
 #'   
 #'   rgl::clear3d()
+#'   }
 #'   
 #'#Use different brick shapes by added a 'piece_type' column
 #'bricks$piece_type <- "c1" #Make all the pieces cylinders
 #'
+#'\donttest{
 #'bricks %>% 
 #'   bricks_from_coords() %>% 
 #'   build_bricks()
 #'   
 #'   rgl::clear3d()
+#'   }
 #' 
 bricks_from_coords <- function(coord_table, 
                                use_bricks = NULL,

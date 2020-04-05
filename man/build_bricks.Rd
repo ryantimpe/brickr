@@ -31,10 +31,9 @@ Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.}
 3D brick model rendered in the 'rgl' package.
 }
 \description{
-Render the output of any of the \code{bricks_from_*} functions as a 3D model.
+Render the output of any of the \code{bricks_from_*} functions as a 3D model. Opens an 'rgl' window.
 }
 \examples{
-\donttest{
 #This is a brick
 brick <- data.frame(
  Level="A",
@@ -42,12 +41,23 @@ brick <- data.frame(
  X2 = rep(3,4)
 )
 
-brick \%>\% 
- bricks_from_table() \%>\% 
- build_bricks()
+#Convert the dataframe to a list object that can be rendered
+brick_object <- brick \%>\% 
+ bricks_from_table() 
  
+#Render it
+brick_object \%>\% 
+ build_bricks()
+
 rgl::clear3d()
-}
+ 
+#Combine the option rgl_lit=FALSE & outline_bricks=TRUE 
+# This makes the rendering look like a drawing
+brick_object \%>\% 
+ build_bricks(outline_bricks = TRUE, rgl_lit = FALSE,
+              background_color = "#99e7ff")
+rgl::clear3d()
+
 }
 \seealso{
 Other 3D Models: 

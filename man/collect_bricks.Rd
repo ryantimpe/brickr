@@ -2,12 +2,12 @@
 % Please edit documentation in R/collect-bricks.R
 \name{collect_bricks}
 \alias{collect_bricks}
-\title{Consolidate 1x1 bricks into larger ones of the same color. Internal function.}
+\title{Consolidate 1x1 bricks into larger ones of the same color}
 \usage{
 collect_bricks(image_list, use_bricks = NULL, default_piece_type = "b")
 }
 \arguments{
-\item{image_list}{List output from legoize(). Contains an element \code{Img_lego}.}
+\item{image_list}{List output containing an element \code{Img_lego}.}
 
 \item{use_bricks}{Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.}
 
@@ -17,6 +17,7 @@ collect_bricks(image_list, use_bricks = NULL, default_piece_type = "b")
 A list with element \code{Img_bricks} containing a data frame of the x- & y-coordinates, R, G, B channels, and brick ID. Other helper elements.
 }
 \description{
-Consolidate 1x1 bricks into larger ones of the same color. Internal function.
+Internal function for collecting single bricks into large ones. Used in both mosaics and 3D models.
+Automatically generate missing piece_type or mid_level.
 }
 \keyword{internal}

@@ -1,6 +1,6 @@
 #' Build 3D brick model with 'rgl'
 #' 
-#' Render the output of any of the \code{bricks_from_*} functions as a 3D model.
+#' Render the output of any of the \code{bricks_from_*} functions as a 3D model. Opens an 'rgl' window.
 #'
 #' @param brick_list List output from a \code{bricks_from_*} function. Contains an element \code{Img_lego}.
 #' @param background_color Default 'white'. Color of the background.
@@ -9,7 +9,7 @@
 #' Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.
 #' @param trans_alpha Default 0.5. Alpha level for transparent bricks.
 #' @param view_levels Numeric array of Levels/z values to display. Leave as 'NULL' to include all.
-#' @examples \donttest{
+#' @examples 
 #' #This is a brick
 #'brick <- data.frame(
 #'  Level="A",
@@ -17,12 +17,23 @@
 #'  X2 = rep(3,4)
 #')
 #'
-#'brick %>% 
-#'  bricks_from_table() %>% 
-#'  build_bricks()
+#'#Convert the dataframe to a list object that can be rendered
+#'brick_object <- brick %>% 
+#'  bricks_from_table() 
 #'  
+#'#Render it
+#'brick_object %>% 
+#'  build_bricks()
+#'
+#' rgl::clear3d()
+#'  
+#'#Combine the option rgl_lit=FALSE & outline_bricks=TRUE 
+#'# This makes the rendering look like a drawing
+#' brick_object %>% 
+#'  build_bricks(outline_bricks = TRUE, rgl_lit = FALSE,
+#'               background_color = "#99e7ff")
 #'rgl::clear3d()
-#' }
+#'
 #' @return 3D brick model rendered in the 'rgl' package.
 #' @family 3D Models
 #' @export 

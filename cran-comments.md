@@ -17,5 +17,8 @@ This is my first CRAN submission.
 
 Re-submit with improvements to documentation.
 
+Most examples that produce the mosaics or 3D models take more than 5 seconds to calculate.
+Those lines of script have been wrapped in donttest. There are a few cases where I got the examples to run quickly without donttest.
+
 ## Downstream dependencies
 No downstream dependencies

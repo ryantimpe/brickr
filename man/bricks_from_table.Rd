@@ -90,11 +90,14 @@ pieces <- data.frame(
  X1 = c("b", "b", "p", "p"), #b is brick (default), p is plate
  X2 = c("b", "b", "p", "p")
 )
+
+\donttest{
 brick \%>\% 
  bricks_from_table(piece_matrix=pieces) \%>\% 
  build_bricks()
  
  rgl::clear3d()
+ }
  
 #Provide a custom table of colors 
 custom_colors <- data.frame(
@@ -102,18 +105,22 @@ custom_colors <- data.frame(
 Color = c("Bright orange", "Dark green")
 )
 
+\donttest{
 brick \%>\% 
  bricks_from_table(color_guide  = custom_colors) \%>\% 
  build_bricks()
  
  rgl::clear3d()
+ }
  
 #Limit the size of bricks used in the model with use_bricks
+\donttest{
 brick \%>\% 
  bricks_from_table(use_bricks = "2x1") \%>\% #Only use 2x1 bricks.
  build_bricks()
  
  rgl::clear3d()
+ }
 }
 \seealso{
 Other 3D Models: 
