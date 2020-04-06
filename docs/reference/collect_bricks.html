@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Consolidate 1x1 bricks into larger ones of the same color. Internal function. — collect_bricks • brickr</title>
+<title>Consolidate 1x1 bricks into larger ones of the same color — collect_bricks • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -44,8 +44,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Consolidate 1x1 bricks into larger ones of the same color. Internal function. — collect_bricks" />
-<meta property="og:description" content="Consolidate 1x1 bricks into larger ones of the same color. Internal function." />
+<meta property="og:title" content="Consolidate 1x1 bricks into larger ones of the same color — collect_bricks" />
+<meta property="og:description" content="Internal function for collecting single bricks into large ones. Used in both mosaics and 3D models.
+Automatically generate missing piece_type or mid_level." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -142,13 +143,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Consolidate 1x1 bricks into larger ones of the same color. Internal function.</h1>
+    <h1>Consolidate 1x1 bricks into larger ones of the same color</h1>
     <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/collect-bricks.R'><code>R/collect-bricks.R</code></a></small>
     <div class="hidden name"><code>collect_bricks.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Consolidate 1x1 bricks into larger ones of the same color. Internal function.</p>
+    <p>Internal function for collecting single bricks into large ones. Used in both mosaics and 3D models.
+Automatically generate missing piece_type or mid_level.</p>
     </div>
 
     <pre class="usage"><span class='fu'>collect_bricks</span>(<span class='no'>image_list</span>, <span class='kw'>use_bricks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>default_piece_type</span> <span class='kw'>=</span> <span class='st'>"b"</span>)</pre>
@@ -158,7 +160,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>image_list</th>
-      <td><p>List output from legoize(). Contains an element <code>Img_lego</code>.</p></td>
+      <td><p>List output containing an element <code>Img_lego</code>.</p></td>
     </tr>
     <tr>
       <th>use_bricks</th>

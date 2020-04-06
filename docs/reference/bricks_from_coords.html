@@ -45,7 +45,7 @@
   
 
 <meta property="og:title" content="Create a 3D model object from a long coordinate data frame — bricks_from_coords" />
-<meta property="og:description" content="Convert a data frame with x, y, z &amp;amp; Color columns into a brickr 3D object" />
+<meta property="og:description" content="Convert a data frame with x, y, z &amp;amp; Color columns into a 3D object" />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Convert a data frame with x, y, z &amp; Color columns into a brickr 3D object</p>
+    <p>Convert a data frame with x, y, z &amp; Color columns into a 3D object</p>
     </div>
 
     <pre class="usage"><span class='fu'>bricks_from_coords</span>(
@@ -228,8 +228,7 @@ Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height pla
 <code><a href='build_bricks.html'>build_bricks</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#This is a 1x4 yellow brick</span>
+    <pre class="examples"><div class='input'><span class='co'>#This is a 1x4 yellow brick</span>
 <span class='no'>brick</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
         <span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>,
         <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>z</span><span class='kw'>=</span><span class='fl'>1</span>,
@@ -244,20 +243,31 @@ Optional column ' mid_Level' with values 0, 1, or 2 (default 0) for 1-height pla
 
 <span class='co'>#This is a lot of bricks</span>
 <span class='no'>bricks</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span>(
-<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>8</span>,
-<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>,
+<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>,
+<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>,
 <span class='kw'>z</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)
 
 <span class='co'>#Color them in sets of these 3 options</span>
-<span class='no'>bricks</span>$<span class='no'>color</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Bright yellow"</span>, <span class='st'>"Bright red"</span>, <span class='st'>"Dark green"</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>4</span>), <span class='fl'>8</span>)
+<span class='no'>bricks</span>$<span class='no'>color</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Bright yellow"</span>, <span class='st'>"Bright red"</span>, <span class='st'>"Tr. green"</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>4</span>), <span class='fl'>2</span>)
 
+<span class='co'># \donttest{</span>
 <span class='no'>bricks</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>bricks_from_coords</span>() <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='build_bricks.html'>build_bricks</a></span>()
 
   <span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
+  <span class='co'># }</span>
 
-<span class='co'># }</span></div></pre>
+<span class='co'>#Use different brick shapes by added a 'piece_type' column</span>
+<span class='no'>bricks</span>$<span class='no'>piece_type</span> <span class='kw'>&lt;-</span> <span class='st'>"c1"</span> <span class='co'>#Make all the pieces cylinders</span>
+
+<span class='co'># \donttest{</span>
+<span class='no'>bricks</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>bricks_from_coords</span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='build_bricks.html'>build_bricks</a></span>()
+
+  <span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
+  <span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

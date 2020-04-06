@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert a 2D LEGO mosaic into a brickr 3D object — bricks_from_mosaic • brickr</title>
+<title>Convert a 2D LEGO mosaic into a 'brickr' 3D object — bricks_from_mosaic • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -44,8 +44,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Convert a 2D LEGO mosaic into a brickr 3D object — bricks_from_mosaic" />
-<meta property="og:description" content="Stacks LEGO plates to create a 3D version of the 2D brick mosaics." />
+<meta property="og:title" content="Convert a 2D LEGO mosaic into a 'brickr' 3D object — bricks_from_mosaic" />
+<meta property="og:description" content="Stacks LEGO plates to create a 3D version of the 2D brick mosaics.
+Height of bricks determined by brightness of color." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -142,13 +143,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert a 2D LEGO mosaic into a brickr 3D object</h1>
+    <h1>Convert a 2D LEGO mosaic into a 'brickr' 3D object</h1>
     <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/bricks-from-mosaic.R'><code>R/bricks-from-mosaic.R</code></a></small>
     <div class="hidden name"><code>bricks_from_mosaic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Stacks LEGO plates to create a 3D version of the 2D brick mosaics.</p>
+    <p>Stacks LEGO plates to create a 3D version of the 2D brick mosaics.
+Height of bricks determined by brightness of color.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bricks_from_mosaic</span>(<span class='no'>mosaic_list</span>, <span class='kw'>mosaic_height</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>highest_el</span> <span class='kw'>=</span> <span class='st'>"light"</span>)</pre>
@@ -173,9 +175,6 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with elements <code>Img_lego</code> to pass to <code><a href='build_bricks.html'>build_bricks</a></code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Height of bricks determined by brightness of color.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other 3D Models: 
@@ -185,25 +184,42 @@
 <code><a href='build_bricks.html'>build_bricks</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># Create a random 24x24 'image'. </span>
-<span class='co'># Otherwise, use a jpeg or png</span>
- <span class='no'>demo_image</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/rescale.html'>rescale</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>24</span>*<span class='fl'>24</span>*<span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)), <span class='kw'>dim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>24</span>, <span class='fl'>24</span>, <span class='fl'>3</span>))
+    <pre class="examples"><div class='input'><span class='co'># Import a jpeg or png</span>
+ <span class='no'>demo_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"demo_img.jpg"</span>,
+                          <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"brickr"</span>, <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+ <span class='no'>demo_image</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>jpeg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jpeg/man/readJPEG.html'>readJPEG</a></span>(<span class='no'>demo_file</span>)
 
-<span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='image_to_mosaic.html'>image_to_mosaic</a></span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>bricks_from_mosaic</span>() <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='build_bricks.html'>build_bricks</a></span>()
+ <span class='co'>#Begin with a 24x24 mosaic object</span>
+ <span class='co'># \donttest{</span>
+ <span class='no'>mosaic</span> <span class='kw'>&lt;-</span> <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='image_to_mosaic.html'>image_to_mosaic</a></span>(<span class='fl'>24</span>)
+    <span class='co'># }</span>
 
- <span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
-<span class='co'># }</span></div></pre>
+ <span class='co'>#Pass the mosaic object to bricks_from_mosaic() to convert to 3D specifications</span>
+ <span class='co'># \donttest{</span>
+ <span class='no'>mosaic</span> <span class='kw'>%&gt;%</span>
+   <span class='fu'>bricks_from_mosaic</span>() <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_bricks.html'>build_bricks</a></span>()
+
+   <span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
+   <span class='co'># }</span>
+
+ <span class='co'>#In this image, the background is a light color.</span>
+ <span class='co'># Change the 'highest_el' to make dark colors highest</span>
+ <span class='co'># Change mosaic height to change the number of layers</span>
+ <span class='co'># \donttest{</span>
+ <span class='no'>mosaic</span> <span class='kw'>%&gt;%</span>
+   <span class='fu'>bricks_from_mosaic</span>(<span class='kw'>mosaic_height</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>highest_el</span> <span class='kw'>=</span> <span class='st'>"dark"</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_bricks.html'>build_bricks</a></span>()
+
+  <span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
+  <span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

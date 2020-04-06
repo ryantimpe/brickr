@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build 3D brick model with rgl — build_bricks • brickr</title>
+<title>Build 3D brick model with 'rgl' — build_bricks • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -44,8 +44,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Build 3D brick model with rgl — build_bricks" />
-<meta property="og:description" content="Render the output of any of the bricks_from_* functions as a 3D model." />
+<meta property="og:title" content="Build 3D brick model with 'rgl' — build_bricks" />
+<meta property="og:description" content="Render the output of any of the bricks_from_* functions as a 3D model. Opens an 'rgl' window." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -142,13 +142,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build 3D brick model with rgl</h1>
+    <h1>Build 3D brick model with 'rgl'</h1>
     <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/build-bricks-rgl.R'><code>R/build-bricks-rgl.R</code></a></small>
     <div class="hidden name"><code>build_bricks.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Render the output of any of the <code>bricks_from_*</code> functions as a 3D model.</p>
+    <p>Render the output of any of the <code>bricks_from_*</code> functions as a 3D model. Opens an 'rgl' window.</p>
     </div>
 
     <pre class="usage"><span class='fu'>build_bricks</span>(
@@ -202,20 +202,29 @@ Set to 'TRUE' and rgl_lit='FALSE' for cartoon-looking bricks.</p></td>
 <code><a href='bricks_from_table.html'>bricks_from_table</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#This is a brick</span>
+    <pre class="examples"><div class='input'><span class='co'>#This is a brick</span>
 <span class='no'>brick</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
  <span class='kw'>Level</span><span class='kw'>=</span><span class='st'>"A"</span>,
  <span class='kw'>X1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>), <span class='co'>#The number 3 is the brickrID for 'bright red'</span>
  <span class='kw'>X2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>)
 )
 
-<span class='no'>brick</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='bricks_from_table.html'>bricks_from_table</a></span>() <span class='kw'>%&gt;%</span>
+<span class='co'>#Convert the dataframe to a list object that can be rendered</span>
+<span class='no'>brick_object</span> <span class='kw'>&lt;-</span> <span class='no'>brick</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='bricks_from_table.html'>bricks_from_table</a></span>()
+
+<span class='co'>#Render it</span>
+<span class='no'>brick_object</span> <span class='kw'>%&gt;%</span>
  <span class='fu'>build_bricks</span>()
 
 <span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()
-<span class='co'># }</span></div></pre>
+
+<span class='co'>#Combine the option rgl_lit=FALSE &amp; outline_bricks=TRUE </span>
+<span class='co'># This makes the rendering look like a drawing</span>
+<span class='no'>brick_object</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'>build_bricks</span>(<span class='kw'>outline_bricks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rgl_lit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+              <span class='kw'>background_color</span> <span class='kw'>=</span> <span class='st'>"#99e7ff"</span>)
+<span class='kw pkg'>rgl</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/scene.html'>clear3d</a></span>()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -183,9 +183,8 @@ See attached data  <code>lego_colors</code> as examples.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>The method to use for comparison. Either 'brickr_classic', 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
-'brickr_classic' is an explicit euclidean distance formula, but yield different results than 'euclidean' in farver.
-See <code><a href='https://farver.data-imaginist.com/reference/compare_colour.html'>farver::compare_colour</a></code>.</p></td>
+      <td><p>The method to use for comparison. Options are 'euclidean', 'cie1976', 'cie94', 'cie2000', or 'cmc'.
+See <code><a href='https://farver.data-imaginist.com/reference/compare_colour.html'>compare_colour</a></code>.</p></td>
     </tr>
     <tr>
       <th>color_palette</th>
@@ -223,18 +222,50 @@ Use "bw" for only grayscale bricks. Ignored if a <code>color_table</code> is sup
 <code><a href='build_mosaic.html'>build_mosaic</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># Create a random 24x24 'image'. </span>
-<span class='co'># Otherwise, use a jpeg or png</span>
- <span class='no'>demo_image</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/rescale.html'>rescale</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>24</span>*<span class='fl'>24</span>*<span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)), <span class='kw'>dim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>24</span>, <span class='fl'>24</span>, <span class='fl'>3</span>))
+    <pre class="examples"><div class='input'><span class='co'># Import a jpeg or png</span>
+ <span class='no'>demo_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"demo_img.jpg"</span>,
+                          <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"brickr"</span>, <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+ <span class='no'>demo_image</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>jpeg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jpeg/man/readJPEG.html'>readJPEG</a></span>(<span class='no'>demo_file</span>)
 
-<span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
- <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-1.png' alt='' width='700' height='433' /></div><div class='input'>
- <span class='co'>#Only use the most common "universal" LEGO colors</span>
+ <span class='co'>#Create a 24x24 mosaic</span>
+ <span class='co'># \donttest{</span>
  <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>, <span class='kw'>color_palette</span> <span class='kw'>=</span> <span class='st'>"universal"</span>) <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+   <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-1.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span>
+
+ <span class='co'>#Only use the two more common tiers of colors</span>
+ <span class='co'># \donttest{</span>
+ <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>,
+                  <span class='kw'>color_palette</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"universal"</span>, <span class='st'>"generic"</span>)) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-2.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span>
+
+ <span class='co'>#Be more prescriptive with colors using 'color_table'.</span>
+ <span class='co'># Here, we prevent all blues from being used</span>
+ <span class='no'>lego_colors_no_blue</span> <span class='kw'>=</span> <span class='no'>lego_colors</span> <span class='kw'>%&gt;%</span>
+    <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(!<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"[Bb]lue|[Aa]zur"</span>, <span class='no'>Color</span>))
+ <span class='co'># \donttest{</span>
+ <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>,
+                  <span class='kw'>color_table</span> <span class='kw'>=</span> <span class='no'>lego_colors_no_blue</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-3.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span>
+
+ <span class='co'>#Color matching is done with the 'farver' package. There are different method.</span>
+ <span class='co'># Change the method to euclidean (RGB distance matching)</span>
+ <span class='co'># \donttest{</span>
+ <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>,
+                  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"euclidean"</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-4.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span>
+
+ <span class='co'>#Change the default size of bricks to use.</span>
+ <span class='co'># In this extreme example, use 4x6s for the background, 1x1 everywhere else</span>
+ <span class='co'># \donttest{</span>
+ <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>image_to_mosaic</span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>,
+                  <span class='kw'>use_bricks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"4x6"</span>)) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='build_mosaic.html'>build_mosaic</a></span>()</div><div class='img'><img src='image_to_mosaic-5.png' alt='' width='700' height='433' /></div><div class='input'> # }
+ 
 
 </div></pre>
   </div>

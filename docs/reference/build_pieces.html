@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Display bricks required to build model or mosaic. — build_pieces • brickr</title>
+<title>Display bricks required to build model or mosaic — build_pieces • brickr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -44,7 +44,7 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Display bricks required to build model or mosaic. — build_pieces" />
+<meta property="og:title" content="Display bricks required to build model or mosaic — build_pieces" />
 <meta property="og:description" content="Create a chart of brick colors and sizes used in a brick mosaic or model." />
 <meta property="og:image" content="http://brickr.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Display bricks required to build model or mosaic.</h1>
+    <h1>Display bricks required to build model or mosaic</h1>
     <small class="dont-index">Source: <a href='https://github.com/ryantimpe/brickr/blob/master/R/piece-count.R'><code>R/piece-count.R</code></a></small>
     <div class="hidden name"><code>build_pieces.Rd</code></div>
     </div>
@@ -173,15 +173,20 @@
 <code><a href='build_pieces_table.html'>build_pieces_table</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># Create a random 24x24 'image'. </span>
-<span class='co'># Otherwise, use a jpeg or png</span>
- <span class='no'>demo_image</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/rescale.html'>rescale</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>24</span>*<span class='fl'>24</span>*<span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)), <span class='kw'>dim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>24</span>, <span class='fl'>24</span>, <span class='fl'>3</span>))
+    <pre class="examples"><div class='input'><span class='co'># Import a jpeg or png</span>
+ <span class='no'>demo_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"demo_img.jpg"</span>,
+                          <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"brickr"</span>, <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+ <span class='no'>demo_image</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>jpeg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jpeg/man/readJPEG.html'>readJPEG</a></span>(<span class='no'>demo_file</span>)
+<span class='co'>#Create a mosaic oject </span>
+ <span class='co'># \donttest{</span>
+ <span class='no'>mosaic</span> <span class='kw'>&lt;-</span> <span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='image_to_mosaic.html'>image_to_mosaic</a></span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>)
+ <span class='co'># }</span>
 
-<span class='no'>demo_image</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='image_to_mosaic.html'>image_to_mosaic</a></span>(<span class='kw'>img_size</span> <span class='kw'>=</span> <span class='fl'>24</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>build_pieces</span>()</div><div class='img'><img src='build_pieces-1.png' alt='' width='700' height='433' /></div><div class='input'># }
-
+ <span class='co'>#Rather than drawing the mosaic, use build_pieces_table() to draw piece chart</span>
+ <span class='co'># \donttest{</span>
+  <span class='no'>mosaic</span> <span class='kw'>%&gt;%</span>
+   <span class='fu'>build_pieces</span>()</div><div class='img'><img src='build_pieces-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
