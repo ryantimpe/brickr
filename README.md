@@ -5,6 +5,10 @@ Emulate LEGO Bricks in 2D and 3D
 
 <!--   <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/brickr)](https://CRAN.R-project.org/package=brickr)
+[![CRAN
+downloads](https://cranlogs.r-pkg.org/badges/brickr)](https://cran.r-project.org/package=brickr)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
@@ -47,7 +51,10 @@ is not affiliated with The LEGO Group.*
 ## Installation
 
 ``` r
-# To install the latest version from Github:
+# Install from CRAN
+install.packages("brickr")
+
+# To install the latest development version from Github:
 # install.packages("remotes")
 remotes::install_github("ryantimpe/brickr")
 ```
@@ -281,7 +288,7 @@ mosaic1 %>% build_pieces()
 3D models in brickr would not exist without [Tyler
 Morgan-Wall](https://twitter.com/tylermorganwall) and his
 [rayshader](https://www.rayshader.com/) package. If you’re interested in
-creating 3D models of literally *anything* R, check out his
+creating 3D models of literally *anything* in R, check out his
 [rayrender](https://www.rayrender.net/) package.
 
 All functions in brickr are created with the

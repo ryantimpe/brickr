@@ -19,6 +19,8 @@ library(tidyverse)
 
 # brickr <img src='man/figures/logo.png' align="right" height="138" />
 <!--   <!-- badges: start -->
+  [![CRAN status](https://www.r-pkg.org/badges/version/brickr)](https://CRAN.R-project.org/package=brickr)
+  [![CRAN downloads](https://cranlogs.r-pkg.org/badges/brickr)](https://cran.r-project.org/package=brickr)
   [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
   [![Travis build status](https://travis-ci.org/ryantimpe/brickr.svg?branch=master)](https://travis-ci.org/ryantimpe/brickr)
 <!--   <!-- badges: end -->
@@ -47,7 +49,10 @@ The goal of **brickr** is to provide a series of tools to integrate the LEGO sys
 
 ## Installation
 ``` r
-# To install the latest version from Github:
+# Install from CRAN
+install.packages("brickr")
+
+# To install the latest development version from Github:
 # install.packages("remotes")
 remotes::install_github("ryantimpe/brickr")
 ```
@@ -216,6 +221,6 @@ mosaic1 %>% build_pieces()
 
 ## Acknowledgments
 
-3D models in brickr would not exist without [Tyler Morgan-Wall](https://twitter.com/tylermorganwall) and his [rayshader](https://www.rayshader.com/) package. If you're interested in creating 3D models of literally *anything* R, check out his [rayrender](https://www.rayrender.net/) package.
+3D models in brickr would not exist without [Tyler Morgan-Wall](https://twitter.com/tylermorganwall) and his [rayshader](https://www.rayshader.com/) package. If you're interested in creating 3D models of literally *anything* in R, check out his [rayrender](https://www.rayrender.net/) package.
 
 All functions in brickr are created with the [tidyverse](https://www.tidyverse.org/) and [rgl](https://CRAN.R-project.org/package=rgl).
