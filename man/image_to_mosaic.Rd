@@ -10,6 +10,7 @@ image_to_mosaic(
   color_table = NULL,
   method = "cie94",
   color_palette = c("universal", "generic", "special"),
+  trans_bg = "White",
   dithering = FALSE,
   contrast = 1,
   use_bricks = NULL,
@@ -31,6 +32,8 @@ See \code{\link[farver]{compare_colour}}.}
 
 \item{color_palette}{Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
 Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.}
+
+\item{trans_bg}{If \code{img} is a png has a transparent background, name of color to replace the background.}
 
 \item{dithering}{Improves color of large, photo-realistic mosaics.}
 

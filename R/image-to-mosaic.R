@@ -11,6 +11,7 @@
 #' See attached data  \code{lego_colors} as examples.
 #' @param color_palette Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). This is useful when trying to build the mosaic out of real bricks.
 #' Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
+#' @param trans_bg If \code{img} is a png has a transparent background, name of color to replace the background. 
 #' @param use_bricks Array of brick sizes to use in mosaic. Defaults to \code{c('4x2', '2x2', '3x1', '2x1', '1x1')}`.
 #' @param dithering Improves color of large, photo-realistic mosaics. 
 #' @param brightness A value >1 will increase the brightness of the image while a positive value <1 will decrease the brightness.
@@ -73,6 +74,7 @@
 image_to_mosaic <- function(img, img_size = 48, color_table = NULL,
                             method = "cie94", 
                             color_palette = c("universal", "generic", "special"), 
+                            trans_bg = "White",
                             dithering = FALSE, contrast = 1, 
                             use_bricks = NULL, 
                             brightness = 1, warhol = 1:3){
@@ -81,6 +83,7 @@ image_to_mosaic <- function(img, img_size = 48, color_table = NULL,
     image_to_scaled(img_size = img_size, brightness = brightness, warhol = warhol) %>% 
     scaled_to_colors(method = method, 
                      color_table = color_table, color_palette = color_palette, 
+                     trans_bg = trans_bg,
                      dithering = dithering, contrast = contrast, default_piece_type = "p") %>% 
     collect_bricks(use_bricks = use_bricks)
   
