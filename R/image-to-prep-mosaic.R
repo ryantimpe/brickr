@@ -53,6 +53,9 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
     img <- img %>%
       dplyr::left_join(transparent, by = c("y", "x")) %>% 
       tidyr::replace_na(list(bg_transparent = FALSE))
+  } else {
+    img <- img %>% 
+      dplyr::mutate(bg_transparent = FALSE)
   }
   
   #Wide or tall image? Shortest side should be `img_size` pixels
