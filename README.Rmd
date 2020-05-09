@@ -197,6 +197,7 @@ The option `outline_bricks = TRUE` adds a black outline around the edges of the 
 More examples using `bricks_from_table()` and `bricks_from_coords()` can be found at the links below.
 
   - [**Baby Yoda**](https://gist.github.com/ryantimpe/3893fdd0f94138d027bae35bf38b57c7) example using `bricks_from_excel()` with an animation.
+  - [**brickr 0.3 release video**](https://gist.github.com/ryantimpe/b685caaa7f6c001a9a227f48bf9a5852) with a static model and `bricks_from_excel()`.
   - [**brickr toybox**](https://github.com/ryantimpe/brickr_toybox) repo for tools and resources to get started.
   
 ## IRL

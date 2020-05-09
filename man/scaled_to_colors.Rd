@@ -17,6 +17,8 @@ See attached data  \code{lego_colors} as examples.}
 This is useful when trying to build the mosaic out of real bricks.
 Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.}
 
+\item{trans_bg}{If \code{img} is a png has a transparent background, name of color to replace the background.}
+
 \item{dithering}{Improves color of large, photo-realistic mosaics.}
 
 \item{contrast}{For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.}

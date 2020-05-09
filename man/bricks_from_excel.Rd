@@ -55,7 +55,6 @@ A list with elements \code{Img_lego} to pass to \code{\link{build_bricks}}.
 Build a 3D model from an Excel template. A single data frame includes both the instructions and the color guides.
 }
 \examples{
-#Demo table in same format as Excel template
 #This creates a 1x3 red brick.
 demo_excel <- tibble::tribble(
 ~Level, ~"1", ~"2", ~"3", ~user_color, ~LEGO_color,

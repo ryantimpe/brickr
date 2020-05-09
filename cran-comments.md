@@ -4,18 +4,9 @@
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
+There were no ERRORs or WARNINGs or NOTES. 
 
-There is 1 NOTE:
-
-Checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Ryan Timpe <ryan.timpe@gmail.com>'
-  
-  New submission
-
-This is my first CRAN submission.
-
-Re-submit with improvements to documentation.
+This is a small update to fix bugs introduced with 'dplyr' 1.0.0.
 
 Most examples that produce the mosaics or 3D models take more than 5 seconds to calculate.
 Those lines of script have been wrapped in donttest. There are a few cases where I got the examples to run quickly without donttest.

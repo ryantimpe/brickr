@@ -12,6 +12,7 @@ if(getRversion() >= "2.15.1") {
   utils::globalVariables(c(".", ".value", "aes", "alpha", "area_act", "area_tar", "B", "B_lego", 
                            "brick_name", "Brick_size", "brick_type", "brickr_themes", "brickrID", 
                            "brick_area", "brick_width", "brick_height",
+                           "bg_transparent",
                            "channel", "col2rgb", "color", "Color", "color_hex", "dist", 
                            "elevation", "G", "G_lego", 
                            "ggproto", "height", "hex", 

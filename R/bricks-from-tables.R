@@ -254,7 +254,6 @@ bricks_from_table <- function(matrix_table, color_guide = brickr::lego_colors,
 #' @family 3D Models
 #' @export 
 #' @examples
-#' #Demo table in same format as Excel template
 #' #This creates a 1x3 red brick.
 #'demo_excel <- tibble::tribble(
 #' ~Level, ~"1", ~"2", ~"3", ~user_color, ~LEGO_color,

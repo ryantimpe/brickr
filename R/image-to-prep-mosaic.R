@@ -40,17 +40,22 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
     dplyr::mutate(x = as.numeric(gsub("V", "", x))) %>% 
     tidyr::spread(channel, value)
   
-  #If png, drop the transparent bricks
+  # If png, drop the transparent bricks
   if(dim(image_b)[3] == 4){
-    transparent <- as.data.frame(image_b[, , 4]) %>% 
-      dplyr::mutate(y=dplyr::row_number(), channel = "Tr") %>% 
-      tidyr::gather(x, value, -y, -channel) %>% 
-      dplyr::mutate(x = as.numeric(gsub("V", "", x))) %>% 
-      tidyr::spread(channel, value) %>% 
-      dplyr::filter(Tr < 1)
-    
+    transparent <- as.data.frame(image_b[, , 4]) %>%
+      dplyr::mutate(y=dplyr::row_number(), channel = "bg_transparent") %>%
+      tidyr::gather(x, value, -y, -channel) %>%
+      dplyr::mutate(x = as.numeric(gsub("V", "", x))) %>%
+      tidyr::spread(channel, value) %>%
+      dplyr::filter(bg_transparent < 1) %>% 
+      dplyr::mutate(bg_transparent = TRUE)
+
+    img <- img %>%
+      dplyr::left_join(transparent, by = c("y", "x")) %>% 
+      tidyr::replace_na(list(bg_transparent = FALSE))
+  } else {
     img <- img %>% 
-      dplyr::anti_join(transparent, by = c("y", "x"))
+      dplyr::mutate(bg_transparent = FALSE)
   }
   
   #Wide or tall image? Shortest side should be `img_size` pixels
@@ -78,7 +83,8 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
     dplyr::select(-x, -y) %>% 
     dplyr::group_by(y = ceiling(y_scaled), x = ceiling(x_scaled)) %>% 
     #Get average R, G, B and convert it to hexcolor
-    dplyr::summarize_at(dplyr::vars(R, G, B), mean) %>% 
+    dplyr::summarize_at(dplyr::vars(R, G, B, bg_transparent), mean) %>% 
+    dplyr::mutate(bg_transparent = as.logical(round(bg_transparent))) %>% 
     dplyr::rowwise() %>% 
     dplyr::mutate(color = rgb(R, G, B)) %>% 
     dplyr::ungroup() %>% 
@@ -90,6 +96,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
   
   out_list <- list()
   out_list[["Img_scaled"]] <- img2
+  out_list[["dims"]] <- img_size2
   
   return(out_list)
   
@@ -108,6 +115,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 #' @param color_palette Brick color rarity to use. Defaults to all colors: 'universal' (most common), 'generic', and 'special' (least common). 
 #' This is useful when trying to build the mosaic out of real bricks.
 #' Use "bw" for only grayscale bricks. Ignored if a \code{color_table} is supplied.
+#' @param trans_bg If \code{img} is a png has a transparent background, name of color to replace the background. 
 #' @param dithering Improves color of large, photo-realistic mosaics. 
 #' @param contrast For \code{color_palette = "bw"}. A value >1 will increase the contrast of the image while a positive value <1 will decrease the contrast.
 #' @param default_piece_type Piece type to use in absence of piece_type column.
@@ -118,6 +126,7 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
 scaled_to_colors <- function(image_list, method = "cie94", 
                              color_table = NULL,
                              color_palette = c("universal", "generic", "special"), 
+                             trans_bg = "White",
                              dithering = FALSE,
                              contrast = 1, default_piece_type = "b"){
   in_list <- image_list
@@ -159,6 +168,20 @@ scaled_to_colors <- function(image_list, method = "cie94",
     img <- convert_color_to_brick_dithering(in_list$Img_scaled, color_table, brick_table, 
                                             color_palette, method)
   }
+  
+  #Replace the transparent background with a LEGO color
+    if(!(trans_bg %in% lego_colors$Color)){
+      stop("trans_bg must be an official color. See 'build_colors()'")
+    }
+    
+    bg_color <- brickr::lego_colors %>% 
+      dplyr::filter(Color == trans_bg)
+    
+    img <- img %>% 
+      dplyr::mutate(color = ifelse(bg_transparent, bg_color$hex[1], color),
+                    Lego_name = ifelse(bg_transparent, bg_color$Color[1], Lego_name),
+                    Lego_color = ifelse(bg_transparent, bg_color$hex[1], Lego_color)) %>% 
+      dplyr::select(-bg_transparent)
   
   #Return output....
   in_list[["Img_lego"]] <- img %>% 
