@@ -1,5 +1,7 @@
 # brickr 0.3.4
 
+* Error fixes for dplyr 1.0.0 release.
+
 ## Mosaics
 
 * When uploading a png with a transparent background, those bricks will default to White. Change input 'trans_bg' to any LEGO color name.

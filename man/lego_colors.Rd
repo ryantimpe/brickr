@@ -4,7 +4,8 @@
 \name{lego_colors}
 \alias{lego_colors}
 \title{Brickr colors available for mosaics & 3D models}
-\format{A data frame with 54 rows and 10 variables:
+\format{
+A data frame with 54 rows and 10 variables:
 \describe{
 \item{brickrID}{integer, simple color number for use in mosaic creation}
 \item{Color}{color name}
@@ -16,7 +17,8 @@
 \item{Trans_lego}{Transparent color, TRUE or FALSE}
 \item{hex}{Color hex code}
 \item{lum}{Color brightness, (0-1)}
-}}
+}
+}
 \source{
 \url{https://brickarchitect.com/color/}
 }

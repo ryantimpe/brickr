@@ -77,11 +77,12 @@ collect_bricks <- function(image_list, use_bricks = NULL,
         dplyr::mutate(brick_type = paste0("x", xx, "y", yy, "_offx", offset_x, "_offy", offset_y)) %>% 
         dplyr::mutate(brick_name = ifelse(length(unique(Lego_name)) == 1 & dplyr::n() == (xx*yy),
                                           paste0("brick_", "x", min(x), "_y", min(y), "_", 
-                                                 Level, "_", mid_level, "_", piece_type), NA),
+                                                 Level, "_", mid_level, "_", piece_type), NA_character_),
                       brick_area = xx*yy, brick_height = yy, brick_width = xx) %>% 
         dplyr::ungroup() %>% 
         dplyr::select(-xg, -yg) %>% 
-        dplyr::filter(!is.na(Lego_name))
+        dplyr::filter(!is.na(Lego_name)) %>% 
+        as.data.frame()
     }
     )
   
@@ -92,10 +93,17 @@ collect_bricks <- function(image_list, use_bricks = NULL,
     dplyr::mutate(brick_name = paste0("brick_", "x", x, "_y", y, "_",
                                       Level, "_", mid_level, "_", piece_type),
                   brick_area = 1, brick_height = 1, brick_width = 1) %>% 
-    dplyr::filter(!is.na(Lego_name))
+    dplyr::filter(!is.na(Lego_name)) %>% 
+    as.data.frame()
   
   #Combine multi- and single- bricks
-  img <- dplyr::bind_rows(list(img_multi, img_single))
+  if(nrow(img_multi) == 0){
+    img <- img_single
+  } else if(nrow(img_single) == 0){
+    img <- img_multi
+  } else{
+    img <- dplyr::bind_rows(list(img_multi, img_single))
+  }
   
   #Output of all brick types... size * layout
   bricks <- unique(img$brick_type)
@@ -116,7 +124,8 @@ collect_bricks <- function(image_list, use_bricks = NULL,
       dplyr::ungroup() %>% 
       #Drop rows where the areas don't match
       dplyr::filter(area_act == brick_area) %>% 
-      dplyr::select(-dplyr::starts_with("area"))
+      dplyr::select(-dplyr::starts_with("area")) %>% 
+      as.data.frame()
     
     bricks_df <- bricks_df %>% 
       dplyr::bind_rows(dat)
