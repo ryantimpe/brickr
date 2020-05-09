@@ -1,6 +1,6 @@
 Package: brickr
 Title: Emulate LEGO Bricks in 2D and 3D
-Version: 0.3.2.9002
+Version: 0.3.4
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
