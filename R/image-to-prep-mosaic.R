@@ -19,26 +19,52 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
   image_b <- image*brightness
   image_b[image_b>1] <- 1
   
+  #RESIZE THE IMAGE ----
+  
+  #1) Get ratio of desired image size and current image size
   #Only whole values for image size
   img_size <- round(img_size, 0)
+  #If only 1 img_size value, create a square image
+  if(length(img_size) == 1){
+    img_size2 <- c(img_size, img_size)
+  } else {
+    img_size2 <- img_size[1:2]
+  }
+  
+  img_w_curr = dim(image_b)[2]
+  img_h_curr = dim(image_b)[1]
+  
+  img_w_tar  = img_size2[1]
+  img_h_tar  = img_size2[2]
+  
+  #2) Resize
+  # Keep current W/H proportion
+  img_ratio_wh_curr = img_w_curr / img_h_curr
+  img_ratio_wh_tar  = img_w_tar  / img_h_tar
+    
+  image_b <- OpenImageR::resizeImage(image_b, 
+                                     width = max(img_size2)*img_ratio_wh_curr, 
+                                     height =  max(img_size2)/img_ratio_wh_curr)
+  
+  #3) Crop
+  # I have no clue why width and height seem to be swapped
+  image_b <- OpenImageR::cropImage(image_b,
+                                   new_width = img_h_tar,
+                                   new_height = img_w_tar)
   
   #RGB channel order as specified with the `warhol` input
   col_chan <- order(warhol[1:3])
+  names(col_chan) <- c("R", "G", "B")
   
   #Convert image to a data frame with RGB values
-  img <- dplyr::bind_rows(
-    list(
-      (as.data.frame(image_b[, , col_chan[1]]) %>% 
-         dplyr::mutate(y=dplyr::row_number(), channel = "R")),
-      (as.data.frame(image_b[, , col_chan[2]]) %>% 
-         dplyr::mutate(y=dplyr::row_number(), channel = "G")),
-      (as.data.frame(image_b[, , col_chan[3]]) %>% 
-         dplyr::mutate(y=dplyr::row_number(), channel = "B"))
-    )
-  ) %>% 
-    tidyr::gather(x, value, -y, -channel) %>% 
+  img <- names(col_chan) %>% 
+    purrr::map_dfr(
+      ~as.data.frame(image_b[,, col_chan[.x]]) %>% 
+        dplyr::mutate(y=dplyr::row_number(), channel = .x)
+    ) %>% 
+    tidyr::pivot_longer(-c(y, channel), names_to = "x") %>% 
     dplyr::mutate(x = as.numeric(gsub("V", "", x))) %>% 
-    tidyr::spread(channel, value)
+    tidyr::pivot_wider(names_from = channel)
   
   # If png, drop the transparent bricks
   if(dim(image_b)[3] == 4){
@@ -46,10 +72,10 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
       dplyr::mutate(y=dplyr::row_number(), channel = "bg_transparent") %>%
       tidyr::gather(x, value, -y, -channel) %>%
       dplyr::mutate(x = as.numeric(gsub("V", "", x))) %>%
-      tidyr::spread(channel, value) %>%
+      tidyr::pivot_wider(names_from = channel) %>% 
       dplyr::filter(bg_transparent < 1) %>% 
       dplyr::mutate(bg_transparent = TRUE)
-
+    
     img <- img %>%
       dplyr::left_join(transparent, by = c("y", "x")) %>% 
       tidyr::replace_na(list(bg_transparent = FALSE))
@@ -58,39 +84,11 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
       dplyr::mutate(bg_transparent = FALSE)
   }
   
-  #Wide or tall image? Shortest side should be `img_size` pixels
-  if(max(img$x) > max(img$y)){
-    img_scale_x <-  max(img$x) / max(img$y)
-    img_scale_y <- 1
-  } else {
-    img_scale_x <- 1
-    img_scale_y <-  max(img$y) / max(img$x)
-  }
-  
-  #If only 1 img_size value, create a square image
-  if(length(img_size) == 1){
-    img_size2 <- c(img_size, img_size)
-  } else {
-    img_size2 <- img_size[1:2]
-    img_scale_x <- 1
-    img_scale_y <- 1
-  }
-  
-  #Rescale the image
+  #Process for brickr needs
   img2 <- img %>% 
-    dplyr::mutate(y_scaled = (y - min(y))/(max(y)-min(y))*img_size2[2]*img_scale_y + 1,
-                  x_scaled = (x - min(x))/(max(x)-min(x))*img_size2[1]*img_scale_x + 1) %>% 
-    dplyr::select(-x, -y) %>% 
-    dplyr::group_by(y = ceiling(y_scaled), x = ceiling(x_scaled)) %>% 
-    #Get average R, G, B and convert it to hexcolor
-    dplyr::summarize_at(dplyr::vars(R, G, B, bg_transparent), mean) %>% 
-    dplyr::mutate(bg_transparent = as.logical(round(bg_transparent))) %>% 
     dplyr::rowwise() %>% 
     dplyr::mutate(color = rgb(R, G, B)) %>% 
     dplyr::ungroup() %>% 
-    #Center the image
-    dplyr::filter(x <= stats::median(x) + img_size2[1]/2, x > stats::median(x) - img_size2[1]/2,
-                  y <= stats::median(y) + img_size2[2]/2, y > stats::median(y) - img_size2[2]/2) %>%
     #Flip y
     dplyr::mutate(y = (max(y) - y) + 1)
   
@@ -99,7 +97,6 @@ image_to_scaled <- function(image, img_size = 48, brightness = 1, warhol = 1:3){
   out_list[["dims"]] <- img_size2
   
   return(out_list)
-  
 }
 
 #' Convert image output from scale_image() to bricks
@@ -170,18 +167,18 @@ scaled_to_colors <- function(image_list, method = "cie94",
   }
   
   #Replace the transparent background with a LEGO color
-    if(!(trans_bg %in% lego_colors$Color)){
-      stop("trans_bg must be an official color. See 'build_colors()'")
-    }
-    
-    bg_color <- brickr::lego_colors %>% 
-      dplyr::filter(Color == trans_bg)
-    
-    img <- img %>% 
-      dplyr::mutate(color = ifelse(bg_transparent, bg_color$hex[1], color),
-                    Lego_name = ifelse(bg_transparent, bg_color$Color[1], Lego_name),
-                    Lego_color = ifelse(bg_transparent, bg_color$hex[1], Lego_color)) %>% 
-      dplyr::select(-bg_transparent)
+  if(!(trans_bg %in% lego_colors$Color)){
+    stop("trans_bg must be an official color. See 'build_colors()'")
+  }
+  
+  bg_color <- brickr::lego_colors %>% 
+    dplyr::filter(Color == trans_bg)
+  
+  img <- img %>% 
+    dplyr::mutate(color = ifelse(bg_transparent, bg_color$hex[1], color),
+                  Lego_name = ifelse(bg_transparent, bg_color$Color[1], Lego_name),
+                  Lego_color = ifelse(bg_transparent, bg_color$hex[1], Lego_color)) %>% 
+    dplyr::select(-bg_transparent)
   
   #Return output....
   in_list[["Img_lego"]] <- img %>% 

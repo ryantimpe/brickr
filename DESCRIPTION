@@ -1,6 +1,6 @@
 Package: brickr
 Title: Emulate LEGO Bricks in 2D and 3D
-Version: 0.3.4
+Version: 0.3.99.9001
 Authors@R: 
     person(given = "Ryan",
            family = "Timpe",
@@ -18,13 +18,14 @@ Depends: R (>= 3.0.2)
 Imports: 
     ggplot2,
     magrittr,
-    dplyr,
-    tidyr,
+    dplyr (>= 1.0.0),
+    tidyr (>= 1.0.0),
     purrr,
     scales,
     farver,
     colorspace,
-    rgl
+    rgl,
+    OpenImageR
 Suggests: 
     knitr,
     rmarkdown,
