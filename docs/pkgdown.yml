@@ -1,4 +1,4 @@
-pandoc: 2.7.2
+pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
@@ -7,7 +7,7 @@ articles:
   models-from-tables: models-from-tables.html
   models-piece-type: models-piece-type.html
   mosaics: mosaics.html
-last_built: 2020-05-09T19:42Z
+last_built: 2020-08-02T18:28Z
 urls:
   reference: http://brickr.org/reference
   article: http://brickr.org/articles
