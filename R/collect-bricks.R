@@ -36,7 +36,7 @@ collect_bricks <- function(image_list, use_bricks = NULL,
   }
   
   brick_sizes <- tibble::tibble(bricks = use_bricks) %>% 
-    tidyr::separate(bricks, c("xx", "yy"), sep = "[^[\\d+]]+") %>% 
+    tidyr::separate(bricks, c("xx", "yy"), sep = "\\D+") %>% 
     dplyr::mutate_all(as.numeric)
 
   brick_sizes2 <- dplyr::bind_rows(
