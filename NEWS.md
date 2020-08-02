@@ -1,3 +1,9 @@
+# brickr 0.3.5
+
+* Error fixes for tidyr 1.1.1 release.
+
+----
+
 # brickr 0.3.4
 
 * Error fixes for dplyr 1.0.0 release.
