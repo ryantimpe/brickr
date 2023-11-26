@@ -105,6 +105,7 @@ Generate brick mosaics from an image or matrix with customization options.
 }
 \seealso{
 Other Mosaics: 
+\code{\link{build_mosaic_dots}()},
 \code{\link{build_mosaic}()}
 }
 \concept{Mosaics}

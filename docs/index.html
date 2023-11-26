@@ -31,6 +31,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -43,18 +45,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">brickr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -67,8 +63,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/ryantimpe/brickr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/ryantimpe/brickr/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -85,210 +81,216 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="emulate-lego-bricks-in-2d-and-3d" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#emulate-lego-bricks-in-2d-and-3d" class="anchor"></a>Emulate LEGO Bricks in 2D and 3D</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="emulate-lego-bricks-in-2d-and-3d">Emulate LEGO Bricks in 2D and 3D<a class="anchor" aria-label="anchor" href="#emulate-lego-bricks-in-2d-and-3d"></a>
+</h1></div>
 </div>
-<div id="brickr-" class="section level1">
-<h1 class="hasAnchor">
-<a href="#brickr-" class="anchor"></a>brickr <img src="reference/figures/logo.png" align="right" height="138">
+<div class="section level1">
+<h1 id="brickr-">brickr <img src="reference/figures/logo.png" align="right" height="138"><a class="anchor" aria-label="anchor" href="#brickr-"></a>
 </h1>
 <!--   <!-- badges: start -->
 
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
-<p><strong>brickr</strong> is a package for bringing the LEGO® experience into the R and <a href="https://www.tidyverse.org/">tidyverse</a> ecosystem.</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p><strong>brickr</strong> is a package for bringing the LEGO® experience into the R and <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a> ecosystem.</p>
 <p>The package is divided into 2 systems:</p>
 <ul>
 <li>
 <a href="#mosaics"><strong>Mosaics</strong></a>: Convert image files into mosaics that could be built using LEGO bricks.</li>
 <li>
-<a href="#3d-models"><strong>3D Models</strong></a>: Build 3D LEGO models from data tables using <a href="https://CRAN.R-project.org/package=rgl">rgl</a>.</li>
+<a href="#id_3d-models"><strong>3D Models</strong></a>: Build 3D LEGO models from data tables using <a href="https://CRAN.R-project.org/package=rgl" class="external-link">rgl</a>.</li>
 </ul>
 <p>brickr also includes tools help users create the Mosaics and 3D model output using real LEGO elements.</p>
 <p>Check out <a href="http://brickr.org">brickr.org</a> for more detail!</p>
-<div id="whats-the-point" class="section level3">
-<h3 class="hasAnchor">
-<a href="#whats-the-point" class="anchor"></a>What’s the point?</h3>
+<div class="section level3">
+<h3 id="whats-the-point">What’s the point?<a class="anchor" aria-label="anchor" href="#whats-the-point"></a>
+</h3>
 <p>The goal of <strong>brickr</strong> is to provide a series of tools to integrate the LEGO system with R by:</p>
 <ul>
 <li>Enhancing a real world building experience with mosaics, generated instructions, and piece counts.</li>
 <li>Generating interest in R and coding for new audiences with easy-to-create 3D models.</li>
 <li>Embracing pure novelty.</li>
 </ul>
-<p><em>brickr is developed under the <a href="https://www.lego.com/en-us/legal/notices-and-policies/fair-play/">Fair Play</a> policy using publicly available information about LEGO products. brickr is not affiliated with The LEGO Group.</em></p>
+<p><em>brickr is developed under the <a href="https://www.lego.com/en-us/legal/notices-and-policies/fair-play/" class="external-link">Fair Play</a> policy using publicly available information about LEGO products. brickr is not affiliated with The LEGO Group.</em></p>
 </div>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># Install from CRAN</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"brickr"</span>)
-
-<span class="co"># To install the latest development version from Github:</span>
-<span class="co"># install.packages("remotes")</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ryantimpe/brickr"</span>)</pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install from CRAN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"brickr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># To install the latest development version from Github:</span></span>
+<span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ryantimpe/brickr"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="mosaics" class="section level2">
-<h2 class="hasAnchor">
-<a href="#mosaics" class="anchor"></a>Mosaics</h2>
+<div class="section level2">
+<h2 id="mosaics">Mosaics<a class="anchor" aria-label="anchor" href="#mosaics"></a>
+</h2>
 <p>The mosaic functions renders an imported JPG or PNG file using LEGO colors and bricks.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="no">demo_img</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(<span class="st">"http://ryantimpe.com/files/mf_unicorn.PNG"</span>, <span class="no">demo_img</span>, <span class="kw">mode</span><span class="kw">=</span><span class="st">"wb"</span>)
-
-<span class="no">mosaic1</span> <span class="kw">&lt;-</span> <span class="kw pkg">png</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/png/man/readPNG.html">readPNG</a></span>(<span class="no">demo_img</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/image_to_mosaic.html">image_to_mosaic</a></span>(<span class="kw">img_size</span> <span class="kw">=</span> <span class="fl">36</span>) <span class="co">#Length of each side of mosaic in "bricks"</span>
-
-<span class="co">#Plot 2D mosaic</span>
-<span class="no">mosaic1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/build_mosaic.html">build_mosaic</a></span>()</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">demo_img</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="st">"http://ryantimpe.com/files/mf_unicorn.PNG"</span>, <span class="va">demo_img</span>, mode<span class="op">=</span><span class="st">"wb"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mosaic1</span> <span class="op">&lt;-</span> <span class="fu">png</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/png/man/readPNG.html" class="external-link">readPNG</a></span><span class="op">(</span><span class="va">demo_img</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/image_to_mosaic.html">image_to_mosaic</a></span><span class="op">(</span>img_size <span class="op">=</span> <span class="fl">36</span><span class="op">)</span> <span class="co">#Length of each side of mosaic in "bricks"</span></span>
+<span></span>
+<span><span class="co">#Plot 2D mosaic</span></span>
+<span><span class="va">mosaic1</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/build_mosaic.html">build_mosaic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="README_files/figure-gfm/m1_set-1.png"><!-- --></p>
 <p>In general, any <strong>brickr</strong> function that begins with <code>build_</code> generates a graphical output from a <strong>brickr</strong> list object, generated from other functions.</p>
-<div id="customization" class="section level3">
-<h3 class="hasAnchor">
-<a href="#customization" class="anchor"></a>Customization</h3>
+<div class="section level3">
+<h3 id="customization">Customization<a class="anchor" aria-label="anchor" href="#customization"></a>
+</h3>
 <p><code><a href="reference/image_to_mosaic.html">image_to_mosaic()</a></code> can take a few important arguments. See <code>?image_to_mosaic()</code> for full detail.</p>
 <ul>
-<li><p><code>img_size</code> Providing a single value, such as <code>48</code>, crops the image to a square. Inputting a 2-element array, <code><a href="https://rdrr.io/r/base/c.html">c(56, 48)</a></code>, will output a rectangular image of <code><a href="https://rdrr.io/r/base/c.html">c(width, height)</a></code>.</p></li>
-<li><p><code>color_table</code> &amp; <code>color_palette</code> Options to limit the color of bricks used in mosaics, as not all colors produced by LEGO are readily available. Set <code>color_palette</code> to ‘universal’ or <code><a href="https://rdrr.io/r/base/c.html">c('universal', 'generic')</a></code> to limit colors to the most common ones. Use a subset of the data frame <code>lego_colors</code> as the <code>color_table</code> to specify a custom palette.</p></li>
+<li><p><code>img_size</code> Providing a single value, such as <code>48</code>, crops the image to a square. Inputting a 2-element array, <code>c(56, 48)</code>, will output a rectangular image of <code>c(width, height)</code>.</p></li>
+<li><p><code>color_table</code> &amp; <code>color_palette</code> Options to limit the color of bricks used in mosaics, as not all colors produced by LEGO are readily available. Set <code>color_palette</code> to ‘universal’ or <code>c('universal',     'generic')</code> to limit colors to the most common ones. Use a subset of the data frame <code>lego_colors</code> as the <code>color_table</code> to specify a custom palette.</p></li>
 <li><p><code>method</code> Technique used to map image colors into the allowed brick colors. Defaults to ‘cie94`, but other options include ’cie2000’ and ‘euclidean’. Also includes the option ‘brickr_classic’, used in previous version of the package.</p></li>
 </ul>
 </div>
 </div>
-<div id="3d-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#3d-models" class="anchor"></a>3D Models</h2>
+<div class="section level2">
+<h2 id="id_3d-models">3D Models<a class="anchor" aria-label="anchor" href="#id_3d-models"></a>
+</h2>
 <p>The <code>bricks_from_*</code> series of functions creates 3D models of LEGO bricks from a variety of input formats.</p>
 <ul>
-<li><p><code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> &amp; <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> convert a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/tribble.html">tibble::tribble()</a></code>. For more advanced models, it’s recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> is a wrapper function to more easily build models designed using a Microsoft Excel template. Please see this repo: <a href="https://github.com/ryantimpe/brickr_toybox">brickr toybox</a>.</p></li>
+<li><p><code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> &amp; <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> convert a matrix-shaped table of integers into LEGO bricks. For simple models, this table can be made manually using <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code>. For more advanced models, it’s recommended you use MS Excel or a .csv file. The left-most column in the table is associated with the Level or z-axis of the model. <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> is a wrapper function to more easily build models designed using a Microsoft Excel template. Please see this repo: <a href="https://github.com/ryantimpe/brickr_toybox" class="external-link">brickr toybox</a>.</p></li>
 <li><p><code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> takes a data frame with <code>x</code>, <code>y</code>, &amp; <code>z</code> integer values, and <code>Color</code> columns, where each combination of x, y, &amp; z is a point in 3-dimensional space. Color must be an official LEGO color name from <code><a href="reference/build_colors.html">build_colors()</a></code>. This format is much more flexible than <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> and allows the programmatic development of 3D models. For other options, see the “Piece type in 3D Models” vignette.</p></li>
 <li><p><code><a href="reference/bricks_from_mosaic.html">bricks_from_mosaic()</a></code> converts a 2D <a href="#mosaics">mosaic</a> object from an image into 3D LEGO models, respectively.</p></li>
 </ul>
 <p>Pass the output from any <code>bricks_from_*()</code> function to <code><a href="reference/build_bricks.html">build_bricks()</a></code> to see the 3D model. Models are rendered in <strong>rgl</strong>.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">brickr</span>)
-
-<span class="co">#This is a brick</span>
-<span class="no">brick</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="kw">Level</span><span class="kw">=</span><span class="st">"A"</span>,
-  <span class="kw">X1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">3</span>,<span class="fl">4</span>), <span class="co">#The number 3 is the brickrID for 'bright red'</span>
-  <span class="kw">X2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">3</span>,<span class="fl">4</span>)
-)
-
-<span class="no">brick</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/bricks_from_table.html">bricks_from_table</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/build_bricks.html">build_bricks</a></span>()
-
-<span class="co">#Rotate the default view for a better snapshot</span>
-<span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="kw">userMatrix</span> <span class="kw">=</span> <span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/matrices.html">rotate3d</a></span>(<span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="st">"userMatrix"</span>), <span class="fl">0.75</span>*<span class="no">pi</span>, <span class="fl">0</span>, <span class="fl">0</span> ,<span class="fl">1</span>))</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryantimpe/brickr" class="external-link">brickr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#This is a brick</span></span>
+<span><span class="va">brick</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Level<span class="op">=</span><span class="st">"A"</span>,</span>
+<span>  X1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span>, <span class="co">#The number 3 is the brickrID for 'bright red'</span></span>
+<span>  X2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">brick</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/bricks_from_table.html">bricks_from_table</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/build_bricks.html">build_bricks</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Rotate the default view for a better snapshot</span></span>
+<span><span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/par3d.html" class="external-link">par3d</a></span><span class="op">(</span>userMatrix <span class="op">=</span> <span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/matrices.html" class="external-link">rotate3d</a></span><span class="op">(</span><span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/par3d.html" class="external-link">par3d</a></span><span class="op">(</span><span class="st">"userMatrix"</span><span class="op">)</span>, <span class="fl">0.75</span><span class="op">*</span><span class="va">pi</span>, <span class="fl">0</span>, <span class="fl">0</span> ,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="README_files/figure-gfm/bricks_1-1.png"><!-- --></p>
-<div id="stacking-bricks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#stacking-bricks" class="anchor"></a>Stacking bricks</h3>
+<div class="section level3">
+<h3 id="stacking-bricks">Stacking bricks<a class="anchor" aria-label="anchor" href="#stacking-bricks"></a>
+</h3>
 <p>The Level column in the input table determines the elevation of the bricks. <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> will convert alphanumeric levels into a z coordinate.</p>
-<p>For larger models, use <code><a href="https://tibble.tidyverse.org/reference/tribble.html">tibble::tribble()</a></code> to more easily visualize the model. For very large models, use a csv or Excel.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_first_model</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  ~<span class="no">Level</span>, ~<span class="no">X1</span>, ~<span class="no">X2</span>, ~<span class="no">X3</span>, ~<span class="no">x4</span>, ~<span class="no">x5</span>, ~<span class="no">X6</span>, ~<span class="no">x7</span>, ~<span class="no">x8</span>,
-  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,
-  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,
-  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,
-  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,
-  <span class="st">"D"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,
-  <span class="st">"D"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"D"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,
-  <span class="st">"D"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,
-  <span class="st">"E"</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>,
-  <span class="st">"E"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,
-  <span class="st">"E"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,
-  <span class="st">"E"</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>
-)
-
-<span class="no">brick_colors</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  ~<span class="no">`.value`</span>, ~<span class="no">Color</span>,
-  <span class="fl">1</span>, <span class="st">"Bright blue"</span>,
-  <span class="fl">2</span>, <span class="st">"Dark orange"</span>
-)
-
-<span class="no">my_first_model</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/bricks_from_table.html">bricks_from_table</a></span>(<span class="no">brick_colors</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/build_bricks.html">build_bricks</a></span>()
-
-<span class="co">#Rotate the default view for a better snapshot</span>
-<span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="kw">userMatrix</span> <span class="kw">=</span> <span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/matrices.html">rotate3d</a></span>(<span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="st">"userMatrix"</span>), <span class="fl">1.1</span>*<span class="no">pi</span>, <span class="fl">0</span>, <span class="fl">0</span> ,<span class="fl">1</span>))</pre></div>
+<p>For larger models, use <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code> to more easily visualize the model. For very large models, use a csv or Excel.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_first_model</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">Level</span>, <span class="op">~</span><span class="va">X1</span>, <span class="op">~</span><span class="va">X2</span>, <span class="op">~</span><span class="va">X3</span>, <span class="op">~</span><span class="va">x4</span>, <span class="op">~</span><span class="va">x5</span>, <span class="op">~</span><span class="va">X6</span>, <span class="op">~</span><span class="va">x7</span>, <span class="op">~</span><span class="va">x8</span>,</span>
+<span>  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"A"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"B"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"C"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"D"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,</span>
+<span>  <span class="st">"D"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"D"</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
+<span>  <span class="st">"D"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,</span>
+<span>  <span class="st">"E"</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>,</span>
+<span>  <span class="st">"E"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,</span>
+<span>  <span class="st">"E"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>,</span>
+<span>  <span class="st">"E"</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">brick_colors</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">`.value`</span>, <span class="op">~</span><span class="va">Color</span>,</span>
+<span>  <span class="fl">1</span>, <span class="st">"Bright blue"</span>,</span>
+<span>  <span class="fl">2</span>, <span class="st">"Dark orange"</span></span>
+<span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="va">my_first_model</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/bricks_from_table.html">bricks_from_table</a></span><span class="op">(</span><span class="va">brick_colors</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/build_bricks.html">build_bricks</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Rotate the default view for a better snapshot</span></span>
+<span><span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/par3d.html" class="external-link">par3d</a></span><span class="op">(</span>userMatrix <span class="op">=</span> <span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/matrices.html" class="external-link">rotate3d</a></span><span class="op">(</span><span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/par3d.html" class="external-link">par3d</a></span><span class="op">(</span><span class="st">"userMatrix"</span><span class="op">)</span>, <span class="fl">1.1</span><span class="op">*</span><span class="va">pi</span>, <span class="fl">0</span>, <span class="fl">0</span> ,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="README_files/figure-gfm/bricks_5-1.png"><!-- --></p>
 </div>
-<div id="programmatically-build-models" class="section level3">
-<h3 class="hasAnchor">
-<a href="#programmatically-build-models" class="anchor"></a>Programmatically build models</h3>
+<div class="section level3">
+<h3 id="programmatically-build-models">Programmatically build models<a class="anchor" aria-label="anchor" href="#programmatically-build-models"></a>
+</h3>
 <p>Use <code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> to programmatically build 3D LEGO models instead of manually drawing them in a spreadsheet or table. Here you must provide whole number coordinates for x, y, and z, along with an official LEGO color name for each point.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">radius</span> <span class="kw">&lt;-</span> <span class="fl">4</span>
-<span class="no">sphere_coords</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(
-  <span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>((<span class="no">radius</span>*<span class="fl">2.5</span>)),
-  <span class="kw">y</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>((<span class="no">radius</span>*<span class="fl">2.5</span>)),
-  <span class="kw">z</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>((<span class="no">radius</span>/(<span class="fl">6</span>/<span class="fl">5</span>)*<span class="fl">2.5</span>)) <span class="co">#A brick is 6/5 taller than it is wide/deep</span>
-) <span class="kw">%&gt;%</span>
-  <span class="fu">mutate</span>(
-    <span class="co">#Distance of each coordinate from center</span>
-    <span class="kw">dist</span> <span class="kw">=</span> (((<span class="no">x</span>-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">x</span>))^<span class="fl">2</span> + (<span class="no">y</span>-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">y</span>))^<span class="fl">2</span> + (<span class="no">z</span>-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">z</span>))^<span class="fl">2</span>)^(<span class="fl">1</span>/<span class="fl">2</span>)),
-    <span class="kw">Color</span> <span class="kw">=</span> <span class="fu">case_when</span>(
-      <span class="co">#Yellow stripes on the surface with a 2to4 thickness</span>
-      <span class="fu">between</span>(<span class="no">dist</span>, (<span class="no">radius</span>-<span class="fl">1</span>), <span class="no">radius</span>) <span class="kw">&amp;</span> (<span class="no">x</span>+<span class="no">y</span>+<span class="no">z</span>) <span class="kw">%%</span> <span class="fl">6</span> <span class="kw">%in%</span> <span class="fl">0</span>:<span class="fl">1</span> ~ <span class="st">"Bright yellow"</span>,
-      <span class="co">#Otherwise, sphere is blue</span>
-      <span class="no">dist</span> <span class="kw">&lt;=</span> <span class="no">radius</span> ~ <span class="st">"Bright blue"</span>
-  ))
-
-<span class="no">sphere_coords</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/bricks_from_coords.html">bricks_from_coords</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/build_bricks.html">build_bricks</a></span>(<span class="kw">outline_bricks</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">rgl_lit</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-
-
-<span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="kw">userMatrix</span> <span class="kw">=</span> <span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/matrices.html">rotate3d</a></span>(<span class="kw pkg">rgl</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgl/man/par3d.html">par3d</a></span>(<span class="st">"userMatrix"</span>), <span class="fl">1.1</span>*<span class="no">pi</span>/<span class="fl">4</span>, <span class="fl">0</span>, <span class="fl">0</span> ,<span class="fl">1</span>))</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">radius</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">sphere_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="va">radius</span><span class="op">*</span><span class="fl">2.5</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="va">radius</span><span class="op">*</span><span class="fl">2.5</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  z <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="va">radius</span><span class="op">/</span><span class="op">(</span><span class="fl">6</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span><span class="op">*</span><span class="fl">2.5</span><span class="op">)</span><span class="op">)</span> <span class="co">#A brick is 6/5 taller than it is wide/deep</span></span>
+<span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    <span class="co">#Distance of each coordinate from center</span></span>
+<span>    dist <span class="op">=</span> <span class="op">(</span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="op">(</span><span class="va">y</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="op">(</span><span class="va">z</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    Color <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span></span>
+<span>      <span class="co">#Yellow stripes on the surface with a 2to4 thickness</span></span>
+<span>      <span class="fu">between</span><span class="op">(</span><span class="va">dist</span>, <span class="op">(</span><span class="va">radius</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="va">radius</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="va">y</span><span class="op">+</span><span class="va">z</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">6</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span> <span class="op">~</span> <span class="st">"Bright yellow"</span>,</span>
+<span>      <span class="co">#Otherwise, sphere is blue</span></span>
+<span>      <span class="va">dist</span> <span class="op">&lt;=</span> <span class="va">radius</span> <span class="op">~</span> <span class="st">"Bright blue"</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sphere_coords</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/bricks_from_coords.html">bricks_from_coords</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/build_bricks.html">build_bricks</a></span><span class="op">(</span>outline_bricks <span class="op">=</span> <span class="cn">TRUE</span>, rgl_lit <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/par3d.html" class="external-link">par3d</a></span><span class="op">(</span>userMatrix <span class="op">=</span> <span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/matrices.html" class="external-link">rotate3d</a></span><span class="op">(</span><span class="fu">rgl</span><span class="fu">::</span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/par3d.html" class="external-link">par3d</a></span><span class="op">(</span><span class="st">"userMatrix"</span><span class="op">)</span>, <span class="fl">1.1</span><span class="op">*</span><span class="va">pi</span><span class="op">/</span><span class="fl">4</span>, <span class="fl">0</span>, <span class="fl">0</span> ,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="README_files/figure-gfm/bricks_6-1.png"><!-- --></p>
 <p>The option <code>outline_bricks = TRUE</code> adds a black outline around the edges of the bricks. Setting <code>rgl_lit = FALSE</code> turns off automated lighting effects from rgl. Changing these two inputs together renders bricks in a more cartoon fashion.</p>
 </div>
-<div id="examples" class="section level3">
-<h3 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h3>
+<div class="section level3">
+<h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h3>
 <p>More examples using <code><a href="reference/bricks_from_table.html">bricks_from_table()</a></code> and <code><a href="reference/bricks_from_coords.html">bricks_from_coords()</a></code> can be found at the links below.</p>
 <ul>
 <li>
-<a href="https://gist.github.com/ryantimpe/3893fdd0f94138d027bae35bf38b57c7"><strong>Baby Yoda</strong></a> example using <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> with an animation.</li>
+<a href="https://gist.github.com/ryantimpe/3893fdd0f94138d027bae35bf38b57c7" class="external-link"><strong>Baby Yoda</strong></a> example using <code><a href="reference/bricks_from_excel.html">bricks_from_excel()</a></code> with an animation.</li>
 <li>
-<a href="https://github.com/ryantimpe/brickr_toybox"><strong>brickr toybox</strong></a> repo for tools and resources to get started.</li>
+<a href="https://github.com/ryantimpe/brickr_toybox" class="external-link"><strong>brickr toybox</strong></a> repo for tools and resources to get started.</li>
 </ul>
 </div>
 </div>
-<div id="irl" class="section level2">
-<h2 class="hasAnchor">
-<a href="#irl" class="anchor"></a>IRL</h2>
+<div class="section level2">
+<h2 id="irl">IRL<a class="anchor" aria-label="anchor" href="#irl"></a>
+</h2>
 <p>Additional functions assist in the translation of brickr objects into actual LEGO bricks.</p>
-<div id="instructions" class="section level3">
-<h3 class="hasAnchor">
-<a href="#instructions" class="anchor"></a>Instructions</h3>
+<div class="section level3">
+<h3 id="instructions">Instructions<a class="anchor" aria-label="anchor" href="#instructions"></a>
+</h3>
 <p>Use <code><a href="reference/build_instructions.html">build_instructions()</a></code> to break the mosaics and 3D models into easier-to-read steps for building the set. This defaults to 6 steps, but passing any integer value will generate that many steps.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">mosaic1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/build_instructions.html">build_instructions</a></span>(<span class="fl">9</span>)</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mosaic1</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/build_instructions.html">build_instructions</a></span><span class="op">(</span><span class="fl">9</span><span class="op">)</span></span></code></pre></div>
 <p><img src="README_files/figure-gfm/m1_instructions-1.png"><!-- --></p>
 </div>
-<div id="piece-list-and-count" class="section level3">
-<h3 class="hasAnchor">
-<a href="#piece-list-and-count" class="anchor"></a>Piece list and count</h3>
-<p>Use <code><a href="reference/build_pieces.html">build_pieces()</a></code> to generate a graphic and count of all required plates or bricks (for stacked mosaics). These are sorted by color and size for easy purchase on LEGO.com’s <a href="https://shop.lego.com/en-US/Pick-a-Brick">Pick-a-Brick</a> section using the advanced search option. Alternatively, use <code>table_pieces()</code> to produce a data frame table of all required bricks.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">mosaic1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/build_pieces.html">build_pieces</a></span>()</pre></div>
+<div class="section level3">
+<h3 id="piece-list-and-count">Piece list and count<a class="anchor" aria-label="anchor" href="#piece-list-and-count"></a>
+</h3>
+<p>Use <code><a href="reference/build_pieces.html">build_pieces()</a></code> to generate a graphic and count of all required plates or bricks (for stacked mosaics). These are sorted by color and size for easy purchase on LEGO.com’s <a href="https://shop.lego.com/en-US/Pick-a-Brick" class="external-link">Pick-a-Brick</a> section using the advanced search option. Alternatively, use <code>table_pieces()</code> to produce a data frame table of all required bricks.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mosaic1</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/build_pieces.html">build_pieces</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="README_files/figure-gfm/m1_pieces-1.png"><!-- --></p>
 </div>
 </div>
-<div id="acknowledgments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
-<p>3D models in brickr would not exist without <a href="https://twitter.com/tylermorganwall">Tyler Morgan-Wall</a> and his <a href="https://www.rayshader.com/">rayshader</a> package. If you’re interested in creating 3D models of literally <em>anything</em> in R, check out his <a href="https://www.rayrender.net/">rayrender</a> package.</p>
-<p>All functions in brickr are created with the <a href="https://www.tidyverse.org/">tidyverse</a> and <a href="https://CRAN.R-project.org/package=rgl">rgl</a>.</p>
+<div class="section level2">
+<h2 id="acknowledgments">Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"></a>
+</h2>
+<p>3D models in brickr would not exist without <a href="https://twitter.com/tylermorganwall" class="external-link">Tyler Morgan-Wall</a> and his <a href="https://www.rayshader.com/" class="external-link">rayshader</a> package. If you’re interested in creating 3D models of literally <em>anything</em> in R, check out his <a href="https://www.rayrender.net/" class="external-link">rayrender</a> package.</p>
+<p>All functions in brickr are created with the <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a> and <a href="https://CRAN.R-project.org/package=rgl" class="external-link">rgl</a>.</p>
 </div>
 </div>
 
@@ -296,49 +298,59 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=brickr">https://​cloud.r-project.org/​package=brickr</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/ryantimpe/brickr/">https://​github.com/​ryantimpe/​brickr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/ryantimpe/brickr/issues">https://​github.com/​ryantimpe/​brickr/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=brickr" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/ryantimpe/brickr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/ryantimpe/brickr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing brickr</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Ryan Timpe <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/package=brickr"><img src="https://www.r-pkg.org/badges/version/brickr" alt="CRAN status"></a></li>
-<li><a href="https://cran.r-project.org/package=brickr"><img src="https://cranlogs.r-pkg.org/badges/brickr" alt="CRAN downloads"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://travis-ci.org/ryantimpe/brickr"><img src="https://travis-ci.org/ryantimpe/brickr.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=brickr" class="external-link"><img src="https://www.r-pkg.org/badges/version/brickr" alt="CRAN status"></a></li>
+<li><a href="https://cran.r-project.org/package=brickr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/brickr" alt="CRAN downloads"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://travis-ci.org/ryantimpe/brickr" class="external-link"><img src="https://travis-ci.org/ryantimpe/brickr.svg?branch=master" alt="Travis build status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Ryan Timpe.</p>
+  <p></p>
+<p>Developed by Ryan Timpe.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -346,6 +358,8 @@
 
   
 
+
+  
 
   </body>
 </html>
